@@ -178,6 +178,9 @@ a{color:var(--focus)}
 .in:hover{background:var(--surface-3)}
 .in:focus{background:var(--surface);border-color:var(--focus);box-shadow:0 0 0 3px color-mix(in srgb,var(--focus) 15%,transparent)}
 .in::placeholder{color:var(--muted)}
+.in[list]::-webkit-calendar-picker-indicator{opacity:0;transition:opacity .12s}
+.in[list]:hover::-webkit-calendar-picker-indicator,.in[list]:focus::-webkit-calendar-picker-indicator{opacity:.6}
+.tbl .in{text-overflow:ellipsis}
 .in.strong{font-weight:600}
 .in.num{text-align:right;font-variant-numeric:tabular-nums}
 textarea.in{resize:vertical;min-height:80px;line-height:1.55}
@@ -573,6 +576,7 @@ const brl = v => BRL0.format(v || 0);
 const NUMF = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
 const num = v => v == null || v === '' ? '' : NUMF.format(v);
 const parseNum = v => { if (v == null || v === '') return null; if (typeof v === 'number') return v; let s = String(v).replace(/[R$\s%]/g, ''); if (s.includes(',')) s = s.replace(/\./g, '').replace(',', '.'); const n = parseFloat(s); return isNaN(n) ? null : n; };
+const fmtCNPJ = v => { const d = String(v || '').replace(/\D/g, ''); return d.length === 14 ? d.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, '$1.$2.$3/$4-$5') : d; };
 const pct = v => (v == null || !isFinite(v)) ? '—' : NUMF.format(Math.round(v * 1000) / 10) + '%';
 const initials = n => (n || '?').replace(/'/g, '').split(/\s+/).filter(Boolean).slice(0, 2).map(x => x[0]).join('').toUpperCase();
 const norm = s => String(s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
@@ -762,10 +766,14 @@ function metrics(s, e) {
   const base = cl.filter(c => activeAt(c, addDays(s, -1))).length;
   const ys = `${e.slice(0, 4)}-01-01`;
   const encY = cl.filter(c => endedIn(c, ys, e)).length;
-  // churn acumulado do ano = média simples do churn de cada mês (encerrados no mês ÷ ativos no início do mês)
-  const yE = e < t ? e : t, churnMeses = [];
-  if (ys <= yE) monthsIter(ys, yE, (ms, me2) => { const b = cl.filter(c => activeAt(c, addDays(ms, -1))).length; if (b) churnMeses.push(cl.filter(c => endedIn(c, ms, me2)).length / b); });
-  const churnY = churnMeses.length ? churnMeses.reduce((a, v) => a + v, 0) / churnMeses.length : null;
+  // churn nunca é somado: é sempre a média simples do churn de cada mês (encerrados no mês ÷ ativos no início do mês),
+  // tanto no período selecionado quanto no acumulado do ano. Meses futuros não entram.
+  const churnAvg = (from, to) => {
+    const lim = to < t ? to : t, v = [];
+    if (from <= lim) monthsIter(from, lim, (ms, me2) => { const b = cl.filter(c => activeAt(c, addDays(ms, -1))).length; if (b) v.push(cl.filter(c => endedIn(c, ms, me2)).length / b); });
+    return { avg: v.length ? v.reduce((a, x) => a + x, 0) / v.length : null, n: v.length };
+  };
+  const cP = churnAvg(s, e), cY = churnAvg(ys, e);
   let real = 0, hip = 0, months = 0;
   const capE = e < t ? e : mEnd(+t.slice(0, 4), +t.slice(5, 7));
   if (s <= capE) monthsIter(s, capE, (ms, me2) => { months++; cl.forEach(c => { if (activeIn(c, ms, me2)) { real += feeAt(c, ms); hip += +(c.valorCheio || 0); } }); });
@@ -778,7 +786,7 @@ function metrics(s, e) {
     let v = 0; for (let i = 0; i < Math.max(1, Math.round(mths)); i++) v += feeAt(c, addMonths(c.di, i));
     sumV += v;
   });
-  return { ativos, novos, enc, base, churnP: base ? enc.length / base : null, churnY, churnMesesN: churnMeses.length, encY, real, hip, months, mrr, mrrHip, ltvM: ltvSet.length ? sumM / ltvSet.length : 0, ltvV: ltvSet.length ? sumV / ltvSet.length : 0, ltvN: ltvSet.length, pausados: cl.filter(c => c.st === 'Pausado').length };
+  return { ativos, novos, enc, base, churnP: cP.avg, churnPN: cP.n, churnY: cY.avg, churnMesesN: cY.n, encY, real, hip, months, mrr, mrrHip, ltvM: ltvSet.length ? sumM / ltvSet.length : 0, ltvV: ltvSet.length ? sumV / ltvSet.length : 0, ltvN: ltvSet.length, pausados: cl.filter(c => c.st === 'Pausado').length };
 }
 function comboData(s, e) {
   let bs = []; monthsIter(s, e, (ms, me2) => bs.push({ s: ms, e: me2, sel: true }));
@@ -813,7 +821,7 @@ function viewDashboard() {
       ${kpi('ti-users', 'green', 'Clientes ativos', M.ativos.length, `<b>+${M.novos.length}</b> novos no período${M.pausados ? ` · ${M.pausados} pausados (fora da conta)` : ''}`)}
       ${kpi('ti-door-exit', 'orange', 'Encerrados', M.enc.length, M.enc.length ? esc(M.enc.slice(0, 3).map(c => c.nome).join(', ')) + (M.enc.length > 3 ? '…' : '') : 'Nenhum encerramento no período')}
       ${kpi('ti-cash', 'blue', 'Total dos planos', `${brl(M.real)}`, `Sem descontos: <b>${brl(M.hip)}</b><div class="meter" title="Valor real sobre valor sem desconto"><i style="width:${M.hip ? Math.min(100, M.real / M.hip * 100) : 0}%"></i></div>${M.months > 1 ? `${M.months} meses · ` : ''}desconto de ${pct(disc)} · MRR ${brl(M.mrr)}`, 'wide')}
-      <div class="card kpi"><div class="k c-red"><i class="ti ti-trending-down"></i>Churn</div><div class="twin"><div><div class="v">${pct(M.churnP)}</div><div class="lab">no período</div></div><div><div class="v" style="color:var(--ink-2)">${pct(M.churnY)}</div><div class="lab">média mensal ${R.e.slice(0, 4)}</div></div></div><div class="s">${M.enc.length} de ${M.base} ativos no início · média de ${M.churnMesesN} ${M.churnMesesN === 1 ? 'mês' : 'meses'} (${M.encY} encerrados no ano)</div></div>
+      <div class="card kpi" title="Churn é sempre a média do churn mensal, nunca a soma"><div class="k c-red"><i class="ti ti-trending-down"></i>Churn</div><div class="twin"><div><div class="v">${pct(M.churnP)}</div><div class="lab">${M.churnPN > 1 ? `média de ${M.churnPN} meses` : 'no período'}</div></div><div><div class="v" style="color:var(--ink-2)">${pct(M.churnY)}</div><div class="lab">média mensal ${R.e.slice(0, 4)}</div></div></div><div class="s">${M.enc.length} encerrados no período · ${M.encY} no ano · ano = média de ${M.churnMesesN} ${M.churnMesesN === 1 ? 'mês' : 'meses'}</div></div>
       ${kpi('ti-hourglass', 'violet', 'LTV médio', brl(M.ltvV), `<b>${NUMF.format(Math.round(M.ltvM * 10) / 10)} meses</b> em média · ${M.ltvN} contratos`)}
     </div>
     <div class="card" style="margin-bottom:14px">
@@ -826,7 +834,7 @@ function viewDashboard() {
     <div class="grid2">
       ${['tag:Clientes por tag', 'con:Clientes por consultor', 'fase:Clientes por fase', 'seg:Clientes por segmento'].map(x => { const [k, l] = x.split(':'); const n = distEntries(M.ativos, k).length; return `<div class="card"><div class="card-h"><h3>${l}</h3><span class="hint">ativos · clique para filtrar</span></div><div class="card-b"><div class="chartbox" style="height:${Math.max(n, 1) * 36 + 28}px"><canvas id="ch-${k}"></canvas></div></div></div>`; }).join('')}
     </div>
-    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn = encerrados ÷ ativos no início do período; o acumulado do ano é a média do churn de cada mês, de janeiro até o mês do período. Total dos planos soma mês a mês, até o mês atual.</p>`;
+    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn nunca é somado: churn do mês = encerrados no mês ÷ ativos no início do mês; o do período é a média dos meses do período e o acumulado é a média de janeiro até o fim do período. Total dos planos soma mês a mês, até o mês atual.</p>`;
 }
 function comboTable(R) {
   const d = comboData(R.s, R.e);
@@ -836,6 +844,14 @@ function distEntries(list, k) {
   const m = {}; list.forEach(c => { const v = c[k] || 'Sem ' + ({ tag: 'tag', con: 'consultor', fase: 'fase', seg: 'segmento' }[k]); m[v] = (m[v] || 0) + 1; });
   const order = { tag: TAGS, fase: FASES, con: CONSULTORES }[k];
   return Object.entries(m).sort((a, b) => order ? ((order.indexOf(a[0]) + 1 || 99) - (order.indexOf(b[0]) + 1 || 99)) : b[1] - a[1]);
+}
+// barras com a mesma cor das pílulas da tabela (tag, fase), do avatar (consultor) e da categoria (segmento)
+const BAR_TONE = { green: '#16A05A', orange: '#EB6834', violet: '#8B5CF6', amber: '#E5A12A', blue: '#2a5fc4', indigo: '#4F46E5', gray: '#8792A6', teal: '#0EA5A8', red: '#D03B3B', navy: '#1F3A64' };
+function barColor(k, v) {
+  if (v.startsWith('Sem ')) return BAR_TONE.gray;
+  if (k === 'con') return AVC[v] || BAR_TONE.gray;
+  if (k === 'seg') { const t = hashTone(v); return BAR_TONE[t === 'red' ? 'teal' : t]; } // vermelho fica reservado para alerta
+  return BAR_TONE[tone(v)];
 }
 const valueLabels = {
   id: 'valueLabels',
@@ -883,7 +899,7 @@ const AFTER = {
       const en = distEntries(M.ativos, k);
       charts.push(new Chart(el, {
         type: 'bar',
-        data: { labels: en.map(x => x[0]), datasets: [{ label: 'Clientes', data: en.map(x => x[1]), backgroundColor: cssv('--s1'), borderRadius: 4, borderSkipped: 'start', barThickness: 18 }] },
+        data: { labels: en.map(x => x[0]), datasets: [{ label: 'Clientes', data: en.map(x => x[1]), backgroundColor: en.map(x => barColor(k, x[0])), borderRadius: 4, borderSkipped: 'start', barThickness: 18 }] },
         options: {
           indexAxis: 'y', responsive: true, maintainAspectRatio: false, layout: { padding: { right: 30 } },
           plugins: { legend: { display: false }, tooltip: tooltipStyle(), valueLabels: { enabled: true, horizontal: true } },
@@ -932,7 +948,7 @@ function applyFilters(list, defs, f) {
 }
 function filteredClients() {
   let list = clientsArr();
-  if (UI.cq) list = list.filter(c => norm([c.nome, c.seg, c.con, c.obs].join(' ')).includes(norm(UI.cq)));
+  if (UI.cq) { const q = norm(UI.cq), qd = UI.cq.replace(/\D/g, ''); list = list.filter(c => norm([c.nome, c.seg, c.con, c.obs].join(' ')).includes(q) || (qd.length >= 3 && String(c.cnpj || '').includes(qd))); }
   list = applyFilters(list, CF, UI.cf);
   const { k, dir } = UI.cSort; const d = CF.find(x => x.k === k) || CF[0];
   return list.sort((a, b) => { const va = d.g ? d.g(a) : a[k], vb = d.g ? d.g(b) : b[k]; if (va == null || va === '') return 1; if (vb == null || vb === '') return -1; return (typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb), 'pt-BR')) * dir; });
@@ -976,19 +992,19 @@ function clientTable(list) {
   const rows = list.map(c => {
     const b = f => `clients|${c.id}|${f}`;
     return `<tr>
-      <td class="sticky" style="min-width:230px"><div class="cellrow"><button class="iconbtn" data-act="open-client" data-id="${c.id}" title="Abrir ficha"><i class="ti ti-layout-sidebar-right-expand"></i></button><input class="in strong" data-bind="${b('nome')}" value="${esc(c.nome)}"></div></td>
-      <td style="min-width:170px"><input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—"></td>
+      <td class="sticky" style="min-width:260px"><div class="cellrow"><button class="iconbtn" data-act="open-client" data-id="${c.id}" title="Abrir ficha"><i class="ti ti-layout-sidebar-right-expand"></i></button><input class="in strong" data-bind="${b('nome')}" value="${esc(c.nome)}"></div></td>
+      <td style="min-width:240px"><input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—"></td>
       <td style="min-width:120px"><input class="in num" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="—"></td>
       <td><select class="in" data-bind="${b('plano')}" style="min-width:120px">${opts(planNames(), c.plano, c.plano ? null : '—')}</select></td>
       <td style="min-width:110px"><input class="in num" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" title="Valor cheio (sem desconto)"></td>
-      <td style="min-width:${c.desconto ? 300 : 70}px"><div class="cellrow"><label class="sw" title="Tem desconto?"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span></label>${c.desconto ? `<input class="in num" style="width:90px" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="Valor real" title="Valor real cobrado"><input class="in" style="width:150px" data-bind="${b('regraDesconto')}" value="${esc(c.regraDesconto)}" placeholder="Regra do desconto">` : ''}</div></td>
+      <td style="min-width:${c.desconto ? 400 : 70}px"><div class="cellrow"><label class="sw" title="Tem desconto?"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span></label>${c.desconto ? `<input class="in num" style="width:90px" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="Valor real" title="Valor real cobrado"><input class="in" style="width:250px" data-bind="${b('regraDesconto')}" title="${esc(c.regraDesconto)}" value="${esc(c.regraDesconto)}" placeholder="Regra do desconto">` : ''}</div></td>
       <td>${pillSelect(b('con'), CONSULTORES, c.con)}</td>
       <td>${pillSelect(b('st'), STATUS, c.st)}</td>
       <td>${pillSelect(b('fase'), FASES, c.fase)}</td>
       <td>${pillSelect(b('tag'), TAGS, c.tag)}</td>
       <td><input type="date" class="in" data-type="date" data-bind="${b('di')}" value="${esc(c.di)}"></td>
       <td><input type="date" class="in" data-type="date" data-bind="${b('de')}" value="${esc(c.de)}"></td>
-      <td style="min-width:170px">${c.st === 'Encerrado' ? `<input class="in" data-bind="${b('motivo')}" value="${esc(c.motivo)}" placeholder="Por que encerrou?">` : '<span class="mut">—</span>'}</td>
+      <td style="min-width:230px">${c.st === 'Encerrado' ? `<input class="in" data-bind="${b('motivo')}" value="${esc(c.motivo)}" placeholder="Por que encerrou?">` : '<span class="mut">—</span>'}</td>
       <td><button class="obsbtn ${c.obs ? '' : 'emp'}" data-act="open-client" data-id="${c.id}" data-focus="obs">${c.obs ? esc(c.obs) : 'Adicionar…'}</button></td>
       <td><button class="iconbtn danger" data-act="del" data-col="clients" data-id="${c.id}" aria-label="Excluir"><i class="ti ti-trash"></i></button></td>
     </tr>`;
@@ -1246,8 +1262,8 @@ function taskRow(t) {
   return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''}">
     <td class="sticky" style="width:40px;text-align:center"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir"></td>
     <td style="min-width:260px"><input class="in strong" data-bind="${b('titulo')}" value="${esc(t.titulo)}" placeholder="Título da tarefa"></td>
-    <td style="min-width:170px"><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—"></td>
-    <td style="min-width:170px"><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
+    <td style="min-width:230px"><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—"></td>
+    <td style="min-width:210px"><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
     <td><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"></td>
     <td><div class="cellrow">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
     <td><div class="cellrow">${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}<select class="in" data-bind="${b('recorrencia')}" style="min-width:96px">${opts(RECOR, t.recorrencia || 'Não')}</select></div></td>
@@ -1306,6 +1322,7 @@ const DRAWERS = {
       <div class="pills" style="padding:4px 8px">${pillSelect(b('st'), STATUS, c.st)}${pillSelect(b('fase'), FASES, c.fase)}${pillSelect(b('tag'), TAGS, c.tag)}</div>
       <div class="form">
         <label>Consultor</label><div class="cellrow">${avatar(c.con)}<select class="in" data-bind="${b('con')}">${opts(CONSULTORES, c.con, c.con ? null : 'Selecionar…')}</select></div>
+        <label>CNPJ</label><input class="in" data-type="cnpj" inputmode="numeric" data-bind="${b('cnpj')}" value="${esc(fmtCNPJ(c.cnpj))}" placeholder="00.000.000/0000-00">
         <label>Segmento</label><input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—">
         <label>Faturamento médio</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="R$">
         <label>Plano</label><select class="in" data-bind="${b('plano')}">${opts(planNames(), c.plano, c.plano ? null : 'Selecionar…')}</select>
@@ -1481,6 +1498,7 @@ function readVal(el) {
   const v = el.value;
   if (t === 'num' || t === 'money') return parseNum(v);
   if (t === 'date') return v || null;
+  if (t === 'cnpj') return v.replace(/\D/g, '') || null;
   return typeof v === 'string' ? v.trim() : v;
 }
 function commit(el) {
@@ -1488,6 +1506,7 @@ function commit(el) {
   const cur = S[col]?.[id]; if (!cur) return;
   let v = readVal(el);
   if (el.dataset.type === 'money' || el.dataset.type === 'num') el.value = num(v);
+  if (el.dataset.type === 'cnpj') el.value = fmtCNPJ(v);
   if (field === 'nome' && !v) { el.value = cur.nome; return; }
   if (el.hasAttribute('data-tone')) el.className = el.className.replace(/c-\w+/, 'c-' + tone(v));
   if ((cur[field] ?? '') === (v ?? '')) return;
@@ -1648,7 +1667,7 @@ async function importXlsx(file) {
       const nome = xStr(pick(r, 'nome')); if (!nome) return;
       const id = idOf(pick(r, 'id'), 'clients');
       out.clients.push({
-        ...base('clients', id), nome, seg: xStr(pick(r, 'segmento')), fat: parseNum(pick(r, 'faturamento')),
+        ...base('clients', id), nome, cnpj: xStr(pick(r, 'cnpj')).replace(/\D/g, '') || (S.clients[id]?.cnpj ?? null), seg: xStr(pick(r, 'segmento')), fat: parseNum(pick(r, 'faturamento')),
         plano: xStr(pick(r, 'plano')), valorCheio: parseNum(pick(r, 'valor cheio')), desconto: xBool(pick(r, 'desconto')),
         valorReal: parseNum(pick(r, 'valor real')), regraDesconto: xStr(pick(r, 'regra')), descontoAte: xDate(pick(r, 'desconto valido ate')),
         con: matchList(pick(r, 'consultor'), CONSULTORES) || xStr(pick(r, 'consultor')), st: matchList(pick(r, 'status'), STATUS) || 'Ativo',
@@ -1694,7 +1713,7 @@ async function exportXlsx() {
     await loadScript(XLSX_URL);
     const wb = XLSX.utils.book_new();
     const add = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows.length ? rows : [{}]), name);
-    add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, Segmento: c.seg, 'Faturamento médio (R$)': c.fat, Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
+    add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
     add('Planos', S.settings.planos.map(p => ({ Plano: p.nome, 'Valor cheio (R$)': p.valor })));
     const mk = Object.keys(S.settings.metaAtivos || {}).sort();
     add('Meta Clientes Ativos', mk.map(k => ({ 'Mês (mm/aaaa)': `${k.slice(5, 7)}/${k.slice(0, 4)}`, 'Meta de clientes ativos': S.settings.metaAtivos[k] })));
