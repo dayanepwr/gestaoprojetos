@@ -1373,7 +1373,7 @@ const DRAWERS = {
     const st = S.settings;
     const tagEd = (key, label, desc) => `<div class="setsec"><h5>${label}</h5><p>${desc}</p><div class="tags">${(st[key] || []).map((v, i) => `<span class="chip">${esc(v)}<button class="x" data-act="set-rm" data-k="${key}" data-i="${i}" aria-label="Remover"><i class="ti ti-x" style="font-size:14px"></i></button></span>`).join('')}<input class="field" style="width:170px;height:30px;padding:0 10px;font-size:12.5px" placeholder="+ adicionar e Enter" data-setadd="${key}"></div></div>`;
     return drHead('Configurações') + `<div class="dr-b">
-      <div class="setsec"><h5>Conta</h5><p>${esc(me || '—')}</p>${LOCAL_MODE ? '' : `<button class="btn sm" data-act="logout"><i class="ti ti-logout"></i>Sair</button>`}</div>
+      <div class="setsec"><h5>Conta</h5><p>${esc(me || '—')}</p>${LOCAL_MODE ? '' : `<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" data-act="chpw"><i class="ti ti-key"></i>Alterar minha senha</button><button class="btn sm" data-act="logout"><i class="ti ti-logout"></i>Sair</button></div>`}</div>
       <div class="setsec"><h5>Aparência</h5><div class="seg">${[['auto', 'Automático', 'ti-device-desktop'], ['light', 'Claro', 'ti-sun'], ['dark', 'Escuro', 'ti-moon']].map(([k, l, i]) => `<button data-act="theme" data-v="${k}" class="${UI.theme === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}</button>`).join('')}</div></div>
       <div class="setsec"><h5>Planilha</h5><p>Importe a planilha preenchida (atualiza pelo ID, sem duplicar) ou baixe um backup completo.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary sm" data-act="import"><i class="ti ti-upload"></i>Importar planilha</button><button class="btn sm" data-act="export"><i class="ti ti-download"></i>Exportar backup</button></div></div>
       <div class="setsec"><h5>Planos</h5><p>O valor cheio é usado como “valor sem desconto” no Dashboard.</p>
@@ -1570,6 +1570,7 @@ document.addEventListener('click', async e => {
     case 'show-all-done': UI.showAllDone = true; return render();
     // settings
     case 'theme': UI.theme = v; saveUI(); applyTheme(); return render();
+    case 'chpw': return changePassword();
     case 'logout': await sb.auth.signOut(); localStorage.removeItem('pw2_queue'); location.reload(); return;
     case 'import': return $('#fileImport').click();
     case 'export': return exportXlsx();
@@ -1578,6 +1579,22 @@ document.addEventListener('click', async e => {
     case 'set-rm': { const k = el.dataset.k; S.settings[k] = S.settings[k].filter((_, i) => i !== +el.dataset.i); return saveSettings(); }
   }
 });
+function changePassword() {
+  const m = $('#modal');
+  m.innerHTML = `<div class="box" role="dialog" aria-modal="true"><h3>Alterar minha senha</h3><form id="fpw"><div class="fields">
+    <label>Nova senha<input class="field" type="password" name="p1" minlength="8" autocomplete="new-password" required autofocus></label>
+    <label>Repita a nova senha<input class="field" type="password" name="p2" minlength="8" autocomplete="new-password" required></label>
+    <div class="err" id="pwErr" style="color:var(--danger);font-size:12.5px"></div></div>
+    <div class="acts"><button type="button" class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" type="submit">Salvar senha</button></div></form></div>`;
+  m.hidden = false; $('#backdrop').classList.add('show'); setTimeout(() => $('[autofocus]', m)?.focus(), 30);
+  $('#fpw').onsubmit = async e => {
+    e.preventDefault(); const f = new FormData(e.target);
+    if (f.get('p1') !== f.get('p2')) { $('#pwErr').textContent = 'As senhas não são iguais.'; return; }
+    const { error } = await sb.auth.updateUser({ password: f.get('p1') });
+    if (error) { $('#pwErr').textContent = /same|different/i.test(error.message) ? 'A nova senha precisa ser diferente da atual.' : error.message; return; }
+    closeModal(); toast('Senha alterada');
+  };
+}
 function metaPop(anchor) {
   const R = periodRange(), d = comboData(R.s, R.e);
   openPop(anchor, `<h6>Meta de clientes ativos</h6>
