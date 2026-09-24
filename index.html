@@ -761,7 +761,11 @@ function metrics(s, e) {
   const enc = cl.filter(c => endedIn(c, s, e));
   const base = cl.filter(c => activeAt(c, addDays(s, -1))).length;
   const ys = `${e.slice(0, 4)}-01-01`;
-  const encY = cl.filter(c => endedIn(c, ys, e)).length, baseY = cl.filter(c => activeAt(c, addDays(ys, -1))).length;
+  const encY = cl.filter(c => endedIn(c, ys, e)).length;
+  // churn acumulado do ano = média simples do churn de cada mês (encerrados no mês ÷ ativos no início do mês)
+  const yE = e < t ? e : t, churnMeses = [];
+  if (ys <= yE) monthsIter(ys, yE, (ms, me2) => { const b = cl.filter(c => activeAt(c, addDays(ms, -1))).length; if (b) churnMeses.push(cl.filter(c => endedIn(c, ms, me2)).length / b); });
+  const churnY = churnMeses.length ? churnMeses.reduce((a, v) => a + v, 0) / churnMeses.length : null;
   let real = 0, hip = 0, months = 0;
   const capE = e < t ? e : mEnd(+t.slice(0, 4), +t.slice(5, 7));
   if (s <= capE) monthsIter(s, capE, (ms, me2) => { months++; cl.forEach(c => { if (activeIn(c, ms, me2)) { real += feeAt(c, ms); hip += +(c.valorCheio || 0); } }); });
@@ -774,7 +778,7 @@ function metrics(s, e) {
     let v = 0; for (let i = 0; i < Math.max(1, Math.round(mths)); i++) v += feeAt(c, addMonths(c.di, i));
     sumV += v;
   });
-  return { ativos, novos, enc, base, churnP: base ? enc.length / base : null, churnY: baseY ? encY / baseY : null, encY, real, hip, months, mrr, mrrHip, ltvM: ltvSet.length ? sumM / ltvSet.length : 0, ltvV: ltvSet.length ? sumV / ltvSet.length : 0, ltvN: ltvSet.length, pausados: cl.filter(c => c.st === 'Pausado').length };
+  return { ativos, novos, enc, base, churnP: base ? enc.length / base : null, churnY, churnMesesN: churnMeses.length, encY, real, hip, months, mrr, mrrHip, ltvM: ltvSet.length ? sumM / ltvSet.length : 0, ltvV: ltvSet.length ? sumV / ltvSet.length : 0, ltvN: ltvSet.length, pausados: cl.filter(c => c.st === 'Pausado').length };
 }
 function comboData(s, e) {
   let bs = []; monthsIter(s, e, (ms, me2) => bs.push({ s: ms, e: me2, sel: true }));
@@ -809,7 +813,7 @@ function viewDashboard() {
       ${kpi('ti-users', 'green', 'Clientes ativos', M.ativos.length, `<b>+${M.novos.length}</b> novos no período${M.pausados ? ` · ${M.pausados} pausados (fora da conta)` : ''}`)}
       ${kpi('ti-door-exit', 'orange', 'Encerrados', M.enc.length, M.enc.length ? esc(M.enc.slice(0, 3).map(c => c.nome).join(', ')) + (M.enc.length > 3 ? '…' : '') : 'Nenhum encerramento no período')}
       ${kpi('ti-cash', 'blue', 'Total dos planos', `${brl(M.real)}`, `Sem descontos: <b>${brl(M.hip)}</b><div class="meter" title="Valor real sobre valor sem desconto"><i style="width:${M.hip ? Math.min(100, M.real / M.hip * 100) : 0}%"></i></div>${M.months > 1 ? `${M.months} meses · ` : ''}desconto de ${pct(disc)} · MRR ${brl(M.mrr)}`, 'wide')}
-      <div class="card kpi"><div class="k c-red"><i class="ti ti-trending-down"></i>Churn</div><div class="twin"><div><div class="v">${pct(M.churnP)}</div><div class="lab">no período</div></div><div><div class="v" style="color:var(--ink-2)">${pct(M.churnY)}</div><div class="lab">acumulado ${R.e.slice(0, 4)}</div></div></div><div class="s">${M.enc.length} de ${M.base} ativos no início · ${M.encY} no ano</div></div>
+      <div class="card kpi"><div class="k c-red"><i class="ti ti-trending-down"></i>Churn</div><div class="twin"><div><div class="v">${pct(M.churnP)}</div><div class="lab">no período</div></div><div><div class="v" style="color:var(--ink-2)">${pct(M.churnY)}</div><div class="lab">média mensal ${R.e.slice(0, 4)}</div></div></div><div class="s">${M.enc.length} de ${M.base} ativos no início · média de ${M.churnMesesN} ${M.churnMesesN === 1 ? 'mês' : 'meses'} (${M.encY} encerrados no ano)</div></div>
       ${kpi('ti-hourglass', 'violet', 'LTV médio', brl(M.ltvV), `<b>${NUMF.format(Math.round(M.ltvM * 10) / 10)} meses</b> em média · ${M.ltvN} contratos`)}
     </div>
     <div class="card" style="margin-bottom:14px">
@@ -822,7 +826,7 @@ function viewDashboard() {
     <div class="grid2">
       ${['tag:Clientes por tag', 'con:Clientes por consultor', 'fase:Clientes por fase', 'seg:Clientes por segmento'].map(x => { const [k, l] = x.split(':'); const n = distEntries(M.ativos, k).length; return `<div class="card"><div class="card-h"><h3>${l}</h3><span class="hint">ativos · clique para filtrar</span></div><div class="card-b"><div class="chartbox" style="height:${Math.max(n, 1) * 36 + 28}px"><canvas id="ch-${k}"></canvas></div></div></div>`; }).join('')}
     </div>
-    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn = encerrados ÷ ativos no início do período. Total dos planos soma mês a mês, até o mês atual.</p>`;
+    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn = encerrados ÷ ativos no início do período; o acumulado do ano é a média do churn de cada mês, de janeiro até o mês do período. Total dos planos soma mês a mês, até o mês atual.</p>`;
 }
 function comboTable(R) {
   const d = comboData(R.s, R.e);
