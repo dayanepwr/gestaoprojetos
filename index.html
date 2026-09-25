@@ -743,6 +743,9 @@ const clientsArr = () => Object.values(S.clients);
 const effEnd = c => c.st === 'Encerrado' ? (c.de || c.di || null) : null;
 const counts = c => c.st !== 'Pausado' && !!c.di;
 const activeAt = (c, d) => counts(c) && c.di <= d && (!effEnd(c) || effEnd(c) >= d);
+// ativo no início do mês/período: começou antes do dia 1 e não tinha encerrado até o dia 1
+// (quem encerra no último dia do mês anterior NÃO entra no mês seguinte)
+const activeAtStart = (c, d) => counts(c) && c.di < d && (!effEnd(c) || effEnd(c) >= d);
 const activeIn = (c, s, e) => counts(c) && c.di <= e && (!effEnd(c) || effEnd(c) >= s);
 const endedIn = (c, s, e) => { const x = effEnd(c); return !!x && x >= s && x <= e; };
 const feeAt = (c, d) => (c.desconto && c.valorReal != null && (!c.descontoAte || d <= c.descontoAte)) ? +c.valorReal : +(c.valorCheio || 0);
@@ -760,17 +763,18 @@ function periodRange() {
 }
 function metrics(s, e) {
   const cl = clientsArr(), t = today(), ref = e < t ? e : t;
-  const ativos = cl.filter(c => activeAt(c, ref));
+  // mesma regra do gráfico: quem encerra dentro do período conta como encerrado, não como ativo
+  const ativos = cl.filter(c => activeAt(c, ref) && !endedIn(c, s, e));
   const novos = cl.filter(c => counts(c) && c.di >= s && c.di <= e);
   const enc = cl.filter(c => endedIn(c, s, e));
-  const base = cl.filter(c => activeAt(c, addDays(s, -1))).length;
+  const base = cl.filter(c => activeAtStart(c, s)).length;
   const ys = `${e.slice(0, 4)}-01-01`;
   const encY = cl.filter(c => endedIn(c, ys, e)).length;
   // churn nunca é somado: é sempre a média simples do churn de cada mês (encerrados no mês ÷ ativos no início do mês),
   // tanto no período selecionado quanto no acumulado do ano. Meses futuros não entram.
   const churnAvg = (from, to) => {
     const lim = to < t ? to : t, v = [];
-    if (from <= lim) monthsIter(from, lim, (ms, me2) => { const b = cl.filter(c => activeAt(c, addDays(ms, -1))).length; if (b) v.push(cl.filter(c => endedIn(c, ms, me2)).length / b); });
+    if (from <= lim) monthsIter(from, lim, (ms, me2) => { const b = cl.filter(c => activeAtStart(c, ms)).length; if (b) v.push(cl.filter(c => endedIn(c, ms, me2)).length / b); });
     return { avg: v.length ? v.reduce((a, x) => a + x, 0) / v.length : null, n: v.length };
   };
   const cP = churnAvg(s, e), cY = churnAvg(ys, e);
@@ -794,8 +798,8 @@ function comboData(s, e) {
   if (bs.length > 24) bs = bs.slice(-24);
   const cl = clientsArr();
   return bs.map(b => {
-    const pe = addDays(b.s, -1); const ended = c => endedIn(c, b.s, b.e);
-    const ativos = cl.filter(c => c.di && c.di < b.s && activeAt(c, pe) && !ended(c)).length;
+    const ended = c => endedIn(c, b.s, b.e);
+    const ativos = cl.filter(c => activeAtStart(c, b.s) && !ended(c)).length;
     const novos = cl.filter(c => counts(c) && c.di >= b.s && c.di <= b.e && !ended(c)).length;
     const enc = cl.filter(ended).length;
     const key = b.s.slice(0, 7);
