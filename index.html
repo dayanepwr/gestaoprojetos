@@ -453,6 +453,45 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .dtable th,.dtable td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums}
 .dtable th:first-child,.dtable td:first-child{text-align:left}
 .dtable th{color:var(--muted);font-weight:600;font-size:11.5px}
+/* ── one a one ── */
+.oohero{display:flex;align-items:center;gap:14px;padding:16px 18px;flex-wrap:wrap}
+.oohero .av{width:48px;height:48px;font-size:16px}
+.oohero .nm{font-size:17px;font-weight:700;line-height:1.2}
+.oohero .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:4px}
+.oohero .perm{margin-left:auto;font-size:12px;color:var(--ink-2);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:8px 12px;display:flex;gap:8px;align-items:center;max-width:380px;line-height:1.4}
+.oochips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.oochips::-webkit-scrollbar{display:none}
+.oochips .chip{height:38px;padding:0 14px 0 6px}
+.oochips .chip .av{width:26px;height:26px}
+.ookpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:14px 0}
+@media (max-width:1100px){.ookpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:860px){.ookpis{gap:10px}}
+.oopils{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px}
+@media (max-width:1280px){.oopils{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:860px){.oopils{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.oopil{padding:14px 16px;display:flex;flex-direction:column;gap:8px;min-width:0;border-top:3px solid var(--p-fg)}
+.oopil .top{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px}
+.oopil .ico{width:28px;height:28px;border-radius:8px;display:inline-flex;align-items:center;justify-content:center;background:var(--p-bg);color:var(--p-fg);font-size:16px;flex:none}
+.oopil .val{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.oopil .val small{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0;margin-left:4px}
+.oobar{display:grid;grid-template-columns:44px 1fr 30px;align-items:center;gap:8px;font-size:11.5px;color:var(--muted)}
+.oobar i{display:block;height:6px;border-radius:999px;background:var(--surface-3);position:relative;overflow:hidden}
+.oobar i::after{content:"";position:absolute;inset:0;width:var(--w,0%);background:var(--p-fg);border-radius:999px}
+.oobar b{color:var(--ink-2);font-weight:600;text-align:right}
+.oosel{width:78px;text-align:center;font-weight:600;cursor:pointer}
+.oosel:disabled{cursor:default;opacity:1;color:var(--ink-2);-webkit-appearance:none;appearance:none;background:transparent}
+.oosel:disabled:hover{background:transparent}
+.ootbl td,.ootbl th{white-space:nowrap}
+.ootbl td.sk{white-space:normal;min-width:210px;font-weight:500}
+.ootbl .grp td{cursor:default}
+.ootbl .grp .ico{display:inline-flex;vertical-align:-4px;margin-right:6px}
+.oocom{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:860px){.oocom{grid-template-columns:1fr}}
+.oocom textarea{min-height:130px}
+.ooscore{display:inline-flex;min-width:46px;justify-content:center}
+.oogrid{display:grid;grid-template-columns:130px repeat(3,1fr);gap:0}
+.oonote{font-size:12px;color:var(--muted);margin:8px 2px 0;line-height:1.5}
+.ootbl select.pill{height:26px}
 </style>
 </head>
 <body>
@@ -542,13 +581,51 @@ const AVC = { 'Gabriel Andrade': '#1F4E9C', 'Dayane Sousa': '#D9571A', "Samuel S
 const CAT_TONES = ['blue', 'teal', 'violet', 'orange', 'green', 'indigo', 'amber', 'red'];
 const CAT_GRAD = { blue: ['#2a5fc4', '#4f86e8'], teal: ['#0B7F85', '#1FB3B9'], violet: ['#6B34C9', '#9C6CF0'], orange: ['#C4541B', '#F08A4B'], green: ['#00853F', '#2CC977'], indigo: ['#3F37A8', '#6F68E0'], amber: ['#A86E00', '#E5A82A'], red: ['#B42323', '#E35B5B'] };
 const CAT_ICON = [['senha', 'ti-key'], ['mensag', 'ti-message-2'], ['instit', 'ti-building'], ['process', 'ti-list-check'], ['case', 'ti-trophy'], ['materia', 'ti-book-2'], ['estud', 'ti-book-2'], ['duvid', 'ti-help-circle'], ['tutor', 'ti-player-play'], ['modelo', 'ti-template'], ['link', 'ti-link']];
+/* One a One: habilidades (ordem da planilha "Ponto de Conexão"), pilares SEQER e pessoas */
+const OO_SK = [
+  ['sd', 'Senso de dono / Protagonismo', 'Cultura', 'sd'], ['en', 'Energia', 'Cultura', 'ene'], ['et', 'Ética', 'Cultura', 'sd'],
+  ['ap', 'Aprendizado contínuo e adaptabilidade', 'Cultura', 'ene'], ['vc', 'Vontade de crescer', 'Cultura', 'sd'],
+  ['co', 'Comunicação e Storytelling', 'Técnica', 'ent'], ['in', 'Influência / Negociação', 'Técnica', 'ent'], ['or', 'Organização & Planejamento', 'Técnica', 'qua'],
+  ['cn', 'Critério numérico / dados', 'Técnica', 'res'], ['at', 'Atenção a detalhes', 'Técnica', 'qua'], ['ve', 'Visão estratégica de negócio', 'Técnica', 'res'],
+  ['rp', 'Resolução estruturada de problemas', 'Técnica', 'res'], ['nw', 'Networking', 'Técnica', 'ent'], ['pr', 'Produtividade / SLA', 'Técnica', 'qua'],
+].map(([id, nome, tipo, pilar]) => ({ id, nome, tipo, pilar }));
+const OO_PIL = [
+  { id: 'sd', nome: 'Senso de dono', icon: 'ti-flag', tone: 'green' }, { id: 'ent', nome: 'Entrega', icon: 'ti-package', tone: 'blue' },
+  { id: 'qua', nome: 'Qualidade', icon: 'ti-diamond', tone: 'violet' }, { id: 'ene', nome: 'Energia', icon: 'ti-bolt', tone: 'orange' },
+  { id: 'res', nome: 'Resultado', icon: 'ti-target-arrow', tone: 'teal' },
+];
+// lider = quem enxerga essa pessoa (além da Dayane, que enxerga e edita todas)
+const OO_PEOPLE = [
+  { id: 'dayane', nome: 'Dayane Sousa', tokens: ['dayane'], lider: null },
+  { id: 'andrade', nome: 'Gabriel Andrade', tokens: ['andrade', 'gabriel'], lider: 'dayane' },
+  { id: 'samuel', nome: "Samuel Sant'Ana", tokens: ['samuel'], lider: 'andrade' },
+  { id: 'maria', nome: 'Maria Luiza', tokens: ['maria', 'luiza'], lider: 'dayane' },
+];
+const OO_ADMIN = 'dayane';
+const OO_STEPS = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5];
+const OO_LEVELS = ['Alta', 'Média', 'Baixa'];
+const OO_HIST = {
+'2026-01':{c:[4,4.5,5,4,4,3.5,3.5,4,4,3,4,3.5,4,3.5],l:[4,5,5,4,4,3,3,3,4,4,3,3,4,4]},
+'2026-02':{c:[4,4,5,4,4,3.5,3.5,3.5,4,4,3.5,4,3.5,4],l:[4,4,5,5,4,3,3,4,4,4,3,4,3,4]},
+'2026-03':{c:[4,4,5,4,4,3,3,4,4,4,3.5,4,3,3],l:[4,3,5,5,4,3,3,4,4,4,3,4,3,4]},
+'2026-04':{c:[4,4,5,4,4,3.5,3,3.5,4,4,3.5,4,3,3],l:[4,4,5,4,4,3,3,4,4,4,3,4,3,3]},
+'2026-05':{c:[4,4,5,4,4,3.5,3,4,4,4,4,3.5,3,3],l:[4,4,5,4,4,3,3,4,4,4,4,4,3,4]},
+'2026-06':{c:[4,5,5,4,4,4,3,4,3.5,4,4,4,3,3],l:[4,5,5,4.5,4,3,3,4,4,4,4,4,3,4]},
+'2026-07':{c:[4,5,5,4,4,3.5,3.5,3.5,4,3.5,4,4,3.5,3],l:[4,5,5,4.5,4,3,3,3.5,4,3,4,4,3,3.5]},
+'2026-08':{c:[4,5,5,4,4,3.5,3.5,3.5,4,3.5,4,4,3.5,3],l:[4,5,5,4.5,4,3,3,3.5,4,3,4,4,3,3.5]},
+'2026-09':{c:[5,5,5,4,4,3.5,3.5,4,4,3,4,4,3.5,4],l:[5,5,5,4,4,3,3,3.5,3.5,3,4,4,3,4]}
+};
+const ooDefault = () => ({
+  cargos: [{ id: 'trainee', nome: 'Consultor Trainee', exp: 4, ideal: Object.fromEntries(OO_SK.map(s => [s.id, ['or', 'pr'].includes(s.id) ? 'Média' : 'Alta'])) }],
+  pessoaCargo: { andrade: 'trainee' }, emails: {},
+});
 const DEF_SETTINGS = () => ({
   planos: [{ nome: 'Ouro', valor: 1499 }, { nome: 'Diamante', valor: 2499 }, { nome: 'Personalizado', valor: null }],
   segmentos: ['Associação', 'Comércio', 'Restaurante/Alimentação', 'Serviço'],
   responsaveis: [...CONSULTORES],
   catInternas: ['Senhas', 'Mensagens padrão', 'Institucional', 'Processos'],
   catClientes: ['Cases de sucesso', 'Materiais e estudos', 'Dúvidas frequentes', 'Tutoriais'],
-  metaAtivos: {}, metaPadrao: null,
+  metaAtivos: {}, metaPadrao: null, oo: ooDefault(),
 });
 
 const LOGO_SVG = `<svg viewBox="0 0 690.61 199.01" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Power Gestão"><g fill="currentColor"><path d="M355,2c-2.42.25-5.49,3.22-6.54,5.68-2.13,5-3.1,10.45-4.52,15.74-4.56,17-9.11,34.08-13.87,51.88a39.57,39.57,0,0,1-1.65-3.79Q318.51,40,308.63,8.43c-1.39-4.42-4.43-6.9-9.2-7-2.66,0-5.33,0-8,.05-4.73.15-7.71,2.6-9.11,7.07q-6.49,20.61-13,41.23c-2.68,8.47-5.39,16.94-8.3,26.08a14.68,14.68,0,0,1-1.24-2.35c-5.69-21.63-11.24-43.29-17.17-64.85-.68-2.5-3.27-6.16-5.23-6.33-8.3-.71-16.7-.3-25.35-.3a19.38,19.38,0,0,0,.43,2.54Q229,57,245.75,109.26c.46,1.45,2.87,3,4.51,3.2,4.45.45,9-.24,13.45.27,5.28.62,7.59-1.28,9-6.39C276,94.54,280,82.92,283.66,71.23c3.46-11,6.93-22,10.75-34.05A20.8,20.8,0,0,1,296,39.94q10.61,34.17,21.13,68.36c1,3.15,2.39,4.65,6,4.4a112.53,112.53,0,0,1,14.46,0c3.57.22,5.29-.91,6.4-4.47,9.29-29.73,18.79-59.39,28.21-89.08,1.78-5.61,3.44-11.26,5.32-17.43C369.52,1.72,362.21,1.24,355,2Z"/><path d="M152.6,0c-39.67-1.09-61.76,27-61.81,56.49-.07,33.26,24.88,57.58,59.42,57.68,33.94.09,59.19-24.12,59.22-56.77C209.78,25,185.64.94,152.6,0Zm23.5,75c-5.24,10.85-15.32,18.64-30.17,17.36-19-1.62-28.87-19.76-28.19-37.34.63-16.35,11.31-31.29,28.21-33.63C177.06,17.14,186.91,52.64,176.1,75.06Z"/><path d="M543.88,64c12.45-6.45,19.08-18.32,18-32.24C560.86,17.61,553,8.82,539.81,4.87A72.59,72.59,0,0,0,522.23,1.8c-13-.51-25.93-.28-38.89-.33-1.28,0-2.56.19-3.65.27-.29.66-.54,1-.54,1.25q-.06,53.21-.14,106.42c0,2.85,1.45,3.26,3.73,3.24,6-.05,12-.2,18,0,3.64.14,4.93-.94,4.84-4.75-.26-10.76,0-21.54-.16-32.32,0-2.85.7-4,3.87-4.25,5.86-.4,9.66,1.7,12.51,6.9,5.25,9.59,10.75,19.07,16.69,28.25,1.7,2.62,5.12,5.48,8,5.75,8.19.78,16.5.28,26.29.28C560.82,96.65,554,79.08,540.34,65.76ZM525.36,52.3c-5.56,1.3-11.48,1.22-17.25,1.31-.87,0-2.45-2.34-2.55-3.68-.33-4.28-.12-8.59-.12-12.9,0-4.13.14-8.28,0-12.41-.14-3.06,1.1-4.2,4.08-3.95,5.26.42,10.69.09,15.78,1.26,7.35,1.69,10.93,6.88,11,14C536.4,44.14,532.63,50.59,525.36,52.3Z"/><path d="M462.76,112.27c0-5.09-.27-9.73.08-14.32.31-4-1.08-5.18-5-5.12-12.47.21-25,0-37.43.15-3.72,0-5-1.14-4.78-4.88a142.39,142.39,0,0,0,0-16.91c-.28-4.18,1.42-5,5.18-4.94,9,.22,18,.18,27,0,1.36,0,3.8-1.43,3.86-2.32.36-5.37.18-10.79.18-16.53-11,0-21.33-.12-31.62.07-3.52.06-4.69-1.11-4.54-4.6.24-5.8.23-11.62,0-17.41-.13-3.26,1-4.49,4.24-4.4,6,.15,12,0,18,0h25c0-5.63-.16-10.73.06-15.82.14-3.2-1.2-3.89-4.13-3.88-21.63.1-43.26.15-64.89,0-3.8,0-4.72,1.14-4.71,4.82q.19,50.76,0,101.52c0,4,1.23,5,5.1,5,21.13-.17,42.26-.07,63.39-.09C459.17,112.61,460.75,112.41,462.76,112.27Z"/><path d="M55.47,3.78C38.32,1.44,20.73,2.11,3.33,1.72,2.25,1.7.15,4.05.14,5.31,0,39.26,0,73.22,0,107.17l1.12.54C7.85,98.31,14.73,89,21.24,79.47c2.14-3.15,4.55-4,8.22-4.18,8.93-.36,18-.36,26.69-2.24C74.4,69.11,84,55.88,83.77,37,83.55,19.7,73.5,6.25,55.47,3.78Zm.72,42.1c-2.29,6-6.88,9.29-13.19,9.79-5.11.41-10.27.19-15.4.36-2.57.08-3.54-1-3.53-3.54q.11-14.13,0-28.26c0-2.53.91-3.66,3.47-3.55,2.32.1,4.65,0,7,0h0c1.65,0,3.31-.06,5,0C53.88,21.34,61.31,32.48,56.19,45.88Z"/><path d="M240.48,178.35V192.4c-2.06,2.7-6.55,6.61-14.58,6.61-11,0-18.81-8.43-18.81-19.33s7.77-19.33,18.81-19.33a15.76,15.76,0,0,1,14.47,8.53L235.72,172c-1.21-2.2-4.17-6.39-9.82-6.39-7.13,0-12.57,6-12.57,14.05,0,9.08,6.44,14,12.57,14,4.07,0,7.55-1.43,9.09-4v-6.06h-8.83v-5.29Z"/><path d="M269.06,166.29V176.7h15.85v5.12H269.06v11.29h17v5.29h-23V161h23v5.23Z"/><path d="M307.42,190.19l4.65-3.35a13.62,13.62,0,0,0,10.57,6.66c5,.6,9.66-1.27,9.82-5.12.32-3.36-3-4.63-10.25-6.34-8.55-2.09-14.31-5.06-14.15-11.12.1-7.27,7.87-10.63,15.16-10.63s12.31,3.47,14.74,6.89l-4.39,3.52a12.58,12.58,0,0,0-10-5.18c-5.87-.16-9.25,2.59-9.35,5-.06,3.53,4.22,4.74,9.61,6,9.77,2.42,15.11,4.84,14.79,11.62-.37,6.33-6.07,11-15.48,10.85A18.7,18.7,0,0,1,307.42,190.19Z"/><path d="M385.72,166.24H375.1V198.4h-5.92V166.24H358.56V161h27.16Z"/><path d="M423.12,193H407.49l-1.8,5.45h-6.34l13-37.39h6.18l12.68,37.39h-6.29Zm-13.05-34.2H405.8c0-3.74,2.27-6.39,5.7-6.39,3.06,0,5.13,2.32,7.13,2.32s1.9-1.71,1.9-2.32h4.28c0,3.91-2.43,6.33-5.7,6.33s-5.5-2.14-7.08-2.14A2,2,0,0,0,410.07,158.75Zm11.47,29.35-6.24-18.78-6.23,18.78Z"/><path d="M448.43,179.62c0-11,7.34-19.27,17.54-19.27s17.54,8.26,17.54,19.27c0,11.62-6.76,19.39-17.54,19.39S448.43,191.24,448.43,179.62Zm28.79,0c0-8.09-5.17-14-11.2-14-5.33,0-11.35,5-11.35,14,0,8.87,4.75,14.1,11.35,14.1C472.42,193.72,477.22,188.6,477.22,179.62Z"/></g><path fill="#00A651" d="M648.43,56.24q-16.48-26.88-33.26-53.6c-.62-1-1.75-2.37-2.66-2.39-8.38-.18-16.76-.1-25.65-.1,11.66,18.9,22.89,37,33.92,55.19.89,1.46,1.29,4.2.52,5.52-5.61,9.57-11.61,18.92-17.44,28.36-4.58,7.4-9.11,14.84-14.22,23.18,9.09,0,17.15.13,25.2-.14,1.21,0,2.67-1.73,3.47-3Q633.6,84.91,648.62,60.4A4.8,4.8,0,0,0,648.43,56.24Z"/><path fill="#3D8FD6" d="M656.91,2.45c-.57-.9-1.45-2.28-2.21-2.29C646,0,637.33.06,628.11.06,639.8,19,650.88,37,662.16,55c1.63,2.59,1.86,4.25.1,7-10.5,16.48-20.7,33.14-31.61,50.72,8.33,0,15.76-.18,23.17.08,3.32.11,5.1-1.16,6.75-3.87,9-14.73,17.71-29.61,27.37-43.87,3.41-5,3.65-7.68.13-12.9C677.15,35.94,667.24,19.05,656.91,2.45Z"/></svg>`;
@@ -597,7 +674,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  week: null, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -605,8 +682,8 @@ const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setIte
 /* ═══════════════ DADOS / SINCRONIZAÇÃO ═══════════════ */
 // Cada registro é uma linha própria em kv_store (chave v2:<coleção>:<id>),
 // assim duas pessoas editando itens diferentes nunca se sobrescrevem.
-const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content'];
-const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, settings: DEF_SETTINGS() };
+const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone'];
+const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, settings: DEF_SETTINGS() };
 let sb = null, me = '', booted = false, syncState = 'ok', flushing = false, flushTimer = null;
 let queue = (() => { try { return JSON.parse(localStorage.getItem('pw2_queue') || '{}'); } catch { return {}; } })();
 const saveQueue = () => { try { localStorage.setItem('pw2_queue', JSON.stringify(queue)); } catch { } };
@@ -1136,13 +1213,188 @@ AFTER.info = () => { const q = $('#iq'); if (q) q.oninput = debounce(() => { UI.
 
 /* ═══════════════ TELA 04: TIME DOS LINDOS ═══════════════ */
 function viewTime() {
-  const tabs = [['metas', 'Metas', 'ti-target'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['tarefas', 'Tarefas', 'ti-checkbox']];
+  const tabs = [['metas', 'Metas', 'ti-target'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['tarefas', 'Tarefas', 'ti-checkbox'], ['oneone', 'One a One', 'ti-users-group']];
   const late = Object.values(S.tasks).filter(t => tStatus(t) === 'Atrasado').length;
-  const head = pageHead('Gestão Time dos Lindos', 'Metas, alinhamentos semanais e tarefas da equipe',
+  const head = pageHead('Gestão Time dos Lindos', 'Metas, alinhamentos semanais, tarefas e One a One da equipe',
     `<div class="seg">${tabs.map(([k, l, i]) => `<button data-act="ttab" data-v="${k}" class="${UI.timeTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'tarefas' && late ? ` <span class="pill c-red" style="height:18px;padding:0 6px;font-size:11px">${late}</span>` : ''}</button>`).join('')}</div>`);
-  return head + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : viewTasks()) + datalists();
+  return head + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
-AFTER.time = () => { const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
+AFTER.time = () => { ooChart(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
+
+/* ── one a one ── */
+// Visibilidade e edição são controladas aqui, na tela. Dayane vê e edita tudo; cada pessoa edita a própria
+// autoavaliação (nota do colaborador) e o próprio comentário; a nota do líder e o comentário do líder são da Dayane.
+function ooWho() {
+  if (LOCAL_MODE) return OO_ADMIN;
+  const em = String(me || '').toLowerCase(), ov = S.settings.oo?.emails || {};
+  for (const p of OO_PEOPLE) if (ov[p.id] && String(ov[p.id]).trim().toLowerCase() === em) return p.id;
+  const lp = norm(em.split('@')[0]);
+  return (OO_PEOPLE.find(p => p.tokens.some(t => lp.includes(t))) || {}).id || null;
+}
+const ooIsAdmin = () => ooWho() === OO_ADMIN;
+function ooVisible() { const w = ooWho(); if (!w) return []; return w === OO_ADMIN ? OO_PEOPLE : OO_PEOPLE.filter(p => p.id === w || p.lider === w); }
+const ooCanSelf = p => ooIsAdmin() || ooWho() === p;
+const ooCanLeader = () => ooIsAdmin();
+const ooPerson = id => OO_PEOPLE.find(p => p.id === id);
+const ooRec = (p, ym, s) => S.oneone[`${p}_${ym}_${s}`];
+const ooNota = (p, ym, s, k) => { const v = ooRec(p, ym, s)?.notas?.[k]; return v == null ? null : +v; };
+const ooMean = a => { a = a.filter(x => x != null); return a.length ? a.reduce((s, x) => s + x, 0) / a.length : null; };
+const ooAvg = (p, ym, k) => { const c = ooNota(p, ym, 'c', k), l = ooNota(p, ym, 'l', k); return c != null && l != null ? (c + l) / 2 : null; };
+const ooLevel = m => m == null ? null : m >= 4.5 ? 'Alta' : m >= 3 ? 'Média' : 'Baixa';
+const OO_RANK = { Baixa: 1, Média: 2, Alta: 3 };
+const ooCargo = p => { const o = S.settings.oo; return o.cargos.find(c => c.id === o.pessoaCargo?.[p]) || null; };
+const ooSit = (ideal, lvl) => { if (!ideal || !lvl) return null; const d = OO_RANK[lvl] - OO_RANK[ideal]; return d > 0 ? 'Acima do esperado' : d === 0 ? 'Dentro do esperado' : 'Abaixo do esperado'; };
+const OO_SIT_TONE = { 'Acima do esperado': 'blue', 'Dentro do esperado': 'green', 'Abaixo do esperado': 'orange' };
+const OO_LVL_TONE = { Alta: 'green', Média: 'blue', Baixa: 'orange' };
+const ooF = v => v == null ? '—' : num(Math.round(v * 100) / 100);
+const ooTone = (m, exp) => m == null ? 'gray' : m >= exp ? 'green' : m >= exp - 0.5 ? 'amber' : 'orange';
+const ooYm = () => UI.oo.ym || today().slice(0, 7);
+const ooShiftYm = (ym, n) => { const d = new Date(+ym.slice(0, 4), +ym.slice(5, 7) - 1 + n, 1); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}`; };
+const ooLabel = ym => `${MONTHS[+ym.slice(5, 7) - 1]} ${ym.slice(0, 4)}`;
+
+function ooSummary(p, ym) {
+  const rows = OO_SK.map(s => {
+    const r = { ...s, c: ooNota(p, ym, 'c', s.id), l: ooNota(p, ym, 'l', s.id), m: ooAvg(p, ym, s.id), ideal: ooCargo(p)?.ideal?.[s.id] || null };
+    r.lvl = ooLevel(r.m); r.sit = ooSit(r.ideal, r.lvl); return r;
+  });
+  const agg = fn => { const sel = rows.filter(fn); return { c: ooMean(sel.map(r => r.c)), l: ooMean(sel.map(r => r.l)), m: ooMean(sel.map(r => r.m)), abaixo: sel.filter(r => r.sit === 'Abaixo do esperado').length, n: sel.length }; };
+  return { rows, all: agg(() => true), cult: agg(r => r.tipo === 'Cultura'), tec: agg(r => r.tipo === 'Técnica'), pil: Object.fromEntries(OO_PIL.map(pl => [pl.id, agg(r => r.pilar === pl.id)])), fillC: rows.filter(r => r.c != null).length, fillL: rows.filter(r => r.l != null).length };
+}
+function ooSet(p, ym, side, ch) {
+  if (side === 'c' ? !ooCanSelf(p) : !ooCanLeader()) return toast('Você não tem permissão para editar este campo.');
+  const id = `${p}_${ym}_${side}`, cur = S.oneone[id] || { id, pessoa: p, mes: ym, lado: side, notas: {}, com: '' };
+  put('oneone', { ...cur, ...ch });
+}
+
+function viewOneOne() {
+  const vis = ooVisible();
+  if (!vis.length) return `<div class="card empty"><i class="ti ti-lock"></i>Seu e-mail (${esc(me)}) ainda não está vinculado a um perfil do One a One.<br>Peça para a Dayane vincular em “Cargos e acessos”.</div>`;
+  const O = UI.oo, admin = ooIsAdmin();
+  if (!vis.some(p => p.id === O.p)) O.p = admin ? 'andrade' : ooWho();
+  const ym = ooYm(), sec = O.sec === 'cargos' ? 'cargos' : 'aval';
+  const nav = `<div class="seg">${[['aval', 'Avaliação', 'ti-chart-radar'], ['cargos', admin ? 'Cargos e acessos' : 'Ideal do cargo', 'ti-id-badge-2']].map(([k, l, i]) => `<button data-act="oo-sec" data-v="${k}" class="${sec === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}</button>`).join('')}</div>`;
+  const chips = vis.length > 1 ? `<div class="oochips">${vis.map(p => `<button class="chip ${O.p === p.id ? 'on' : ''}" data-act="oo-person" data-v="${p.id}">${avatar(p.nome)}${esc(p.nome.split(' ')[0])}</button>`).join('')}</div>` : '';
+  const month = sec === 'aval' ? `<div class="pnav"><button class="btn sm icon ghost" data-act="oo-shift" data-v="-1" aria-label="Mês anterior"><i class="ti ti-chevron-left"></i></button><span class="lbl">${ooLabel(ym)}</span><button class="btn sm icon ghost" data-act="oo-shift" data-v="1" aria-label="Próximo mês"><i class="ti ti-chevron-right"></i></button><button class="btn sm ghost" data-act="oo-today">Hoje</button></div>` : '';
+  const toolbar = `<div class="toolbar">${nav}<span class="grow"></span>${month}</div>${chips && sec === 'aval' ? `<div style="margin-bottom:14px">${chips}</div>` : ''}`;
+  return toolbar + (sec === 'aval' ? ooAval(O.p, ym, admin) : ooCargos(admin));
+}
+
+function ooAval(p, ym, admin) {
+  const P = ooPerson(p), cargo = ooCargo(p), exp = cargo?.exp ?? 4, W = ooWho();
+  const Sm = ooSummary(p, ym), prev = ooSummary(p, ooShiftYm(ym, -1));
+  const canC = ooCanSelf(p), canL = ooCanLeader();
+  const perm = admin ? 'Você edita todas as notas e comentários.' : W === p ? 'Você edita a sua autoavaliação e o seu comentário. As notas do líder são preenchidas pela Dayane.' : 'Visualização somente leitura.';
+  const hero = `<div class="card oohero">${avatar(P.nome, true)}<div><div class="nm">${esc(P.nome)}</div>
+    <div class="meta">${cargo ? pill(cargo.nome).replace('c-gray', 'c-navy') : '<span class="pill c-amber">Cargo não definido</span>'}${P.lider ? `<span>Líder: ${esc(ooPerson(P.lider).nome.split(' ')[0])}</span>` : ''}<span>Colaborador ${Sm.fillC}/${OO_SK.length} · Líder ${Sm.fillL}/${OO_SK.length}</span></div></div>
+    <div class="perm"><i class="ti ${canC || canL ? 'ti-pencil' : 'ti-eye'}"></i><span>${perm}</span></div></div>`;
+  const importBox = admin && p === 'andrade' && !Object.keys(S.oneone).some(k => k.startsWith('andrade_')) ? `<div class="card" style="padding:14px 18px;margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap"><i class="ti ti-file-import" style="font-size:22px;color:var(--focus)"></i><div style="flex:1;min-width:220px"><b>Histórico da planilha “Ponto de Conexão”</b><div class="note" style="margin:2px 0 0">Traz as notas de Gabriel Andrade de janeiro a setembro de 2026 (colaborador e líder).</div></div><button class="btn primary" data-act="oo-import"><i class="ti ti-download"></i>Importar histórico</button></div>` : '';
+  const delta = (a, b) => a == null || b == null ? '' : (d => `<span style="color:${d >= 0 ? 'var(--green-fg)' : 'var(--orange-fg)'};font-weight:600">${d >= 0 ? '▲' : '▼'} ${ooF(Math.abs(d))}</span> vs. mês anterior`)(a - b);
+  const kpi = (lab, icon, tn, val, sub) => `<div class="card kpi c-${tn}"><div class="k"><i class="ti ${icon}"></i>${lab}</div><div class="v">${val}</div><div class="s">${sub}</div></div>`;
+  const of5 = m => `${ooF(m)}<small> / 5</small>`;
+  const kpis = `<div class="ookpis">
+    ${kpi('Média geral', 'ti-gauge', ooTone(Sm.all.m, exp), of5(Sm.all.m), `${delta(Sm.all.m, prev.all.m) || 'Sem mês anterior para comparar'}<br>Expectativa do cargo: <b>${ooF(exp)}</b>`)}
+    ${kpi('Cultura', 'ti-heart', ooTone(Sm.cult.m, exp), of5(Sm.cult.m), `Colab. <b>${ooF(Sm.cult.c)}</b> · Líder <b>${ooF(Sm.cult.l)}</b>`)}
+    ${kpi('Técnica', 'ti-tools', ooTone(Sm.tec.m, exp), of5(Sm.tec.m), `Colab. <b>${ooF(Sm.tec.c)}</b> · Líder <b>${ooF(Sm.tec.l)}</b>`)}
+    ${kpi('Pontos de atenção', 'ti-alert-triangle', Sm.all.abaixo ? 'orange' : 'green', `${Sm.all.abaixo}<small> abaixo do ideal</small>`, cargo ? 'Habilidades com resultado abaixo do ideal do cargo' : 'Defina o cargo para comparar com o ideal')}
+  </div>`;
+  const pils = `<div class="oopils">${OO_PIL.map(pl => { const a = Sm.pil[pl.id]; const bar = (l, v) => `<div class="oobar"><span>${l}</span><i style="--w:${v == null ? 0 : v / 5 * 100}%"></i><b>${ooF(v)}</b></div>`;
+    return `<div class="card oopil c-${pl.tone}"><div class="top"><span class="ico"><i class="ti ${pl.icon}"></i></span>${pl.nome}</div><div class="val">${ooF(a.m)}<small>média</small></div>${bar('Colab.', a.c)}${bar('Líder', a.l)}<div class="note" style="margin:0">${a.abaixo ? `<span style="color:var(--orange-fg);font-weight:600">${a.abaixo} abaixo do ideal</span>` : a.m != null ? 'Dentro do ideal' : '&nbsp;'} · ${a.n} habilidades</div></div>`; }).join('')}</div>`;
+  const chart = `<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Evolução em ${ym.slice(0, 4)}</h3><span class="hint">Média das notas de cada mês</span></div><div class="card-b"><div class="chartbox" style="height:250px"><canvas id="chOO"></canvas></div></div></div>`;
+  const sel = (side, k, val, can) => `<select class="in oosel" id="oo-${side}-${k}" data-oo="n|${side}|${k}" ${can ? '' : 'disabled'} aria-label="Nota ${side === 'c' ? 'do colaborador' : 'do líder'}"><option value="">—</option>${OO_STEPS.map(n => `<option value="${n}"${val === n ? ' selected' : ''}>${num(n)}</option>`).join('')}</select>`;
+  const body = OO_PIL.map(pl => {
+    const a = Sm.pil[pl.id];
+    return `<tr class="grp"><td colspan="8"><span class="pill c-${pl.tone}"><i class="ti ${pl.icon}"></i>${pl.nome}</span><span class="n">média ${ooF(a.m)}</span></td></tr>` +
+      Sm.rows.filter(r => r.pilar === pl.id).map(r => `<tr>
+        <td class="sk sticky">${esc(r.nome)}</td><td><span class="pill c-${r.tipo === 'Cultura' ? 'green' : 'blue'}">${r.tipo}</span></td>
+        <td>${r.ideal ? `<span class="pill c-${OO_LVL_TONE[r.ideal]}">${r.ideal}</span>` : '<span class="mut">—</span>'}</td>
+        <td>${sel('c', r.id, r.c, canC)}</td><td>${sel('l', r.id, r.l, canL)}</td>
+        <td>${r.m != null ? `<span class="pill ooscore c-${ooTone(r.m, exp)}">${ooF(r.m)}</span>` : '<span class="mut">—</span>'}</td>
+        <td>${r.lvl ? `<span class="pill c-${OO_LVL_TONE[r.lvl]}">${r.lvl}</span>` : '<span class="mut">—</span>'}</td>
+        <td>${r.sit ? `<span class="pill c-${OO_SIT_TONE[r.sit]}">${r.sit}</span>` : '<span class="mut">—</span>'}</td></tr>`).join('');
+  }).join('');
+  const table = `<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Notas por habilidade</h3><span class="hint">Notas de 1 a 5 · média = (colaborador + líder) ÷ 2</span></div>
+    <div class="tblwrap" data-sk="oo" style="max-height:none"><table class="tbl ootbl"><thead><tr><th class="sticky">Habilidade</th><th>Tipo</th><th>Ideal do cargo</th><th>Colaborador</th><th>Líder</th><th>Média</th><th>Resultado</th><th>Situação</th></tr></thead><tbody>${body}</tbody></table></div>
+    <div class="card-b"><div class="oonote">Resultado: 4,5 a 5 = Alta · 3 a 4 = Média · abaixo de 3 = Baixa. A situação compara o resultado com o nível ideal do cargo.</div></div></div>`;
+  const rc = ooRec(p, ym, 'c'), rl = ooRec(p, ym, 'l');
+  const ta = (side, val, can, ph) => `<textarea class="field" id="oo-com-${side}" data-oo="com|${side}" ${can ? '' : 'disabled'} placeholder="${can ? ph : 'Sem comentário'}">${esc(val || '')}</textarea>`;
+  const com = `<div class="card"><div class="card-h"><h3>Comentários do One a One</h3><span class="hint">${ooLabel(ym)}</span></div><div class="card-b"><div class="oocom">
+    <div><div class="note" style="margin:0 0 6px;font-weight:600">Comentário do colaborador (${esc(P.nome.split(' ')[0])})</div>${ta('c', rc?.com, canC, 'Como foi o mês, dúvidas, pedidos de apoio…')}</div>
+    <div><div class="note" style="margin:0 0 6px;font-weight:600">Comentário do líder</div>${ta('l', rl?.com, canL, 'Feedback, pontos fortes e combinados para o próximo mês…')}</div></div></div></div>`;
+  return hero + importBox + kpis + pils + chart + table + com;
+}
+
+function ooCargos(admin) {
+  const o = S.settings.oo, W = ooWho(), vis = ooVisible();
+  const cargos = admin ? o.cargos : o.cargos.filter(c => vis.some(p => o.pessoaCargo?.[p.id] === c.id));
+  const lvlSel = (cid, sid, v, can) => `<select class="pill c-${OO_LVL_TONE[v] || 'gray'}" data-oo-ideal="${cid}|${sid}" data-tone ${can ? '' : 'disabled'}>${opts(OO_LEVELS, v, v ? null : '—')}</select>`;
+  let matrix;
+  if (!cargos.length) matrix = `<div class="card empty"><i class="ti ti-id-badge-2"></i>${admin ? 'Nenhum cargo cadastrado.' : 'Seu cargo ainda não foi definido. Peça para a Dayane.'}${admin ? '<br><br><button class="btn primary" data-act="oo-cargo-add"><i class="ti ti-plus"></i>Novo cargo</button>' : ''}</div>`;
+  else matrix = `<div class="card"><div class="card-h"><h3>Ideal por cargo</h3>${admin ? '<button class="btn sm primary" data-act="oo-cargo-add"><i class="ti ti-plus"></i>Novo cargo</button>' : '<span class="hint">Nível esperado em cada habilidade</span>'}</div>
+    <div class="tblwrap" data-sk="oocargo" style="max-height:none"><table class="tbl ootbl"><thead><tr><th class="sticky">Habilidade</th>${cargos.map(c => `<th style="min-width:170px">${admin ? `<input class="in strong" style="min-width:140px" data-oo-cargo="${c.id}|nome" value="${esc(c.nome)}" aria-label="Nome do cargo"><button class="iconbtn danger" data-act="oo-cargo-rm" data-id="${c.id}" title="Excluir cargo"><i class="ti ti-trash"></i></button>` : esc(c.nome)}</th>`).join('')}</tr>
+      <tr><th class="sticky" style="top:42px;font-weight:500">Expectativa (média geral)</th>${cargos.map(c => `<th style="top:42px">${admin ? `<input class="in num" style="width:70px" inputmode="decimal" data-oo-cargo="${c.id}|exp" value="${esc(num(c.exp))}" aria-label="Expectativa do cargo">` : `<b>${ooF(c.exp)}</b>`}</th>`).join('')}</tr></thead>
+      <tbody>${OO_PIL.map(pl => `<tr class="grp"><td colspan="${cargos.length + 1}"><span class="pill c-${pl.tone}"><i class="ti ${pl.icon}"></i>${pl.nome}</span></td></tr>` +
+        OO_SK.filter(s => s.pilar === pl.id).map(s => `<tr><td class="sk sticky">${esc(s.nome)} <span class="pill c-${s.tipo === 'Cultura' ? 'green' : 'blue'}" style="height:20px;font-size:11px">${s.tipo}</span></td>${cargos.map(c => `<td>${lvlSel(c.id, s.id, c.ideal?.[s.id], admin)}</td>`).join('')}</tr>`).join('')).join('')}</tbody></table></div></div>`;
+  if (!admin) return matrix;
+  const rules = { dayane: 'todos (edita tudo)' };
+  const who = p => p.id === OO_ADMIN ? rules.dayane : OO_PEOPLE.filter(q => q.id === p.id || q.lider === p.id).map(q => q.nome.split(' ')[0]).join(' e ');
+  const people = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Pessoas e acessos</h3><span class="hint">Quem vê o quê no One a One</span></div>
+    <div class="tblwrap" data-sk="oopeople" style="max-height:none"><table class="tbl ootbl"><thead><tr><th class="sticky">Pessoa</th><th>Vê</th><th>Cargo</th><th>E-mail de acesso (se diferente do nome)</th></tr></thead><tbody>${OO_PEOPLE.map(p => `<tr>
+      <td class="sk sticky"><span class="cellrow">${avatar(p.nome)}${esc(p.nome)}</span></td><td style="white-space:normal;color:var(--ink-2)">${esc(who(p))}</td>
+      <td><select class="in" style="min-width:170px" data-oo-pc="${p.id}">${opts(o.cargos.map(c => [c.id, c.nome]), o.pessoaCargo?.[p.id] || '', 'Sem cargo')}</select></td>
+      <td><input class="in" style="min-width:240px" type="email" data-oo-em="${p.id}" value="${esc(o.emails?.[p.id] || '')}" placeholder="reconhecido pelo nome no e-mail"></td></tr>`).join('')}</tbody></table></div>
+    <div class="card-b"><div class="oonote">O painel reconhece cada pessoa pelo nome no e-mail de login (ex.: samuel@…). Se algum e-mail não tiver o nome, informe-o acima. Edição: cada pessoa altera a própria autoavaliação e o próprio comentário; notas e comentário do líder são da Dayane.</div></div></div>`;
+  return matrix + people;
+}
+
+function ooChart() {
+  const el = $('#chOO'); if (!el || typeof Chart === 'undefined') return;
+  const p = UI.oo.p, y = ooYm().slice(0, 4), exp = ooCargo(p)?.exp ?? 4;
+  Chart.defaults.font.family = 'Poppins, system-ui, sans-serif'; Chart.defaults.font.size = 11; Chart.defaults.color = cssv('--muted');
+  const mk = i => `${y}-${pad(i + 1)}`;
+  const ser = fn => MSHORT.map((_, i) => { const v = fn(mk(i)); return v == null ? null : Math.round(v * 100) / 100; });
+  const side = s => ym => ooMean(OO_SK.map(k => ooNota(p, ym, s, k.id)));
+  const line = (label, data, color, extra = {}) => ({ type: 'line', label, data, borderColor: color, backgroundColor: color, pointBackgroundColor: color, pointBorderColor: cssv('--surface'), pointBorderWidth: 2, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2, tension: .3, spanGaps: true, ...extra });
+  charts.push(new Chart(el, {
+    data: { labels: MSHORT.map(m => m[0].toUpperCase() + m.slice(1)), datasets: [
+      line('Colaborador', ser(side('c')), cssv('--s1')), line('Líder', ser(side('l')), cssv('--s3')),
+      line('Média', ser(ym => ooMean(OO_SK.map(k => ooAvg(p, ym, k.id)))), cssv('--ink'), { borderWidth: 3, pointRadius: 5 }),
+      line('Expectativa do cargo', MSHORT.map(() => exp), cssv('--muted'), { borderDash: [6, 4], pointRadius: 0, pointHoverRadius: 0, borderWidth: 2 }),
+    ] },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: true, position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, color: cssv('--ink-2') } }, tooltip: tooltipStyle() },
+      scales: { x: { grid: { display: false }, border: { color: cssv('--axis') }, ticks: { color: cssv('--ink-2') } }, y: { min: 2, max: 5, grid: { color: cssv('--grid') }, border: { display: false }, ticks: { stepSize: 1 } } } },
+  }));
+}
+
+let ooTimer = null;
+const ooSave = el => { clearTimeout(ooTimer); ooTimer = setTimeout(() => { if (document.body.contains(el)) ooCommit(el); }, 700); };
+function ooCommit(el) {
+  const p = UI.oo.p, ym = ooYm(), [kind, side, k] = el.dataset.oo.split('|');
+  if (kind === 'com') { if ((ooRec(p, ym, side)?.com || '') !== el.value) ooSet(p, ym, side, { com: el.value }); return; }
+  const cur = { ...(ooRec(p, ym, side)?.notas || {}) }, v = el.value === '' ? null : +el.value;
+  if (v == null) delete cur[k]; else cur[k] = v;
+  ooSet(p, ym, side, { notas: cur });
+}
+document.addEventListener('input', e => { if (e.target.dataset?.oo?.startsWith('com|')) ooSave(e.target); });
+document.addEventListener('change', e => {
+  const el = e.target, d = el.dataset; if (!d) return;
+  if (d.oo) return ooCommit(el);
+  const o = S.settings.oo;
+  if (d.ooCargo != null) {
+    if (!ooIsAdmin()) return;
+    const [id, f] = d.ooCargo.split('|'), c = o.cargos.find(x => x.id === id); if (!c) return;
+    if (f === 'exp') { const v = parseNum(el.value); c.exp = v == null ? 4 : Math.min(5, Math.max(1, v)); } else c.nome = el.value.trim() || c.nome;
+    return saveSettings();
+  }
+  if (d.ooIdeal != null) { if (!ooIsAdmin()) return; const [cid, sid] = d.ooIdeal.split('|'), c = o.cargos.find(x => x.id === cid); if (!c) return; c.ideal = { ...(c.ideal || {}), [sid]: el.value || null }; el.className = el.className.replace(/c-\w+/, 'c-' + (OO_LVL_TONE[el.value] || 'gray')); return saveSettings(); }
+  if (d.ooPc != null) { if (!ooIsAdmin()) return; o.pessoaCargo = { ...(o.pessoaCargo || {}), [d.ooPc]: el.value || null }; return saveSettings(); }
+  if (d.ooEm != null) { if (!ooIsAdmin()) return; o.emails = { ...(o.emails || {}), [d.ooEm]: el.value.trim() }; return saveSettings(); }
+});
+function ooImport() {
+  if (!ooIsAdmin()) return;
+  Object.entries(OO_HIST).forEach(([ym, h]) => ['c', 'l'].forEach(s => put('oneone', { id: `andrade_${ym}_${s}`, pessoa: 'andrade', mes: ym, lado: s, notas: Object.fromEntries(OO_SK.map((k, i) => [k.id, h[s][i]])), com: '' }, true)));
+  UI.oo.p = 'andrade'; UI.oo.ym = '2026-09'; saveUI(); render(); toast('Histórico de janeiro a setembro importado');
+}
 
 /* ── metas ── */
 function goalValue(g) {
@@ -1595,8 +1847,20 @@ document.addEventListener('click', async e => {
     case 'tgroup-toggle': UI.tCollapsed[v] = !UI.tCollapsed[v]; saveUI(); return render();
     case 'tf-clear': UI.tf = { q: UI.tf.q, st: '', cli: '', resp: '', de: '', ate: '' }; saveUI(); return render();
     case 'show-all-done': UI.showAllDone = true; return render();
-    // settings
-    case 'theme': UI.theme = v; saveUI(); applyTheme(); return render();
+    // one a one
+    case 'oo-sec': UI.oo.sec = v; saveUI(); return render();
+    case 'oo-person': UI.oo.p = v; saveUI(); return render();
+    case 'oo-shift': UI.oo.ym = ooShiftYm(ooYm(), +v); saveUI(); return render();
+    case 'oo-today': UI.oo.ym = ''; saveUI(); return render();
+    case 'oo-import': return ooImport();
+    case 'oo-cargo-add': { if (!ooIsAdmin()) return; const o = S.settings.oo, base = o.cargos[0]?.ideal || {}; o.cargos.push({ id: uid(), nome: 'Novo cargo', exp: 4, ideal: { ...base } }); return saveSettings(); }
+    case 'oo-cargo-rm': {
+      if (!ooIsAdmin()) return; const o = S.settings.oo, c = o.cargos.find(x => x.id === id); if (!c) return;
+      if (Object.values(o.pessoaCargo || {}).includes(id)) return toast('Esse cargo está em uso. Troque o cargo das pessoas antes de excluir.');
+      if (!(await confirmDlg('Excluir cargo?', `O cargo “${esc(c.nome)}” e o ideal definido para ele serão excluídos.`))) return;
+      o.cargos = o.cargos.filter(x => x.id !== id); return saveSettings();
+    }
+    // settings    case 'theme': UI.theme = v; saveUI(); applyTheme(); return render();
     case 'chpw': return changePassword();
     case 'logout': await sb.auth.signOut(); localStorage.removeItem('pw2_queue'); location.reload(); return;
     case 'import': return $('#fileImport').click();
