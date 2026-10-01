@@ -626,6 +626,8 @@ const DEF_SETTINGS = () => ({
   catInternas: ['Senhas', 'Mensagens padrão', 'Institucional', 'Processos'],
   catClientes: ['Cases de sucesso', 'Materiais e estudos', 'Dúvidas frequentes', 'Tutoriais'],
   metaAtivos: {}, metaPadrao: null, oo: ooDefault(),
+  // histórico manual de clientes em atenção por mês (aaaa-mm); a partir de desde o painel calcula pelo histórico de tags
+  atencao: { meta: 15, desde: '2026-10-01', manual: { '2026-01': 3, '2026-02': 3, '2026-03': 4, '2026-06': 5, '2026-07': 4, '2026-08': 5, '2026-09': 7 } },
 });
 
 const LOGO_SVG = `<svg viewBox="0 0 690.61 199.01" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Power Gestão"><g fill="currentColor"><path d="M355,2c-2.42.25-5.49,3.22-6.54,5.68-2.13,5-3.1,10.45-4.52,15.74-4.56,17-9.11,34.08-13.87,51.88a39.57,39.57,0,0,1-1.65-3.79Q318.51,40,308.63,8.43c-1.39-4.42-4.43-6.9-9.2-7-2.66,0-5.33,0-8,.05-4.73.15-7.71,2.6-9.11,7.07q-6.49,20.61-13,41.23c-2.68,8.47-5.39,16.94-8.3,26.08a14.68,14.68,0,0,1-1.24-2.35c-5.69-21.63-11.24-43.29-17.17-64.85-.68-2.5-3.27-6.16-5.23-6.33-8.3-.71-16.7-.3-25.35-.3a19.38,19.38,0,0,0,.43,2.54Q229,57,245.75,109.26c.46,1.45,2.87,3,4.51,3.2,4.45.45,9-.24,13.45.27,5.28.62,7.59-1.28,9-6.39C276,94.54,280,82.92,283.66,71.23c3.46-11,6.93-22,10.75-34.05A20.8,20.8,0,0,1,296,39.94q10.61,34.17,21.13,68.36c1,3.15,2.39,4.65,6,4.4a112.53,112.53,0,0,1,14.46,0c3.57.22,5.29-.91,6.4-4.47,9.29-29.73,18.79-59.39,28.21-89.08,1.78-5.61,3.44-11.26,5.32-17.43C369.52,1.72,362.21,1.24,355,2Z"/><path d="M152.6,0c-39.67-1.09-61.76,27-61.81,56.49-.07,33.26,24.88,57.58,59.42,57.68,33.94.09,59.19-24.12,59.22-56.77C209.78,25,185.64.94,152.6,0Zm23.5,75c-5.24,10.85-15.32,18.64-30.17,17.36-19-1.62-28.87-19.76-28.19-37.34.63-16.35,11.31-31.29,28.21-33.63C177.06,17.14,186.91,52.64,176.1,75.06Z"/><path d="M543.88,64c12.45-6.45,19.08-18.32,18-32.24C560.86,17.61,553,8.82,539.81,4.87A72.59,72.59,0,0,0,522.23,1.8c-13-.51-25.93-.28-38.89-.33-1.28,0-2.56.19-3.65.27-.29.66-.54,1-.54,1.25q-.06,53.21-.14,106.42c0,2.85,1.45,3.26,3.73,3.24,6-.05,12-.2,18,0,3.64.14,4.93-.94,4.84-4.75-.26-10.76,0-21.54-.16-32.32,0-2.85.7-4,3.87-4.25,5.86-.4,9.66,1.7,12.51,6.9,5.25,9.59,10.75,19.07,16.69,28.25,1.7,2.62,5.12,5.48,8,5.75,8.19.78,16.5.28,26.29.28C560.82,96.65,554,79.08,540.34,65.76ZM525.36,52.3c-5.56,1.3-11.48,1.22-17.25,1.31-.87,0-2.45-2.34-2.55-3.68-.33-4.28-.12-8.59-.12-12.9,0-4.13.14-8.28,0-12.41-.14-3.06,1.1-4.2,4.08-3.95,5.26.42,10.69.09,15.78,1.26,7.35,1.69,10.93,6.88,11,14C536.4,44.14,532.63,50.59,525.36,52.3Z"/><path d="M462.76,112.27c0-5.09-.27-9.73.08-14.32.31-4-1.08-5.18-5-5.12-12.47.21-25,0-37.43.15-3.72,0-5-1.14-4.78-4.88a142.39,142.39,0,0,0,0-16.91c-.28-4.18,1.42-5,5.18-4.94,9,.22,18,.18,27,0,1.36,0,3.8-1.43,3.86-2.32.36-5.37.18-10.79.18-16.53-11,0-21.33-.12-31.62.07-3.52.06-4.69-1.11-4.54-4.6.24-5.8.23-11.62,0-17.41-.13-3.26,1-4.49,4.24-4.4,6,.15,12,0,18,0h25c0-5.63-.16-10.73.06-15.82.14-3.2-1.2-3.89-4.13-3.88-21.63.1-43.26.15-64.89,0-3.8,0-4.72,1.14-4.71,4.82q.19,50.76,0,101.52c0,4,1.23,5,5.1,5,21.13-.17,42.26-.07,63.39-.09C459.17,112.61,460.75,112.41,462.76,112.27Z"/><path d="M55.47,3.78C38.32,1.44,20.73,2.11,3.33,1.72,2.25,1.7.15,4.05.14,5.31,0,39.26,0,73.22,0,107.17l1.12.54C7.85,98.31,14.73,89,21.24,79.47c2.14-3.15,4.55-4,8.22-4.18,8.93-.36,18-.36,26.69-2.24C74.4,69.11,84,55.88,83.77,37,83.55,19.7,73.5,6.25,55.47,3.78Zm.72,42.1c-2.29,6-6.88,9.29-13.19,9.79-5.11.41-10.27.19-15.4.36-2.57.08-3.54-1-3.53-3.54q.11-14.13,0-28.26c0-2.53.91-3.66,3.47-3.55,2.32.1,4.65,0,7,0h0c1.65,0,3.31-.06,5,0C53.88,21.34,61.31,32.48,56.19,45.88Z"/><path d="M240.48,178.35V192.4c-2.06,2.7-6.55,6.61-14.58,6.61-11,0-18.81-8.43-18.81-19.33s7.77-19.33,18.81-19.33a15.76,15.76,0,0,1,14.47,8.53L235.72,172c-1.21-2.2-4.17-6.39-9.82-6.39-7.13,0-12.57,6-12.57,14.05,0,9.08,6.44,14,12.57,14,4.07,0,7.55-1.43,9.09-4v-6.06h-8.83v-5.29Z"/><path d="M269.06,166.29V176.7h15.85v5.12H269.06v11.29h17v5.29h-23V161h23v5.23Z"/><path d="M307.42,190.19l4.65-3.35a13.62,13.62,0,0,0,10.57,6.66c5,.6,9.66-1.27,9.82-5.12.32-3.36-3-4.63-10.25-6.34-8.55-2.09-14.31-5.06-14.15-11.12.1-7.27,7.87-10.63,15.16-10.63s12.31,3.47,14.74,6.89l-4.39,3.52a12.58,12.58,0,0,0-10-5.18c-5.87-.16-9.25,2.59-9.35,5-.06,3.53,4.22,4.74,9.61,6,9.77,2.42,15.11,4.84,14.79,11.62-.37,6.33-6.07,11-15.48,10.85A18.7,18.7,0,0,1,307.42,190.19Z"/><path d="M385.72,166.24H375.1V198.4h-5.92V166.24H358.56V161h27.16Z"/><path d="M423.12,193H407.49l-1.8,5.45h-6.34l13-37.39h6.18l12.68,37.39h-6.29Zm-13.05-34.2H405.8c0-3.74,2.27-6.39,5.7-6.39,3.06,0,5.13,2.32,7.13,2.32s1.9-1.71,1.9-2.32h4.28c0,3.91-2.43,6.33-5.7,6.33s-5.5-2.14-7.08-2.14A2,2,0,0,0,410.07,158.75Zm11.47,29.35-6.24-18.78-6.23,18.78Z"/><path d="M448.43,179.62c0-11,7.34-19.27,17.54-19.27s17.54,8.26,17.54,19.27c0,11.62-6.76,19.39-17.54,19.39S448.43,191.24,448.43,179.62Zm28.79,0c0-8.09-5.17-14-11.2-14-5.33,0-11.35,5-11.35,14,0,8.87,4.75,14.1,11.35,14.1C472.42,193.72,477.22,188.6,477.22,179.62Z"/></g><path fill="#00A651" d="M648.43,56.24q-16.48-26.88-33.26-53.6c-.62-1-1.75-2.37-2.66-2.39-8.38-.18-16.76-.1-25.65-.1,11.66,18.9,22.89,37,33.92,55.19.89,1.46,1.29,4.2.52,5.52-5.61,9.57-11.61,18.92-17.44,28.36-4.58,7.4-9.11,14.84-14.22,23.18,9.09,0,17.15.13,25.2-.14,1.21,0,2.67-1.73,3.47-3Q633.6,84.91,648.62,60.4A4.8,4.8,0,0,0,648.43,56.24Z"/><path fill="#3D8FD6" d="M656.91,2.45c-.57-.9-1.45-2.28-2.21-2.29C646,0,637.33.06,628.11.06,639.8,19,650.88,37,662.16,55c1.63,2.59,1.86,4.25.1,7-10.5,16.48-20.7,33.14-31.61,50.72,8.33,0,15.76-.18,23.17.08,3.32.11,5.1-1.16,6.75-3.87,9-14.73,17.71-29.61,27.37-43.87,3.41-5,3.65-7.68.13-12.9C677.15,35.94,667.24,19.05,656.91,2.45Z"/></svg>`;
@@ -674,7 +676,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  atnTable: false, week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -756,6 +758,7 @@ const HOOKS = {
   clients(next, cur, ch) {
     if ('plano' in ch) { const p = S.settings.planos.find(x => x.nome === ch.plano); if (p && p.valor != null) next.valorCheio = p.valor; }
     if (ch.st === 'Encerrado' && !next.de) next.de = today();
+    if ('tag' in ch && ch.tag !== cur.tag) next.tagHist = [...(cur.tagHist || []), { d: today(), from: cur.tag || null, to: ch.tag || null }];
   },
   tasks(next, cur, ch) {
     if (ch.status === 'Concluído' && cur.status !== 'Concluído') {
@@ -885,6 +888,63 @@ function comboData(s, e) {
   });
 }
 
+/* ═══════════════ CLIENTES EM ATENÇÃO ═══════════════ */
+// Tag na data: usa o histórico de trocas (tagHist). Sem histórico, vale a tag atual (só a partir de atencao.desde).
+function tagAt(c, d) { const h = (c.tagHist || []).filter(x => x.d <= d); if (h.length) return h[h.length - 1].to; return c.tagHist?.length ? (c.tagHist[0].from || c.tag) : c.tag; }
+function atnData(R) {
+  const cfg = S.settings.atencao, t = today();
+  return comboData(R.s, R.e).map(b => {
+    let auto = null;
+    if (b.s <= t && b.key >= cfg.desde.slice(0, 7)) { const ref = b.e < t ? b.e : t; auto = clientsArr().filter(c => activeAt(c, ref) && tagAt(c, ref) === 'Atenção').length; }
+    const man = cfg.manual?.[b.key], n = man != null ? man : auto;
+    return { ...b, n, auto, manual: man != null, pct: n != null && b.total ? n / b.total * 100 : null };
+  });
+}
+const pct1 = v => v == null ? '—' : NUMF.format(Math.round(v * 10) / 10) + '%';
+function atnCard(R) {
+  const d = atnData(R), cfg = S.settings.atencao, last = [...d].reverse().find(b => b.sel && b.pct != null);
+  const chip = last ? `<span class="pill c-${last.pct <= cfg.meta ? 'green' : 'red'}" title="Menor é melhor: o ideal é ficar abaixo da meta">${last.label}: ${last.n} de ${last.total} · ${pct1(last.pct)} (meta ${num(cfg.meta)}%)</span>` : '';
+  const body = UI.atnTable
+    ? `<div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Mês</th><th>Em atenção</th><th>Ativos</th><th>% atenção</th><th>Meta</th></tr></thead><tbody>${d.map(b => `<tr style="${b.sel ? '' : 'opacity:.55'}"><td>${b.label}</td><td>${b.n ?? '—'}${b.manual ? ' <i class="ti ti-pencil" title="Valor informado manualmente" style="font-size:12px;color:var(--muted)"></i>' : ''}</td><td>${b.total}</td><td><b>${pct1(b.pct)}</b></td><td>${num(cfg.meta)}%</td></tr>`).join('')}</tbody></table></div>`
+    : `<div class="legend" style="margin:6px 0 4px"><span><i class="sq" style="background:var(--s3)"></i>Clientes em atenção</span><span><i class="ln" style="border-color:var(--ink)"></i>% sobre ativos</span><span><i class="ln dash" style="border-color:var(--muted)"></i>Meta</span></div>
+      <div class="card-b"><div class="chartbox" style="height:${isMobile() ? 240 : 280}px"><canvas id="chAtn"></canvas></div></div>`;
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><div><h3>Clientes em atenção</h3><div class="hint">Em atenção ÷ ativos do mês × 100 · quanto menor, melhor</div></div>
+    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end">${chip}<button class="btn sm" data-act="edit-atn"><i class="ti ti-target"></i>Meta e histórico</button><button class="btn sm ${UI.atnTable ? 'on' : ''}" data-act="atn-table"><i class="ti ti-table"></i>${isMobile() ? '' : 'Tabela'}</button></div></div>${body}
+    <div class="card-b" style="padding-top:0"><div class="note" style="margin:0">Em atenção = clientes ativos com a tag “Atenção” no fim do mês (no mês corrente, hoje). A partir de ${fmtD(cfg.desde)} o painel guarda a data de cada troca de tag e calcula sozinho; os meses anteriores usam os valores informados em “Meta e histórico”.</div></div></div>`;
+}
+function atnChart() {
+  const el = $('#chAtn'); if (!el || typeof Chart === 'undefined') return;
+  const R = periodRange(), d = atnData(R), cfg = S.settings.atencao, surf = cssv('--surface');
+  Chart.defaults.font.family = 'Poppins, system-ui, sans-serif'; Chart.defaults.font.size = 11; Chart.defaults.color = cssv('--muted');
+  const pmax = Math.max(cfg.meta * 1.4, ...d.map(b => b.pct || 0)) * 1.15;
+  charts.push(new Chart(el, {
+    data: { labels: d.map(b => b.label), datasets: [
+      { type: 'bar', label: 'Clientes em atenção', data: d.map(b => b.n), backgroundColor: d.map(b => b.sel ? cssv('--s3') : cssv('--s3') + '59'), borderRadius: 4, borderSkipped: false, borderColor: surf, borderWidth: 1, maxBarThickness: 34, yAxisID: 'y', order: 3 },
+      { type: 'line', label: '% sobre ativos', data: d.map(b => b.pct == null ? null : Math.round(b.pct * 10) / 10), fmt: v => pct1(v), borderColor: cssv('--ink'), backgroundColor: cssv('--ink'), pointBackgroundColor: cssv('--ink'), pointBorderColor: surf, pointBorderWidth: 2, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2, tension: .3, spanGaps: true, yAxisID: 'y1', order: 1 },
+      { type: 'line', label: 'Meta', data: d.map(() => cfg.meta), borderColor: cssv('--muted'), borderDash: [6, 4], pointRadius: 0, pointHoverRadius: 0, borderWidth: 2, yAxisID: 'y1', order: 2 },
+    ] },
+    options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, layout: { padding: { top: 18 } },
+      plugins: { legend: { display: false }, valueLabels: { enabled: d.length <= 12, only: [1] }, tooltip: { ...tooltipStyle(), callbacks: { label: c => c.dataset.label === 'Clientes em atenção' ? ` ${c.parsed.y} clientes (de ${d[c.dataIndex].total} ativos)` : c.dataset.label === 'Meta' ? ` Meta: ${num(cfg.meta)}%` : ` ${pct1(c.parsed.y)} sobre ativos` } } },
+      scales: { x: { grid: { display: false }, border: { color: cssv('--axis') }, ticks: { color: cssv('--ink-2') } },
+        y: { beginAtZero: true, grid: { color: cssv('--grid') }, border: { display: false }, ticks: { precision: 0 } },
+        y1: { position: 'right', beginAtZero: true, suggestedMax: pmax, grid: { drawOnChartArea: false }, border: { display: false }, ticks: { callback: v => v + '%' } } } },
+  }));
+}
+function atnPop(anchor) {
+  const R = periodRange(), d = atnData(R), cfg = S.settings.atencao;
+  openPop(anchor, `<h6>Clientes em atenção</h6>
+    <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:10px">Meta (% de clientes em atenção)<input class="field" inputmode="decimal" data-atn="meta" value="${esc(num(cfg.meta))}" placeholder="15"></label>
+    <div style="font-size:12px;color:var(--muted);margin-bottom:6px">Quantidade por mês (deixe em branco para calcular automaticamente)</div>
+    <div class="rng">${d.filter(b => b.s <= today()).map(b => `<label style="font-size:11.5px;color:var(--muted)">${b.label}<input class="field" style="padding:6px 10px" inputmode="numeric" data-atn="${b.key}" value="${cfg.manual?.[b.key] != null ? esc(cfg.manual[b.key]) : ''}" placeholder="${b.auto != null ? b.auto : '—'}"></label>`).join('')}</div>
+    <div class="ft"><span></span><button class="btn sm primary" data-act="pop-close">Pronto</button></div>`);
+}
+document.addEventListener('change', e => {
+  const el = e.target; if (el.dataset.atn == null) return;
+  const cfg = S.settings.atencao, v = parseNum(el.value);
+  if (el.dataset.atn === 'meta') cfg.meta = v == null || v < 0 ? 15 : v;
+  else { cfg.manual = { ...(cfg.manual || {}) }; if (v == null) delete cfg.manual[el.dataset.atn]; else cfg.manual[el.dataset.atn] = Math.max(0, Math.round(v)); }
+  saveSettings();
+});
 /* ═══════════════ TELA 01: VISÃO GERAL ═══════════════ */
 function viewDashboard() {
   const R = periodRange(), M = metrics(R.s, R.e), p = UI.period;
@@ -912,6 +972,7 @@ function viewDashboard() {
       <div class="legend" style="margin:6px 0 4px"><span><i class="sq" style="background:var(--s1)"></i>Ativos</span><span><i class="sq" style="background:var(--s2)"></i>Novos</span><span><i class="sq" style="background:var(--s3)"></i>Encerrados</span><span><i class="ln" style="border-color:var(--ink)"></i>Total ativos</span><span><i class="ln dash" style="border-color:var(--muted)"></i>Meta</span></div>
       <div class="card-b"><div class="chartbox" style="height:${isMobile() ? 260 : 320}px"><canvas id="chCombo"></canvas></div></div>`}
     </div>
+    ${atnCard(R)}
     <div class="grid2">
       ${['tag:Clientes por tag', 'con:Clientes por consultor', 'fase:Clientes por fase', 'seg:Clientes por segmento'].map(x => { const [k, l] = x.split(':'); const n = distEntries(M.ativos, k).length; return `<div class="card"><div class="card-h"><h3>${l}</h3><span class="hint">ativos · clique para filtrar</span></div><div class="card-b"><div class="chartbox" style="height:${Math.max(n, 1) * 36 + 28}px"><canvas id="ch-${k}"></canvas></div></div></div>`; }).join('')}
     </div>
@@ -942,7 +1003,7 @@ const valueLabels = {
     chart.data.datasets.forEach((ds, di) => {
       if (o.only && !o.only.includes(di)) return;
       const meta = chart.getDatasetMeta(di); if (meta.hidden) return;
-      meta.data.forEach((el, i) => { const v = ds.data[i]; if (v == null) return; if (o.horizontal) { ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(v, el.x + 6, el.y); } else { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(v, el.x, el.y - 8); } });
+      meta.data.forEach((el, i) => { const v = ds.data[i]; if (v == null) return; if (o.horizontal) { ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillText(v, el.x + 6, el.y); } else { ctx.textAlign = 'center'; ctx.textBaseline = 'bottom'; ctx.fillText(ds.fmt ? ds.fmt(v) : v, el.x, el.y - 8); } });
     });
     ctx.restore();
   },
@@ -1027,10 +1088,14 @@ function applyFilters(list, defs, f) {
     return true;
   }));
 }
-function filteredClients() {
+function clientsFor(excl) {
   let list = clientsArr();
   if (UI.cq) { const q = norm(UI.cq), qd = UI.cq.replace(/\D/g, ''); list = list.filter(c => norm([c.nome, c.seg, c.con, c.obs].join(' ')).includes(q) || (qd.length >= 3 && String(c.cnpj || '').includes(qd))); }
-  list = applyFilters(list, CF, UI.cf);
+  const f = { ...UI.cf }; if (excl) delete f[excl];
+  return applyFilters(list, CF, f);
+}
+function filteredClients() {
+  const list = clientsFor();
   const { k, dir } = UI.cSort; const d = CF.find(x => x.k === k) || CF[0];
   return list.sort((a, b) => { const va = d.g ? d.g(a) : a[k], vb = d.g ? d.g(b) : b[k]; if (va == null || va === '') return 1; if (vb == null || vb === '') return -1; return (typeof va === 'number' ? va - vb : String(va).localeCompare(String(vb), 'pt-BR')) * dir; });
 }
@@ -1147,22 +1212,25 @@ function filterControl(defs, fObj, k, scope) {
   const d = defs.find(x => x.k === k), v = fObj[k];
   if (d.t === 'text') return `<input class="field" data-fscope="${scope}" data-fk="${k}" data-ft="text" placeholder="Contém…" value="${esc(v || '')}">`;
   if (d.t === 'enum') {
-    const src = scope === 'c' ? clientsArr() : [];
+    const src = scope === 'c' ? clientsFor(k) : []; // conta respeitando a busca e os demais filtros (menos o da própria coluna)
     const cnt = o => src.filter(r => (d.g ? d.g(r) : r[k]) === o).length;
-    return d.o().map(o => `<label class="opt"><input type="checkbox" class="chk" data-fscope="${scope}" data-fk="${k}" data-ft="enum" value="${esc(o)}" ${(v || []).includes(o) ? 'checked' : ''}>${TONE[o] ? pill(o) : esc(o)}<span class="n">${cnt(o)}</span></label>`).join('');
+    return d.o().map(o => `<label class="opt"><input type="checkbox" class="chk" data-fscope="${scope}" data-fk="${k}" data-ft="enum" value="${esc(o)}" ${(v || []).includes(o) ? 'checked' : ''}>${TONE[o] ? pill(o) : esc(o)}<span class="n" data-cnt="${k}" data-val="${esc(o)}">${cnt(o)}</span></label>`).join('');
   }
   const it = d.t === 'date' ? 'date' : 'text';
   return `<div class="rng"><input class="field" type="${it}" ${it === 'text' ? 'inputmode="decimal"' : ''} placeholder="Mín." data-fscope="${scope}" data-fk="${k}" data-ft="${d.t}" data-fe="min" value="${esc(v?.min ?? '')}"><input class="field" type="${it}" ${it === 'text' ? 'inputmode="decimal"' : ''} placeholder="Máx." data-fscope="${scope}" data-fk="${k}" data-ft="${d.t}" data-fe="max" value="${esc(v?.max ?? '')}"></div>`;
 }
 document.addEventListener('input', e => { const el = e.target; if (el.dataset.fscope) onFilterInput(el); });
 document.addEventListener('change', e => { const el = e.target; if (el.dataset.fscope && el.type === 'checkbox') onFilterInput(el); });
+function refreshCounts() {
+  ('#pop [data-cnt]').forEach(s => { const k = s.dataset.cnt, d = CF.find(x => x.k === k); if (d) s.textContent = clientsFor(k).filter(r => (d.g ? d.g(r) : r[k]) === s.dataset.val).length; });
+}
 function onFilterInput(el) {
   const f = el.dataset.fscope === 'c' ? UI.cf : null; if (!f) return;
   const k = el.dataset.fk, t = el.dataset.ft;
   if (t === 'text') f[k] = el.value;
   else if (t === 'enum') { const s = new Set(f[k] || []); el.checked ? s.add(el.value) : s.delete(el.value); f[k] = [...s]; }
   else { f[k] = { ...(f[k] || {}) }; f[k][el.dataset.fe] = t === 'num' ? parseNum(el.value) : el.value; }
-  saveUI(); clearTimeout(onFilterInput.t); onFilterInput.t = setTimeout(render, t === 'enum' ? 0 : 200);
+  saveUI(); clearTimeout(onFilterInput.t); onFilterInput.t = setTimeout(() => { render(); refreshCounts(); }, t === 'enum' ? 0 : 200);
 }
 
 /* ═══════════════ TELA 03: INFORMAÇÕES ÚTEIS ═══════════════ */
@@ -1219,6 +1287,7 @@ function viewTime() {
     `<div class="seg">${tabs.map(([k, l, i]) => `<button data-act="ttab" data-v="${k}" class="${UI.timeTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'tarefas' && late ? ` <span class="pill c-red" style="height:18px;padding:0 6px;font-size:11px">${late}</span>` : ''}</button>`).join('')}</div>`);
   return head + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
+{ const _ad = AFTER.dashboard; AFTER.dashboard = function () { _ad.call(this); atnChart(); }; }
 AFTER.time = () => { ooChart(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
 
 /* ── one a one ── */
@@ -1819,6 +1888,8 @@ document.addEventListener('click', async e => {
     case 'ptoday': UI.period = { ...UI.period, mode: 'month', anchor: today() }; saveUI(); return render();
     case 'combo-table': UI.comboTable = !UI.comboTable; saveUI(); return render();
     case 'edit-meta': return metaPop(el);
+    case 'edit-atn': return atnPop(el);
+    case 'atn-table': UI.atnTable = !UI.atnTable; saveUI(); return render();
     // clientes
     case 'cview': UI.cView = v; saveUI(); return render();
     case 'kby': UI.kBy = v; saveUI(); return render();
