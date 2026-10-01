@@ -492,6 +492,10 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .oogrid{display:grid;grid-template-columns:130px repeat(3,1fr);gap:0}
 .oonote{font-size:12px;color:var(--muted);margin:8px 2px 0;line-height:1.5}
 .ootbl select.pill{height:26px}
+.cbrow{display:grid;grid-template-columns:minmax(168px,1.4fr) minmax(70px,1fr) minmax(70px,1fr) 30px;gap:4px 6px;align-items:center;margin-bottom:6px}
+.cbrow .cbnote{grid-column:1/-1;font-size:12px;padding:4px 8px;color:var(--ink-2)}
+.cbhead{font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.cbrow input[type=month]{min-width:0}
 </style>
 </head>
 <body>
@@ -828,8 +832,12 @@ const activeAt = (c, d) => counts(c) && c.di <= d && (!effEnd(c) || effEnd(c) >=
 const activeAtStart = (c, d) => counts(c) && c.di < d && (!effEnd(c) || effEnd(c) >= d);
 const activeIn = (c, s, e) => counts(c) && c.di <= e && (!effEnd(c) || effEnd(c) >= s);
 const endedIn = (c, s, e) => { const x = effEnd(c); return !!x && x >= s && x <= e; };
-const feeAt = (c, d) => (c.desconto && c.valorReal != null && (!c.descontoAte || d <= c.descontoAte)) ? +c.valorReal : +(c.valorCheio || 0);
+// Histórico de cobrança (c.cobr): cada linha vale do mês `de` até a próxima linha. Sem linha para o mês, vale a regra antiga (desconto até uma data).
+const cobrAt = (c, d) => { const m = String(d).slice(0, 7); let r = null; for (const x of c.cobr || []) if (x.de <= m && (!r || x.de >= r.de)) r = x; return r; };
+const feeAt = (c, d) => { const r = cobrAt(c, d); if (r && r.valor != null) return +r.valor; return (c.desconto && c.valorReal != null && (!c.descontoAte || d <= c.descontoAte)) ? +c.valorReal : +(c.valorCheio || 0); };
+const cheioAt = (c, d) => { const r = cobrAt(c, d); return r && r.cheio != null ? +r.cheio : +(c.valorCheio || 0); };
 const feeNow = c => feeAt(c, today());
+const hasDisc = c => cobrAt(c, today()) ? feeNow(c) < cheioAt(c, today()) : !!c.desconto;
 function monthsIter(s, e, fn) { let y = +s.slice(0, 4), m = +s.slice(5, 7); const ey = +e.slice(0, 4), em = +e.slice(5, 7); let g = 0; while ((y < ey || (y === ey && m <= em)) && g++ < 600) { fn(mStart(y, m), mEnd(y, m)); m++; if (m > 12) { m = 1; y++; } } }
 const monthsBetween = (a, b) => Math.max(0, (parseISO(b) - parseISO(a)) / (86400000 * 30.4375));
 
@@ -860,8 +868,8 @@ function metrics(s, e) {
   const cP = churnAvg(s, e), cY = churnAvg(ys, e);
   let real = 0, hip = 0, months = 0;
   const capE = e < t ? e : mEnd(+t.slice(0, 4), +t.slice(5, 7));
-  if (s <= capE) monthsIter(s, capE, (ms, me2) => { months++; cl.forEach(c => { if (activeIn(c, ms, me2)) { real += feeAt(c, ms); hip += +(c.valorCheio || 0); } }); });
-  const mrr = ativos.reduce((a, c) => a + feeAt(c, ref), 0), mrrHip = ativos.reduce((a, c) => a + +(c.valorCheio || 0), 0);
+  if (s <= capE) monthsIter(s, capE, (ms, me2) => { months++; cl.forEach(c => { if (activeIn(c, ms, me2)) { real += feeAt(c, ms); hip += cheioAt(c, ms); } }); });
+  const mrr = ativos.reduce((a, c) => a + feeAt(c, ref), 0), mrrHip = ativos.reduce((a, c) => a + cheioAt(c, ref), 0);
   const ltvSet = cl.filter(c => activeIn(c, s, e) && c.di <= ref);
   let sumM = 0, sumV = 0;
   ltvSet.forEach(c => {
@@ -884,7 +892,8 @@ function comboData(s, e) {
     const enc = cl.filter(ended).length;
     const key = b.s.slice(0, 7);
     const mv = S.settings.metaAtivos?.[key]; const meta = mv != null ? mv : S.settings.metaPadrao ?? null;
-    return { ...b, key, label: `${MSHORT[+b.s.slice(5, 7) - 1]}/${b.s.slice(2, 4)}`, ativos, novos, enc, total: ativos + novos, meta };
+    const pay = b.s <= today() ? cl.filter(c => activeIn(c, b.s, b.e)) : [];
+    return { ...b, key, label: `${MSHORT[+b.s.slice(5, 7) - 1]}/${b.s.slice(2, 4)}`, ativos, novos, enc, total: ativos + novos, meta, fat: b.s <= today() ? pay.reduce((a, c) => a + feeAt(c, b.s), 0) : null, cheio: b.s <= today() ? pay.reduce((a, c) => a + cheioAt(c, b.s), 0) : null };
   });
 }
 
@@ -945,6 +954,42 @@ document.addEventListener('change', e => {
   else { cfg.manual = { ...(cfg.manual || {}) }; if (v == null) delete cfg.manual[el.dataset.atn]; else cfg.manual[el.dataset.atn] = Math.max(0, Math.round(v)); }
   saveSettings();
 });
+/* ═══════════════ HISTÓRICO DE COBRANÇA ═══════════════ */
+const ymOf = d => String(d || today()).slice(0, 7);
+const nextYm = ym => { const y = +ym.slice(0, 4), m = +ym.slice(5, 7); return m === 12 ? `${y + 1}-01` : `${y}-${pad(m + 1)}`; };
+function cobrFromLegacy(c) {
+  const cheio = +(c.valorCheio || 0), start = ymOf(c.di);
+  if (c.desconto && c.valorReal != null) {
+    const arr = [{ de: start, valor: +c.valorReal, cheio, nota: c.regraDesconto || 'Desconto' }];
+    if (c.descontoAte) arr.push({ de: nextYm(ymOf(c.descontoAte)), valor: cheio, cheio, nota: 'Valor cheio' });
+    return arr;
+  }
+  return [{ de: start, valor: cheio, cheio, nota: '' }];
+}
+function cobrBlock(c) {
+  const arr = c.cobr || [], t = today();
+  const end = effEnd(c) && effEnd(c) < t ? effEnd(c) : t;
+  let total = 0; if (c.di && c.di <= end) monthsIter(c.di, end, ms => { total += feeAt(c, ms); });
+  const row = (r, i) => `<div class="cbrow">
+      <input class="in" type="month" id="cb-${i}-de" data-cb="${c.id}|${i}|de" value="${esc(r.de)}" aria-label="A partir do mês">
+      <input class="in num" id="cb-${i}-valor" data-cb="${c.id}|${i}|valor" inputmode="decimal" value="${esc(num(r.valor))}" placeholder="0" aria-label="Valor cobrado">
+      <input class="in num" id="cb-${i}-cheio" data-cb="${c.id}|${i}|cheio" inputmode="decimal" value="${esc(num(r.cheio))}" placeholder="${esc(num(c.valorCheio) || 'cheio')}" aria-label="Valor cheio do plano">
+      <button class="iconbtn danger" data-act="cb-rm" data-id="${c.id}" data-v="${i}" title="Remover linha"><i class="ti ti-trash"></i></button>
+      <input class="in cbnote" id="cb-${i}-nota" data-cb="${c.id}|${i}|nota" value="${esc(r.nota)}" placeholder="Observação (ex.: 1º mês gratuito, mudou para o plano de R$ 999)" aria-label="Observação"></div>`;
+  return `<div class="subsec"><h5>Histórico de cobrança <button class="btn sm" data-act="cb-add" data-id="${c.id}"><i class="ti ti-plus"></i>Adicionar</button></h5>
+    ${arr.length ? `<div class="cbrow cbhead"><span>A partir de</span><span>Cobrado (R$)</span><span>Valor cheio (R$)</span><span></span></div>${arr.map(row).join('')}
+      <div class="note">Cobrança atual: <b>${brl(feeNow(c))}</b>${hasDisc(c) ? ' (com desconto)' : ''} · Já cobrado desde o início: <b>${brl(total)}</b></div>`
+      : `<div style="font-size:12.5px;color:var(--muted);line-height:1.55">Sem histórico: o painel usa o valor cheio (ou o desconto até uma data da ficha). Registre mês a mês o que foi cobrado de fato.<br><br><button class="btn sm primary" data-act="cb-gen" data-id="${c.id}"><i class="ti ti-wand"></i>Montar a partir do cadastro</button></div>`}
+    <div class="note">Cada linha vale do mês indicado até a próxima linha. Exemplo: 1º mês grátis = linha com R$ 0 no mês de início e outra com R$ 1.499 no mês seguinte. Mudança de plano = nova linha com o novo valor cobrado e o novo valor cheio.</div></div>`;
+}
+document.addEventListener('change', e => {
+  const el = e.target; if (el.dataset.cb == null) return;
+  const [id, i, f] = el.dataset.cb.split('|'), c = S.clients[id]; if (!c) return;
+  const arr = (c.cobr || []).map(x => ({ ...x })), r = arr[+i]; if (!r) return;
+  if (f === 'de') r.de = el.value || r.de; else if (f === 'nota') r.nota = el.value.trim();
+  else { const v = parseNum(el.value); if (f === 'valor') r.valor = v == null ? 0 : v; else r.cheio = v; }
+  arr.sort((a, b) => a.de.localeCompare(b.de)); patch('clients', id, { cobr: arr });
+});
 /* ═══════════════ TELA 01: VISÃO GERAL ═══════════════ */
 function viewDashboard() {
   const R = periodRange(), M = metrics(R.s, R.e), p = UI.period;
@@ -961,7 +1006,7 @@ function viewDashboard() {
     `<div class="kpis">
       ${kpi('ti-users', 'green', 'Clientes ativos', M.ativos.length, `<b>+${M.novos.length}</b> novos no período${M.pausados ? ` · ${M.pausados} pausados (fora da conta)` : ''}`)}
       ${kpi('ti-door-exit', 'orange', 'Encerrados', M.enc.length, M.enc.length ? esc(M.enc.slice(0, 3).map(c => c.nome).join(', ')) + (M.enc.length > 3 ? '…' : '') : 'Nenhum encerramento no período')}
-      ${kpi('ti-cash', 'blue', 'Total dos planos', `${brl(M.real)}`, `Sem descontos: <b>${brl(M.hip)}</b><div class="meter" title="Valor real sobre valor sem desconto"><i style="width:${M.hip ? Math.min(100, M.real / M.hip * 100) : 0}%"></i></div>${M.months > 1 ? `${M.months} meses · ` : ''}desconto de ${pct(disc)} · MRR ${brl(M.mrr)}`, 'wide')}
+      ${kpi('ti-cash', 'blue', 'Faturamento dos planos', `${brl(M.real)}`, `Sem descontos: <b>${brl(M.hip)}</b><div class="meter" title="Valor real sobre valor sem desconto"><i style="width:${M.hip ? Math.min(100, M.real / M.hip * 100) : 0}%"></i></div>${M.months > 1 ? `${M.months} meses · ` : ''}desconto de ${pct(disc)} · MRR ${brl(M.mrr)}`, 'wide')}
       <div class="card kpi" title="Churn é sempre a média do churn mensal, nunca a soma"><div class="k c-red"><i class="ti ti-trending-down"></i>Churn</div><div class="twin"><div><div class="v">${pct(M.churnP)}</div><div class="lab">${M.churnPN > 1 ? `média de ${M.churnPN} meses` : 'no período'}</div></div><div><div class="v" style="color:var(--ink-2)">${pct(M.churnY)}</div><div class="lab">média mensal ${R.e.slice(0, 4)}</div></div></div><div class="s">${M.enc.length} encerrados no período · ${M.encY} no ano · ano = média de ${M.churnMesesN} ${M.churnMesesN === 1 ? 'mês' : 'meses'}</div></div>
       ${kpi('ti-hourglass', 'violet', 'LTV médio', brl(M.ltvV), `<b>${NUMF.format(Math.round(M.ltvM * 10) / 10)} meses</b> em média · ${M.ltvN} contratos`)}
     </div>
@@ -976,11 +1021,11 @@ function viewDashboard() {
     <div class="grid2">
       ${['tag:Clientes por tag', 'con:Clientes por consultor', 'fase:Clientes por fase', 'seg:Clientes por segmento'].map(x => { const [k, l] = x.split(':'); const n = distEntries(M.ativos, k).length; return `<div class="card"><div class="card-h"><h3>${l}</h3><span class="hint">ativos · clique para filtrar</span></div><div class="card-b"><div class="chartbox" style="height:${Math.max(n, 1) * 36 + 28}px"><canvas id="ch-${k}"></canvas></div></div></div>`; }).join('')}
     </div>
-    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn nunca é somado: churn do mês = encerrados no mês ÷ ativos no início do mês; o do período é a média dos meses do período e o acumulado é a média de janeiro até o fim do período. Total dos planos soma mês a mês, até o mês atual.</p>`;
+    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn nunca é somado: churn do mês = encerrados no mês ÷ ativos no início do mês; o do período é a média dos meses do período e o acumulado é a média de janeiro até o fim do período. O faturamento soma, mês a mês até o mês atual, o que foi realmente cobrado de cada cliente (histórico de cobrança na ficha do cliente); “sem descontos” usa o valor cheio de cada mês.</p>`;
 }
 function comboTable(R) {
   const d = comboData(R.s, R.e);
-  return `<table class="dtable"><thead><tr><th>Mês</th><th>Ativos</th><th>Novos</th><th>Encerrados</th><th>Total ativos</th><th>Meta</th></tr></thead><tbody>${d.map(b => `<tr style="${b.sel ? '' : 'opacity:.55'}"><td>${b.label}</td><td>${b.ativos}</td><td>${b.novos}</td><td>${b.enc}</td><td><b>${b.total}</b></td><td>${b.meta ?? '—'}</td></tr>`).join('')}</tbody></table>`;
+  return `<table class="dtable"><thead><tr><th>Mês</th><th>Ativos</th><th>Novos</th><th>Encerrados</th><th>Total ativos</th><th>Meta</th><th>Faturamento</th><th>Sem descontos</th></tr></thead><tbody>${d.map(b => `<tr style="${b.sel ? '' : 'opacity:.55'}"><td>${b.label}</td><td>${b.ativos}</td><td>${b.novos}</td><td>${b.enc}</td><td><b>${b.total}</b></td><td>${b.meta ?? '—'}</td><td><b>${b.fat == null ? '—' : brl(b.fat)}</b></td><td>${b.cheio == null ? '—' : brl(b.cheio)}</td></tr>`).join('')}</tbody></table>`;
 }
 function distEntries(list, k) {
   const m = {}; list.forEach(c => { const v = c[k] || 'Sem ' + ({ tag: 'tag', con: 'consultor', fase: 'fase', seg: 'segmento' }[k]); m[v] = (m[v] || 0) + 1; });
@@ -1065,7 +1110,7 @@ const CF = [
   { k: 'fat', l: 'Faturamento', t: 'num' },
   { k: 'plano', l: 'Plano', t: 'enum', o: planNames },
   { k: 'valor', l: 'Valor', t: 'num', g: c => feeNow(c) },
-  { k: 'desconto', l: 'Desconto', t: 'enum', o: () => ['Sim', 'Não'], g: c => c.desconto ? 'Sim' : 'Não' },
+  { k: 'desconto', l: 'Desconto', t: 'enum', o: () => ['Sim', 'Não'], g: c => hasDisc(c) ? 'Sim' : 'Não' },
   { k: 'con', l: 'Consultor', t: 'enum', o: () => CONSULTORES },
   { k: 'st', l: 'Status', t: 'enum', o: () => STATUS },
   { k: 'fase', l: 'Fase', t: 'enum', o: () => FASES },
@@ -1143,7 +1188,7 @@ function clientTable(list) {
       <td style="min-width:120px"><input class="in num" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="—"></td>
       <td><select class="in" data-bind="${b('plano')}" style="min-width:120px">${opts(planNames(), c.plano, c.plano ? null : '—')}</select></td>
       <td style="min-width:110px"><input class="in num" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" title="Valor cheio (sem desconto)"></td>
-      <td style="min-width:${c.desconto ? 400 : 70}px"><div class="cellrow"><label class="sw" title="Tem desconto?"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span></label>${c.desconto ? `<input class="in num" style="width:90px" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="Valor real" title="Valor real cobrado"><input class="in" style="width:250px" data-bind="${b('regraDesconto')}" title="${esc(c.regraDesconto)}" value="${esc(c.regraDesconto)}" placeholder="Regra do desconto">` : ''}</div></td>
+      <td style="min-width:${c.cobr?.length ? 150 : c.desconto ? 400 : 70}px">${c.cobr?.length ? `<button class="obsbtn" data-act="open-client" data-id="${c.id}" title="Abrir histórico de cobrança">${hasDisc(c) ? '<span class="pill c-orange">Com desconto</span> ' : ''}${c.cobr.length} período${c.cobr.length > 1 ? 's' : ''}</button>` : ''}<div class="cellrow"${c.cobr?.length ? ' hidden' : ''}><label class="sw" title="Tem desconto?"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span></label>${c.desconto ? `<input class="in num" style="width:90px" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="Valor real" title="Valor real cobrado"><input class="in" style="width:250px" data-bind="${b('regraDesconto')}" title="${esc(c.regraDesconto)}" value="${esc(c.regraDesconto)}" placeholder="Regra do desconto">` : ''}</div></td>
       <td>${pillSelect(b('con'), CONSULTORES, c.con)}</td>
       <td>${pillSelect(b('st'), STATUS, c.st)}</td>
       <td>${pillSelect(b('fase'), FASES, c.fase)}</td>
@@ -1164,7 +1209,7 @@ function clientCards(list) {
   return `<div class="mlist">${list.map(c => `<div class="card mcard" data-act="open-client" data-id="${c.id}">
     <div class="t"><span>${esc(c.nome)}</span>${pill(c.st)}</div>
     <div class="meta">${pill(c.fase)}${pill(c.tag)}</div>
-    <div class="meta">${avatar(c.con)}<span>${esc(c.con || 'Sem consultor')}</span><span style="margin-left:auto;font-weight:600;color:var(--ink-2)">${brl(feeNow(c))}${c.desconto ? ' <i class="ti ti-discount" title="Com desconto"></i>' : ''}</span></div>
+    <div class="meta">${avatar(c.con)}<span>${esc(c.con || 'Sem consultor')}</span><span style="margin-left:auto;font-weight:600;color:var(--ink-2)">${brl(feeNow(c))}${hasDisc(c) ? ' <i class="ti ti-discount" title="Com desconto"></i>' : ''}</span></div>
   </div>`).join('')}</div>`;
 }
 function clientKanban(list) {
@@ -1652,8 +1697,8 @@ const DRAWERS = {
         <label>Faturamento médio</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="R$">
         <label>Plano</label><select class="in" data-bind="${b('plano')}">${opts(planNames(), c.plano, c.plano ? null : 'Selecionar…')}</select>
         <label>Valor cheio</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" placeholder="R$ sem desconto">
-        <label>Desconto</label><label class="sw" style="padding:6px 8px"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span>${c.desconto ? 'Sim' : 'Não'}</label>
-        ${c.desconto ? `<label>Valor real</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="R$ cobrado de fato">
+        ${c.cobr?.length ? '' : `<label>Desconto</label><label class="sw" style="padding:6px 8px"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span>${c.desconto ? 'Sim' : 'Não'}</label>`}
+        ${c.desconto && !c.cobr?.length ? `<label>Valor real</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="R$ cobrado de fato">
         <label>Regra</label><input class="in" data-bind="${b('regraDesconto')}" value="${esc(c.regraDesconto)}" placeholder="Ex.: desconto nos 3 primeiros meses">
         <label>Desconto até</label><input type="date" class="in" data-type="date" data-bind="${b('descontoAte')}" value="${esc(c.descontoAte)}" title="Depois desta data o painel usa o valor cheio">` : ''}
         <label>Data de início</label><input type="date" class="in" data-type="date" data-bind="${b('di')}" value="${esc(c.di)}">
@@ -1661,6 +1706,7 @@ const DRAWERS = {
         ${c.st === 'Encerrado' ? `<div class="blk"><label>Motivo do encerramento</label><textarea class="in field" style="min-height:70px" data-live data-bind="${b('motivo')}" placeholder="Por que o cliente encerrou?">${esc(c.motivo)}</textarea></div>` : ''}
         <div class="blk"><label>Observações gerais</label><textarea class="in field" style="min-height:140px" data-live data-bind="${b('obs')}" placeholder="Anotações livres sobre o cliente…">${esc(c.obs)}</textarea></div>
       </div>
+      ${cobrBlock(c)}
       <div class="subsec"><h5>Tarefas deste cliente <button class="btn sm" data-act="new" data-v="tarefa" data-cli="${esc(c.nome)}"><i class="ti ti-plus"></i>Tarefa</button></h5>
         ${tasks.length ? tasks.map(t => `<div class="minitask"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${tStatus(t) === 'Concluído' ? 'checked' : ''}><span class="grow">${esc(t.titulo)}</span>${tStatus(t) === 'Atrasado' ? pill('Atrasado') : t.prazo ? `<span style="font-size:12px;color:var(--muted)">${fmtDs(t.prazo)}</span>` : ''}</div>`).join('') : '<div style="font-size:12.5px;color:var(--muted)">Nenhuma tarefa vinculada.</div>'}
       </div>
@@ -1889,6 +1935,10 @@ document.addEventListener('click', async e => {
     case 'combo-table': UI.comboTable = !UI.comboTable; saveUI(); return render();
     case 'edit-meta': return metaPop(el);
     case 'edit-atn': return atnPop(el);
+    case 'cb-gen': { const cl = S.clients[id]; if (cl) patch('clients', id, { cobr: cobrFromLegacy(cl) }); return; }
+    case 'cb-add': { const cl = S.clients[id]; if (!cl) return; const arr = [...(cl.cobr || [])], last = arr[arr.length - 1];
+      arr.push({ de: last ? nextYm(last.de) : ymOf(cl.di), valor: last ? last.valor : +(cl.valorCheio || 0), cheio: last ? last.cheio : (cl.valorCheio ?? null), nota: '' }); patch('clients', id, { cobr: arr }); return; }
+    case 'cb-rm': { const cl = S.clients[id]; if (!cl) return; const arr = (cl.cobr || []).filter((_, i) => i !== +v); patch('clients', id, { cobr: arr.length ? arr : null }); return; }
     case 'atn-table': UI.atnTable = !UI.atnTable; saveUI(); return render();
     // clientes
     case 'cview': UI.cView = v; saveUI(); return render();
@@ -2015,6 +2065,18 @@ async function importXlsx(file) {
       });
     });
     out.clients.forEach(c => { if (c.valorCheio == null) { const p = st.planos.find(x => x.nome === c.plano); if (p) c.valorCheio = p.valor; } });
+    const cobRows = sheetRows(wb, 'Cobrança');
+    if (cobRows && cobRows.length) {
+      const grp = {};
+      cobRows.forEach(r => {
+        const ref = xStr(pick(r, 'id do cliente')), nm = xStr(pick(r, 'cliente'));
+        const cl = out.clients.find(x => x.id === ref) || Object.values(S.clients).find(x => x.id === ref) || out.clients.find(x => norm(x.nome) === norm(nm)) || clientsArr().find(x => norm(x.nome) === norm(nm));
+        const s = xStr(pick(r, 'a partir de')); let m = s.match(/^(\d{1,2})\/(\d{4})$/), de = m ? `${m[2]}-${pad(+m[1])}` : (xDate(pick(r, 'a partir de')) || '').slice(0, 7);
+        if (!cl || !de) return;
+        (grp[cl.id] ||= { cl, list: [] }).list.push({ de, valor: parseNum(pick(r, 'valor cobrado')) ?? 0, cheio: parseNum(pick(r, 'valor cheio')), nota: xStr(pick(r, 'observacao')) });
+      });
+      Object.values(grp).forEach(({ cl, list }) => { list.sort((a, b) => a.de.localeCompare(b.de)); const tgt = out.clients.find(x => x.id === cl.id); if (tgt) tgt.cobr = list; else out.clients.push({ ...cl, cobr: list }); });
+    }
     const metaRows = sheetRows(wb, 'Meta Clientes Ativos');
     if (metaRows) metaRows.forEach(r => { const mv = pick(r, 'mes'); const val = parseNum(pick(r, 'meta')); let key = null; const s = xStr(mv); let m = s.match(/^(\d{1,2})\/(\d{4})$/); if (m) key = `${m[2]}-${pad(+m[1])}`; else { const d = xDate(mv); if (d) key = d.slice(0, 7); } if (!key) return; st.metaAtivos = st.metaAtivos || {}; if (val == null) delete st.metaAtivos[key]; else st.metaAtivos[key] = val; });
     (sheetRows(wb, 'Metas do Time') || []).forEach(r => {
@@ -2054,6 +2116,7 @@ async function exportXlsx() {
     const add = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows.length ? rows : [{}]), name);
     add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
     add('Planos', S.settings.planos.map(p => ({ Plano: p.nome, 'Valor cheio (R$)': p.valor })));
+    add('Cobrança', clientsArr().flatMap(c => (c.cobr || []).map(r => ({ 'ID do cliente': c.id, Cliente: c.nome, 'A partir de (mm/aaaa)': `${r.de.slice(5, 7)}/${r.de.slice(0, 4)}`, 'Valor cobrado (R$)': r.valor, 'Valor cheio (R$)': r.cheio, 'Observação': r.nota }))));
     const mk = Object.keys(S.settings.metaAtivos || {}).sort();
     add('Meta Clientes Ativos', mk.map(k => ({ 'Mês (mm/aaaa)': `${k.slice(5, 7)}/${k.slice(0, 4)}`, 'Meta de clientes ativos': S.settings.metaAtivos[k] })));
     add('Metas do Time', Object.values(S.goals).map(g => ({ ID: g.id, 'Título': g.titulo, Tipo: g.tipo, 'Valor atual': g.atual, Meta: g.meta, Unidade: g.unidade, 'Menor é melhor?': g.inverso ? 'Sim' : 'Não', Prazo: fmtD(g.prazo), 'Responsável': g.resp, 'Observações': g.obs })));
