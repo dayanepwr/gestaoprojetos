@@ -1357,7 +1357,7 @@ function ooWho() {
 const ooIsAdmin = () => ooWho() === OO_ADMIN;
 function ooVisible() { const w = ooWho(); if (!w) return []; return w === OO_ADMIN ? OO_PEOPLE : OO_PEOPLE.filter(p => p.id === w || p.lider === w); }
 const ooCanSelf = p => ooIsAdmin() || ooWho() === p;
-const ooCanLeader = () => ooIsAdmin();
+const ooCanLeader = p => ooIsAdmin() || (!!ooWho() && ooPerson(p)?.lider === ooWho());
 const ooPerson = id => OO_PEOPLE.find(p => p.id === id);
 const ooRec = (p, ym, s) => S.oneone[`${p}_${ym}_${s}`];
 const ooNota = (p, ym, s, k) => { const v = ooRec(p, ym, s)?.notas?.[k]; return v == null ? null : +v; };
@@ -1384,7 +1384,7 @@ function ooSummary(p, ym) {
   return { rows, all: agg(() => true), cult: agg(r => r.tipo === 'Cultura'), tec: agg(r => r.tipo === 'Técnica'), pil: Object.fromEntries(OO_PIL.map(pl => [pl.id, agg(r => r.pilar === pl.id)])), fillC: rows.filter(r => r.c != null).length, fillL: rows.filter(r => r.l != null).length };
 }
 function ooSet(p, ym, side, ch) {
-  if (side === 'c' ? !ooCanSelf(p) : !ooCanLeader()) return toast('Você não tem permissão para editar este campo.');
+  if (side === 'c' ? !ooCanSelf(p) : !ooCanLeader(p)) return toast('Você não tem permissão para editar este campo.');
   const id = `${p}_${ym}_${side}`, cur = S.oneone[id] || { id, pessoa: p, mes: ym, lado: side, notas: {}, com: '' };
   put('oneone', { ...cur, ...ch });
 }
@@ -1405,8 +1405,9 @@ function viewOneOne() {
 function ooAval(p, ym, admin) {
   const P = ooPerson(p), cargo = ooCargo(p), exp = cargo?.exp ?? 4, W = ooWho();
   const Sm = ooSummary(p, ym), prev = ooSummary(p, ooShiftYm(ym, -1));
-  const canC = ooCanSelf(p), canL = ooCanLeader();
-  const perm = admin ? 'Você edita todas as notas e comentários.' : W === p ? 'Você edita a sua autoavaliação e o seu comentário. As notas do líder são preenchidas pela Dayane.' : 'Visualização somente leitura.';
+  const canC = ooCanSelf(p), canL = ooCanLeader(p);
+  const ldr = P.lider ? ooPerson(P.lider).nome.split(' ')[0] : 'líder';
+  const perm = admin ? 'Você edita todas as notas e comentários.' : W === p ? `Você edita a sua autoavaliação e o seu comentário. As notas do líder são preenchidas por ${ldr}.` : canL ? 'Você é o líder: edita a nota e o comentário de líder. A autoavaliação é só do colaborador.' : 'Visualização somente leitura.';
   const hero = `<div class="card oohero">${avatar(P.nome, true)}<div><div class="nm">${esc(P.nome)}</div>
     <div class="meta">${cargo ? pill(cargo.nome).replace('c-gray', 'c-navy') : '<span class="pill c-amber">Cargo não definido</span>'}${P.lider ? `<span>Líder: ${esc(ooPerson(P.lider).nome.split(' ')[0])}</span>` : ''}<span>Colaborador ${Sm.fillC}/${OO_SK.length} · Líder ${Sm.fillL}/${OO_SK.length}</span></div></div>
     <div class="perm"><i class="ti ${canC || canL ? 'ti-pencil' : 'ti-eye'}"></i><span>${perm}</span></div></div>`;
@@ -1465,7 +1466,7 @@ function ooCargos(admin) {
       <td class="sk sticky"><span class="cellrow">${avatar(p.nome)}${esc(p.nome)}</span></td><td style="white-space:normal;color:var(--ink-2)">${esc(who(p))}</td>
       <td><select class="in" style="min-width:170px" data-oo-pc="${p.id}">${opts(o.cargos.map(c => [c.id, c.nome]), o.pessoaCargo?.[p.id] || '', 'Sem cargo')}</select></td>
       <td><input class="in" style="min-width:240px" type="email" data-oo-em="${p.id}" value="${esc(o.emails?.[p.id] || '')}" placeholder="reconhecido pelo nome no e-mail"></td></tr>`).join('')}</tbody></table></div>
-    <div class="card-b"><div class="oonote">O painel reconhece cada pessoa pelo nome no e-mail de login (ex.: samuel@…). Se algum e-mail não tiver o nome, informe-o acima. Edição: cada pessoa altera a própria autoavaliação e o próprio comentário; notas e comentário do líder são da Dayane.</div></div></div>`;
+    <div class="card-b"><div class="oonote">O painel reconhece cada pessoa pelo nome no e-mail de login (ex.: samuel@…). Se algum e-mail não tiver o nome, informe-o acima. Edição: cada pessoa altera a própria autoavaliação e o próprio comentário; a nota e o comentário de líder são editados pelo líder direto (Andrade para o Samuel) e pela Dayane, que edita tudo.</div></div></div>`;
   return matrix + people;
 }
 
