@@ -495,6 +495,15 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .cbrow{display:grid;grid-template-columns:minmax(168px,1.4fr) minmax(70px,1fr) minmax(70px,1fr) 30px;gap:4px 6px;align-items:center;margin-bottom:6px}
 .cbrow .cbnote{grid-column:1/-1;font-size:12px;padding:4px 8px;color:var(--ink-2)}
 .cbhead{font-size:11.5px;color:var(--muted);margin-bottom:2px}
+.ttbl td{vertical-align:top;padding:4px}
+.ttbl td .in,.ttbl td select.in{width:100%}
+.ttbl .cellrow{align-items:flex-start;padding-top:2px}
+.ttbl td .cellrow .av{margin-top:4px}
+.ttbl th{position:sticky;overflow:hidden;text-overflow:ellipsis}
+textarea.tarea{resize:none;min-height:34px;overflow:hidden;display:block;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+.rz{position:absolute;right:0;top:0;bottom:0;width:10px;cursor:col-resize;touch-action:none;z-index:4}
+.rz::after{content:"";position:absolute;right:4px;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--line-2);transition:background .12s}
+.rz:hover::after{background:var(--focus)}
 .cbrow input[type=month]{min-width:0}
 </style>
 </head>
@@ -680,7 +689,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  atnTable: false, week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  atnTable: false, tcw: {}, week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -1333,7 +1342,7 @@ function viewTime() {
   return head + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
 { const _ad = AFTER.dashboard; AFTER.dashboard = function () { _ad.call(this); atnChart(); }; }
-AFTER.time = () => { ooChart(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
+AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
 
 /* ── one a one ── */
 // Visibilidade e edição são controladas aqui, na tela. Dayane vê e edita tudo; cada pessoa edita a própria
@@ -1631,13 +1640,14 @@ function taskRow(t) {
   const st = tStatus(t), b = f => `tasks|${t.id}|${f}`;
   return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''}">
     <td class="sticky" style="width:40px;text-align:center"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir"></td>
-    <td style="min-width:260px"><input class="in strong" data-bind="${b('titulo')}" value="${esc(t.titulo)}" placeholder="Título da tarefa"></td>
-    <td style="min-width:230px"><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—"></td>
-    <td style="min-width:210px"><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
+    <td><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea></td>
+    <td><textarea class="in tarea" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea></td>
+    <td><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—"></td>
+    <td><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
     <td><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"></td>
     <td><div class="cellrow">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
     <td><div class="cellrow">${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}<select class="in" data-bind="${b('recorrencia')}" style="min-width:96px">${opts(RECOR, t.recorrencia || 'Não')}</select></div></td>
-    <td><button class="iconbtn ${t.desc ? 'on' : ''}" data-act="open-task" data-id="${t.id}" title="${t.desc ? 'Ver descrição' : 'Adicionar descrição'}"><i class="ti ti-notes"></i></button></td>
+    <td><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button></td>
     <td><button class="iconbtn danger" data-act="del" data-col="tasks" data-id="${t.id}" aria-label="Excluir"><i class="ti ti-trash"></i></button></td>
   </tr>`;
 }
@@ -1645,15 +1655,38 @@ function taskCard(t) {
   const st = tStatus(t);
   return `<div class="card mcard" data-act="open-task" data-id="${t.id}" style="${st === 'Atrasado' ? 'border-left:3px solid var(--danger)' : ''}">
     <div class="t" style="justify-content:flex-start"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir"><span style="flex:1;${st === 'Concluído' ? 'text-decoration:line-through;color:var(--muted)' : ''}">${esc(t.titulo)}</span>${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}</div>
+    ${t.desc ? `<p class="clamp" style="-webkit-line-clamp:6">${esc(t.desc)}</p>` : ''}
     <div class="meta">${pill(st)}${t.prazo ? `<span style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"><i class="ti ti-calendar"></i> ${fmtD(t.prazo)}</span>` : ''}${t.cliente ? `<span>· ${esc(t.cliente)}</span>` : ''}<span style="margin-left:auto">${avatar(t.resp)}</span></div>
   </div>`;
 }
+// colunas da tabela de tarefas: [chave, título, largura padrão]; a largura é ajustável arrastando a borda do cabeçalho
+const TCOLS = [['chk', '', 44], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 150], ['rec', 'Recorrência', 120], ['open', '', 44], ['del', '', 44]];
+const TCOLS_MIN = 40;
+function autosize(root = document) { $$('textarea.tarea', root).forEach(a => { a.style.height = 'auto'; a.style.height = a.scrollHeight + 2 + 'px'; }); }
+document.addEventListener('input', e => { if (e.target.matches?.('textarea.tarea')) autosize(e.target.parentElement); });
+document.addEventListener('pointerdown', e => {
+  const h = e.target.closest?.('.rz'); if (!h) return;
+  e.preventDefault(); e.stopPropagation();
+  const k = h.dataset.rz, col = $(`col[data-col="${k}"]`), tbl = col?.closest('table'); if (!col) return;
+  const x0 = e.clientX, w0 = col.getBoundingClientRect().width, t0 = tbl.getBoundingClientRect().width;
+  h.setPointerCapture?.(e.pointerId); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none';
+  const mv = ev => { const w = Math.max(TCOLS_MIN, Math.round(w0 + ev.clientX - x0)); col.style.width = w + 'px'; tbl.style.width = Math.round(t0 - w0 + w) + 'px'; };
+  const up = () => {
+    h.removeEventListener('pointermove', mv); h.removeEventListener('pointerup', up); h.removeEventListener('pointercancel', up);
+    document.body.style.cursor = ''; document.body.style.userSelect = '';
+    UI.tcw = { ...(UI.tcw || {}), [k]: Math.round(col.getBoundingClientRect().width) }; saveUI(); autosize(tbl);
+  };
+  h.addEventListener('pointermove', mv); h.addEventListener('pointerup', up); h.addEventListener('pointercancel', up);
+});
+document.addEventListener('dblclick', e => { const h = e.target.closest?.('.rz'); if (!h) return; const k = h.dataset.rz; if (UI.tcw) { delete UI.tcw[k]; saveUI(); render(); } });
 function taskTable(list) {
   const groups = groupTasks(list);
   if (!list.length) return `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhuma tarefa com esses filtros.</div>`;
   if (isMobile()) return groups.map(([g, items]) => `${g ? `<div class="gtitle" data-act="tgroup-toggle" data-v="${esc(g)}" style="cursor:pointer">${TONE[g] ? pill(g) : `<b>${esc(g)}</b>`}<span class="n">${items.length}</span><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}" style="color:var(--muted)"></i></div>` : ''}${UI.tCollapsed[g] ? '' : `<div class="mlist">${items.map(taskCard).join('')}</div>`}`).join('');
-  return `<div class="card tblwrap" data-sk="ttbl"><table class="tbl"><thead><tr><th class="sticky"></th><th>Tarefa</th><th>Cliente</th><th>Responsável</th><th>Prazo</th><th>Status</th><th>Recorrência</th><th></th><th></th></tr></thead><tbody>
-    ${groups.map(([g, items]) => `${g ? `<tr class="grp" data-act="tgroup-toggle" data-v="${esc(g)}"><td colspan="9"><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}"></i> ${TONE[g] ? pill(g) : esc(g)}<span class="n">${items.length}</span></td></tr>` : ''}${UI.tCollapsed[g] ? '' : items.map(taskRow).join('')}`).join('')}
+  const W = k => Math.max(TCOLS_MIN, +(UI.tcw?.[k]) || TCOLS.find(x => x[0] === k)[2]), total = TCOLS.reduce((a, x) => a + W(x[0]), 0);
+  const th = ([k, l]) => `<th${k === 'chk' ? ' class="sticky"' : ''}>${l}${l ? `<span class="rz" data-rz="${k}" title="Arraste para ajustar a largura"></span>` : ''}</th>`;
+  return `<div class="card tblwrap" data-sk="ttbl"><table class="tbl ttbl" style="table-layout:fixed;width:${total}px"><colgroup>${TCOLS.map(([k]) => `<col data-col="${k}" style="width:${W(k)}px">`).join('')}</colgroup><thead><tr>${TCOLS.map(th).join('')}</tr></thead><tbody>
+    ${groups.map(([g, items]) => `${g ? `<tr class="grp" data-act="tgroup-toggle" data-v="${esc(g)}"><td colspan="${TCOLS.length}"><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}"></i> ${TONE[g] ? pill(g) : esc(g)}<span class="n">${items.length}</span></td></tr>` : ''}${UI.tCollapsed[g] ? '' : items.map(taskRow).join('')}`).join('')}
   </tbody></table></div>`;
 }
 function taskKanban(list) {
@@ -1896,7 +1929,7 @@ const liveSave = debounce(el => { if (document.body.contains(el)) commit(el); },
 document.addEventListener('input', e => { if (e.target.hasAttribute('data-live')) liveSave(e.target); });
 document.addEventListener('keydown', e => {
   const t = e.target;
-  if (e.key === 'Enter' && t.matches('input.in')) { e.preventDefault(); t.blur(); }
+  if (e.key === 'Enter' && (t.matches('input.in') || (t.matches('textarea[data-enter-blur]') && !e.shiftKey))) { e.preventDefault(); t.blur(); }
   if (e.key === 'Enter' && t.dataset.setadd) { e.preventDefault(); const v = t.value.trim(); if (v) { const k = t.dataset.setadd; S.settings[k] = [...new Set([...(S.settings[k] || []), v])]; t.value = ''; saveSettings(); setTimeout(() => $(`[data-setadd="${k}"]`)?.focus(), 20); } }
   if (e.key === 'Escape') { if (!$('#modal').hidden) closeModal(); else if (!$('#pop').hidden) closePop(); else if (UI.drawer) closeDrawer(); }
   if ((e.key === 'n' || e.key === 'N') && !e.ctrlKey && !e.metaKey && !['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName) && $('#modal').hidden && booted) { e.preventDefault(); fabMenu($('.fab')); }
