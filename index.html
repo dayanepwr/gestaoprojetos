@@ -529,6 +529,35 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .mkc ul li::marker{color:var(--accent)}
 .mkc .src{font-size:11.5px;color:var(--muted);margin-top:8px}
 .soon{text-align:center;padding:50px 20px;color:var(--muted)}
+.mkhero{padding:18px 20px;margin-bottom:16px}
+.mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
+.mkstat b{font-size:15px;color:var(--ink)}
+.mktiles{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:10px}
+@media (max-width:1100px){.mktiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:620px){.mktiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mkt{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface-2);text-align:left;transition:border-color .12s,background .12s}
+.mkt .ti{font-size:18px;color:var(--p-fg,var(--ink-2))}
+.mkt b{font-size:22px;font-weight:700;line-height:1.1}
+.mkt span{font-size:11.5px;color:var(--muted);line-height:1.25}
+.mkt:hover{border-color:var(--line-2)}
+.mkt.on{border-color:var(--p-fg,var(--ink));background:var(--p-bg,var(--surface-3))}
+.mk{grid-template-columns:46px minmax(0,1fr);gap:0 8px}
+.mk .rail::before{width:3px;background:var(--line);border-radius:3px}
+.mk .dot{width:34px;height:34px;margin-top:10px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;box-shadow:0 0 0 5px var(--accent-soft)}
+.mkc .mh{gap:10px}
+.mkn{font-weight:700;font-size:14.5px;display:inline-flex;align-items:center;gap:4px}
+.mkr{font-size:12px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 10px}
+.mkcnt{font-size:12px;color:var(--muted)}
+.mkl{display:flex;flex-direction:column;gap:8px}
+.mki{display:flex;gap:11px;align-items:flex-start;padding:9px 11px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)}
+.mki .ico{width:30px;height:30px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;flex:none;background:var(--p-bg);color:var(--p-fg);font-size:17px}
+.mki .tx{font-size:13.5px;line-height:1.5;min-width:0;display:flex;flex-direction:column}
+.mki .cat{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--p-fg)}
+.mki q{font-style:italic;quotes:"“" "”"}
+.mie{display:grid;grid-template-columns:170px minmax(0,1fr) 30px;gap:8px;align-items:start}
+@media (max-width:620px){.mie{grid-template-columns:1fr 30px}.mie>div{grid-column:1/-1}}
+.mie .mi-c{font-size:12px;font-weight:600;border:1px solid var(--line);background:var(--p-bg);color:var(--p-fg)}
+.mie textarea.tarea{border-color:var(--line)}
 .soon .ti{font-size:40px;display:block;margin:0 auto 10px;color:var(--line-2)}
 @media (max-width:520px){.fases{grid-template-columns:1fr}}
 .ttbl td{vertical-align:top;padding:4px}
@@ -726,7 +755,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  atnTable: false, tcw: {}, cTab: 'geral', mkEdit: {}, week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  atnTable: false, tcw: {}, cTab: 'geral', mkEdit: {}, mkCat: '', week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -1278,7 +1307,7 @@ function clientKanban(list) {
       </div>`).join('')}</div></div>`;
   }).join('')}</div>`;
 }
-AFTER.cliente = () => { const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
+AFTER.cliente = () => { autosize(); const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
 AFTER.clientes = () => {
   const q = $('#cq'); if (q) q.oninput = debounce(() => { UI.cq = q.value; saveUI(); render(); }, 150);
   initKanban();
@@ -1828,30 +1857,65 @@ function clientGeral(c, b, icp) {
       ${tasks.length ? tasks.map(t => `<div class="minitask"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${tStatus(t) === 'Concluído' ? 'checked' : ''}><span class="grow">${esc(t.titulo)}</span>${tStatus(t) === 'Atrasado' ? pill('Atrasado') : t.prazo ? `<span style="font-size:12px;color:var(--muted)">${fmtDs(t.prazo)}</span>` : ''}<button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button></div>`).join('') : '<div style="font-size:12.5px;color:var(--muted)">Nenhuma tarefa vinculada.</div>'}
     </div></div></div>`;
 }
+/* ── resultados alcançados: categorias, linha do tempo, edição ── */
+const MK_CATS = {
+  reducao: { l: 'Reduções', one: 'Redução', icon: 'ti-trending-down', tone: 'green' },
+  meta: { l: 'Metas batidas', one: 'Meta batida', icon: 'ti-target-arrow', tone: 'blue' },
+  indicador: { l: 'Indicadores', one: 'Melhoria de indicador', icon: 'ti-chart-line', tone: 'violet' },
+  divida: { l: 'Dívidas e contas', one: 'Dívidas e contas', icon: 'ti-receipt-2', tone: 'orange' },
+  cliente: { l: 'Falas do cliente', one: 'Fala do cliente', icon: 'ti-message-circle-2', tone: 'teal' },
+  estrutura: { l: 'Estrutura e controle', one: 'Estrutura e controle', icon: 'ti-checklist', tone: 'indigo' },
+};
+function guessCat(t) {
+  const s = norm(t);
+  if (/(meta|orcad|ponto de equilibrio)/.test(s) && /(superou|cumpriu|acima d|atingi|bateu|dentro do orcado|abaixo do orcado|supera|zerad)/.test(s)) return 'meta';
+  if (/(emprestimo|divida|endividamento|pronampe|quita|a pagar|em atraso|prioridade de pagamento|devolv)/.test(s)) return 'divida';
+  if (/(reduz|reducao|caiu|queda|economia|diminu|menor|corte)/.test(s)) return 'reducao';
+  if (/(faturamento|ebitda|margem|ocupacao|utilizacao|caixa|recorde|conversao|lucro|csp)/.test(s)) return 'indicador';
+  return 'estrutura';
+}
+const mkItems = m => (m.itens || []).map(x => typeof x === 'string' ? { t: x, c: guessCat(x) } : { t: x.t || '', c: MK_CATS[x.c] ? x.c : guessCat(x.t || '') });
+const mesRef = (c, mes) => { if (!c.di) return ''; const d = addMonths(c.di.slice(0, 7) + '-01', mes - 1); return `${MSHORT[+d.slice(5, 7) - 1]}/${d.slice(2, 4)}`; };
 function clientResultados(c) {
-  const marcos = [...(c.marcos || [])].sort((a, x) => a.mes - x.mes), mes = mesConsultoria(c), n = marcos.reduce((a, m) => a + (m.itens || []).length, 0);
+  const marcos = [...(c.marcos || [])].sort((a, x) => a.mes - x.mes), mes = mesConsultoria(c), flt = UI.mkCat || '';
+  const all = marcos.flatMap(m => mkItems(m)), cnt = {}; Object.keys(MK_CATS).forEach(k => cnt[k] = all.filter(i => i.c === k).length);
+  const span = marcos.length ? `${mesRef(c, marcos[0].mes) || marcos[0].mes + 'º mês'} → ${mesRef(c, marcos[marcos.length - 1].mes) || marcos[marcos.length - 1].mes + 'º mês'}` : '';
+  const tiles = `<div class="mktiles"><button class="mkt ${!flt ? 'on' : ''}" data-act="mk-cat" data-v=""><i class="ti ti-trophy"></i><b>${all.length}</b><span>Todas</span></button>${Object.entries(MK_CATS).map(([k, v]) => `<button class="mkt c-${v.tone} ${flt === k ? 'on' : ''}" data-act="mk-cat" data-v="${k}"><i class="ti ${v.icon}"></i><b>${cnt[k]}</b><span>${v.l}</span></button>`).join('')}</div>`;
+  const catSel = (k, cur) => `<select class="in mi-c c-${MK_CATS[cur].tone}" data-mi="${k}|c">${Object.entries(MK_CATS).map(([v, o]) => `<option value="${v}"${v === cur ? ' selected' : ''}>${o.one}</option>`).join('')}</select>`;
   const card = m => {
-    const ed = !!UI.mkEdit?.[m.id], k = f => `${c.id}|${m.id}|${f}`;
-    return `<div class="mk"><div class="rail"><span class="dot"></span></div><div class="card mkc">
-      <div class="mh"><span class="pill c-green"><i class="ti ti-flag"></i>${ed ? `<input class="in num" style="width:46px;padding:0 4px;font-weight:700" inputmode="numeric" data-mk="${k('mes')}" value="${esc(m.mes)}" aria-label="Mês de consultoria">` : esc(m.mes)}º mês de consultoria</span>
-        <span style="margin-left:auto;display:flex;gap:4px"><button class="iconbtn ${ed ? 'on' : ''}" data-act="mk-edit" data-id="${m.id}" title="${ed ? 'Concluir edição' : 'Editar'}"><i class="ti ti-${ed ? 'check' : 'pencil'}"></i></button><button class="iconbtn danger" data-act="mk-rm" data-id="${m.id}" data-cid="${c.id}" title="Excluir marco"><i class="ti ti-trash"></i></button></span></div>
-      ${ed ? `<textarea class="in field" style="min-height:130px" data-mk="${k('itens')}" placeholder="Uma conquista por linha">${esc((m.itens || []).join('\n'))}</textarea>
-        <input class="in" style="margin-top:6px;font-size:12px" data-mk="${k('fonte')}" value="${esc(m.fonte)}" placeholder="Fonte (ex.: Ata de 12/03, Relatório de resultados fev/26)">`
-        : `${(m.itens || []).length ? `<ul>${m.itens.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '<div style="color:var(--muted);font-size:13px">Sem conquistas registradas.</div>'}${m.fonte ? `<div class="src"><i class="ti ti-file-text"></i> ${esc(m.fonte)}</div>` : ''}`}
+    const ed = !!UI.mkEdit?.[m.id], all2 = mkItems(m).map((it, i) => ({ ...it, i })), shown = ed ? all2 : all2.filter(it => !flt || it.c === flt);
+    if (!ed && flt && !shown.length) return '';
+    const k = f => `${c.id}|${m.id}|${f}`, ref = mesRef(c, m.mes);
+    const row = it => ed
+      ? `<div class="mie"><div>${catSel(`${c.id}|${m.id}|${it.i}`, it.c)}</div><textarea class="in tarea" rows="1" data-mi="${c.id}|${m.id}|${it.i}|t" placeholder="Descreva a conquista">${esc(it.t)}</textarea><button class="iconbtn danger" data-act="mi-rm" data-cid="${c.id}" data-id="${m.id}" data-v="${it.i}" title="Excluir esta conquista"><i class="ti ti-x"></i></button></div>`
+      : `<div class="mki c-${MK_CATS[it.c].tone}"><span class="ico"><i class="ti ${MK_CATS[it.c].icon}"></i></span><div class="tx"><span class="cat">${MK_CATS[it.c].one}</span>${it.c === 'cliente' ? `<q>${esc(it.t)}</q>` : esc(it.t)}</div></div>`;
+    return `<div class="mk"><div class="rail"><span class="dot">${esc(m.mes)}</span></div><div class="card mkc">
+      <div class="mh"><span class="mkn">${ed ? `<input class="in num" style="width:54px;padding:2px 6px;font-weight:700" inputmode="numeric" data-mk="${k('mes')}" value="${esc(m.mes)}" aria-label="Mês de consultoria">º mês` : `${esc(m.mes)}º mês de consultoria`}</span>${ref ? `<span class="mkr">${ref}</span>` : ''}<span class="mkcnt">${all2.length} ${all2.length === 1 ? 'conquista' : 'conquistas'}</span>
+        <span style="margin-left:auto;display:flex;gap:4px"><button class="btn sm ${ed ? 'primary' : 'ghost'}" data-act="mk-edit" data-id="${m.id}"><i class="ti ti-${ed ? 'check' : 'pencil'}"></i>${ed ? 'Concluir' : 'Editar'}</button><button class="iconbtn danger" data-act="mk-rm" data-id="${m.id}" data-cid="${c.id}" title="Excluir este marco"><i class="ti ti-trash"></i></button></span></div>
+      <div class="mkl">${shown.length ? shown.map(row).join('') : '<div style="color:var(--muted);font-size:13px;padding:6px 0">Sem conquistas registradas.</div>'}</div>
+      ${ed ? `<button class="btn sm" style="margin-top:8px" data-act="mi-add" data-cid="${c.id}" data-id="${m.id}"><i class="ti ti-plus"></i>Adicionar conquista</button><input class="in" style="margin-top:8px;font-size:12px" data-mk="${k('fonte')}" value="${esc(m.fonte)}" placeholder="Fonte (ex.: Ata de 12/03, Relatório de resultados fev/26)">`
+        : (m.fonte ? `<div class="src"><i class="ti ti-file-text"></i> ${esc(m.fonte)}</div>` : '')}
     </div></div>`;
   };
-  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><div><h3>Resultados alcançados no período</h3><div class="hint">Melhorias do projeto por marco de tempo, consolidadas dos diagnósticos, atas e relatórios de resultados da pasta do cliente</div></div><button class="btn sm primary" data-act="mk-add" data-id="${c.id}"><i class="ti ti-plus"></i>Novo marco</button></div>
-    <div class="card-b" style="padding-top:2px"><span style="font-size:12.5px;color:var(--ink-2)">${marcos.length ? `<b>${marcos.length}</b> marcos · <b>${n}</b> conquistas${mes ? ` · cliente no <b>${mes}º mês</b>` : ''}` : 'Nenhum marco registrado ainda.'}</span></div></div>
-    ${marcos.length ? marcos.map(card).join('') : `<div class="card empty"><i class="ti ti-trophy"></i>Os resultados deste cliente ainda não foram consolidados.<br>Peça para o Claude ler a pasta do cliente e preencher, ou adicione os marcos manualmente.</div>`}`;
-}
-document.addEventListener('change', e => {
+  const cards = marcos.map(card).join('');
+  return `<div class="card mkhero"><div class="card-h" style="padding:0 0 10px"><div><h3 style="font-size:17px">Resultados alcançados no período</h3><div class="hint">Melhorias do projeto por mês de consultoria, consolidadas dos diagnósticos, atas e relatórios de resultados da pasta do cliente</div></div><button class="btn sm primary" data-act="mk-add" data-id="${c.id}"><i class="ti ti-plus"></i>Novo marco</button></div>
+    <div class="mkstat"><span><b>${marcos.length}</b> marcos</span><span><b>${all.length}</b> conquistas</span>${span ? `<span><i class="ti ti-calendar"></i> ${span}</span>` : ''}${mes ? `<span>cliente no <b>${mes}º mês</b></span>` : ''}</div>
+    ${all.length ? tiles : ''}</div>
+    ${marcos.length ? (cards.trim() ? cards : '<div class="card empty"><i class="ti ti-filter-off"></i>Nenhuma conquista nesta categoria.</div>') : `<div class="card empty"><i class="ti ti-trophy"></i>Os resultados deste cliente ainda não foram consolidados.<br>Peça para o Claude ler a pasta do cliente e preencher, ou adicione os marcos manualmente.</div>`}`;
+}document.addEventListener('change', e => {
   const el = e.target, d = el.dataset; if (!d) return;
   if (d.fmes != null) { const [id, f] = d.fmes.split('|'), c = S.clients[id]; if (!c) return; const v = parseNum(el.value), m = { ...(c.mesesFase || {}) }; if (v == null) delete m[f]; else m[f] = Math.max(0, v); return patch('clients', id, { mesesFase: Object.keys(m).length ? m : null }); }
   if (d.icpmin != null) { S.settings.icpFatMin = parseNum(el.value) || 120000; return saveSettings(); }
   if (d.mk != null) {
     const [cid, mid, f] = d.mk.split('|'), c = S.clients[cid]; if (!c) return;
     const marcos = (c.marcos || []).map(m => m.id === mid ? { ...m } : m), m = marcos.find(x => x.id === mid); if (!m) return;
-    if (f === 'mes') m.mes = Math.max(1, Math.round(parseNum(el.value) || m.mes)); else if (f === 'fonte') m.fonte = el.value.trim(); else m.itens = el.value.split('\n').map(s => s.replace(/^\s*[-•*]\s*/, '').trim()).filter(Boolean);
+    if (f === 'mes') m.mes = Math.max(1, Math.round(parseNum(el.value) || m.mes)); else if (f === 'fonte') m.fonte = el.value.trim();
+    patch('clients', cid, { marcos });
+  }
+  if (d.mi != null) {
+    const [cid, mid, idx, f] = d.mi.split('|'), c = S.clients[cid]; if (!c) return;
+    const marcos = (c.marcos || []).map(m => m.id === mid ? { ...m, itens: mkItems(m) } : m), m = marcos.find(x => x.id === mid), it = m?.itens[+idx]; if (!it) return;
+    if (f === 'c') it.c = el.value; else it.t = el.value.trim();
     patch('clients', cid, { marcos });
   }
 });
@@ -2128,6 +2192,9 @@ document.addEventListener('click', async e => {
     case 'ctab': UI.cTab = v; saveUI(); return render();
     case 'mk-add': { const cl = S.clients[id]; if (!cl) return; const marcos = [...(cl.marcos || [])], last = marcos.reduce((a, m) => Math.max(a, m.mes), 0), nm = { id: uid(), mes: last ? last + 1 : (mesConsultoria(cl) || 1), itens: [], fonte: '' }; marcos.push(nm); UI.mkEdit = { ...(UI.mkEdit || {}), [nm.id]: true }; patch('clients', id, { marcos }); return; }
     case 'mk-edit': UI.mkEdit = { ...(UI.mkEdit || {}), [id]: !UI.mkEdit?.[id] }; return render();
+    case 'mk-cat': UI.mkCat = v; saveUI(); return render();
+    case 'mi-add': { const cl = S.clients[el.dataset.cid]; if (!cl) return; const marcos = (cl.marcos || []).map(m => m.id === id ? { ...m, itens: [...mkItems(m), { t: '', c: 'estrutura' }] } : m); patch('clients', cl.id, { marcos }); setTimeout(() => { const t = $$(`textarea[data-mi^="${cl.id}|${id}|"]`).pop(); t?.focus(); }, 80); return; }
+    case 'mi-rm': { const cl = S.clients[el.dataset.cid]; if (!cl) return; const marcos = (cl.marcos || []).map(m => m.id === id ? { ...m, itens: mkItems(m).filter((_, i) => i !== +v) } : m); patch('clients', cl.id, { marcos }); return; }
     case 'mk-rm': { const cl = S.clients[el.dataset.cid]; if (!cl) return; if (!(await confirmDlg('Excluir marco?', 'O marco e as conquistas dele serão excluídos.'))) return; patch('clients', cl.id, { marcos: (cl.marcos || []).filter(m => m.id !== id) }); return; }
     case 'cb-gen': { const cl = S.clients[id]; if (cl) patch('clients', id, { cobr: cobrFromLegacy(cl) }); return; }
     case 'cb-add': { const cl = S.clients[id]; if (!cl) return; const arr = [...(cl.cobr || [])], last = arr[arr.length - 1];
@@ -2266,7 +2333,7 @@ async function importXlsx(file) {
         const ref = xStr(pick(r, 'id do cliente')), nm = xStr(pick(r, 'cliente')), mes = parseNum(pick(r, 'mes de consultoria')), txt = xStr(pick(r, 'conquista'));
         const cl = out.clients.find(x => x.id === ref) || S.clients[ref] || out.clients.find(x => norm(x.nome) === norm(nm)) || clientsArr().find(x => norm(x.nome) === norm(nm));
         if (!cl || mes == null || !txt) return;
-        const g = (grp[cl.id] ||= { cl, m: {} }); (g.m[mes] ||= { id: uid(), mes, itens: [], fonte: xStr(pick(r, 'fonte')) }).itens.push(txt);
+        const g = (grp[cl.id] ||= { cl, m: {} }); (g.m[mes] ||= { id: uid(), mes, itens: [], fonte: xStr(pick(r, 'fonte')) }).itens.push({ t: txt, c: (Object.entries(MK_CATS).find(([, v]) => norm(v.one) === norm(pick(r, 'categoria')) || norm(v.l) === norm(pick(r, 'categoria'))) || [guessCat(txt)])[0] });
       });
       Object.values(grp).forEach(({ cl, m }) => { const marcos = Object.values(m).sort((a, b) => a.mes - b.mes), tgt = out.clients.find(x => x.id === cl.id); if (tgt) tgt.marcos = marcos; else out.clients.push({ ...cl, marcos }); });
     }
@@ -2321,7 +2388,7 @@ async function exportXlsx() {
     const add = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows.length ? rows : [{}]), name);
     add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, 'Financeiro dedicado': c.fin || '', Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
     add('Planos', S.settings.planos.map(p => ({ Plano: p.nome, 'Valor cheio (R$)': p.valor })));
-    add('Resultados', clientsArr().flatMap(c => (c.marcos || []).flatMap(m => (m.itens || []).map(t => ({ 'ID do cliente': c.id, Cliente: c.nome, 'Mês de consultoria': m.mes, Conquista: t, Fonte: m.fonte || '' })))));
+    add('Resultados', clientsArr().flatMap(c => (c.marcos || []).flatMap(m => mkItems(m).map(t => ({ 'ID do cliente': c.id, Cliente: c.nome, 'Mês de consultoria': m.mes, Categoria: MK_CATS[t.c].one, Conquista: t.t, Fonte: m.fonte || '' })))));
     add('Cobrança', clientsArr().flatMap(c => (c.cobr || []).map(r => ({ 'ID do cliente': c.id, Cliente: c.nome, 'A partir de (mm/aaaa)': `${r.de.slice(5, 7)}/${r.de.slice(0, 4)}`, 'Valor cobrado (R$)': r.valor, 'Valor cheio (R$)': r.cheio, 'Observação': r.nota }))));
     const mk = Object.keys(S.settings.metaAtivos || {}).sort();
     add('Meta Clientes Ativos', mk.map(k => ({ 'Mês (mm/aaaa)': `${k.slice(5, 7)}/${k.slice(0, 4)}`, 'Meta de clientes ativos': S.settings.metaAtivos[k] })));
