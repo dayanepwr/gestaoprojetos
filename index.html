@@ -495,6 +495,42 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .cbrow{display:grid;grid-template-columns:minmax(168px,1.4fr) minmax(70px,1fr) minmax(70px,1fr) 30px;gap:4px 6px;align-items:center;margin-bottom:6px}
 .cbrow .cbnote{grid-column:1/-1;font-size:12px;padding:4px 8px;color:var(--ink-2)}
 .cbhead{font-size:11.5px;color:var(--muted);margin-bottom:2px}
+/* ficha do cliente em página */
+.fhead{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.fhead .ttl{flex:1;min-width:260px}
+.fhead .dr-title{font-size:24px;padding:4px 8px;margin-left:-8px}
+.fhead .meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin-top:2px;padding-left:0}
+.ftabs{margin-bottom:14px;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.ftabs::-webkit-scrollbar{display:none}
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start}
+.cgrid .wide{grid-column:1/-1}
+@media (max-width:1000px){.cgrid{grid-template-columns:1fr}}
+.cgrid .card-b .form{margin-top:4px}
+.icprow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+.icprow:last-child{border-bottom:0}
+.icprow .ic{font-size:22px;flex:none}
+.icprow .ic.ok{color:var(--green-fg)} .icprow .ic.no{color:var(--red-fg)} .icprow .ic.un{color:var(--amber-fg)}
+.icprow b{display:block;font-size:13px}
+.icprow span{font-size:12px;color:var(--muted)}
+.fases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.fcell{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;background:var(--surface-2)}
+.fcell.on{border-color:var(--accent);background:var(--accent-soft)}
+.fcell .fv{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1}
+.fcell .fv small{font-size:12px;color:var(--muted);font-weight:500;letter-spacing:0}
+.fcell .in{font-size:12px;padding:4px 6px;text-align:right}
+.mk{display:grid;grid-template-columns:34px minmax(0,1fr);gap:0 10px}
+.mk .rail{position:relative;display:flex;justify-content:center}
+.mk .rail::before{content:"";position:absolute;top:0;bottom:-14px;width:2px;background:var(--line-2)}
+.mk:last-child .rail::before{bottom:auto;height:22px}
+.mk .dot{position:relative;z-index:1;margin-top:18px;width:14px;height:14px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.mkc{padding:14px 16px;margin-bottom:14px}
+.mkc .mh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.mkc ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.5}
+.mkc ul li::marker{color:var(--accent)}
+.mkc .src{font-size:11.5px;color:var(--muted);margin-top:8px}
+.soon{text-align:center;padding:50px 20px;color:var(--muted)}
+.soon .ti{font-size:40px;display:block;margin:0 auto 10px;color:var(--line-2)}
+@media (max-width:520px){.fases{grid-template-columns:1fr}}
 .ttbl td{vertical-align:top;padding:4px}
 .ttbl td .in,.ttbl td select.in{width:100%}
 .ttbl .cellrow{align-items:flex-start;padding-top:2px}
@@ -588,8 +624,8 @@ const T_ALL = ['A fazer', 'Em andamento', 'Atrasado', 'Concluído'];
 const RECOR = ['Não', 'Diária', 'Semanal', 'Mensal'];
 const G_TIPOS = ['Número', 'Percentual', 'Valor (R$)', 'Sim/Não'];
 const G_FONTES = { manual: 'Manual', ativos: 'Clientes ativos (automático)', novosMes: 'Novos clientes no mês (automático)', churnAno: 'Churn do ano % (automático)' };
-const TONE = { 'Ativo': 'green', 'Pausado': 'amber', 'Encerrado': 'gray', 'Diagnóstico': 'amber', 'Estruturação': 'blue', 'Estratégico': 'indigo', 'Em dia': 'green', 'Atenção': 'orange', 'Engajado': 'violet', 'A fazer': 'gray', 'Em andamento': 'blue', 'Concluído': 'green', 'Atrasado': 'red', 'Internas': 'navy', 'Clientes': 'teal' };
-const ICON = { 'Atenção': 'ti-alert-triangle', 'Engajado': 'ti-flame', 'Em dia': 'ti-circle-check', 'Atrasado': 'ti-clock-exclamation', 'Concluído': 'ti-check', 'Ativo': 'ti-circle-check', 'Pausado': 'ti-player-pause', 'Encerrado': 'ti-circle-x' };
+const TONE = { 'Ativo': 'green', 'Pausado': 'amber', 'Encerrado': 'gray', 'Diagnóstico': 'amber', 'Estruturação': 'blue', 'Estratégico': 'indigo', 'Em dia': 'green', 'Atenção': 'orange', 'Engajado': 'violet', 'A fazer': 'gray', 'Em andamento': 'blue', 'Concluído': 'green', 'Atrasado': 'red', 'Internas': 'navy', 'Clientes': 'teal', 'Dentro do ICP': 'green', 'Fora do ICP': 'red', 'A confirmar': 'amber' };
+const ICON = { 'Dentro do ICP': 'ti-target-arrow', 'Fora do ICP': 'ti-target-off', 'A confirmar': 'ti-help-circle', 'Atenção': 'ti-alert-triangle', 'Engajado': 'ti-flame', 'Em dia': 'ti-circle-check', 'Atrasado': 'ti-clock-exclamation', 'Concluído': 'ti-check', 'Ativo': 'ti-circle-check', 'Pausado': 'ti-player-pause', 'Encerrado': 'ti-circle-x' };
 const AVC = { 'Gabriel Andrade': '#1F4E9C', 'Dayane Sousa': '#D9571A', "Samuel Sant'Ana": '#7C3AED', 'Maria Luiza': '#0E9F6E' };
 const CAT_TONES = ['blue', 'teal', 'violet', 'orange', 'green', 'indigo', 'amber', 'red'];
 const CAT_GRAD = { blue: ['#2a5fc4', '#4f86e8'], teal: ['#0B7F85', '#1FB3B9'], violet: ['#6B34C9', '#9C6CF0'], orange: ['#C4541B', '#F08A4B'], green: ['#00853F', '#2CC977'], indigo: ['#3F37A8', '#6F68E0'], amber: ['#A86E00', '#E5A82A'], red: ['#B42323', '#E35B5B'] };
@@ -639,6 +675,7 @@ const DEF_SETTINGS = () => ({
   catInternas: ['Senhas', 'Mensagens padrão', 'Institucional', 'Processos'],
   catClientes: ['Cases de sucesso', 'Materiais e estudos', 'Dúvidas frequentes', 'Tutoriais'],
   metaAtivos: {}, metaPadrao: null, oo: ooDefault(),
+  icpSegs: ['Restaurante/Alimentação'], icpFatMin: 120000, // ICP Power: alimentação, faturamento médio mensal mínimo e pessoa dedicada ao financeiro
   // histórico manual de clientes em atenção por mês (aaaa-mm); a partir de desde o painel calcula pelo histórico de tags
   atencao: { meta: 15, desde: '2026-10-01', manual: { '2026-01': 3, '2026-02': 3, '2026-03': 4, '2026-06': 5, '2026-07': 4, '2026-08': 5, '2026-09': 7 } },
 });
@@ -689,7 +726,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  atnTable: false, tcw: {}, week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  atnTable: false, tcw: {}, cTab: 'geral', mkEdit: {}, week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -771,6 +808,7 @@ const HOOKS = {
   clients(next, cur, ch) {
     if ('plano' in ch) { const p = S.settings.planos.find(x => x.nome === ch.plano); if (p && p.valor != null) next.valorCheio = p.valor; }
     if (ch.st === 'Encerrado' && !next.de) next.de = today();
+    if ('fase' in ch && ch.fase !== cur.fase) next.faseHist = [...(cur.faseHist || []), { d: today(), from: cur.fase || null, to: ch.fase || null }];
     if ('tag' in ch && ch.tag !== cur.tag) next.tagHist = [...(cur.tagHist || []), { d: today(), from: cur.tag || null, to: ch.tag || null }];
   },
   tasks(next, cur, ch) {
@@ -812,7 +850,7 @@ function render() {
   const sc = $$('[data-sk]').map(el => [el.dataset.sk, el.scrollLeft, el.scrollTop]);
   const dsc = $('#drawer .dr-b')?.scrollTop;
   const r = route();
-  $$('#nav a,#bnav a').forEach(el => el.classList.toggle('on', el.dataset.r === r));
+  $$('#nav a,#bnav a').forEach(el => el.classList.toggle('on', el.dataset.r === (r === 'cliente' ? 'clientes' : r)));
   charts.forEach(c => c.destroy()); charts = [];
   $('#view').innerHTML = VIEWS[r]();
   AFTER[r]?.();
@@ -1123,6 +1161,8 @@ const CF = [
   { k: 'con', l: 'Consultor', t: 'enum', o: () => CONSULTORES },
   { k: 'st', l: 'Status', t: 'enum', o: () => STATUS },
   { k: 'fase', l: 'Fase', t: 'enum', o: () => FASES },
+  { k: 'fin', l: 'Financeiro dedicado', t: 'enum', o: () => ['Sim', 'Não'], g: c => c.fin || '' },
+  { k: 'icp', l: 'ICP', t: 'enum', o: () => ['Dentro do ICP', 'Fora do ICP', 'A confirmar'], g: c => icpLabel(c) },
   { k: 'tag', l: 'Tag', t: 'enum', o: () => TAGS },
   { k: 'di', l: 'Início', t: 'date' },
   { k: 'de', l: 'Fim', t: 'date' },
@@ -1192,9 +1232,11 @@ function clientTable(list) {
   const rows = list.map(c => {
     const b = f => `clients|${c.id}|${f}`;
     return `<tr>
-      <td class="sticky" style="min-width:260px"><div class="cellrow"><button class="iconbtn" data-act="open-client" data-id="${c.id}" title="Abrir ficha"><i class="ti ti-layout-sidebar-right-expand"></i></button><input class="in strong" data-bind="${b('nome')}" value="${esc(c.nome)}"></div></td>
+      <td class="sticky" style="min-width:260px"><div class="cellrow"><button class="iconbtn" data-act="open-client" data-id="${c.id}" title="Abrir ficha"><i class="ti ti-arrows-maximize"></i></button><input class="in strong" data-bind="${b('nome')}" value="${esc(c.nome)}"></div></td>
       <td style="min-width:240px"><input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—"></td>
       <td style="min-width:120px"><input class="in num" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="—"></td>
+      <td><select class="in" data-bind="${b('fin')}" style="min-width:84px" title="Tem uma pessoa dedicada ao financeiro?">${opts(['Sim', 'Não'], c.fin, c.fin ? null : '—')}</select></td>
+      <td title="${esc(icpEval(c).crit.map(x => `${x.ok ? '✔' : x.ok === false ? '✘' : '?'} ${x.l}`).join('\n'))}">${pill(icpLabel(c))}</td>
       <td><select class="in" data-bind="${b('plano')}" style="min-width:120px">${opts(planNames(), c.plano, c.plano ? null : '—')}</select></td>
       <td style="min-width:110px"><input class="in num" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" title="Valor cheio (sem desconto)"></td>
       <td style="min-width:${c.cobr?.length ? 150 : c.desconto ? 400 : 70}px">${c.cobr?.length ? `<button class="obsbtn" data-act="open-client" data-id="${c.id}" title="Abrir histórico de cobrança">${hasDisc(c) ? '<span class="pill c-orange">Com desconto</span> ' : ''}${c.cobr.length} período${c.cobr.length > 1 ? 's' : ''}</button>` : ''}<div class="cellrow"${c.cobr?.length ? ' hidden' : ''}><label class="sw" title="Tem desconto?"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span></label>${c.desconto ? `<input class="in num" style="width:90px" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="Valor real" title="Valor real cobrado"><input class="in" style="width:250px" data-bind="${b('regraDesconto')}" title="${esc(c.regraDesconto)}" value="${esc(c.regraDesconto)}" placeholder="Regra do desconto">` : ''}</div></td>
@@ -1210,8 +1252,8 @@ function clientTable(list) {
     </tr>`;
   }).join('');
   return `<div class="card tblwrap" data-sk="ctbl"><table class="tbl"><thead><tr>
-    <th class="sticky">${H('nome')}</th><th>${H('seg')}</th><th>${H('fat')}</th><th>${H('plano')}</th><th>${H('valor')}</th><th>${H('desconto')}</th><th>${H('con')}</th><th>${H('st')}</th><th>${H('fase')}</th><th>${H('tag')}</th><th>${H('di')}</th><th>${H('de')}</th><th>${H('motivo')}</th><th>${H('obs')}</th><th></th>
-  </tr></thead><tbody>${rows || `<tr><td colspan="15" class="empty">Nenhum cliente com esses filtros.</td></tr>`}</tbody></table></div>`;
+    <th class="sticky">${H('nome')}</th><th>${H('seg')}</th><th>${H('fat')}</th><th>${H('fin')}</th><th>${H('icp')}</th><th>${H('plano')}</th><th>${H('valor')}</th><th>${H('desconto')}</th><th>${H('con')}</th><th>${H('st')}</th><th>${H('fase')}</th><th>${H('tag')}</th><th>${H('di')}</th><th>${H('de')}</th><th>${H('motivo')}</th><th>${H('obs')}</th><th></th>
+  </tr></thead><tbody>${rows || `<tr><td colspan="17" class="empty">Nenhum cliente com esses filtros.</td></tr>`}</tbody></table></div>`;
 }
 function clientCards(list) {
   if (!list.length) return `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhum cliente com esses filtros.</div>`;
@@ -1236,6 +1278,7 @@ function clientKanban(list) {
       </div>`).join('')}</div></div>`;
   }).join('')}</div>`;
 }
+AFTER.cliente = () => { const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
 AFTER.clientes = () => {
   const q = $('#cq'); if (q) q.oninput = debounce(() => { UI.cq = q.value; saveUI(); render(); }, 150);
   initKanban();
@@ -1704,8 +1747,117 @@ function taskKanban(list) {
   }).join('')}</div>`;
 }
 
+/* ═══════════════ ICP, FASES E FICHA DO CLIENTE (PÁGINA) ═══════════════ */
+function icpEval(c) {
+  const st = S.settings, min = +st.icpFatMin || 120000, segs = st.icpSegs || [], seg = norm(c.seg);
+  const crit = [
+    { k: 'ali', l: 'Ramo de alimentação', ok: !seg ? null : (segs.some(s => norm(s) === seg) || seg.includes('aliment')), det: c.seg ? `Segmento: ${c.seg}` : 'Segmento não informado' },
+    { k: 'fat', l: `Faturamento médio a partir de ${brl(min)}/mês`, ok: c.fat == null ? null : c.fat >= min, det: c.fat != null ? `Faturamento médio: ${brl(c.fat)}` : 'Faturamento médio não informado' },
+    { k: 'fin', l: 'Pessoa dedicada ao financeiro', ok: c.fin === 'Sim' ? true : c.fin === 'Não' ? false : null, det: c.fin ? `Pessoa dedicada ao financeiro: ${c.fin}` : 'Não informado' },
+  ];
+  const fails = crit.filter(x => x.ok === false), unk = crit.filter(x => x.ok == null);
+  return { crit, fails, unk, status: fails.length ? 'Fora' : unk.length ? 'A confirmar' : 'Dentro' };
+}
+const icpLabel = c => ({ Dentro: 'Dentro do ICP', Fora: 'Fora do ICP', 'A confirmar': 'A confirmar' })[icpEval(c).status];
+const clientEnd = c => (effEnd(c) && effEnd(c) < today()) ? effEnd(c) : today();
+const mesConsultoria = c => c.di ? Math.floor(monthsBetween(c.di, clientEnd(c))) + 1 : null;
+// meses em cada fase: calculado pelo histórico de trocas (faseHist, registrado a partir de agora) e ajustável à mão (mesesFase)
+function faseMeses(c) {
+  const calc = {}; FASES.forEach(f => calc[f] = 0);
+  const h = c.faseHist || [], res = {}, ov = c.mesesFase || {};
+  if (!c.di) return { meses: calc, total: 0, atualHa: 0 };
+  const end = clientEnd(c), total = monthsBetween(c.di, end);
+  let cur = h.length ? h[0].from : c.fase, from = c.di;
+  const add = (f, a, b) => { if (f in calc && b > a) calc[f] += monthsBetween(a, b); };
+  h.forEach(x => { add(cur, from, x.d); cur = x.to; from = x.d; });
+  add(cur, from, end);
+  FASES.forEach(f => res[f] = ov[f] != null && ov[f] !== '' ? +ov[f] : null);
+  if (!h.length && c.fase in calc && res[c.fase] == null) calc[c.fase] = Math.max(0, total - FASES.filter(f => f !== c.fase).reduce((a, f) => a + (res[f] || 0), 0));
+  const meses = {}; FASES.forEach(f => meses[f] = Math.round((res[f] ?? calc[f]) * 10) / 10);
+  return { meses, total: Math.round(total * 10) / 10, atualHa: h.length ? Math.round(monthsBetween(h[h.length - 1].d, end) * 10) / 10 : meses[c.fase] ?? 0 };
+}
+function openClient(id, focus) { UI.cFocus = focus || null; if (focus || route() !== 'cliente') UI.cTab = 'geral'; closePop(); UI.drawer = null; renderDrawer(); location.hash = '#/cliente/' + id; if (route() === 'cliente') render(); }
+function viewClient() {
+  const id = (location.hash.match(/^#\/cliente\/([\w-]+)/) || [])[1], c = S.clients[id];
+  if (!c) return `${pageHead('Cliente', '')}<div class="card empty"><i class="ti ti-user-off"></i>Cliente não encontrado.<br><br><a class="btn" href="#/clientes"><i class="ti ti-arrow-left"></i>Voltar para Clientes</a></div>`;
+  const b = f => `clients|${c.id}|${f}`, tab = ['geral', 'diag', 'endiv', 'result'].includes(UI.cTab) ? UI.cTab : 'geral';
+  const mes = mesConsultoria(c), icp = icpEval(c), nm = (c.marcos || []).length;
+  const tabs = [['geral', 'Informações gerais', 'ti-id'], ['diag', 'Diagnóstico', 'ti-stethoscope'], ['endiv', 'Endividamento', 'ti-credit-card'], ['result', 'Resultados alcançados', 'ti-trophy']];
+  const head = `<div class="fhead"><a class="btn ghost icon" href="#/clientes" aria-label="Voltar para Clientes" title="Voltar para Clientes"><i class="ti ti-arrow-left"></i></a>
+    <div class="ttl"><input class="in dr-title" data-bind="${b('nome')}" value="${esc(c.nome)}" placeholder="Nome do cliente">
+      <div class="pills" style="padding:2px 0">${pillSelect(b('st'), STATUS, c.st)}${pillSelect(b('fase'), FASES, c.fase)}${pillSelect(b('tag'), TAGS, c.tag)}<span title="${esc(icp.crit.map(x => `${x.ok ? '✔' : x.ok === false ? '✘' : '?'} ${x.l}`).join('\n'))}">${pill(icpLabel(c))}</span></div>
+      <div class="meta">${avatar(c.con)}<span>${esc(c.con || 'Sem consultor')}</span>${c.plano ? `<span>· Plano ${esc(c.plano)}</span>` : ''}${mes ? `<span>· <b>${mes}º mês</b> de consultoria</span>` : ''}</div></div>
+    <div style="display:flex;gap:8px;align-items:center"><span data-sync class="sync"></span><button class="btn sm danger" data-act="del" data-col="clients" data-id="${c.id}"><i class="ti ti-trash"></i>Excluir</button></div></div>
+    <div class="seg ftabs">${tabs.map(([k, l, i]) => `<button data-act="ctab" data-v="${k}" class="${tab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'result' && nm ? ` <span class="pill c-green" style="height:18px;padding:0 6px;font-size:11px">${nm}</span>` : ''}</button>`).join('')}</div>`;
+  let body;
+  if (tab === 'geral') body = clientGeral(c, b, icp);
+  else if (tab === 'result') body = clientResultados(c);
+  else body = `<div class="card soon"><i class="ti ${tab === 'diag' ? 'ti-stethoscope' : 'ti-credit-card'}"></i><b style="color:var(--ink)">${tab === 'diag' ? 'Diagnóstico' : 'Endividamento'}</b><br>Esta aba será estruturada na próxima etapa.</div>`;
+  return head + body + `<div class="dl-host">${datalists()}</div>`;
+}
+function clientGeral(c, b, icp) {
+  const fm = faseMeses(c), min = +S.settings.icpFatMin || 120000;
+  const tasks = Object.values(S.tasks).filter(t => t.cliente && norm(t.cliente) === norm(c.nome)).sort((a, x) => (a.prazo || '9').localeCompare(x.prazo || '9'));
+  const icpRows = icp.crit.map(x => `<div class="icprow"><i class="ti ${x.ok ? 'ti-circle-check ok' : x.ok === false ? 'ti-circle-x no' : 'ti-help-circle un'} ic"></i><div><b>${esc(x.l)}</b><span>${esc(x.det)}</span></div></div>`).join('');
+  return `<div class="cgrid">
+    <div class="card"><div class="card-h"><h3>Dados gerais</h3></div><div class="card-b"><div class="form">
+      <label>Consultor</label><div class="cellrow">${avatar(c.con)}<select class="in" data-bind="${b('con')}">${opts(CONSULTORES, c.con, c.con ? null : 'Selecionar…')}</select></div>
+      <label>CNPJ</label><input class="in" data-type="cnpj" inputmode="numeric" data-bind="${b('cnpj')}" value="${esc(fmtCNPJ(c.cnpj))}" placeholder="00.000.000/0000-00">
+      <label>Segmento</label><input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—">
+      <label>Faturamento médio (mês)</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="R$ por mês">
+      <label>Pessoa dedicada ao financeiro</label><select class="in" data-bind="${b('fin')}">${opts(['Sim', 'Não'], c.fin, c.fin ? null : 'Não informado')}</select>
+      <label>Data de início</label><input type="date" class="in" data-type="date" data-bind="${b('di')}" value="${esc(c.di)}">
+      <label>Data fim</label><input type="date" class="in" data-type="date" data-bind="${b('de')}" value="${esc(c.de)}">
+      ${c.st === 'Encerrado' ? `<div class="blk"><label>Motivo do encerramento</label><textarea class="in field" style="min-height:70px" data-live data-bind="${b('motivo')}" placeholder="Por que o cliente encerrou?">${esc(c.motivo)}</textarea></div>` : ''}
+    </div></div></div>
+    <div class="card"><div class="card-h"><h3>Aderência ao ICP Power</h3>${pill(icpLabel(c))}</div><div class="card-b">${icpRows}
+      <div class="note">${icp.status === 'Dentro' ? 'Atende aos três critérios do ICP.' : icp.status === 'Fora' ? `Fora do ICP: ${icp.fails.map(x => x.l.toLowerCase()).join('; ')}.` : `Faltam informações para avaliar: ${icp.unk.map(x => x.l.toLowerCase()).join('; ')}.`} Critérios em Configurações ▸ ICP Power.</div></div></div>
+    <div class="card"><div class="card-h"><h3>Tempo em cada fase</h3><span class="hint">${mesConsultoria(c) ? `${num(fm.total)} meses de consultoria` : ''}</span></div><div class="card-b">
+      <div class="fases">${FASES.map(f => `<div class="fcell ${c.fase === f ? 'on' : ''}"><div>${pill(f)}</div><div class="fv">${num(fm.meses[f])}<small> meses</small></div><input class="in" inputmode="decimal" data-fmes="${c.id}|${f}" value="${esc(c.mesesFase?.[f] ?? '')}" placeholder="${c.mesesFase?.[f] != null ? '' : 'ajustar'}" title="Ajuste manual dos meses nesta fase (deixe em branco para calcular)" aria-label="Meses em ${f}"></div>`).join('')}</div>
+      <div class="note">${c.fase ? `Fase atual (${esc(c.fase)}) há ${num(fm.atualHa)} meses. ` : ''}A partir de agora o painel registra a data de cada troca de fase. Para o que aconteceu antes, informe os meses em “ajustar”.</div></div></div>
+    <div class="card"><div class="card-h"><h3>Plano e cobrança</h3></div><div class="card-b"><div class="form">
+      <label>Plano</label><select class="in" data-bind="${b('plano')}">${opts(planNames(), c.plano, c.plano ? null : 'Selecionar…')}</select>
+      <label>Valor cheio</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" placeholder="R$ sem desconto">
+      ${c.cobr?.length ? '' : `<label>Desconto</label><label class="sw" style="padding:6px 8px"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span>${c.desconto ? 'Sim' : 'Não'}</label>`}
+      ${c.desconto && !c.cobr?.length ? `<label>Valor real</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="R$ cobrado de fato">
+      <label>Regra</label><input class="in" data-bind="${b('regraDesconto')}" value="${esc(c.regraDesconto)}" placeholder="Ex.: desconto nos 3 primeiros meses">
+      <label>Desconto até</label><input type="date" class="in" data-type="date" data-bind="${b('descontoAte')}" value="${esc(c.descontoAte)}" title="Depois desta data o painel usa o valor cheio">` : ''}
+    </div>${cobrBlock(c)}</div></div>
+    <div class="card"><div class="card-h"><h3>Observações gerais</h3></div><div class="card-b"><textarea class="in field" style="min-height:170px" data-live data-bind="${b('obs')}" placeholder="Anotações livres sobre o cliente…">${esc(c.obs)}</textarea></div></div>
+    <div class="card"><div class="card-h"><h3>Tarefas deste cliente</h3><button class="btn sm" data-act="new" data-v="tarefa" data-cli="${esc(c.nome)}"><i class="ti ti-plus"></i>Tarefa</button></div><div class="card-b">
+      ${tasks.length ? tasks.map(t => `<div class="minitask"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${tStatus(t) === 'Concluído' ? 'checked' : ''}><span class="grow">${esc(t.titulo)}</span>${tStatus(t) === 'Atrasado' ? pill('Atrasado') : t.prazo ? `<span style="font-size:12px;color:var(--muted)">${fmtDs(t.prazo)}</span>` : ''}<button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button></div>`).join('') : '<div style="font-size:12.5px;color:var(--muted)">Nenhuma tarefa vinculada.</div>'}
+    </div></div></div>`;
+}
+function clientResultados(c) {
+  const marcos = [...(c.marcos || [])].sort((a, x) => a.mes - x.mes), mes = mesConsultoria(c), n = marcos.reduce((a, m) => a + (m.itens || []).length, 0);
+  const card = m => {
+    const ed = !!UI.mkEdit?.[m.id], k = f => `${c.id}|${m.id}|${f}`;
+    return `<div class="mk"><div class="rail"><span class="dot"></span></div><div class="card mkc">
+      <div class="mh"><span class="pill c-green"><i class="ti ti-flag"></i>${ed ? `<input class="in num" style="width:46px;padding:0 4px;font-weight:700" inputmode="numeric" data-mk="${k('mes')}" value="${esc(m.mes)}" aria-label="Mês de consultoria">` : esc(m.mes)}º mês de consultoria</span>
+        <span style="margin-left:auto;display:flex;gap:4px"><button class="iconbtn ${ed ? 'on' : ''}" data-act="mk-edit" data-id="${m.id}" title="${ed ? 'Concluir edição' : 'Editar'}"><i class="ti ti-${ed ? 'check' : 'pencil'}"></i></button><button class="iconbtn danger" data-act="mk-rm" data-id="${m.id}" data-cid="${c.id}" title="Excluir marco"><i class="ti ti-trash"></i></button></span></div>
+      ${ed ? `<textarea class="in field" style="min-height:130px" data-mk="${k('itens')}" placeholder="Uma conquista por linha">${esc((m.itens || []).join('\n'))}</textarea>
+        <input class="in" style="margin-top:6px;font-size:12px" data-mk="${k('fonte')}" value="${esc(m.fonte)}" placeholder="Fonte (ex.: Ata de 12/03, Relatório de resultados fev/26)">`
+        : `${(m.itens || []).length ? `<ul>${m.itens.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '<div style="color:var(--muted);font-size:13px">Sem conquistas registradas.</div>'}${m.fonte ? `<div class="src"><i class="ti ti-file-text"></i> ${esc(m.fonte)}</div>` : ''}`}
+    </div></div>`;
+  };
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><div><h3>Resultados alcançados no período</h3><div class="hint">Melhorias do projeto por marco de tempo, consolidadas dos diagnósticos, atas e relatórios de resultados da pasta do cliente</div></div><button class="btn sm primary" data-act="mk-add" data-id="${c.id}"><i class="ti ti-plus"></i>Novo marco</button></div>
+    <div class="card-b" style="padding-top:2px"><span style="font-size:12.5px;color:var(--ink-2)">${marcos.length ? `<b>${marcos.length}</b> marcos · <b>${n}</b> conquistas${mes ? ` · cliente no <b>${mes}º mês</b>` : ''}` : 'Nenhum marco registrado ainda.'}</span></div></div>
+    ${marcos.length ? marcos.map(card).join('') : `<div class="card empty"><i class="ti ti-trophy"></i>Os resultados deste cliente ainda não foram consolidados.<br>Peça para o Claude ler a pasta do cliente e preencher, ou adicione os marcos manualmente.</div>`}`;
+}
+document.addEventListener('change', e => {
+  const el = e.target, d = el.dataset; if (!d) return;
+  if (d.fmes != null) { const [id, f] = d.fmes.split('|'), c = S.clients[id]; if (!c) return; const v = parseNum(el.value), m = { ...(c.mesesFase || {}) }; if (v == null) delete m[f]; else m[f] = Math.max(0, v); return patch('clients', id, { mesesFase: Object.keys(m).length ? m : null }); }
+  if (d.icpmin != null) { S.settings.icpFatMin = parseNum(el.value) || 120000; return saveSettings(); }
+  if (d.mk != null) {
+    const [cid, mid, f] = d.mk.split('|'), c = S.clients[cid]; if (!c) return;
+    const marcos = (c.marcos || []).map(m => m.id === mid ? { ...m } : m), m = marcos.find(x => x.id === mid); if (!m) return;
+    if (f === 'mes') m.mes = Math.max(1, Math.round(parseNum(el.value) || m.mes)); else if (f === 'fonte') m.fonte = el.value.trim(); else m.itens = el.value.split('\n').map(s => s.replace(/^\s*[-•*]\s*/, '').trim()).filter(Boolean);
+    patch('clients', cid, { marcos });
+  }
+});
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
-function openDrawer(type, id, focus) { UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
+function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
+
 function closeDrawer() { UI.drawer = null; renderDrawer(); }
 function renderDrawer() {
   const d = UI.drawer, el = $('#drawer'), bd = $('#backdrop');
@@ -1805,6 +1957,9 @@ const DRAWERS = {
       <div class="setsec"><h5>Planos</h5><p>O valor cheio é usado como “valor sem desconto” no Dashboard.</p>
         ${st.planos.map((p, i) => `<div class="plrow"><input class="field" style="padding:6px 10px" data-plan="${i}" data-pf="nome" value="${esc(p.nome)}"><input class="field" style="padding:6px 10px;text-align:right" inputmode="decimal" data-plan="${i}" data-pf="valor" value="${esc(num(p.valor))}" placeholder="variável"><button class="iconbtn danger" data-act="plan-rm" data-i="${i}"><i class="ti ti-trash"></i></button></div>`).join('')}
         <button class="btn sm ghost" data-act="plan-add"><i class="ti ti-plus"></i>Adicionar plano</button></div>
+      <div class="setsec"><h5>ICP Power</h5><p>Cliente ideal: ramo de alimentação, faturamento médio mensal mínimo e pessoa dedicada ao financeiro.</p>
+        <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:10px">Faturamento médio mínimo (R$ por mês)<input class="field" inputmode="decimal" data-icpmin value="${esc(num(st.icpFatMin))}"></label>
+        ${tagEd('icpSegs', 'Segmentos que contam como alimentação', 'Segmentos com “aliment” no nome também são aceitos.')}</div>
       ${tagEd('segmentos', 'Segmentos', 'Sugestões do campo Segmento.')}
       ${tagEd('responsaveis', 'Responsáveis', 'Lista usada em tarefas, metas e pautas.')}
       ${tagEd('catInternas', 'Categorias: Internas', '')}
@@ -1842,10 +1997,10 @@ function quickCreate(type, preset = {}) {
     if (type === 'cliente') {
       const p = S.settings.planos.find(x => x.nome === v.plano);
       const c = create('clients', { nome: v.nome.trim(), con: v.con, plano: v.plano, valorCheio: p?.valor ?? null, desconto: false, st: 'Ativo', fase: 'Diagnóstico', tag: 'Em dia', di: v.di || today(), seg: '', obs: '' });
-      go('clientes'); openDrawer('client', c.id); toast('Cliente criado');
+      openClient(c.id); toast('Cliente criado');
     } else if (type === 'tarefa') {
       create('tasks', { titulo: v.titulo.trim(), resp: v.resp.trim(), prazo: v.prazo || null, cliente: v.cliente.trim(), status: 'A fazer', recorrencia: 'Não', desc: preset.desc || '' });
-      if (!(UI.drawer && UI.drawer.type === 'client')) { UI.timeTab = 'tarefas'; go('time'); }
+      if (route() !== 'cliente') { UI.timeTab = 'tarefas'; go('time'); }
       toast('Tarefa criada');
     } else if (type === 'meta') {
       create('goals', { titulo: v.titulo.trim(), tipo: 'Número', atual: 0, meta: parseNum(v.meta), unidade: v.unidade.trim(), inverso: false, fonte: 'manual', prazo: v.prazo || null });
@@ -1959,6 +2114,7 @@ document.addEventListener('click', async e => {
       const label = { clients: 'cliente', tasks: 'tarefa', goals: 'meta', meetings: 'pauta', content: 'conteúdo' }[col];
       if (!(await confirmDlg(`Excluir ${label}?`, `“${esc(name)}” será excluído para toda a equipe. Essa ação não pode ser desfeita.`))) return;
       if (UI.drawer?.id === id) UI.drawer = null;
+      if (col === 'clients' && route() === 'cliente') location.hash = '#/clientes';
       removeRec(col, id); toast(`${label[0].toUpperCase() + label.slice(1)} excluído`, { label: 'Desfazer', fn: () => put(col, rec) });
       return;
     }
@@ -1969,6 +2125,10 @@ document.addEventListener('click', async e => {
     case 'combo-table': UI.comboTable = !UI.comboTable; saveUI(); return render();
     case 'edit-meta': return metaPop(el);
     case 'edit-atn': return atnPop(el);
+    case 'ctab': UI.cTab = v; saveUI(); return render();
+    case 'mk-add': { const cl = S.clients[id]; if (!cl) return; const marcos = [...(cl.marcos || [])], last = marcos.reduce((a, m) => Math.max(a, m.mes), 0), nm = { id: uid(), mes: last ? last + 1 : (mesConsultoria(cl) || 1), itens: [], fonte: '' }; marcos.push(nm); UI.mkEdit = { ...(UI.mkEdit || {}), [nm.id]: true }; patch('clients', id, { marcos }); return; }
+    case 'mk-edit': UI.mkEdit = { ...(UI.mkEdit || {}), [id]: !UI.mkEdit?.[id] }; return render();
+    case 'mk-rm': { const cl = S.clients[el.dataset.cid]; if (!cl) return; if (!(await confirmDlg('Excluir marco?', 'O marco e as conquistas dele serão excluídos.'))) return; patch('clients', cl.id, { marcos: (cl.marcos || []).filter(m => m.id !== id) }); return; }
     case 'cb-gen': { const cl = S.clients[id]; if (cl) patch('clients', id, { cobr: cobrFromLegacy(cl) }); return; }
     case 'cb-add': { const cl = S.clients[id]; if (!cl) return; const arr = [...(cl.cobr || [])], last = arr[arr.length - 1];
       arr.push({ de: last ? nextYm(last.de) : ymOf(cl.di), valor: last ? last.valor : +(cl.valorCheio || 0), cheio: last ? last.cheio : (cl.valorCheio ?? null), nota: '' }); patch('clients', id, { cobr: arr }); return; }
@@ -2091,7 +2251,7 @@ async function importXlsx(file) {
       const id = idOf(pick(r, 'id'), 'clients');
       out.clients.push({
         ...base('clients', id), nome, cnpj: xStr(pick(r, 'cnpj')).replace(/\D/g, '') || (S.clients[id]?.cnpj ?? null), seg: xStr(pick(r, 'segmento')), fat: parseNum(pick(r, 'faturamento')),
-        plano: xStr(pick(r, 'plano')), valorCheio: parseNum(pick(r, 'valor cheio')), desconto: xBool(pick(r, 'desconto')),
+        plano: xStr(pick(r, 'plano')), fin: ({ sim: 'Sim', nao: 'Não' })[norm(pick(r, 'financeiro dedicado'))] || (S.clients[id]?.fin ?? ''), valorCheio: parseNum(pick(r, 'valor cheio')), desconto: xBool(pick(r, 'desconto')),
         valorReal: parseNum(pick(r, 'valor real')), regraDesconto: xStr(pick(r, 'regra')), descontoAte: xDate(pick(r, 'desconto valido ate')),
         con: matchList(pick(r, 'consultor'), CONSULTORES) || xStr(pick(r, 'consultor')), st: matchList(pick(r, 'status'), STATUS) || 'Ativo',
         fase: matchList(pick(r, 'fase'), FASES) || '', tag: matchList(pick(r, 'tag'), TAGS) || '',
@@ -2099,6 +2259,17 @@ async function importXlsx(file) {
       });
     });
     out.clients.forEach(c => { if (c.valorCheio == null) { const p = st.planos.find(x => x.nome === c.plano); if (p) c.valorCheio = p.valor; } });
+    const resRows = sheetRows(wb, 'Resultados');
+    if (resRows && resRows.length) {
+      const grp = {};
+      resRows.forEach(r => {
+        const ref = xStr(pick(r, 'id do cliente')), nm = xStr(pick(r, 'cliente')), mes = parseNum(pick(r, 'mes de consultoria')), txt = xStr(pick(r, 'conquista'));
+        const cl = out.clients.find(x => x.id === ref) || S.clients[ref] || out.clients.find(x => norm(x.nome) === norm(nm)) || clientsArr().find(x => norm(x.nome) === norm(nm));
+        if (!cl || mes == null || !txt) return;
+        const g = (grp[cl.id] ||= { cl, m: {} }); (g.m[mes] ||= { id: uid(), mes, itens: [], fonte: xStr(pick(r, 'fonte')) }).itens.push(txt);
+      });
+      Object.values(grp).forEach(({ cl, m }) => { const marcos = Object.values(m).sort((a, b) => a.mes - b.mes), tgt = out.clients.find(x => x.id === cl.id); if (tgt) tgt.marcos = marcos; else out.clients.push({ ...cl, marcos }); });
+    }
     const cobRows = sheetRows(wb, 'Cobrança');
     if (cobRows && cobRows.length) {
       const grp = {};
@@ -2148,8 +2319,9 @@ async function exportXlsx() {
     await loadScript(XLSX_URL);
     const wb = XLSX.utils.book_new();
     const add = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows.length ? rows : [{}]), name);
-    add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
+    add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, 'Financeiro dedicado': c.fin || '', Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
     add('Planos', S.settings.planos.map(p => ({ Plano: p.nome, 'Valor cheio (R$)': p.valor })));
+    add('Resultados', clientsArr().flatMap(c => (c.marcos || []).flatMap(m => (m.itens || []).map(t => ({ 'ID do cliente': c.id, Cliente: c.nome, 'Mês de consultoria': m.mes, Conquista: t, Fonte: m.fonte || '' })))));
     add('Cobrança', clientsArr().flatMap(c => (c.cobr || []).map(r => ({ 'ID do cliente': c.id, Cliente: c.nome, 'A partir de (mm/aaaa)': `${r.de.slice(5, 7)}/${r.de.slice(0, 4)}`, 'Valor cobrado (R$)': r.valor, 'Valor cheio (R$)': r.cheio, 'Observação': r.nota }))));
     const mk = Object.keys(S.settings.metaAtivos || {}).sort();
     add('Meta Clientes Ativos', mk.map(k => ({ 'Mês (mm/aaaa)': `${k.slice(5, 7)}/${k.slice(0, 4)}`, 'Meta de clientes ativos': S.settings.metaAtivos[k] })));
@@ -2162,7 +2334,7 @@ async function exportXlsx() {
 }
 
 /* ═══════════════ LOGIN / BOOT ═══════════════ */
-const VIEWS = { dashboard: viewDashboard, clientes: viewClients, info: viewInfo, time: viewTime };
+const VIEWS = { dashboard: viewDashboard, clientes: viewClients, cliente: viewClient, info: viewInfo, time: viewTime };
 function showLogin(mode) {
   $('#app').hidden = true; $('#login').hidden = false;
   $('#loginForm').hidden = mode === 'recovery'; $('#recoverForm').hidden = mode !== 'recovery';
