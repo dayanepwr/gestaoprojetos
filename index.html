@@ -604,6 +604,27 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 body.dg-dock .main{padding-right:372px} body.dg-dock .fab{right:372px}
 @media (max-width:1099px){.dgdock{left:10px;right:10px;top:auto;bottom:72px;width:auto;height:40vh} body.dg-dock .main{padding-right:30px;padding-bottom:calc(40vh + 150px)} body.dg-dock .fab{display:none}}
 @media (min-width:861px) and (max-width:1099px){.dgdock{left:250px;bottom:12px}}
+.dbhead{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:14px;flex-wrap:wrap} .dbhead h2{margin:0;font-size:18px;font-weight:700} .dbhead span{font-size:12.5px;color:var(--muted)}
+.dbkpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-bottom:14px} @media (max-width:1200px){.dbkpis{grid-template-columns:repeat(3,minmax(0,1fr))}} @media (max-width:700px){.dbkpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.dbk{padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0} .dbk small{font-size:12px;color:var(--muted);font-weight:500} .dbk b{font-size:21px;letter-spacing:-.01em;line-height:1.2} .dbk span{font-size:12px;color:var(--muted);line-height:1.4}
+.dbk.strong{border-top:3px solid var(--ink)} .dbk.warn b{color:var(--amber-fg)} .dbk.bad b{color:var(--red-fg)}
+.dbgrid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px;align-items:start} .dbgrid2>*{min-width:0} .dbalert{overflow-wrap:anywhere} @media (max-width:700px){.dbfacts li{flex-direction:column;gap:2px}.dbfacts b{text-align:left}.dbk b{font-size:19px}} @media (max-width:1000px){.dbgrid2{grid-template-columns:1fr}}
+.card + .card{margin-top:0}
+.dbtbl{width:100%;border-collapse:collapse;font-size:13px} .dbtbl th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:right;padding:4px 6px;border-bottom:1px solid var(--line)} .dbtbl th:first-child{text-align:left}
+.dbtbl td{padding:8px 6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums;vertical-align:top} .dbtbl td:first-child{text-align:left} .dbtbl tr.tot td{font-weight:700;background:var(--surface-2);border-bottom:0}
+.dbtbl .fdot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:8px}
+.dbbar{height:5px;background:var(--surface-3);border-radius:99px;margin-top:5px;overflow:hidden;min-width:60px} .dbbar i{display:block;height:100%;background:var(--ink);border-radius:99px} .dbbar.lg{height:7px}
+.dbfacts{list-style:none;margin:0;padding:0} .dbfacts li{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px} .dbfacts li:last-child{border-bottom:0} .dbfacts span{color:var(--ink-2)} .dbfacts b{text-align:right} .dbfacts em{font-style:normal;font-size:11.5px;color:var(--muted);margin-left:6px} .dbfacts em.dbwarn{color:var(--amber-fg)}
+.dbalert{display:flex;gap:8px;align-items:flex-start;font-size:12px;line-height:1.45;color:var(--amber-fg);background:var(--amber-bg);border-radius:9px;padding:8px 10px;margin-top:8px} .dbalert .ti{margin-top:1px}
+.dbrk{display:grid;grid-template-columns:22px minmax(0,1fr);gap:8px;padding:9px 0;border-bottom:1px solid var(--line)} .dbrk:last-child{border-bottom:0} .dbrk>b{font-size:12px;color:var(--muted);padding-top:2px}
+.dbrk-t{display:flex;align-items:baseline;gap:8px;font-size:13px;font-weight:600;flex-wrap:wrap} .dbrk-t em{font-style:normal;font-size:11px;font-weight:500;color:var(--muted)} .dbrk-t strong{margin-left:auto;font-weight:700} .dbrk-t small{font-weight:500;color:var(--muted);font-size:11.5px} .dbrk small{font-size:11.5px;color:var(--muted)}
+.dgleg2{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink-2);margin-bottom:8px} .dgleg2 i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.dbgantt{position:relative} .dbg-ax{position:relative;height:20px;margin-left:150px;font-size:11px;color:var(--muted)} .dbg-ax span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.dbg-r{display:flex;align-items:center;gap:10px;height:28px} .dbg-n{width:140px;flex:none;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dbg-t{position:relative;flex:1;height:16px;background:var(--surface-2);border-radius:99px}
+.dbg-b{position:absolute;top:0;height:100%;border-radius:99px;background:color-mix(in srgb,var(--c) 26%,var(--surface));overflow:hidden} .dbg-b i{display:block;height:100%;background:var(--c)}
+.dbg-now{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--red-fg);z-index:2}
+.dbedit td,.dbedit th{white-space:nowrap} .dbedit .in{min-width:88px} .dbedit td.mut{color:var(--muted)} .dbedit td:nth-child(1) .in{min-width:150px} .dbedit td:nth-child(2) .in{min-width:170px} .dbedit td:nth-child(7) .in{min-width:150px}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -646,6 +667,70 @@ textarea.tarea{resize:none;min-height:34px;overflow:hidden;display:block;line-he
 .rz::after{content:"";position:absolute;right:4px;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--line-2);transition:background .12s}
 .rz:hover::after{background:var(--focus)}
 .cbrow input[type=month]{min-width:0}
+/* ═══ refinamento visual: tom corporativo, menos cor, hierarquia clara ═══ */
+:root{--fb0:#A9BBD3;--fb1:#4F6D94;--fb2:#0C2340}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--fb0:#4A6285;--fb1:#7C97BD;--fb2:#D6E0F0}}
+:root[data-theme="dark"]{--fb0:#4A6285;--fb1:#7C97BD;--fb2:#D6E0F0}
+body{font-size:13.5px;line-height:1.45}
+.main{padding:24px 32px 120px}
+.card{border-radius:12px;box-shadow:0 1px 2px rgba(12,35,64,.04)}
+.card-h{padding:14px 18px 6px;gap:12px} .card-h h3{font-size:14px;font-weight:600} .card-h .hint{font-size:12px;color:var(--muted)}
+.card-b{padding:8px 18px 16px}
+.phead h1{font-size:21px;letter-spacing:-.01em}
+.note{font-size:12px;line-height:1.55;color:var(--muted)}
+/* pílulas: neutras, com ponto de cor para o status */
+.pill{background:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:500;gap:7px;padding:0 10px;height:24px}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--p-fg,var(--muted));flex:none}
+.pill:has(.ti)::before{display:none}
+.pill .ti{color:var(--p-fg,var(--muted))}
+.pill.c-red{background:var(--red-bg);border-color:transparent;color:var(--red-fg)} .pill.c-red::before{background:var(--red-fg)}
+select.pill{background-color:var(--surface);border:1px solid var(--line);color:var(--ink);font-weight:500;padding:0 24px 0 24px;background-image:radial-gradient(circle,var(--p-fg,var(--muted)) 0,var(--p-fg,var(--muted)) 3.5px,transparent 4px),linear-gradient(45deg,transparent 50%,currentColor 50%),linear-gradient(135deg,currentColor 50%,transparent 50%);background-position:10px 50%,calc(100% - 12px) 10px,calc(100% - 8px) 10px;background-size:8px 8px,4px 4px,4px 4px;background-repeat:no-repeat}
+select.pill.c-red{background-color:var(--red-bg);border-color:transparent;color:var(--red-fg)}
+.tbl select.pill{height:26px}
+.kpi .k .ti{background:var(--surface-3);color:var(--ink-2)}
+.kpi .k{font-weight:500}
+.chip.filter{background:var(--surface-3);color:var(--ink)}
+.seg button.on{box-shadow:0 1px 2px rgba(12,35,64,.1)}
+/* ficha do cliente */
+.fhead{gap:14px;margin-bottom:12px} .fhead .dr-title{font-size:23px;padding:2px 8px;margin-left:-8px} .fhead .pills{gap:8px;padding:6px 0 4px!important;flex-wrap:wrap}
+.fhead .meta{font-size:12.5px}
+.ftabs{margin-bottom:16px}
+.cgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+.ccol{display:flex;flex-direction:column;gap:16px;min-width:0}
+@media (max-width:1000px){.cgrid{grid-template-columns:1fr}}
+.kv{display:grid;grid-template-columns:150px minmax(0,1fr);align-items:center;gap:0 12px;padding:4px 0;border-bottom:1px solid var(--line)}
+.kv:last-child{border-bottom:0}
+.kv>label{font-size:12.5px;color:var(--muted);padding:6px 0}
+.kv .in{padding:7px 8px;border-radius:7px}
+.kv .cellrow{align-items:center}
+@media (max-width:520px){.kv{grid-template-columns:1fr;gap:0;padding:6px 0}.kv>label{padding:2px 0}}
+.icprow{padding:9px 0;gap:10px} .icprow .ic{font-size:18px} .icprow b{font-weight:600;font-size:13px} .icprow span{font-size:12px}
+.icprow .ic.ok{color:var(--green-fg)} .icprow .ic.no{color:var(--red-fg)} .icprow .ic.un{color:var(--muted)}
+.fbar{display:flex;height:10px;border-radius:999px;overflow:hidden;background:var(--surface-3);margin:6px 0 10px}
+.ftbl{width:100%;border-collapse:collapse;font-size:13px}
+.ftbl th{font-size:11.5px;color:var(--muted);font-weight:600;text-align:left;padding:4px 6px;border-bottom:1px solid var(--line)} .ftbl th:nth-child(n+2){text-align:right}
+.ftbl td{padding:5px 6px;border-bottom:1px solid var(--line)} .ftbl td:nth-child(2){text-align:right} .ftbl tr:last-child td{border-bottom:0}
+.ftbl td:last-child{width:92px} .ftbl .in{text-align:right;padding:5px 8px;font-size:12.5px}
+.ftbl .fdot{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:8px;vertical-align:-1px}
+.ftbl em{font-style:normal;font-size:11px;color:var(--ink-2);background:var(--surface-3);border-radius:999px;padding:1px 8px;margin-left:6px}
+.ftbl tr.on td{background:var(--surface-2)}
+.dghelp{margin-top:10px;font-size:12px;color:var(--muted)} .dghelp summary{cursor:pointer;font-weight:500;color:var(--ink-2)} .dghelp .note{margin-top:6px}
+.subsec{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.subsec h5{font-size:13px}
+.minitask{padding:8px 2px}
+/* resultados alcançados: sóbrio */
+.mki{background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--p-fg,var(--line-2));border-radius:10px;padding:9px 12px;gap:10px}
+.mki .ico{background:transparent;width:22px;height:22px;font-size:18px}
+.mki .cat{color:var(--ink-2);font-weight:600}
+.mkt{background:var(--surface)} .mkt .ti{color:var(--ink-2)} .mkt.on{background:var(--surface-2);border-color:var(--ink)}
+.mkr{background:var(--surface-3)!important;color:var(--ink-2)!important}
+.mk .dot{background:var(--ink);box-shadow:0 0 0 4px var(--surface-3)}
+.mkhero{padding:18px 20px}
+/* diagnóstico: sóbrio */
+.dgsync{border-left-color:var(--line-2)} .dgsync>.ti{color:var(--ink-2)}
+.dgopt.on{background:var(--ink);border-color:var(--ink)}
+.dgnb.on{background:var(--surface-2);border-color:var(--ink)} .dgnb.ok i{background:var(--surface-3);color:var(--ink-2)}
+.dgf.cond{background:var(--surface-2);border-left-color:var(--line-2)}
 </style>
 </head>
 <body>
@@ -832,7 +917,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  atnTable: false, tcw: {}, cTab: 'geral', dg: { sec: 'empresa', view: 'resp', ver: {} }, mkEdit: {}, mkCat: '', week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  atnTable: false, tcw: {}, cTab: 'geral', db: { ano: null }, dg: { sec: 'empresa', view: 'resp', ver: {} }, mkEdit: {}, mkCat: '', week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -840,8 +925,8 @@ const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setIte
 /* ═══════════════ DADOS / SINCRONIZAÇÃO ═══════════════ */
 // Cada registro é uma linha própria em kv_store (chave v2:<coleção>:<id>),
 // assim duas pessoas editando itens diferentes nunca se sobrescrevem.
-const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags'];
-const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, settings: DEF_SETTINGS() };
+const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags', 'debts'];
+const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, debts: {}, settings: DEF_SETTINGS() };
 let sb = null, me = '', booted = false, syncState = 'ok', flushing = false, flushTimer = null;
 let queue = (() => { try { return JSON.parse(localStorage.getItem('pw2_queue') || '{}'); } catch { return {}; } })();
 const saveQueue = () => { try { localStorage.setItem('pw2_queue', JSON.stringify(queue)); } catch { } };
@@ -1129,12 +1214,12 @@ function cobrBlock(c) {
       <input class="in num" id="cb-${i}-valor" data-cb="${c.id}|${i}|valor" inputmode="decimal" value="${esc(num(r.valor))}" placeholder="0" aria-label="Valor cobrado">
       <input class="in num" id="cb-${i}-cheio" data-cb="${c.id}|${i}|cheio" inputmode="decimal" value="${esc(num(r.cheio))}" placeholder="${esc(num(c.valorCheio) || 'cheio')}" aria-label="Valor cheio do plano">
       <button class="iconbtn danger" data-act="cb-rm" data-id="${c.id}" data-v="${i}" title="Remover linha"><i class="ti ti-trash"></i></button>
-      <input class="in cbnote" id="cb-${i}-nota" data-cb="${c.id}|${i}|nota" value="${esc(r.nota)}" placeholder="Observação (ex.: 1º mês gratuito, mudou para o plano de R$ 999)" aria-label="Observação"></div>`;
+      <input class="in cbnote" id="cb-${i}-nota" data-cb="${c.id}|${i}|nota" value="${esc(r.nota)}" placeholder="Observação (opcional)" aria-label="Observação"></div>`;
   return `<div class="subsec"><h5>Histórico de cobrança <button class="btn sm" data-act="cb-add" data-id="${c.id}"><i class="ti ti-plus"></i>Adicionar</button></h5>
     ${arr.length ? `<div class="cbrow cbhead"><span>A partir de</span><span>Cobrado (R$)</span><span>Valor cheio (R$)</span><span></span></div>${arr.map(row).join('')}
       <div class="note">Cobrança atual: <b>${brl(feeNow(c))}</b>${hasDisc(c) ? ' (com desconto)' : ''} · Já cobrado desde o início: <b>${brl(total)}</b></div>`
-      : `<div style="font-size:12.5px;color:var(--muted);line-height:1.55">Sem histórico: o painel usa o valor cheio (ou o desconto até uma data da ficha). Registre mês a mês o que foi cobrado de fato.<br><br><button class="btn sm primary" data-act="cb-gen" data-id="${c.id}"><i class="ti ti-wand"></i>Montar a partir do cadastro</button></div>`}
-    <div class="note">Cada linha vale do mês indicado até a próxima linha. Exemplo: 1º mês grátis = linha com R$ 0 no mês de início e outra com R$ 1.499 no mês seguinte. Mudança de plano = nova linha com o novo valor cobrado e o novo valor cheio.</div></div>`;
+      : `<div style="font-size:12.5px;color:var(--muted);line-height:1.55">Sem histórico: o painel usa o valor cheio. Registre o que foi cobrado de fato, mês a mês.<div style="margin-top:8px"><button class="btn sm" data-act="cb-gen" data-id="${c.id}"><i class="ti ti-wand"></i>Montar a partir do cadastro</button></div></div>`}
+    <details class="dghelp"><summary>Como preencher o histórico</summary><div class="note">Cada linha vale do mês indicado até a próxima linha. Exemplo: 1º mês grátis = linha com R$ 0 no mês de início e outra com R$ 1.499 no mês seguinte. Mudança de plano = nova linha com o novo valor cobrado e o novo valor cheio.</div></details></div>`;
 }
 document.addEventListener('change', e => {
   const el = e.target; if (el.dataset.cb == null) return;
@@ -1385,7 +1470,7 @@ function clientKanban(list) {
       </div>`).join('')}</div></div>`;
   }).join('')}</div>`;
 }
-AFTER.cliente = () => { autosize(); dgChart(); { const cid = (location.hash.match(/^#\/cliente\/([\w-]+)/) || [])[1]; document.body.classList.toggle('dg-dock', UI.cTab === 'diag' && !!cid && dgRecs(cid).length > 0 && dgDockOpen()); } const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
+AFTER.cliente = () => { autosize(); dgChart(); dbChart(); { const cid = (location.hash.match(/^#\/cliente\/([\w-]+)/) || [])[1]; document.body.classList.toggle('dg-dock', UI.cTab === 'diag' && !!cid && dgRecs(cid).length > 0 && dgDockOpen()); } const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
 AFTER.clientes = () => {
   const q = $('#cq'); if (q) q.oninput = debounce(() => { UI.cq = q.value; saveUI(); render(); }, 150);
   initKanban();
@@ -1895,48 +1980,51 @@ function viewClient() {
       <div class="pills" style="padding:2px 0">${pillSelect(b('st'), STATUS, c.st)}${pillSelect(b('fase'), FASES, c.fase)}${pillSelect(b('tag'), TAGS, c.tag)}<span title="${esc(icp.crit.map(x => `${x.ok ? '✔' : x.ok === false ? '✘' : '?'} ${x.l}`).join('\n'))}">${pill(icpLabel(c))}</span>${dgLevelPill(c)}</div>
       <div class="meta">${avatar(c.con)}<span>${esc(c.con || 'Sem consultor')}</span>${c.plano ? `<span>· Plano ${esc(c.plano)}</span>` : ''}${mes ? `<span>· <b>${mes}º mês</b> de consultoria</span>` : ''}</div></div>
     <div style="display:flex;gap:8px;align-items:center"><span data-sync class="sync"></span><button class="btn sm danger" data-act="del" data-col="clients" data-id="${c.id}"><i class="ti ti-trash"></i>Excluir</button></div></div>
-    <div class="seg ftabs">${tabs.map(([k, l, i]) => `<button data-act="ctab" data-v="${k}" class="${tab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'result' && nm ? ` <span class="pill c-green" style="height:18px;padding:0 6px;font-size:11px">${nm}</span>` : ''}</button>`).join('')}</div>`;
+    <div class="seg ftabs">${tabs.map(([k, l, i]) => `<button data-act="ctab" data-v="${k}" class="${tab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'endiv' && Object.values(S.debts).some(x => x.cid === c.id) ? `<span class="pill" style="height:18px;padding:0 6px;font-size:11px">${Object.values(S.debts).filter(x => x.cid === c.id).length}</span>` : ''}${k === 'result' && nm ?` <span class="pill c-green" style="height:18px;padding:0 6px;font-size:11px">${nm}</span>` : ''}</button>`).join('')}</div>`;
   let body;
   if (tab === 'geral') body = clientGeral(c, b, icp);
   else if (tab === 'result') body = clientResultados(c);
   else if (tab === 'diag') body = viewDiag(c);
+  else if (tab === 'endiv') body = viewDebts(c);
   else body = `<div class="card soon"><i class="ti ${tab === 'diag' ? 'ti-stethoscope' : 'ti-credit-card'}"></i><b style="color:var(--ink)">${tab === 'diag' ? 'Diagnóstico' : 'Endividamento'}</b><br>Esta aba será estruturada na próxima etapa.</div>`;
   return head + body + `<div class="dl-host">${datalists()}</div>`;
 }
 function clientGeral(c, b, icp) {
-  const fm = faseMeses(c), min = +S.settings.icpFatMin || 120000;
+  const fm = faseMeses(c);
   const tasks = Object.values(S.tasks).filter(t => t.cliente && norm(t.cliente) === norm(c.nome)).sort((a, x) => (a.prazo || '9').localeCompare(x.prazo || '9'));
   const icpRows = icp.crit.map(x => `<div class="icprow"><i class="ti ${x.ok ? 'ti-circle-check ok' : x.ok === false ? 'ti-circle-x no' : 'ti-help-circle un'} ic"></i><div><b>${esc(x.l)}</b><span>${esc(x.det)}</span></div></div>`).join('');
-  return `<div class="cgrid">
-    <div class="card"><div class="card-h"><h3>Dados gerais</h3></div><div class="card-b"><div class="form">
-      <label>Consultor</label><div class="cellrow">${avatar(c.con)}<select class="in" data-bind="${b('con')}">${opts(CONSULTORES, c.con, c.con ? null : 'Selecionar…')}</select></div>
-      <label>CNPJ</label><input class="in" data-type="cnpj" inputmode="numeric" data-bind="${b('cnpj')}" value="${esc(fmtCNPJ(c.cnpj))}" placeholder="00.000.000/0000-00">
-      <label>Segmento</label><input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—">
-      <label>Faturamento médio (mês)</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="R$ por mês">
-      <label>Pessoa dedicada ao financeiro</label><select class="in" data-bind="${b('fin')}">${opts(['Sim', 'Não'], c.fin, c.fin ? null : 'Não informado')}</select>
-      <label>Data de início</label><input type="date" class="in" data-type="date" data-bind="${b('di')}" value="${esc(c.di)}">
-      <label>Data fim</label><input type="date" class="in" data-type="date" data-bind="${b('de')}" value="${esc(c.de)}">
-      ${c.st === 'Encerrado' ? `<div class="blk"><label>Motivo do encerramento</label><textarea class="in field" style="min-height:70px" data-live data-bind="${b('motivo')}" placeholder="Por que o cliente encerrou?">${esc(c.motivo)}</textarea></div>` : ''}
-    </div></div></div>
-    <div class="card"><div class="card-h"><h3>Aderência ao ICP Power</h3>${pill(icpLabel(c))}</div><div class="card-b">${icpRows}
-      <div class="note">${icp.status === 'Dentro' ? 'Atende aos três critérios do ICP.' : icp.status === 'Fora' ? `Fora do ICP: ${icp.fails.map(x => x.l.toLowerCase()).join('; ')}.` : `Faltam informações para avaliar: ${icp.unk.map(x => x.l.toLowerCase()).join('; ')}.`} Critérios em Configurações ▸ ICP Power.</div></div></div>
+  const ftot = FASES.reduce((a, f) => a + fm.meses[f], 0) || 1;
+  const kv = (l, ctl) => `<div class="kv"><label>${l}</label><div>${ctl}</div></div>`;
+  const left = `
+    <div class="card"><div class="card-h"><h3>Dados gerais</h3></div><div class="card-b">
+      ${kv('Consultor', `<div class="cellrow">${avatar(c.con)}<select class="in" data-bind="${b('con')}">${opts(CONSULTORES, c.con, c.con ? null : 'Selecionar…')}</select></div>`)}
+      ${kv('CNPJ', `<input class="in" data-type="cnpj" inputmode="numeric" data-bind="${b('cnpj')}" value="${esc(fmtCNPJ(c.cnpj))}" placeholder="00.000.000/0000-00">`)}
+      ${kv('Segmento', `<input class="in" list="dl-seg" data-bind="${b('seg')}" value="${esc(c.seg)}" placeholder="—">`)}
+      ${kv('Faturamento médio (mês)', `<input class="in" data-type="money" inputmode="decimal" data-bind="${b('fat')}" value="${esc(num(c.fat))}" placeholder="R$ por mês">`)}
+      ${kv('Financeiro dedicado', `<select class="in" data-bind="${b('fin')}">${opts(['Sim', 'Não'], c.fin, c.fin ? null : 'Não informado')}</select>`)}
+      ${kv('Início', `<input type="date" class="in" data-type="date" data-bind="${b('di')}" value="${esc(c.di)}">`)}
+      ${kv('Fim', `<input type="date" class="in" data-type="date" data-bind="${b('de')}" value="${esc(c.de)}">`)}
+      ${c.st === 'Encerrado' ? kv('Motivo do encerramento', `<textarea class="in field" style="min-height:70px" data-live data-bind="${b('motivo')}" placeholder="Por que o cliente encerrou?">${esc(c.motivo)}</textarea>`) : ''}
+    </div></div>
+    <div class="card"><div class="card-h"><h3>Aderência ao ICP</h3>${pill(icpLabel(c))}</div><div class="card-b">${icpRows}
+      <div class="note">${icp.status === 'Dentro' ? 'Atende aos três critérios do ICP.' : icp.status === 'Fora' ? `Fora do ICP: ${icp.fails.map(x => x.l.toLowerCase()).join('; ')}.` : `Faltam informações: ${icp.unk.map(x => x.l.toLowerCase()).join('; ')}.`} Critérios em Configurações.</div></div></div>
     <div class="card"><div class="card-h"><h3>Tempo em cada fase</h3><span class="hint">${mesConsultoria(c) ? `${num(fm.total)} meses de consultoria` : ''}</span></div><div class="card-b">
-      <div class="fases">${FASES.map(f => `<div class="fcell ${c.fase === f ? 'on' : ''}"><div>${pill(f)}</div><div class="fv">${num(fm.meses[f])}<small> meses</small></div><input class="in" inputmode="decimal" data-fmes="${c.id}|${f}" value="${esc(c.mesesFase?.[f] ?? '')}" placeholder="${c.mesesFase?.[f] != null ? '' : 'ajustar'}" title="Ajuste manual dos meses nesta fase (deixe em branco para calcular)" aria-label="Meses em ${f}"></div>`).join('')}</div>
-      <div class="note">${c.fase ? `Fase atual (${esc(c.fase)}) há ${num(fm.atualHa)} meses. ` : ''}A partir de agora o painel registra a data de cada troca de fase. Para o que aconteceu antes, informe os meses em “ajustar”.</div></div></div>
-    <div class="card"><div class="card-h"><h3>Plano e cobrança</h3></div><div class="card-b"><div class="form">
-      <label>Plano</label><select class="in" data-bind="${b('plano')}">${opts(planNames(), c.plano, c.plano ? null : 'Selecionar…')}</select>
-      <label>Valor cheio</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" placeholder="R$ sem desconto">
-      ${c.cobr?.length ? '' : `<label>Desconto</label><label class="sw" style="padding:6px 8px"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span>${c.desconto ? 'Sim' : 'Não'}</label>`}
-      ${c.desconto && !c.cobr?.length ? `<label>Valor real</label><input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="R$ cobrado de fato">
-      <label>Regra</label><input class="in" data-bind="${b('regraDesconto')}" value="${esc(c.regraDesconto)}" placeholder="Ex.: desconto nos 3 primeiros meses">
-      <label>Desconto até</label><input type="date" class="in" data-type="date" data-bind="${b('descontoAte')}" value="${esc(c.descontoAte)}" title="Depois desta data o painel usa o valor cheio">` : ''}
-    </div>${cobrBlock(c)}</div></div>
-    <div class="card"><div class="card-h"><h3>Observações gerais</h3></div><div class="card-b"><textarea class="in field" style="min-height:170px" data-live data-bind="${b('obs')}" placeholder="Anotações livres sobre o cliente…">${esc(c.obs)}</textarea></div></div>
-    <div class="card"><div class="card-h"><h3>Tarefas deste cliente</h3><button class="btn sm" data-act="new" data-v="tarefa" data-cli="${esc(c.nome)}"><i class="ti ti-plus"></i>Tarefa</button></div><div class="card-b">
+      <div class="fbar">${FASES.map((f, i) => fm.meses[f] > 0 ? `<i style="width:${fm.meses[f] / ftot * 100}%;background:var(--fb${i})" title="${f}: ${num(fm.meses[f])} meses"></i>` : '').join('')}</div>
+      <table class="ftbl"><thead><tr><th>Fase</th><th>Meses</th><th>Ajustar</th></tr></thead><tbody>${FASES.map((f, i) => `<tr class="${c.fase === f ? 'on' : ''}"><td><i class="fdot" style="background:var(--fb${i})"></i>${f}${c.fase === f ? ' <em>atual</em>' : ''}</td><td><b>${num(fm.meses[f])}</b></td><td><input class="in" inputmode="decimal" data-fmes="${c.id}|${f}" value="${esc(c.mesesFase?.[f] ?? '')}" placeholder="—" title="Ajuste manual dos meses nesta fase (em branco = cálculo automático)" aria-label="Meses em ${f}"></td></tr>`).join('')}</tbody></table>
+      <div class="note">${c.fase ? `Fase atual há ${num(fm.atualHa)} meses. ` : ''}O painel registra a data de cada troca de fase; para o período anterior, informe os meses em “Ajustar”.</div></div></div>
+    <div class="card"><div class="card-h"><h3>Observações</h3></div><div class="card-b"><textarea class="in field" style="min-height:120px" data-live data-bind="${b('obs')}" placeholder="Anotações livres sobre o cliente…">${esc(c.obs)}</textarea></div></div>`;
+  const right = `
+    <div class="card"><div class="card-h"><h3>Plano e cobrança</h3></div><div class="card-b">
+      ${kv('Plano', `<select class="in" data-bind="${b('plano')}">${opts(planNames(), c.plano, c.plano ? null : 'Selecionar…')}</select>`)}
+      ${kv('Valor cheio', `<input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorCheio')}" value="${esc(num(c.valorCheio))}" placeholder="R$ sem desconto">`)}
+      ${c.cobr?.length ? '' : kv('Desconto', `<label class="sw"><input type="checkbox" data-bind="${b('desconto')}" ${c.desconto ? 'checked' : ''}><span></span>${c.desconto ? 'Sim' : 'Não'}</label>`)}
+      ${c.desconto && !c.cobr?.length ? kv('Valor real', `<input class="in" data-type="money" inputmode="decimal" data-bind="${b('valorReal')}" value="${esc(num(c.valorReal))}" placeholder="R$ cobrado de fato">`) + kv('Regra', `<input class="in" data-bind="${b('regraDesconto')}" value="${esc(c.regraDesconto)}" placeholder="Ex.: desconto nos 3 primeiros meses">`) + kv('Desconto até', `<input type="date" class="in" data-type="date" data-bind="${b('descontoAte')}" value="${esc(c.descontoAte)}" title="Depois desta data o painel usa o valor cheio">`) : ''}
+      ${cobrBlock(c)}</div></div>
+    <div class="card"><div class="card-h"><h3>Tarefas</h3><button class="btn sm" data-act="new" data-v="tarefa" data-cli="${esc(c.nome)}"><i class="ti ti-plus"></i>Tarefa</button></div><div class="card-b">
       ${tasks.length ? tasks.map(t => `<div class="minitask"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${tStatus(t) === 'Concluído' ? 'checked' : ''}><span class="grow">${esc(t.titulo)}</span>${tStatus(t) === 'Atrasado' ? pill('Atrasado') : t.prazo ? `<span style="font-size:12px;color:var(--muted)">${fmtDs(t.prazo)}</span>` : ''}<button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button></div>`).join('') : '<div style="font-size:12.5px;color:var(--muted)">Nenhuma tarefa vinculada.</div>'}
-    </div></div></div>`;
-}
-/* ── resultados alcançados: categorias, linha do tempo, edição ── */
+    </div></div>`;
+  return `<div class="cgrid"><div class="ccol">${left}</div><div class="ccol">${right}</div></div>`;
+}/* ── resultados alcançados: categorias, linha do tempo, edição ── */
 const MK_CATS = {
   reducao: { l: 'Reduções', one: 'Redução', icon: 'ti-trending-down', tone: 'green' },
   meta: { l: 'Metas batidas', one: 'Meta batida', icon: 'ti-target-arrow', tone: 'blue' },
@@ -2419,6 +2507,163 @@ async function dgPptx(c, rec) {
   } catch (err) { console.error(err); toast('Erro ao gerar o PowerPoint: ' + err.message); }
 }
 
+/* ═══════════════ ENDIVIDAMENTO (ficha do cliente ▸ aba Endividamento) ═══════════════ */
+// Cada dívida (collection "debts") = contrato: tipo, emissor, valor, parcelas, juros (% a.m.), valor da parcela e mês da 1ª parcela.
+// Parcelas pagas = parcelas com vencimento antes do mês atual (pode ser ajustado à mão por contrato).
+const DB_TIPOS = ['Banco', 'Terceiros', 'Sócios', 'Outras instituições'];
+const DB_COR = { 'Banco': '#0C2340', 'Terceiros': '#3F6FB5', 'Sócios': '#8FB0DA', 'Outras instituições': '#C4CBD6' };
+const ymNow = () => today().slice(0, 7);
+const ymAdd = (ym, n) => { const t = +ym.slice(0, 4) * 12 + (+ym.slice(5, 7) - 1) + n; return `${Math.floor(t / 12)}-${pad(t % 12 + 1)}`; };
+const ymDiff = (a, b) => (+b.slice(0, 4) - +a.slice(0, 4)) * 12 + (+b.slice(5, 7) - +a.slice(5, 7));
+const ymLabel = ym => `${MSHORT[+ym.slice(5, 7) - 1]}/${ym.slice(2, 4)}`;
+const dbAnual = r => r == null ? null : (Math.pow(1 + r / 100, 12) - 1) * 100;
+function dbPmt(P, i, n) { if (!n || !P) return 0; if (!i) return P / n; const r = i / 100; return P * r / (1 - Math.pow(1 + r, -n)); }
+function dbRate(P, pmt, n) { // taxa mensal implícita (%) a partir de valor, parcela e nº de parcelas
+  if (!P || !pmt || !n) return null; if (pmt * n <= P) return 0; let lo = 0, hi = 1;
+  for (let k = 0; k < 80; k++) { const mid = (lo + hi) / 2, pv = pmt * (1 - Math.pow(1 + mid, -n)) / mid; if (pv > P) lo = mid; else hi = mid; }
+  return (lo + hi) / 2 * 100;
+}
+function dbCalc(d) {
+  const qt = Math.max(0, Math.round(dgN(d.qt))), valor = dgN(d.valor), now = ymNow();
+  let parcela = dgN(d.parcela), parcelaCalc = false;
+  if (!parcela && qt && valor) { parcela = dbPmt(valor, dgN(d.juros), qt); parcelaCalc = parcela > 0; }
+  const jurosInf = d.juros != null && d.juros !== '' ? dgN(d.juros) : null, jurosImpl = valor && parcela && qt ? dbRate(valor, parcela, qt) : null;
+  const ini = d.inicio || null, fim = ini && qt ? ymAdd(ini, qt - 1) : null;
+  const auto = ini && qt ? Math.max(0, Math.min(qt, ymDiff(ini, now))) : 0, manual = d.pagas != null && d.pagas !== '';
+  const pagas = qt ? (manual ? Math.max(0, Math.min(qt, Math.round(dgN(d.pagas)))) : auto) : 0;
+  const total = qt ? parcela * qt : valor;
+  return { qt, valor, parcela, parcelaCalc, jurosInf, jurosImpl, juros: jurosInf ?? jurosImpl, ini, fim, pagas, pagasManual: manual, pagasAuto: auto, total, pago: pagas * parcela, aPagar: qt ? (qt - pagas) * parcela : valor, custo: qt ? Math.max(0, total - valor) : 0, restantes: qt - pagas, quitada: qt > 0 && pagas >= qt, pct: qt ? pagas / qt : 0, semCronograma: !ini || !qt };
+}
+const dbList = cid => Object.values(S.debts).filter(x => x.cid === cid).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)).map(d => ({ d, k: dbCalc(d) }));
+function dbParcelaMes(list, ym) { // parcelas vencendo em ym, por tipo, separando pagas das a pagar
+  const out = {}; DB_TIPOS.forEach(t => out[t] = { pago: 0, pagar: 0 });
+  list.forEach(({ d, k }) => { if (k.semCronograma || !k.parcela) return; const i = ymDiff(k.ini, ym) + 1; if (i < 1 || i > k.qt) return; const t = DB_TIPOS.includes(d.tipo) ? d.tipo : 'Outras instituições'; out[t][i <= k.pagas ? 'pago' : 'pagar'] += k.parcela; });
+  return out;
+}
+function dbResumo(list) {
+  const a = { contratado: 0, pago: 0, aPagar: 0, custo: 0, parcelaMes: 0, ativos: 0, quitados: 0, fimMax: null, porTipo: {} };
+  DB_TIPOS.forEach(t => a.porTipo[t] = { n: 0, contratado: 0, pago: 0, aPagar: 0, parcela: 0 });
+  const now = ymNow();
+  list.forEach(({ d, k }) => { const t = DB_TIPOS.includes(d.tipo) ? d.tipo : 'Outras instituições', p = a.porTipo[t];
+    a.contratado += k.valor; a.pago += k.pago; a.aPagar += k.aPagar; a.custo += k.custo; p.n++; p.contratado += k.valor; p.pago += k.pago; p.aPagar += k.aPagar;
+    if (k.quitada) a.quitados++; else a.ativos++;
+    if (!k.semCronograma && !k.quitada && k.ini <= now && now <= k.fim && k.parcela) { a.parcelaMes += k.parcela; p.parcela += k.parcela; }
+    if (k.fim && (!a.fimMax || k.fim > a.fimMax) && !k.quitada) a.fimMax = k.fim; });
+  return a;
+}
+function dbFat(cid) { const c = S.clients[cid], r = dgLast(cid); const f = r && r.r && r.r.faturamentoMedio != null && r.r.faturamentoMedio !== '' ? dgN(r.r.faturamentoMedio) : dgN(c?.fat); return f; }
+
+/* ── tela ── */
+function viewDebts(c) {
+  const list = dbList(c.id);
+  if (!list.length) return `<div class="card dgempty"><i class="ti ti-credit-card"></i><h3>Endividamento</h3><p>Cadastre os empréstimos, financiamentos e parcelamentos do cliente (bancos, terceiros, sócios e outras instituições). O painel calcula o que já foi pago, o que falta pagar, o custo dos juros e o peso das parcelas no faturamento.</p><button class="btn primary" data-act="db-add" data-id="${c.id}"><i class="ti ti-plus"></i>Adicionar primeira dívida</button></div>`;
+  const R = dbResumo(list), fat = dbFat(c.id), comp = fat ? R.parcelaMes / fat * 100 : null, now = ymNow();
+  const years = dbYears(list), yr = years.includes(UI.db?.ano) ? UI.db.ano : (years.includes(+now.slice(0, 4)) ? +now.slice(0, 4) : years[0]);
+  const kpi = (l, v, s, cls = '') => `<div class="card dbk ${cls}"><small>${l}</small><b>${v}</b><span>${s}</span></div>`;
+  const kpis = `<div class="dbkpis">${kpi('Dívida contratada', brl(R.contratado), `${list.length} contrato${list.length > 1 ? 's' : ''} · ${R.ativos} ativo${R.ativos !== 1 ? 's' : ''}${R.quitados ? ` · ${R.quitados} quitado${R.quitados > 1 ? 's' : ''}` : ''}`)}
+    ${kpi('Já pago', brl(R.pago), R.contratado ? `${dgPct(R.pago / (R.pago + R.aPagar || 1) * 100)} do total a pagar` : '')}
+    ${kpi('A pagar', brl(R.aPagar), R.fimMax ? `até ${ymLabel(R.fimMax)}` : 'sem cronograma', 'strong')}
+    ${kpi('Parcelas do mês', brl(R.parcelaMes), `${ymLabel(now)} · soma dos contratos ativos`)}
+    ${kpi('Peso no faturamento', comp == null ? '—' : dgPct(comp), fat ? `sobre ${brl(fat)}/mês${comp > 20 ? ' · alto' : comp > 10 ? ' · atenção' : ' · confortável'}` : 'informe o faturamento médio', comp > 20 ? 'bad' : comp > 10 ? 'warn' : '')}</div>`;
+  const tipos = `<div class="card"><div class="card-h"><h3>Pago e a pagar por tipo</h3></div><div class="card-b" style="overflow-x:auto"><table class="dbtbl" style="min-width:520px"><thead><tr><th>Tipo</th><th>Contratos</th><th>Contratado</th><th>Já pago</th><th>A pagar</th><th>Parcela/mês</th></tr></thead><tbody>
+    ${DB_TIPOS.map(t => { const p = R.porTipo[t]; const pc = p.pago + p.aPagar ? p.pago / (p.pago + p.aPagar) * 100 : 0; return `<tr><td><i class="fdot" style="background:${DB_COR[t]}"></i>${t}</td><td>${p.n || '—'}</td><td>${p.n ? brl(p.contratado) : '—'}</td><td>${p.n ? `${brl(p.pago)}<div class="dbbar"><i style="width:${pc}%"></i></div>` : '—'}</td><td>${p.n ? brl(p.aPagar) : '—'}</td><td>${p.parcela ? brl(p.parcela) : '—'}</td></tr>`; }).join('')}
+    <tr class="tot"><td>Total</td><td>${list.length}</td><td>${brl(R.contratado)}</td><td>${brl(R.pago)}<div class="dbbar"><i style="width:${R.pago + R.aPagar ? R.pago / (R.pago + R.aPagar) * 100 : 0}%"></i></div></td><td>${brl(R.aPagar)}</td><td>${brl(R.parcelaMes)}</td></tr></tbody></table></div></div>`;
+  const diag = dgLast(c.id), declarado = diag && diag.r && diag.r.endividamentoValor != null ? dgN(diag.r.endividamentoValor) : null;
+  const jurosPond = (() => { let w = 0, s = 0; list.forEach(({ k }) => { if (k.juros != null && k.aPagar > 0) { w += k.aPagar; s += k.juros * k.aPagar; } }); return w ? s / w : null; })();
+  const extras = `<div class="card"><div class="card-h"><h3>Leitura rápida</h3></div><div class="card-b"><ul class="dbfacts">
+    <li><span>Custo total dos juros (contratos)</span><b>${brl(R.custo)}</b></li>
+    <li><span>Juros médio ponderado (saldo a pagar)</span><b>${jurosPond == null ? '—' : `${dgPct(jurosPond)} a.m. · ${dgPct(dbAnual(jurosPond))} a.a.`}</b></li>
+    <li><span>Quitação de todas as dívidas</span><b>${R.fimMax ? ymLabel(R.fimMax) + ` (${Math.max(0, ymDiff(now, R.fimMax))} meses)` : '—'}</b></li>
+    <li><span>Próximos 6 meses a pagar</span><b>${brl([0, 1, 2, 3, 4, 5].reduce((a, i) => a + Object.values(dbParcelaMes(list, ymAdd(now, i))).reduce((x, y) => x + y.pagar, 0), 0))}</b></li>
+    ${declarado != null ? `<li><span>Parcela mensal no diagnóstico</span><b>${brl(declarado)} ${Math.abs(declarado - R.parcelaMes) > Math.max(500, R.parcelaMes * .1) ? `<em class="dbwarn">difere dos contratos (${brl(R.parcelaMes)})</em>` : '<em>confere</em>'}</b></li>` : ''}
+  </ul>${dbAlertas(list, R).map(a => `<div class="dbalert"><i class="ti ti-alert-triangle"></i>${a}</div>`).join('')}</div></div>`;
+  const grafico = `<div class="card"><div class="card-h"><div><h3>Parcelas por mês</h3><div class="hint">Soma das parcelas que vencem em cada mês, por tipo · tom claro = já pago</div></div><select class="btn dgver" data-dbyear style="height:32px;width:96px" aria-label="Ano">${years.map(y => `<option value="${y}"${y === yr ? ' selected' : ''}>${y}</option>`).join('')}</select></div><div class="card-b"><div class="dgleg2">${DB_TIPOS.map(t => `<span><i style="background:${DB_COR[t]}"></i>${t}</span>`).join('')}</div><div class="chartbox" style="height:280px"><canvas id="chDb1"></canvas></div></div></div>`;
+  const rankJ = list.filter(({ k }) => k.juros != null && k.aPagar > 0).sort((a, b) => b.k.juros - a.k.juros).slice(0, 6), maxJ = rankJ[0]?.k.juros || 1;
+  const rankP = list.filter(({ k }) => k.parcela && !k.quitada).sort((a, b) => b.k.parcela - a.k.parcela).slice(0, 6), maxP = rankP[0]?.k.parcela || 1;
+  const rank = (title, hint, rows, val, max, sub) => `<div class="card"><div class="card-h"><div><h3>${title}</h3><div class="hint">${hint}</div></div></div><div class="card-b">${rows.length ? rows.map(({ d, k }, i) => `<div class="dbrk"><b>${i + 1}</b><div><div class="dbrk-t"><span>${esc(d.emissor || 'Sem emissor')}</span><em>${esc(d.tipo || '')}</em><strong>${val(k)}</strong></div><div class="dbbar lg"><i style="width:${Math.max(3, (sub(k) / max) * 100)}%;background:${DB_COR[d.tipo] || DB_COR['Outras instituições']}"></i></div><small>${sub2(k, d)}</small></div></div>`).join('') : '<div class="note">Sem dados suficientes.</div>'}</div></div>`;
+  const sub2 = (k, d) => `${k.restantes} parcelas restantes · saldo a pagar ${brl(k.aPagar)}${k.jurosInf == null && k.jurosImpl != null ? ' · juros calculado pelas parcelas' : ''}`;
+  const ranks = `<div class="dbgrid2">${rank('Emissores mais caros', 'Maior taxa de juros (% ao mês)', rankJ, k => `${dgPct(k.juros)} a.m. <small>(${dgPct(dbAnual(k.juros))} a.a.)</small>`, maxJ, k => k.juros)}
+    ${rank('Maiores parcelas', 'Maior valor mensal de parcela', rankP, k => `${brl(k.parcela)} <small>(${R.parcelaMes ? dgPct(k.parcela / R.parcelaMes * 100) : '—'} do mês)</small>`, maxP, k => k.parcela)}</div>`;
+  const saldo = `<div class="card"><div class="card-h"><div><h3>Saldo a pagar ao longo do tempo</h3><div class="hint">Quanto ainda falta pagar no fim de cada mês, se as parcelas forem pagas em dia</div></div></div><div class="card-b"><div class="chartbox" style="height:230px"><canvas id="chDb2"></canvas></div></div></div>`;
+  const gantt = dbGantt(list);
+  return `<div class="dbhead"><div><h2>Endividamento</h2><span>Empréstimos, financiamentos e parcelamentos</span></div><button class="btn primary" data-act="db-add" data-id="${c.id}"><i class="ti ti-plus"></i>Adicionar dívida</button></div>
+    ${kpis}<div class="dbgrid2">${tipos}${extras}</div>${grafico}${ranks}${saldo}${gantt}${dbTabela(c, list)}`;
+}
+function dbYears(list) {
+  const ys = new Set([+ymNow().slice(0, 4)]); list.forEach(({ k }) => { if (k.ini) { for (let y = +k.ini.slice(0, 4); y <= +(k.fim || k.ini).slice(0, 4); y++) ys.add(y); } });
+  return [...ys].sort();
+}
+function dbAlertas(list, R) {
+  const a = [], f = [];
+  const sem = list.filter(({ k }) => k.semCronograma && !k.quitada && k.valor), sj = list.filter(({ k }) => k.juros == null && k.aPagar > 0);
+  if (sem.length) a.push(`${sem.length} contrato${sem.length > 1 ? 's' : ''} sem parcelas ou sem mês da 1ª parcela: não entra${sem.length > 1 ? 'm' : ''} no gráfico mensal (${sem.map(({ d }) => esc(d.emissor || 'sem emissor')).join(', ')}).`);
+  if (sj.length) a.push(`${sj.length} contrato${sj.length > 1 ? 's' : ''} sem juros e sem dados para calcular: fora do ranking de juros.`);
+  const conc = {}; list.forEach(({ d, k }) => { const e = norm(d.emissor || ''); if (e) conc[e] = (conc[e] || 0) + k.aPagar; });
+  const top = Object.entries(conc).sort((x, y) => y[1] - x[1])[0]; if (top && R.aPagar && top[1] / R.aPagar > .5 && list.length > 1) { const nm = list.find(({ d }) => norm(d.emissor || '') === top[0])?.d.emissor; a.push(`Concentração: ${dgPct(top[1] / R.aPagar * 100)} do saldo a pagar está com ${esc(nm)}.`); }
+  const soc = R.porTipo['Sócios']; if (soc.aPagar > 0 && R.aPagar && soc.aPagar / R.aPagar > .3) a.push(`Dívida com sócios representa ${dgPct(soc.aPagar / R.aPagar * 100)} do saldo: confirme se há contrato ou prazo definido.`);
+  return a;
+}
+function dbGantt(list) {
+  const rows = list.filter(({ k }) => !k.semCronograma); if (!rows.length) return '';
+  const now = ymNow(), minM = rows.reduce((m, { k }) => k.ini < m ? k.ini : m, rows[0].k.ini), maxM = rows.reduce((m, { k }) => k.fim > m ? k.fim : m, rows[0].k.fim);
+  const span = Math.max(1, ymDiff(minM, maxM) + 1), pos = ym => ymDiff(minM, ym) / span * 100, nowPos = Math.min(100, Math.max(0, pos(now) + 100 / span / 2));
+  const ticks = []; for (let i = 0; i < span; i += Math.max(1, Math.ceil(span / 8))) ticks.push(ymAdd(minM, i));
+  return `<div class="card"><div class="card-h"><div><h3>Cronograma dos contratos</h3><div class="hint">Do mês da 1ª parcela ao da última · parte escura = já paga</div></div></div><div class="card-b"><div class="dbgantt"><div class="dbg-ax">${ticks.map(t => `<span style="left:${pos(t)}%">${ymLabel(t)}</span>`).join('')}</div>
+    ${rows.map(({ d, k }) => { const l = pos(k.ini), w = (ymDiff(k.ini, k.fim) + 1) / span * 100, done = k.pct * 100; return `<div class="dbg-r"><span class="dbg-n" title="${esc(d.emissor || '')}">${esc(d.emissor || 'Sem emissor')}</span><div class="dbg-t"><i class="dbg-now" style="left:${nowPos}%"></i><div class="dbg-b" style="left:${l}%;width:${w}%;--c:${DB_COR[d.tipo] || DB_COR['Outras instituições']}" title="${ymLabel(k.ini)} → ${ymLabel(k.fim)} · ${k.pagas}/${k.qt} parcelas pagas"><i style="width:${done}%"></i></div></div></div>`; }).join('')}
+  </div></div></div>`;
+}
+function dbTabela(c, list) {
+  const head = ['Tipo', 'Emissor', 'Valor total', 'Parcelas', 'Juros (% a.m.)', 'Valor da parcela', '1ª parcela', 'Pagas', 'Término', 'Situação', ''];
+  const k = (id, f) => `${id}|${f}`;
+  const row = ({ d, k: x }) => { const n = `data-db`; return `<tr>
+    <td><select class="in" ${n}="${k(d.id, 'tipo')}">${opts(DB_TIPOS, d.tipo)}</select></td>
+    <td><input class="in" ${n}="${k(d.id, 'emissor')}" value="${esc(d.emissor)}" placeholder="Ex.: Santander"></td>
+    <td><input class="in num" inputmode="decimal" ${n}="${k(d.id, 'valor')}" value="${d.valor ? esc(num(d.valor)) : ''}" placeholder="0,00"></td>
+    <td><input class="in num" inputmode="numeric" ${n}="${k(d.id, 'qt')}" value="${esc(d.qt ?? '')}" placeholder="0" style="width:64px"></td>
+    <td><input class="in num" inputmode="decimal" ${n}="${k(d.id, 'juros')}" value="${d.juros != null && d.juros !== '' ? esc(num(d.juros)) : ''}" placeholder="${x.jurosImpl != null ? esc(num(Math.round(x.jurosImpl * 100) / 100)) + ' (calc.)' : '—'}" style="width:96px"></td>
+    <td><input class="in num" inputmode="decimal" ${n}="${k(d.id, 'parcela')}" value="${d.parcela ? esc(num(d.parcela)) : ''}" placeholder="${x.parcelaCalc ? esc(num(Math.round(x.parcela * 100) / 100)) + ' (calc.)' : '0,00'}"></td>
+    <td><input class="in" type="month" ${n}="${k(d.id, 'inicio')}" value="${esc(d.inicio || '')}" title="Mês de vencimento da 1ª parcela"></td>
+    <td><input class="in num" inputmode="numeric" ${n}="${k(d.id, 'pagas')}" value="${d.pagas != null && d.pagas !== '' ? esc(d.pagas) : ''}" placeholder="${x.pagasAuto}" title="Em branco = automático (parcelas com vencimento antes do mês atual)" style="width:64px"></td>
+    <td class="mut">${x.fim ? ymLabel(x.fim) : '—'}</td>
+    <td>${x.quitada ? '<span class="pill c-green">Quitada</span>' : x.semCronograma ? '<span class="pill">Sem cronograma</span>' : x.ini > ymNow() ? '<span class="pill">A iniciar</span>' : `<span class="pill c-blue">${x.pagas}/${x.qt} pagas</span>`}</td>
+    <td><button class="iconbtn danger" data-act="db-rm" data-id="${d.id}" title="Excluir dívida"><i class="ti ti-trash"></i></button></td></tr>`; };
+  return `<div class="card"><div class="card-h"><div><h3>Contratos</h3><div class="hint">Campos em branco são calculados quando possível (valor da parcela, juros e parcelas pagas)</div></div><button class="btn sm" data-act="db-add" data-id="${c.id}"><i class="ti ti-plus"></i>Adicionar</button></div>
+    <div class="tblwrap" style="max-height:none"><table class="tbl dbedit"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${list.map(row).join('')}</tbody></table></div></div>`;
+}
+function dbChart() {
+  const e1 = $('#chDb1'), e2 = $('#chDb2'); if (typeof Chart === 'undefined' || (!e1 && !e2)) return;
+  const cid = (location.hash.match(/^#\/cliente\/([\w-]+)/) || [])[1]; if (!cid) return; const list = dbList(cid), now = ymNow();
+  Chart.defaults.font.family = 'Poppins, system-ui, sans-serif'; Chart.defaults.font.size = 11; Chart.defaults.color = cssv('--muted');
+  const years = dbYears(list), yr = years.includes(UI.db?.ano) ? UI.db.ano : (years.includes(+now.slice(0, 4)) ? +now.slice(0, 4) : years[0]);
+  if (e1) {
+    const months = Array.from({ length: 12 }, (_, i) => `${yr}-${pad(i + 1)}`), data = months.map(m => dbParcelaMes(list, m)), ds = [];
+    DB_TIPOS.forEach(t => { ds.push({ label: t + ' (pago)', data: data.map(d => d[t].pago || null), backgroundColor: DB_COR[t] + '66', stack: 's', borderRadius: 0, maxBarThickness: 36 }); ds.push({ label: t, data: data.map(d => d[t].pagar || null), backgroundColor: DB_COR[t], stack: 's', borderRadius: 3, maxBarThickness: 36 }); });
+    charts.push(new Chart(e1, { type: 'bar', data: { labels: months.map(m => MSHORT[+m.slice(5, 7) - 1]), datasets: ds }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false },
+      plugins: { legend: { display: false }, tooltip: { ...tooltipStyle(), callbacks: { label: c => c.parsed.y ? ` ${c.dataset.label}: ${brl(c.parsed.y)}` : null, footer: items => 'Total do mês: ' + brl(items.reduce((a, i) => a + (i.parsed.y || 0), 0)) } } },
+      scales: { x: { stacked: true, grid: { display: false } }, y: { stacked: true, beginAtZero: true, grid: { color: cssv('--grid') }, border: { display: false }, ticks: { callback: v => v >= 1000 ? (v / 1000) + ' mil' : v } } } } }));
+  }
+  if (e2) {
+    const starts = list.filter(({ k }) => !k.semCronograma).map(({ k }) => k.ini), ends = list.filter(({ k }) => !k.semCronograma).map(({ k }) => k.fim);
+    if (!starts.length) { e2.parentElement.innerHTML = '<div class="note">Informe o mês da 1ª parcela e o nº de parcelas para ver a projeção.</div>'; return; }
+    const from = [ymAdd(now, -6), starts.sort()[0]].sort().pop(), to = ends.sort().pop(); const n = Math.min(120, ymDiff(from, to) + 2), labels = [], vals = [];
+    for (let i = 0; i < n; i++) { const ym = ymAdd(from, i); labels.push(ymLabel(ym)); let s = 0;
+      list.forEach(({ k }) => { if (k.semCronograma) return; const idx = ymDiff(k.ini, ym) + 1; let paid = Math.min(k.qt, Math.max(0, idx)); if (ym >= now) paid = Math.max(paid, k.pagas); s += (k.qt - paid) * k.parcela; }); vals.push(Math.round(s)); }
+    charts.push(new Chart(e2, { type: 'line', data: { labels, datasets: [{ label: 'Saldo a pagar', data: vals, borderColor: cssv('--ink'), backgroundColor: cssv('--ink') + '18', fill: true, tension: .2, pointRadius: 0, pointHoverRadius: 4, borderWidth: 2 }] },
+      options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { display: false }, tooltip: { ...tooltipStyle(), callbacks: { label: c => ' Saldo: ' + brl(c.parsed.y) } } }, scales: { x: { grid: { display: false }, ticks: { maxTicksLimit: 10 } }, y: { beginAtZero: true, grid: { color: cssv('--grid') }, border: { display: false }, ticks: { callback: v => v >= 1000 ? (v / 1000) + ' mil' : v } } } } }));
+  }
+}
+document.addEventListener('change', e => {
+  const el = e.target, d = el.dataset; if (!d) return;
+  if (d.dbyear != null) { UI.db = { ...(UI.db || {}), ano: +el.value }; saveUI(); return render(); }
+  if (d.db != null) {
+    const [id, f] = d.db.split('|'), rec = S.debts[id]; if (!rec) return; let v = el.value;
+    if (['valor', 'parcela', 'juros'].includes(f)) { v = parseNum(v); if (v == null) v = ''; }
+    else if (['qt', 'pagas'].includes(f)) { v = parseNum(v); v = v == null ? '' : Math.max(0, Math.round(v)); }
+    else v = String(v).trim();
+    if ((rec[f] ?? '') === v) return; patch('debts', id, { [f]: v });
+  }
+});
+
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
 function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
 
@@ -2694,6 +2939,8 @@ document.addEventListener('click', async e => {
     case 'edit-atn': return atnPop(el);
     case 'ctab': UI.cTab = v; saveUI(); return render();
     case 'dg-new': { const cl = S.clients[id]; if (!cl) return; closePop(); dgNew(cl); UI.cTab = 'diag'; saveUI(); return render(); }
+    case 'db-add': { const rec = create('debts', { cid: id, tipo: 'Banco', emissor: '', valor: '', qt: '', juros: '', parcela: '', inicio: '', pagas: '' }); UI.cTab = 'endiv'; setTimeout(() => { const el = $$('[data-db$="|emissor"]').pop(); el?.scrollIntoView({ block: 'center' }); el?.focus(); }, 120); return; }
+    case 'db-rm': { const rec = S.debts[id]; if (!rec) return; if (!(await confirmDlg('Excluir dívida?', `${esc(rec.emissor || 'Esta dívida')} será excluída para toda a equipe.`))) return; removeRec('debts', id); toast('Dívida excluída', { label: 'Desfazer', fn: () => put('debts', rec) }); return; }
     case 'dg-sync-x': { const rec = S.diags[id], cl = S.clients[el.dataset.cid]; if (!rec || !cl) return; patch('diags', id, { syncOk: dgSyncSig(dgSyncDiffs(cl, rec)) }); toast('Aviso fechado. Ele só volta se os dados do diagnóstico mudarem.'); return; }
     case 'dg-notes': UI.dg.notes = !dgDockOpen(); saveUI(); return render();
     case 'dg-stamp': { const ta = $('#dg-notes-dock') || $('#dg-notas'); if (!ta) return; const t = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); ta.value += `${ta.value && !ta.value.endsWith('\n') ? '\n' : ''}[${t}] `; ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); ta.dispatchEvent(new Event('input', { bubbles: true })); ta.scrollTop = ta.scrollHeight; return; }
@@ -2866,6 +3113,8 @@ async function importXlsx(file) {
       });
       Object.values(grp).forEach(({ cl, m }) => { const marcos = Object.values(m).sort((a, b) => a.mes - b.mes), tgt = out.clients.find(x => x.id === cl.id); if (tgt) tgt.marcos = marcos; else out.clients.push({ ...cl, marcos }); });
     }
+    const dbRows = sheetRows(wb, 'Dívidas');
+    if (dbRows && dbRows.length) { out.debts = []; dbRows.forEach(r => { const cid = xStr(pick(r, 'id do cliente')), nm = xStr(pick(r, 'cliente')), cl = S.clients[cid] || out.clients.find(x => x.id === cid) || clientsArr().find(x => norm(x.nome) === norm(nm)); if (!cl) return; const s = xStr(pick(r, '1a parcela')), m = s.match(/^(\d{1,2})\/(\d{4})$/); out.debts.push({ id: uid(), createdAt: Date.now(), cid: cl.id, tipo: matchList(pick(r, 'tipo'), DB_TIPOS) || 'Banco', emissor: xStr(pick(r, 'emissor')), valor: parseNum(pick(r, 'valor total')) ?? '', qt: parseNum(pick(r, 'qtd parcelas')) ?? '', juros: parseNum(pick(r, 'juros')) ?? '', parcela: parseNum(pick(r, 'valor da parcela')) ?? '', inicio: m ? `${m[2]}-${pad(+m[1])}` : '', pagas: parseNum(pick(r, 'parcelas pagas')) ?? '' }); }); }
     const dgRows = sheetRows(wb, 'Diagnósticos');
     if (dgRows && dgRows.length) { out.diags = []; dgRows.forEach(r => { try { const cid = xStr(pick(r, 'id do cliente')), cl = S.clients[cid] || out.clients.find(x => x.id === cid); if (!cl) return; const j = JSON.parse(xStr(pick(r, 'dados (json)'))); out.diags.push({ id: uid(), createdAt: Date.now(), cid, data: xDate(pick(r, 'data')) || today(), titulo: xStr(pick(r, 'titulo')) || 'Diagnóstico', r: j.r || {}, notas: j.notas || '' }); } catch { } }); }
     const cobRows = sheetRows(wb, 'Cobrança');
@@ -2919,6 +3168,7 @@ async function exportXlsx() {
     const add = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows.length ? rows : [{}]), name);
     add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, 'Financeiro dedicado': c.fin || '', Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
     add('Planos', S.settings.planos.map(p => ({ Plano: p.nome, 'Valor cheio (R$)': p.valor })));
+    add('Dívidas', Object.values(S.debts).map(x => ({ 'ID do cliente': x.cid, Cliente: S.clients[x.cid]?.nome || '', Tipo: x.tipo, Emissor: x.emissor, 'Valor total (R$)': x.valor, 'Qtd. parcelas': x.qt, 'Juros (% a.m.)': x.juros, 'Valor da parcela (R$)': x.parcela, '1ª parcela (mm/aaaa)': x.inicio ? `${x.inicio.slice(5, 7)}/${x.inicio.slice(0, 4)}` : '', 'Parcelas pagas': x.pagas })));
     add('Diagnósticos', Object.values(S.diags).map(x => ({ 'ID do cliente': x.cid, Cliente: S.clients[x.cid]?.nome || '', Data: fmtD(x.data), 'Título': x.titulo, 'Dados (JSON)': JSON.stringify({ r: x.r || {}, notas: x.notas || '' }) })));
     add('Resultados', clientsArr().flatMap(c => (c.marcos || []).flatMap(m => mkItems(m).map(t => ({ 'ID do cliente': c.id, Cliente: c.nome, 'Mês de consultoria': m.mes, Categoria: MK_CATS[t.c].one, Conquista: t.t, Fonte: m.fonte || '' })))));
     add('Cobrança', clientsArr().flatMap(c => (c.cobr || []).map(r => ({ 'ID do cliente': c.id, Cliente: c.nome, 'A partir de (mm/aaaa)': `${r.de.slice(5, 7)}/${r.de.slice(0, 4)}`, 'Valor cobrado (R$)': r.valor, 'Valor cheio (R$)': r.cheio, 'Observação': r.nota }))));
