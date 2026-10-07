@@ -595,6 +595,15 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .dgcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px} @media (max-width:700px){.dgcols{grid-template-columns:1fr}} .dgcols ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
 .dgprint{position:fixed;left:-12000px;top:0;width:780px;--surface:#fff;--surface-2:#f7f9fc;--surface-3:#eef2f7;--line:#e4e9f0;--ink:#0c2340;--ink-2:#46546e;--muted:#8792a6;--green-fg:#0a7a3d;--red-fg:#b42323;--amber-fg:#8a5a00;--amber-bg:#fdf1d6;--red-bg:#fde6e6;--focus:#2a5fc4;--shadow:none;color-scheme:light;background:#fff;color:#0c2340;font-family:Poppins,sans-serif}
 .dgprint .dgblk{box-shadow:none;margin-bottom:6px} .dgprint .dgres{gap:6px}
+.dgsync-a{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
+.dgdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);margin-left:2px;vertical-align:1px}
+.dgdock{position:fixed;right:18px;top:84px;bottom:18px;width:336px;z-index:35;display:flex;flex-direction:column;padding:0;overflow:hidden}
+.dgdock-h{display:flex;align-items:center;gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)} .dgdock-h b{flex:1;font-size:13.5px} .dgdock-h .ti{font-size:18px;color:var(--accent-ink)}
+.dgdock-t{display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--muted);flex-wrap:wrap}
+.dgdock textarea{flex:1;border:0;resize:none;padding:12px 14px;min-height:120px;outline:none;line-height:1.55;font-size:13.5px;background:var(--surface);color:var(--ink);width:100%}
+body.dg-dock .main{padding-right:372px} body.dg-dock .fab{right:372px}
+@media (max-width:1099px){.dgdock{left:10px;right:10px;top:auto;bottom:72px;width:auto;height:40vh} body.dg-dock .main{padding-right:30px;padding-bottom:calc(40vh + 150px)} body.dg-dock .fab{display:none}}
+@media (min-width:861px) and (max-width:1099px){.dgdock{left:250px;bottom:12px}}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -950,6 +959,7 @@ function render() {
   $$('#nav a,#bnav a').forEach(el => el.classList.toggle('on', el.dataset.r === (r === 'cliente' ? 'clientes' : r)));
   charts.forEach(c => c.destroy()); charts = [];
   $('#view').innerHTML = VIEWS[r]();
+  document.body.classList.remove('dg-dock');
   AFTER[r]?.();
   renderDrawer();
   sc.forEach(([k, l, t]) => { const el = $(`[data-sk="${k}"]`); if (el) { el.scrollLeft = l; el.scrollTop = t; } });
@@ -1375,7 +1385,7 @@ function clientKanban(list) {
       </div>`).join('')}</div></div>`;
   }).join('')}</div>`;
 }
-AFTER.cliente = () => { autosize(); dgChart(); const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
+AFTER.cliente = () => { autosize(); dgChart(); { const cid = (location.hash.match(/^#\/cliente\/([\w-]+)/) || [])[1]; document.body.classList.toggle('dg-dock', UI.cTab === 'diag' && !!cid && dgRecs(cid).length > 0 && dgDockOpen()); } const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
 AFTER.clientes = () => {
   const q = $('#cq'); if (q) q.oninput = debounce(() => { UI.cq = q.value; saveUI(); render(); }, 150);
   initKanban();
@@ -2223,6 +2233,12 @@ function dgProgress(rec) {
 }
 
 /* ── tela principal ── */
+const dgDockOpen = () => UI.dg.notes == null ? innerWidth >= 1100 : !!UI.dg.notes;
+function dgDock(rec) {
+  return `<aside class="card dgdock" aria-label="Anotações da reunião"><div class="dgdock-h"><i class="ti ti-notes"></i><b>Anotações da reunião</b><button class="iconbtn" data-act="dg-notes" aria-label="Fechar anotações" title="Fechar"><i class="ti ti-x"></i></button></div>
+    <div class="dgdock-t"><button class="btn sm" data-act="dg-stamp"><i class="ti ti-clock"></i>Inserir horário</button><span>${(rec.notas || '').length} caracteres · salvo automaticamente</span></div>
+    <textarea id="dg-notes-dock" data-dgn="${rec.id}" placeholder="Anote aqui enquanto o cliente responde. Este painel continua aberto ao trocar de seção.">${esc(rec.notas || '')}</textarea></aside>`;
+}
 function viewDiag(c) {
   const recs = dgRecs(c.id);
   if (!recs.length) return `<div class="card dgempty"><i class="ti ti-stethoscope"></i><h3>Diagnóstico de gestão</h3><p>Ainda não há diagnóstico para este cliente. Ao iniciar, o painel já preenche nome, segmento, faturamento médio e responsável pelo financeiro com o que está no cadastro.</p>
@@ -2232,24 +2248,30 @@ function viewDiag(c) {
   const bar = `<div class="card dgbar"><div class="dgbar-l">${vsel}<span class="pill dg-${sc.cls}"><i class="ti ti-gauge"></i>${sc.nivel} · ${sc.score}/${DG_MAX}${sc.provisorio ? ' *' : ''}</span>
       <span class="dgmini">Resultado <b class="${dre.resultadoLiquido >= 0 ? 'pos' : 'neg'}">${brl(dre.resultadoLiquido)}</b> · margem <b class="${dre.margem >= 0 ? 'pos' : 'neg'}">${dgPct(dre.margem)}</b></span><span class="dgmini">${pr.total.f}/${pr.total.t} respostas${(pr.total.f < pr.total.t * .6 || (dre.faturamento > 0 && (dre.despesasPessoal === 0 || dre.despesasAdmin === 0))) ? ` <span class="pill c-amber" style="height:20px;font-size:11px" title="Faltam respostas ou despesas (pessoal/administrativas): o resultado ainda é parcial e pode estar superestimado">resultado incompleto</span>` : ''}</span></div>
     <div class="dgbar-r"><div class="seg sm">${[['resp', 'Respostas', 'ti-forms'], ['res', 'Resultado', 'ti-chart-pie'], ['evo', 'Evolução', 'ti-timeline']].map(([k, l, i]) => `<button data-act="dg-view" data-v="${k}" class="${view === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}</button>`).join('')}</div>
+      <button class="btn sm ${dgDockOpen() ? 'on' : ''}" data-act="dg-notes" title="Painel de anotações fixo: continua aberto ao trocar de seção"><i class="ti ti-notes"></i>Anotações${rec.notas ? ' <span class="dgdot"></span>' : ''}</button>
       <button class="btn sm" data-act="dg-new" data-id="${c.id}" title="Cria uma nova versão com as respostas atuais como ponto de partida"><i class="ti ti-refresh"></i>Reavaliar</button>
       <button class="btn sm" data-act="dg-menu" data-id="${c.id}" aria-label="Mais ações"><i class="ti ti-dots"></i></button></div></div>`;
   const sync = dgSync(c, rec);
-  return bar + sync + (view === 'resp' ? dgRespostas(c, rec, pr) : view === 'res' ? dgResultado(c, rec, sc, dre) : dgEvolucao(c));
+  return bar + sync + (view === 'resp' ? dgRespostas(c, rec, pr) : view === 'res' ? dgResultado(c, rec, sc, dre) : dgEvolucao(c)) + (dgDockOpen() ? dgDock(rec) : '');
 }
-function dgSync(c, rec) {
+function dgSyncDiffs(c, rec) {
   const r = rec.r || {}, diffs = [];
   if (r.segmento && norm(r.segmento) !== norm(c.seg)) diffs.push(['seg', 'Segmento', c.seg || '—', r.segmento]);
   if (r.faturamentoMedio != null && r.faturamentoMedio !== '' && dgN(r.faturamentoMedio) !== dgN(c.fat)) diffs.push(['fat', 'Faturamento médio', c.fat != null ? brl(c.fat) : '—', brl(dgN(r.faturamentoMedio))]);
   const fin = r.responsavelFinanceiro === 'sim' ? 'Sim' : r.responsavelFinanceiro === 'nao' ? 'Não' : ''; if (fin && fin !== (c.fin || '')) diffs.push(['fin', 'Financeiro dedicado', c.fin || '—', fin]);
-  if (!diffs.length || rec.id !== dgLast(c.id)?.id) return '';
-  return `<div class="card dgsync"><i class="ti ti-arrows-diff"></i><div style="flex:1;min-width:240px"><b>O diagnóstico traz dados diferentes do cadastro</b>${diffs.map(([k, l, a, b]) => `<div class="dgdiff">${l}: <span>${esc(a)}</span> → <b>${esc(b)}</b> <button class="btn sm" data-act="dg-sync" data-k="${c.id}|${rec.id}|${k}">Usar o do diagnóstico</button></div>`).join('')}</div>${diffs.length > 1 ? `<button class="btn sm primary" data-act="dg-sync" data-k="${c.id}|${rec.id}|all">Atualizar tudo</button>` : ''}</div>`;
+  return diffs;
 }
-function dgRespostas(c, rec, pr) {
+const dgSyncSig = d => d.map(x => x[0] + ':' + x[3]).join('|');
+function dgSync(c, rec) {
+  const diffs = dgSyncDiffs(c, rec);
+  if (!diffs.length || rec.id !== dgLast(c.id)?.id || rec.syncOk === dgSyncSig(diffs)) return '';
+  return `<div class="card dgsync"><i class="ti ti-arrows-diff"></i><div style="flex:1;min-width:240px"><b>O diagnóstico traz dados diferentes do cadastro</b>${diffs.map(([k, l, a, b]) => `<div class="dgdiff">${l}: <span>${esc(a)}</span> → <b>${esc(b)}</b> <button class="btn sm" data-act="dg-sync" data-k="${c.id}|${rec.id}|${k}">Usar o do diagnóstico</button></div>`).join('')}</div>
+    <div class="dgsync-a">${diffs.length > 1 ? `<button class="btn sm primary" data-act="dg-sync" data-k="${c.id}|${rec.id}|all">Atualizar tudo</button>` : ''}<button class="btn sm" data-act="dg-sync-x" data-id="${rec.id}" data-cid="${c.id}" title="Manter os dados do cadastro e fechar este aviso">Manter o cadastro</button><button class="iconbtn" data-act="dg-sync-x" data-id="${rec.id}" data-cid="${c.id}" aria-label="Fechar aviso" title="Fechar (o aviso só volta se os dados do diagnóstico mudarem)"><i class="ti ti-x"></i></button></div></div>`;
+}function dgRespostas(c, rec, pr) {
   const sec = DG_SECOES.some(s => s.id === UI.dg.sec) || UI.dg.sec === 'notas' ? UI.dg.sec : 'empresa', r = rec.r || {};
   const nav = `<div class="dgnav">${DG_SECOES.map(s => { const p = pr[s.id]; return `<button class="dgnb ${sec === s.id ? 'on' : ''} ${p.t && p.f === p.t ? 'ok' : ''}" data-act="dg-sec" data-v="${s.id}"><span>${s.icone}</span><b>${esc(s.nome)}</b><i>${p.f}/${p.t}</i></button>`; }).join('')}<button class="dgnb ${sec === 'notas' ? 'on' : ''} ${rec.notas ? 'ok' : ''}" data-act="dg-sec" data-v="notas"><span>📝</span><b>Anotações</b><i>${rec.notas ? '✓' : '—'}</i></button></div>`;
   let body;
-  if (sec === 'notas') body = `<div class="card"><div class="card-h"><h3>Anotações da reunião</h3><span class="hint">Livre. Entra no PDF.</span></div><div class="card-b"><textarea class="field" id="dg-notas" rows="12" data-dgn="${rec.id}" placeholder="Pontos que o cliente citou, combinados, dúvidas…">${esc(rec.notas || '')}</textarea></div></div>`;
+  if (sec === 'notas') body = dgDockOpen() ? `<div class="card dgempty" style="padding:30px 20px"><i class="ti ti-notes" style="font-size:34px"></i><p style="margin:0 auto 12px">As anotações estão abertas no painel ao lado e continuam visíveis em todas as seções.</p><button class="btn" data-act="dg-notes"><i class="ti ti-layout-sidebar-right-collapse"></i>Fechar o painel e editar aqui</button></div>` : `<div class="card"><div class="card-h"><h3>Anotações da reunião</h3><span class="hint">Livre. Entra no PDF.</span></div><div class="card-b"><textarea class="field" id="dg-notas" rows="12" data-dgn="${rec.id}" placeholder="Pontos que o cliente citou, combinados, dúvidas…">${esc(rec.notas || '')}</textarea><div style="margin-top:8px"><button class="btn sm" data-act="dg-notes"><i class="ti ti-layout-sidebar-right-expand"></i>Manter fixo ao lado</button></div></div></div>`;
   else {
     const s = DG_SECOES.find(x => x.id === sec);
     body = `<div class="card"><div class="card-h"><div><h3>${s.icone} ${esc(s.nome)}</h3><div class="hint">${esc(s.sub)}</div></div></div><div class="card-b">${s.blocos.map(b => {
@@ -2672,6 +2694,9 @@ document.addEventListener('click', async e => {
     case 'edit-atn': return atnPop(el);
     case 'ctab': UI.cTab = v; saveUI(); return render();
     case 'dg-new': { const cl = S.clients[id]; if (!cl) return; closePop(); dgNew(cl); UI.cTab = 'diag'; saveUI(); return render(); }
+    case 'dg-sync-x': { const rec = S.diags[id], cl = S.clients[el.dataset.cid]; if (!rec || !cl) return; patch('diags', id, { syncOk: dgSyncSig(dgSyncDiffs(cl, rec)) }); toast('Aviso fechado. Ele só volta se os dados do diagnóstico mudarem.'); return; }
+    case 'dg-notes': UI.dg.notes = !dgDockOpen(); saveUI(); return render();
+    case 'dg-stamp': { const ta = $('#dg-notes-dock') || $('#dg-notas'); if (!ta) return; const t = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); ta.value += `${ta.value && !ta.value.endsWith('\n') ? '\n' : ''}[${t}] `; ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); ta.dispatchEvent(new Event('input', { bubbles: true })); ta.scrollTop = ta.scrollHeight; return; }
     case 'dg-sec': UI.dg.sec = v; saveUI(); render(); return window.scrollTo({ top: 0, behavior: 'smooth' });
     case 'dg-view': UI.dg.view = v; saveUI(); render(); return window.scrollTo({ top: 0 });
     case 'dg-pick': { const [rid, f] = el.dataset.k.split('|'), rec = S.diags[rid]; if (!rec) return; return dgSet(rid, f, rec.r?.[f] === v ? '' : v); }
