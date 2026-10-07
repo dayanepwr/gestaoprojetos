@@ -529,6 +529,73 @@ tr.done .in.strong{text-decoration:line-through;color:var(--muted)}
 .mkc ul li::marker{color:var(--accent)}
 .mkc .src{font-size:11.5px;color:var(--muted);margin-top:8px}
 .soon{text-align:center;padding:50px 20px;color:var(--muted)}
+/* diagnóstico */
+.pill.dg-bronze{--p-bg:#F6E7D7;--p-fg:#8A4F12} .pill.dg-prata{--p-bg:#E8ECF0;--p-fg:#4A5875} .pill.dg-ouro{--p-bg:#D9F3F1;--p-fg:#0B6F74}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pill.dg-bronze{--p-bg:rgba(205,127,50,.2);--p-fg:#E8A86A} :root:not([data-theme="light"]) .pill.dg-prata{--p-bg:rgba(160,175,190,.2);--p-fg:#C3CCD8} :root:not([data-theme="light"]) .pill.dg-ouro{--p-bg:rgba(0,167,157,.2);--p-fg:#6FD9D2}}
+:root[data-theme="dark"] .pill.dg-bronze{--p-bg:rgba(205,127,50,.2);--p-fg:#E8A86A} :root[data-theme="dark"] .pill.dg-prata{--p-bg:rgba(160,175,190,.2);--p-fg:#C3CCD8} :root[data-theme="dark"] .pill.dg-ouro{--p-bg:rgba(0,167,157,.2);--p-fg:#6FD9D2}
+.dgempty{text-align:center;padding:44px 20px}
+.dgempty .ti{font-size:44px;display:block;margin:0 auto 8px;color:var(--line-2)}
+.dgempty h3{margin:0 0 6px} .dgempty p{max-width:560px;margin:0 auto 16px;color:var(--ink-2);font-size:13.5px;line-height:1.55}
+.dgbar{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 14px;margin-bottom:14px;position:sticky;top:0;z-index:20}
+.dgbar-l,.dgbar-r{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.dgver{height:34px;font-size:12.5px;max-width:260px}
+.dgmini{font-size:12.5px;color:var(--ink-2)} .dgmini b{font-weight:700}
+.pos{color:var(--green-fg)} .neg{color:var(--red-fg)}
+.dgsync{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;margin-bottom:14px;border-left:4px solid var(--amber-fg);flex-wrap:wrap}
+.dgsync>.ti{font-size:22px;color:var(--amber-fg);margin-top:2px}
+.dgdiff{font-size:12.5px;color:var(--ink-2);margin-top:6px;display:flex;gap:8px;align-items:center;flex-wrap:wrap} .dgdiff span{text-decoration:line-through;color:var(--muted)}
+.dglayout{display:grid;grid-template-columns:230px minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:900px){.dglayout{grid-template-columns:1fr}}
+.dgnav{display:flex;flex-direction:column;gap:4px;position:sticky;top:74px}
+@media (max-width:900px){.dgnav{flex-direction:row;overflow-x:auto;position:static;scrollbar-width:none;padding-bottom:4px}.dgnav::-webkit-scrollbar{display:none}}
+.dgnb{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:11px;text-align:left;background:var(--surface);border:1px solid var(--line);white-space:nowrap}
+.dgnb b{font-weight:600;font-size:13px;flex:1} .dgnb i{font-style:normal;font-size:11.5px;color:var(--muted);background:var(--surface-3);border-radius:999px;padding:1px 8px}
+.dgnb.on{border-color:var(--accent);background:var(--accent-soft)} .dgnb.ok i{background:var(--green-bg);color:var(--green-fg)}
+.dggrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
+@media (max-width:700px){.dggrid{grid-template-columns:1fr}}
+.dgf{display:flex;flex-direction:column;gap:5px;min-width:0} .dgf.wide{grid-column:1/-1}
+.dgf>label{font-size:13px;font-weight:600;color:var(--ink)} .dgf>small{font-size:12px;color:var(--muted);line-height:1.4}
+.dgf.cond{border-left:3px solid var(--focus);padding-left:12px;background:color-mix(in srgb,var(--focus) 6%,transparent);border-radius:0 10px 10px 0}
+.dgf.flash{animation:dgflash 1.6s ease-out}
+@keyframes dgflash{0%,40%{box-shadow:0 0 0 3px color-mix(in srgb,var(--amber-fg) 55%,transparent);background:var(--amber-bg)}100%{box-shadow:none}}
+.dgstar{font-size:12px;color:var(--amber-fg);margin-left:6px;vertical-align:-1px}
+.dgopts{display:flex;gap:6px;flex-wrap:wrap}
+.dgopt{padding:8px 14px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:13px;font-weight:500;color:var(--ink-2)}
+.dgopt:hover{border-color:var(--focus)} .dgopt.on{background:var(--ink);border-color:var(--ink);color:var(--surface);font-weight:600}
+.dgin{display:flex;align-items:center;gap:6px} .dgin span{color:var(--muted);font-size:13px;font-weight:600} .dgin .field{flex:1;min-width:0}
+.dglist{display:flex;flex-direction:column;gap:8px} .dgrow{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 30px;gap:8px;align-items:center}
+.dgtot{font-size:13px;color:var(--ink-2);margin-top:6px} .dgtot b{color:var(--ink)}
+.dgbt{margin:22px 0 10px;font-size:13.5px;font-weight:700;color:var(--ink);border-bottom:2px solid var(--line);padding-bottom:6px} .dgbt:first-child{margin-top:0}
+.dgfoot{display:flex;justify-content:space-between;margin-top:14px}
+.dgres{display:flex;flex-direction:column;gap:14px}
+.dgtwo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start} @media (max-width:1000px){.dgtwo{grid-template-columns:1fr}}
+.dgblk{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;box-shadow:var(--shadow)}
+.dghead{border-top:4px solid var(--nv)} .dgh-t{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.dgh-t small{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em} .dgh-t h2{margin:2px 0;font-size:22px} .dgh-t span{font-size:12.5px;color:var(--ink-2)}
+.dgseal{color:#fff!important;font-weight:700;font-size:13px!important;padding:6px 16px;border-radius:999px}
+.dgt{margin:0 0 10px;font-size:14px;font-weight:700}
+.dgscore{display:flex;align-items:baseline;gap:8px} .dgscore b{font-size:38px;letter-spacing:-.02em;line-height:1} .dgscore span{font-size:13px;color:var(--muted)}
+.dgdesc{margin:6px 0 14px;font-size:13px;color:var(--ink-2)}
+.dgrule{position:relative;display:flex;height:16px;border-radius:999px;overflow:hidden;background:var(--surface-3)} .dgrule .z.off{opacity:.3} .dgrule i{position:absolute;top:-3px;bottom:-3px;width:4px;margin-left:-2px;background:var(--ink);border-radius:2px}
+.dgleg{display:flex;margin-top:8px;font-size:11px;color:var(--muted);line-height:1.4} .dgleg>div{padding-right:8px} .dgleg .atual{color:var(--ink)} .dgleg b{color:var(--ink-2)}
+.dgkpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px} @media (max-width:700px){.dgkpis{grid-template-columns:1fr}}
+.dgkpis>div{padding:12px 14px;border-radius:12px;background:var(--surface-2);border:1px solid var(--line)} .dgkpis small{display:block;font-size:12px;color:var(--muted)} .dgkpis b{font-size:22px;letter-spacing:-.01em}
+.dgkpis .bom b{color:var(--green-fg)} .dgkpis .ruim b{color:var(--red-fg)}
+.dgnote{margin-top:10px;font-size:12px;color:var(--amber-fg);background:var(--amber-bg);padding:8px 12px;border-radius:9px}
+.dgstack{display:flex;height:22px;border-radius:999px;overflow:hidden;background:var(--surface-3);margin-bottom:12px}
+.dgls{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:7px;font-size:13px} .dgls li{display:grid;grid-template-columns:12px minmax(0,1fr) auto 56px;gap:10px;align-items:center} .dgls i{width:12px;height:12px;border-radius:3px} .dgls b{font-weight:600} .dgls em{font-style:normal;color:var(--muted);text-align:right}
+.dgwarn{margin-top:12px;font-size:12.5px;color:var(--red-fg);background:var(--red-bg);padding:9px 12px;border-radius:9px}
+.dgdre{width:100%;border-collapse:collapse;font-size:13px} .dgdre th{text-align:right;font-size:11.5px;color:var(--muted);font-weight:600;padding:4px 6px} .dgdre th:first-child{text-align:left}
+.dgdre td{padding:6px;border-bottom:1px solid var(--line);text-align:right;font-variant-numeric:tabular-nums} .dgdre td:first-child{text-align:left} .dgdre .tot td{font-weight:700;background:var(--surface-2)} .dgdre .sub td:first-child{padding-left:22px;color:var(--ink-2);font-size:12.5px} .dgdre .mut{color:var(--muted)}
+.dgdre .fecha td{font-weight:700;font-size:14px;border-top:2px solid var(--ink)}
+.dgck{display:flex;flex-direction:column;gap:8px} .dgc{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-radius:11px;border:1px solid var(--line);background:var(--surface-2)} .dgc>.ti{font-size:20px;margin-top:1px;flex:none} .dgc div{flex:1;min-width:0} .dgc b{display:block;font-size:13px} .dgc span{font-size:12.5px;color:var(--ink-2);line-height:1.45}
+.dgc.alta{border-color:var(--red-fg);background:var(--red-bg)} .dgc.alta>.ti{color:var(--red-fg)} .dgc.media{background:var(--amber-bg)} .dgc.media>.ti{color:var(--amber-fg)} .dgc.info>.ti{color:var(--focus)}
+.dgmetas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px} @media (max-width:700px){.dgmetas{grid-template-columns:1fr}}
+.dgmetas>div{padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface-2)} .dgmetas small{display:block;font-size:12px;color:var(--muted)} .dgmetas b{font-size:16px} .dgmetas em{display:block;font-style:normal;font-size:12px;color:var(--ink-2);margin-top:3px}
+.dgcols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px} @media (max-width:700px){.dgcols{grid-template-columns:1fr}} .dgcols ul{margin:0;padding-left:18px;font-size:13px;line-height:1.6}
+.dgprint{position:fixed;left:-12000px;top:0;width:780px;--surface:#fff;--surface-2:#f7f9fc;--surface-3:#eef2f7;--line:#e4e9f0;--ink:#0c2340;--ink-2:#46546e;--muted:#8792a6;--green-fg:#0a7a3d;--red-fg:#b42323;--amber-fg:#8a5a00;--amber-bg:#fdf1d6;--red-bg:#fde6e6;--focus:#2a5fc4;--shadow:none;color-scheme:light;background:#fff;color:#0c2340;font-family:Poppins,sans-serif}
+.dgprint .dgblk{box-shadow:none;margin-bottom:6px} .dgprint .dgres{gap:6px}
+.dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
 .mkstat b{font-size:15px;color:var(--ink)}
@@ -635,6 +702,7 @@ textarea.tarea{resize:none;min-height:34px;overflow:hidden;display:block;line-he
 <div id="modal" class="modal" hidden></div>
 <div class="toasts" id="toasts"></div>
 <input type="file" id="fileImport" accept=".xlsx,.xls" hidden>
+<input type="file" id="fileDg" accept=".json,.html,.htm" hidden data-dgfile="">
 
 <script>
 'use strict';
@@ -704,7 +772,7 @@ const DEF_SETTINGS = () => ({
   catInternas: ['Senhas', 'Mensagens padrão', 'Institucional', 'Processos'],
   catClientes: ['Cases de sucesso', 'Materiais e estudos', 'Dúvidas frequentes', 'Tutoriais'],
   metaAtivos: {}, metaPadrao: null, oo: ooDefault(),
-  icpSegs: ['Restaurante/Alimentação'], icpFatMin: 120000, // ICP Power: alimentação, faturamento médio mensal mínimo e pessoa dedicada ao financeiro
+  icpSegs: ['Restaurante/Alimentação'], icpFatMin: 120000, diag: {}, // ICP Power: alimentação, faturamento médio mensal mínimo e pessoa dedicada ao financeiro
   // histórico manual de clientes em atenção por mês (aaaa-mm); a partir de desde o painel calcula pelo histórico de tags
   atencao: { meta: 15, desde: '2026-10-01', manual: { '2026-01': 3, '2026-02': 3, '2026-03': 4, '2026-06': 5, '2026-07': 4, '2026-08': 5, '2026-09': 7 } },
 });
@@ -755,7 +823,7 @@ const UI = Object.assign({
   cView: 'table', kBy: 'st', cf: {}, cSort: { k: 'nome', dir: 1 }, cq: '',
   infoArea: 'Internas', infoGroup: true, infoCat: '', iq: '',
   timeTab: 'tarefas', tView: 'table', tGroup: 'status', tf: { q: '', st: '', cli: '', resp: '', de: '', ate: '' }, tCollapsed: { 'Concluído': true },
-  atnTable: false, tcw: {}, cTab: 'geral', mkEdit: {}, mkCat: '', week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
+  atnTable: false, tcw: {}, cTab: 'geral', dg: { sec: 'empresa', view: 'resp', ver: {} }, mkEdit: {}, mkCat: '', week: null, oo: { p: '', ym: '', sec: 'aval' }, theme: 'auto', comboTable: false, showAllDone: false, goalOpen: {},
 }, (() => { try { return JSON.parse(localStorage.getItem('pw2_ui') || '{}'); } catch { return {}; } })());
 UI.drawer = null;
 const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setItem('pw2_ui', JSON.stringify(rest)); } catch { } };
@@ -763,8 +831,8 @@ const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setIte
 /* ═══════════════ DADOS / SINCRONIZAÇÃO ═══════════════ */
 // Cada registro é uma linha própria em kv_store (chave v2:<coleção>:<id>),
 // assim duas pessoas editando itens diferentes nunca se sobrescrevem.
-const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone'];
-const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, settings: DEF_SETTINGS() };
+const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags'];
+const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, settings: DEF_SETTINGS() };
 let sb = null, me = '', booted = false, syncState = 'ok', flushing = false, flushTimer = null;
 let queue = (() => { try { return JSON.parse(localStorage.getItem('pw2_queue') || '{}'); } catch { return {}; } })();
 const saveQueue = () => { try { localStorage.setItem('pw2_queue', JSON.stringify(queue)); } catch { } };
@@ -1307,7 +1375,7 @@ function clientKanban(list) {
       </div>`).join('')}</div></div>`;
   }).join('')}</div>`;
 }
-AFTER.cliente = () => { autosize(); const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
+AFTER.cliente = () => { autosize(); dgChart(); const f = UI.cFocus; UI.cFocus = null; if (f) { const el = $(`[data-bind$="|${f}"]`); if (el) setTimeout(() => { el.focus(); el.scrollIntoView({ block: 'center' }); }, 60); } };
 AFTER.clientes = () => {
   const q = $('#cq'); if (q) q.oninput = debounce(() => { UI.cq = q.value; saveUI(); render(); }, 150);
   initKanban();
@@ -1814,13 +1882,14 @@ function viewClient() {
   const tabs = [['geral', 'Informações gerais', 'ti-id'], ['diag', 'Diagnóstico', 'ti-stethoscope'], ['endiv', 'Endividamento', 'ti-credit-card'], ['result', 'Resultados alcançados', 'ti-trophy']];
   const head = `<div class="fhead"><a class="btn ghost icon" href="#/clientes" aria-label="Voltar para Clientes" title="Voltar para Clientes"><i class="ti ti-arrow-left"></i></a>
     <div class="ttl"><input class="in dr-title" data-bind="${b('nome')}" value="${esc(c.nome)}" placeholder="Nome do cliente">
-      <div class="pills" style="padding:2px 0">${pillSelect(b('st'), STATUS, c.st)}${pillSelect(b('fase'), FASES, c.fase)}${pillSelect(b('tag'), TAGS, c.tag)}<span title="${esc(icp.crit.map(x => `${x.ok ? '✔' : x.ok === false ? '✘' : '?'} ${x.l}`).join('\n'))}">${pill(icpLabel(c))}</span></div>
+      <div class="pills" style="padding:2px 0">${pillSelect(b('st'), STATUS, c.st)}${pillSelect(b('fase'), FASES, c.fase)}${pillSelect(b('tag'), TAGS, c.tag)}<span title="${esc(icp.crit.map(x => `${x.ok ? '✔' : x.ok === false ? '✘' : '?'} ${x.l}`).join('\n'))}">${pill(icpLabel(c))}</span>${dgLevelPill(c)}</div>
       <div class="meta">${avatar(c.con)}<span>${esc(c.con || 'Sem consultor')}</span>${c.plano ? `<span>· Plano ${esc(c.plano)}</span>` : ''}${mes ? `<span>· <b>${mes}º mês</b> de consultoria</span>` : ''}</div></div>
     <div style="display:flex;gap:8px;align-items:center"><span data-sync class="sync"></span><button class="btn sm danger" data-act="del" data-col="clients" data-id="${c.id}"><i class="ti ti-trash"></i>Excluir</button></div></div>
     <div class="seg ftabs">${tabs.map(([k, l, i]) => `<button data-act="ctab" data-v="${k}" class="${tab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'result' && nm ? ` <span class="pill c-green" style="height:18px;padding:0 6px;font-size:11px">${nm}</span>` : ''}</button>`).join('')}</div>`;
   let body;
   if (tab === 'geral') body = clientGeral(c, b, icp);
   else if (tab === 'result') body = clientResultados(c);
+  else if (tab === 'diag') body = viewDiag(c);
   else body = `<div class="card soon"><i class="ti ${tab === 'diag' ? 'ti-stethoscope' : 'ti-credit-card'}"></i><b style="color:var(--ink)">${tab === 'diag' ? 'Diagnóstico' : 'Endividamento'}</b><br>Esta aba será estruturada na próxima etapa.</div>`;
   return head + body + `<div class="dl-host">${datalists()}</div>`;
 }
@@ -1919,6 +1988,412 @@ function clientResultados(c) {
     patch('clients', cid, { marcos });
   }
 });
+/* ═══════════════ DIAGNÓSTICO (ficha do cliente ▸ aba Diagnóstico) ═══════════════ */
+// Regras herdadas do formulário "Diagnóstico Inicial - Teste" (v2), com os ajustes validados:
+// pontuação máxima real = 125 (faixas em terços), retirada dos sócios como despesa de pessoal,
+// encargos e impostos estimados por regime (editáveis), % das vendas no cartão e valores em R$.
+
+const DG_SIM_NAO = [{v:'sim',t:'Sim'},{v:'nao',t:'Não'}];
+const DG_SECOES = [
+ {id:'empresa', nome:'Empresa', icone:'🏢', sub:'Quem é a empresa e como ela está estruturada.', blocos:[{campos:[
+   {id:'nomeEmpresa', label:'Nome da Empresa', desc:'Como sua empresa é conhecida no mercado?', tipo:'texto', largo:true},
+   {id:'segmento', label:'Segmento', desc:'Qual a principal área de atuação?', tipo:'texto'},
+   {id:'qtdSocios', label:'Quantidade de Sócios', desc:'Quantas pessoas compõem o quadro societário?', tipo:'numero'},
+   {id:'qtdFuncionarios', label:'Quantidade de Funcionários', desc:'Quantos colaboradores (sócios + funcionários) a empresa possui?', tipo:'numero', dica:'Segue a definição da pergunta: sócios que trabalham + funcionários. Se o cliente falar só de funcionários, registre o que ele disse e use confiança "media".'},
+   {id:'possuiMaisCnpj', label:'Possui mais de 1 CNPJ?', desc:'O negócio está dividido em mais de uma empresa?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'historiaEmpresa', label:'História da Empresa', desc:'Conte-nos brevemente como a empresa surgiu.', tipo:'longo', largo:true, dica:'Resumo em 2-4 frases, em terceira pessoa, fiel ao que foi contado.'}
+ ]}]},
+
+ {id:'vendas', nome:'Faturamento', icone:'💰', sub:'Quanto entra, quando entra e o que é descontado na venda.', blocos:[{campos:[
+   {id:'faturamentoMedio', label:'Média de Faturamento Mensal', desc:'Qual o valor médio que a empresa fatura por mês?', tipo:'moeda', largo:true, dica:'Valor mensal em reais. Converta "80 mil" em 80000. Se o valor for anual ou semanal, converta para mensal e explique no trecho.'},
+   {id:'metaVendas', label:'Possui meta de vendas?', desc:'A empresa sabe quanto precisa vender?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'sazonalidade', label:'Possui períodos de sazonalidade?', desc:'Meses em que a venda é tipicamente muito mais forte ou fraca?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'sazonalidadeDesc', label:'Quais são esses períodos?', tipo:'texto', largo:true, se:{campo:'sazonalidade',valor:'sim'}, placeholder:'Ex: vendas caem em Jan/Fev, aumentam no Natal'},
+   {id:'taxaMaquininha', label:'Tem taxa de maquininha de cartão?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'taxaMaquininhaValor', label:'Qual o percentual médio da taxa?', tipo:'percentual', se:{campo:'taxaMaquininha',valor:'sim'}, placeholder:'Ex: 2,5'},
+   {id:'pctCartao', label:'Que % das vendas é paga no cartão?', desc:'A taxa de cartão incide só sobre essa parte do faturamento. Em branco = 100%.', tipo:'percentual', se:{campo:'taxaMaquininha',valor:'sim'}, placeholder:'Ex: 60', dica:'Percentual das vendas pagas no cartão (débito + crédito).'},
+   {id:'taxaMaquininhaRS', label:'Ou o valor médio mensal das taxas, em R$', desc:'Se souber o valor, ele tem prioridade sobre o percentual.', tipo:'moeda', se:{campo:'taxaMaquininha',valor:'sim'}, dica:'Valor mensal pago em taxas de maquininha, em reais.'}
+ ]}]},
+
+ {id:'impostos', nome:'Impostos', icone:'🧾', sub:'Enquadramento fiscal e carga tributária.', blocos:[{campos:[
+   {id:'regimeTributario', label:'Regime Tributário', desc:'Qual o enquadramento fiscal atual da empresa?', tipo:'escolha', largo:true, opcoes:[{v:'mei',t:'MEI'},{v:'simples',t:'Simples Nacional'},{v:'presumido',t:'Lucro Presumido'},{v:'real',t:'Lucro Real'},{v:'nao-sabe',t:'Não sei'}]},
+   {id:'sabeImposto', label:'Sabe qual % médio de imposto?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'impostoValor', label:'Qual o percentual médio de imposto sobre o faturamento?', tipo:'percentual', se:{campo:'sabeImposto',valor:'sim'}, placeholder:'Ex: 6,0'},
+   {id:'impostoValorRS', label:'Ou o valor médio mensal de impostos, em R$', desc:'Informe o % ou o valor em R$ (o valor em R$ tem prioridade). Em branco = estimativa pelo regime tributário.', tipo:'moeda', dica:'Valor mensal pago em impostos sobre o faturamento (ex.: guia do Simples), em reais.'}
+ ]}]},
+
+ {id:'contas', nome:'Contas e Disciplina', icone:'🏦', sub:'Organização bancária e separação entre empresa e pessoa física.', blocos:[{campos:[
+   {id:'contasBancarias', label:'Quantas contas bancárias (PJ) a empresa possui?', tipo:'numero'},
+   {id:'bancos', label:'Quais bancos a empresa possui?', desc:'Escreva o nome dos bancos onde a empresa tem conta.', tipo:'texto', placeholder:'Ex.: Itaú, Sicredi, Nubank PJ', dica:'Nomes dos bancos citados, separados por vírgula (ex.: "Itaú, Sicredi, Nubank PJ").'},
+   {id:'conciliacaoBancaria', label:'Faz conciliação bancária?', tipo:'escolha', opcoes:[{v:'sim',t:'Sim, diariamente'},{v:'sim-parcial',t:'Sim, mas não diariamente'},{v:'nao',t:'Não'},{v:'nao-sabe',t:'Não sei o que é'}], dica:'Influencia a pontuação. Só preencha com afirmação clara do cliente.'},
+   {id:'misturaPfPj', label:'Faz pagamentos da empresa na conta pessoal?', tipo:'escolha', opcoes:[{v:'sim',t:'Sim'},{v:'as-vezes',t:'Às vezes'},{v:'nao',t:'Não'}], dica:'Influencia a pontuação. Só preencha com afirmação clara.'},
+   {id:'misturaPjPf', label:'Faz pagamentos pessoais na conta da empresa?', tipo:'escolha', opcoes:[{v:'sim',t:'Sim'},{v:'as-vezes',t:'Às vezes'},{v:'nao',t:'Não'}], dica:'Influencia a pontuação. Só preencha com afirmação clara.'},
+   {id:'contasEmDia', label:'Paga todas as contas em dia?', tipo:'escolha', opcoes:[{v:'sim',t:'Sim, sempre'},{v:'as-vezes',t:'Às vezes'},{v:'nao',t:'Não, frequentemente'}]},
+   {id:'chequeEspecial', label:'Utiliza cheque especial?', tipo:'escolha', opcoes:[{v:'nao',t:'Não'},{v:'as-vezes',t:'Às vezes, em emergências'},{v:'sim',t:'Sim, frequentemente'}]}
+ ]}]},
+
+ {id:'pessoas', nome:'Equipe e Retiradas', icone:'👥', sub:'Quanto a empresa gasta com pessoas e quanto os sócios retiram.', blocos:[{campos:[
+   {id:'folhaSalarial', label:'Média de folha salarial', desc:'Salário bruto, sem benefícios/encargos.', tipo:'moeda', dica:'Total mensal de salários brutos da equipe (não por pessoa).'},
+   {id:'retiradaSocios', label:'Média de retirada de sócios', tipo:'moeda', dica:'Total mensal retirado pelos sócios (pró-labore + distribuição).'},
+   {id:'valeTransporte', label:'Média de VT por colaborador', tipo:'moeda', dica:'Valor POR colaborador. Se o cliente der o total, divida pela quantidade de funcionários e explique no trecho.'},
+   {id:'valeAlimentacao', label:'Média de VA/VR por colaborador', tipo:'moeda', dica:'Valor POR colaborador. Se o cliente der o total, divida pela quantidade de funcionários e explique no trecho.'},
+   {id:'tipoContrato', label:'A equipe é contratada como CLT (carteira assinada)?', desc:'Encargos (FGTS, 13º, férias e INSS) só existem para quem é CLT. Equipe PJ ou autônoma não gera encargos. Em branco = CLT.', tipo:'escolha', largo:true, opcoes:[{v:'clt',t:'Sim, CLT'},{v:'misto',t:'Parte CLT, parte PJ'},{v:'pj',t:'Não, são PJ/autônomos'}], dica:'clt, misto ou pj. Se a equipe for PJ/autônoma, escolha pj (sem encargos).'},
+   {id:'pctFolhaClt', label:'Que % da folha é de funcionários CLT?', desc:'Os encargos incidem só sobre essa parte da folha.', tipo:'percentual', se:{campo:'tipoContrato',valor:'misto'}, placeholder:'Ex: 60', dica:'Percentual da folha paga a funcionários CLT.'},
+   {id:'encargosPct', label:'Encargos sobre a folha (%)', desc:'Em branco = padrão do regime tributário (editável em Configurações). Incide só sobre a parte CLT da folha.', tipo:'percentual', placeholder:'Ex: 27', dica:'Percentual de encargos sobre a folha (FGTS, INSS patronal, provisões de 13º e férias).'}
+ ]}]},
+
+ {id:'custos', nome:'Custos e Despesas', icone:'📉', sub:'Média mensal de cada custo e despesa fixa.', blocos:[
+   {titulo:'Custos Diretos', campos:[
+     {id:'custosDiretos', label:'Média de pagamento de Custos Diretos', desc:'Custo da mercadoria, matéria-prima ou custo do serviço prestado.', tipo:'moeda', largo:true}
+   ]},
+   {titulo:'Despesas Fixas (média mensal)', soma:'admin', campos:[
+     {id:'aluguel', label:'Aluguel', tipo:'moeda', admin:true},
+     {id:'internet', label:'Telefone e internet', tipo:'moeda', admin:true},
+     {id:'agua', label:'Água', tipo:'moeda', admin:true},
+     {id:'luz', label:'Luz', tipo:'moeda', admin:true},
+     {id:'contabilidade', label:'Contabilidade', tipo:'moeda', admin:true},
+     {id:'advogados', label:'Advogados', tipo:'moeda', admin:true},
+     {id:'combustivel', label:'Combustível', tipo:'moeda', admin:true},
+     {id:'manutencao', label:'Manutenção', tipo:'moeda', admin:true},
+     {id:'marketing', label:'Marketing', tipo:'moeda', admin:true},
+     {id:'escritorio', label:'Material de Escritório', tipo:'moeda', admin:true},
+     {id:'sistema', label:'Sistema/Software', tipo:'moeda', admin:true},
+     {id:'tarifas', label:'Tarifas Bancárias', tipo:'moeda', admin:true},
+     {id:'seguros', label:'Seguros', tipo:'moeda', admin:true},
+     {id:'outrasDespesas', label:'Outras despesas', desc:'Tem alguma despesa fixa que não está na lista acima? Escreva qual é, o valor mensal e clique em OK: ela sobe para junto das outras despesas.', tipo:'lista', largo:true, dica:'Despesas fixas mensais que NÃO estão entre os campos acima. Uma entrada por despesa citada, no formato [{"descricao":"Seguro do carro","valor":350}]. Valores mensais, em reais, como número.'}
+   ]}
+ ]},
+
+ {id:'dividas', nome:'Dívidas e Reservas', icone:'🛟', sub:'Endividamento e colchão financeiro.', blocos:[{campos:[
+   {id:'endividamento', label:'Possui endividamento?', desc:'Empréstimos, financiamentos ou parcelamentos de impostos.', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'endividamentoValor', label:'Qual o valor médio do pagamento mensal dessas dívidas?', tipo:'moeda', se:{campo:'endividamento',valor:'sim'}},
+   {id:'reserva13', label:'Faz reserva para 13º e Férias?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'reservaEmergencia', label:'Possui reserva de emergência?', tipo:'escolha', opcoes:DG_SIM_NAO}
+ ]}]},
+
+ {id:'gestao', nome:'Gestão e Rotina', icone:'🧭', sub:'Como o financeiro funciona hoje e quais são as dores.', blocos:[{campos:[
+   {id:'responsavelFinanceiro', label:'Possui uma pessoa responsável pelo financeiro?', tipo:'escolha', opcoes:DG_SIM_NAO},
+   {id:'controleFinanceiro', label:'Possui uma ferramenta de controle financeiro?', desc:'Onde você registra as entradas e saídas?', tipo:'escolha', opcoes:[{v:'sim-software',t:'Sim, software de gestão (ERP)'},{v:'sim-planilha',t:'Sim, planilha (Excel/Sheets)'},{v:'nao',t:'Não — caderno ou "de cabeça"'}]},
+   {id:'analiseResultados', label:'Você analisa seus indicadores (DRE, DFC, Fluxo de Caixa)?', desc:'Você revisa os relatórios para tomar decisões?', tipo:'escolha', opcoes:[{v:'sim-mensal',t:'Sim, mensalmente'},{v:'sim-eventual',t:'Sim, mas só quando "sobra tempo"'},{v:'nao',t:'Não'},{v:'nao-sabe',t:'Não sei como analisar'}]},
+   {id:'tempoDiarioFinanceiro', label:'Quanto tempo por dia você separa para olhar para seu financeiro?', desc:'Considerando conciliação, pagamentos e análise.', tipo:'escolha', opcoes:[{v:'mais-60',t:'Mais de 60 min'},{v:'30-60',t:'30 a 60 min'},{v:'menos-30',t:'Menos de 30 min'},{v:'nenhum',t:'Nenhum / "quando dá"'}]},
+   {id:'rotinaFinanceira', label:'Como é a rotina financeira do negócio hoje?', desc:'Descreva quem faz o quê e com qual frequência.', tipo:'longo', largo:true},
+   {id:'maiorDificuldade', label:'Qual sua maior dificuldade na gestão hoje?', desc:'Se pudesse resolver um problema, qual seria?', tipo:'texto', largo:true},
+   {id:'motivoContratacao', label:'Qual o motivo da contratação da Power?', desc:'O que você mais espera resolver com nossa ajuda?', tipo:'texto', largo:true}
+ ]}]},
+
+ {id:'metas', nome:'Metas', icone:'🎯', sub:'Onde o cliente quer chegar e o que o impede.', blocos:[{campos:[
+   {id:'metaFaturamento', label:'Meta de faturamento para os próximos 12 meses', tipo:'moeda', dica:'Total em 12 meses (não mensal). Se o cliente falar a meta mensal, multiplique por 12 e explique no trecho.'},
+   {id:'metaLucro', label:'Meta de lucratividade', tipo:'percentual', placeholder:'Ex: 15'},
+   {id:'principalObjetivo', label:'Principal objetivo da empresa a curto prazo (6 meses)', tipo:'texto', largo:true, placeholder:'Ex: Organizar o financeiro'},
+   {id:'principalDesafio', label:'Maior desafio/impedimento para alcançar esse objetivo', tipo:'texto', largo:true, placeholder:'Ex: Falta de tempo'},
+   {id:'expectativaConsultoria', label:'Expectativa em 6 meses com a Consultoria Financeira', desc:'O que você espera ter conquistado ou melhorado?', tipo:'longo', largo:true},
+   {id:'tempoDedicadoAgora', label:'Quanto tempo por dia está disposto a dedicar ao financeiro a partir de agora?', desc:'Para aplicar as melhorias e manter a organização.', tipo:'escolha', largo:true, opcoes:[{v:'mais-60',t:'Mais de 60 min'},{v:'30-60',t:'30 a 60 min'},{v:'menos-30',t:'Até 30 min'},{v:'nenhum',t:'Não sei / pouco tempo'}]}
+ ]}]}
+];
+
+const DG_PONT = {
+  misturaPfPj:{nao:10}, misturaPjPf:{nao:10}, responsavelFinanceiro:{sim:10},
+  conciliacaoBancaria:{sim:10,'sim-parcial':5}, metaVendas:{sim:5}, contasEmDia:{sim:10,'as-vezes':5},
+  sabeImposto:{sim:5}, reserva13:{sim:10}, reservaEmergencia:{sim:10}, chequeEspecial:{nao:10,'as-vezes':5},
+  controleFinanceiro:{'sim-software':10,'sim-planilha':5}, analiseResultados:{'sim-mensal':5,'sim-eventual':2},
+  tempoDiarioFinanceiro:{'menos-30':5,'30-60':10,'mais-60':10}, tempoDedicadoAgora:{'menos-30':5,'30-60':10,'mais-60':10}
+};
+const DG_CAMPO = {};
+DG_SECOES.forEach(s => s.blocos.forEach(b => b.campos.forEach(c => { c.secao = s.id; DG_CAMPO[c.id] = c; })));
+const DG_MAX = 125, DG_FAIXAS = { bronze: 41, prata: 83 };
+const DG_COR = { bronze: '#CD7F32', prata: '#9AA5B1', ouro: '#00A79D' };
+const DG_REGIMES = [['mei', 'MEI'], ['simples', 'Simples Nacional'], ['presumido', 'Lucro Presumido'], ['real', 'Lucro Real'], ['nao-sabe', 'Não informado']];
+const DG_PREMISSAS = () => ({ enc: { mei: 30, simples: 27, presumido: 55, real: 55, 'nao-sabe': 27 }, imp: { mei: 1.5, simples: 10, presumido: 13, real: 12, 'nao-sabe': 10 } });
+const dgN = v => { if (v == null || v === '') return 0; if (typeof v === 'number') return isFinite(v) ? v : 0; const n = parseNum(v); return n == null ? 0 : n; };
+const dgList = v => Array.isArray(v) ? v.filter(i => i && (i.d || i.v)).map(i => ({ d: String(i.d ?? ''), v: dgN(i.v) })) : [];
+const dgVisivel = (c, r) => !c.se || String(r[c.se.campo] ?? '') === c.se.valor;
+const dgPrem = () => { const d = DG_PREMISSAS(), s = S.settings.diag || {}; return { enc: { ...d.enc, ...(s.enc || {}) }, imp: { ...d.imp, ...(s.imp || {}) } }; };
+const dgPct = v => (v == null || !isFinite(v)) ? '—' : NUMF.format(Math.round(v * 10) / 10) + '%';
+
+function dgDados(r) { const d = {}; Object.values(DG_CAMPO).forEach(c => { d[c.id] = dgVisivel(c, r) ? (r[c.id] ?? '') : ''; }); return d; }
+
+function dgScore(r) {
+  let score = 0, resp = 0; const ids = Object.keys(DG_PONT);
+  ids.forEach(id => { const v = r[id]; if (v != null && v !== '') resp++; const p = DG_PONT[id][v]; if (p) score += p; });
+  const cls = score <= DG_FAIXAS.bronze ? 'bronze' : score <= DG_FAIXAS.prata ? 'prata' : 'ouro';
+  const T = {
+    bronze: { nivel: 'Gestão Bronze', desc: 'Nível de gestão inicial. Foco em apagar incêndios.', riscos: ['Alto risco de descontrole financeiro (mistura PF/PJ).', 'Falta de visibilidade sobre a lucratividade real do negócio.', 'Dificuldade em tomar decisões baseadas em dados.'], melhorias: ['**Separação total das contas PF e PJ.** (Urgente!)', 'Implantação de um controle financeiro básico (planilha ou software).', 'Registro diário de todas as entradas e saídas (conciliação).'] },
+    prata: { nivel: 'Gestão Prata', desc: 'Gestão em desenvolvimento. Possui controles, mas falta estratégia.', riscos: ["Decisões tomadas com base em 'achismo' ou feeling.", 'Risco de problemas de fluxo de caixa por falta de planejamento (ex.: 13º).', 'Perda de rentabilidade por não conhecer custos e impostos a fundo.'], melhorias: ['Estruturação de um DRE gerencial confiável.', 'Criação de reservas financeiras (emergência, 13º, férias).', 'Análise mensal dos resultados para identificar gargalos.'] },
+    ouro: { nivel: 'Gestão Ouro', desc: 'Gestão avançada. Números na mão e foco estratégico.', riscos: ["Risco de 'estagnação' se parar de inovar.", 'Necessidade de controles mais apurados de custos e precificação.', 'Desafio de manter a cultura de gestão conforme a empresa cresce.'], melhorias: ['Implementação de metas de vendas e lucratividade (OKR).', 'Análise de indicadores de desempenho (KPIs) financeiros.', 'Planejamento orçamentário para os próximos 12 meses.'] },
+  }[cls];
+  return { score, cls, ...T, max: DG_MAX, faixas: DG_FAIXAS, respondidas: resp, pontuaveis: ids.length, provisorio: resp < ids.length };
+}
+
+function dgDRE(r) {
+  const d = dgDados(r), P = dgPrem(), fat = dgN(d.faturamentoMedio), regime = d.regimeTributario || 'nao-sabe', o = {};
+  o.faturamento = fat; o.regime = regime;
+  // despesas sobre vendas: taxa de cartão sobre a parte das vendas paga no cartão (sem a resposta, 100% como no formulário original)
+  if (d.taxaMaquininha === 'sim') o.despesasVendas = dgN(d.taxaMaquininhaRS) > 0 ? dgN(d.taxaMaquininhaRS) : fat * (d.pctCartao === '' ? 1 : dgN(d.pctCartao) / 100) * dgN(d.taxaMaquininhaValor) / 100;
+  else o.despesasVendas = 0;
+  // impostos: R$ informado > % informado > estimativa pelo regime (marcada como estimada)
+  o.impostoEstimado = false;
+  if (dgN(d.impostoValorRS) > 0) o.impostos = dgN(d.impostoValorRS);
+  else if (d.sabeImposto === 'sim' && d.impostoValor !== '') o.impostos = fat * dgN(d.impostoValor) / 100;
+  else { o.impostoPct = P.imp[regime] ?? P.imp['nao-sabe']; o.impostos = fat * o.impostoPct / 100; o.impostoEstimado = true; }
+  o.faturamentoLiquido = fat - o.despesasVendas - o.impostos;
+  o.custosDiretos = dgN(d.custosDiretos); o.lucroBruto = o.faturamentoLiquido - o.custosDiretos;
+  // pessoal: folha + VT/VA + encargos (% informado ou padrão do regime) + retirada dos sócios
+  const sal = dgN(d.folhaSalarial); o.encargosPadrao = d.encargosPct === ''; o.encargosPct = o.encargosPadrao ? (P.enc[regime] ?? P.enc['nao-sabe']) : dgN(d.encargosPct);
+  const tc = d.tipoContrato || 'clt'; o.tipoContrato = tc; o.pctClt = tc === 'pj' ? 0 : tc === 'misto' ? (d.pctFolhaClt === '' ? 50 : Math.min(100, dgN(d.pctFolhaClt))) : 100;
+  o.folha = sal; o.beneficios = (dgN(d.valeTransporte) + dgN(d.valeAlimentacao)) * dgN(d.qtdFuncionarios); o.encargos = sal * (o.pctClt / 100) * o.encargosPct / 100; o.retiradas = dgN(d.retiradaSocios);
+  o.despesasPessoal = o.folha + o.beneficios + o.encargos + o.retiradas;
+  o.despesasAdmin = Object.values(DG_CAMPO).filter(c => c.admin).reduce((a, c) => a + dgN(d[c.id]), 0) + dgList(r.outrasDespesas).reduce((a, i) => a + i.v, 0);
+  o.resultadoOperacional = o.lucroBruto - o.despesasPessoal - o.despesasAdmin;
+  o.dividas = dgN(d.endividamentoValor); o.resultadoLiquido = o.resultadoOperacional - o.dividas;
+  o.margem = fat ? o.resultadoLiquido / fat * 100 : 0;
+  return o;
+}
+
+function dgChecks(r, dre, sc) {
+  const d = dgDados(r), out = [], fat = dre.faturamento, add = (nivel, titulo, texto, campo) => out.push({ nivel, titulo, texto, campo });
+  const fmt = brl;
+  if (!fat) add('alta', 'Faturamento não informado', 'Sem o faturamento médio mensal a DRE e os percentuais não fazem sentido.', 'faturamentoMedio');
+  if (dre.impostoEstimado) add('media', 'Imposto estimado pelo regime', `O cliente não informou o imposto; foi usado ${dgPct(dre.impostoPct)} do faturamento (padrão do regime). Informe o % ou o valor em R$ para um resultado real.`, 'impostoValorRS');
+  if (dre.tipoContrato === 'misto' && d.pctFolhaClt === '') add('media', 'Informe a parte CLT da folha', 'A equipe é mista, mas o % da folha CLT não foi informado: foi considerado 50% para calcular os encargos.', 'pctFolhaClt');
+  if (dre.tipoContrato === 'pj' && dre.folha > 0) add('info', 'Equipe PJ: encargos não contabilizados', 'A folha foi tratada como pagamento a PJ/autônomos, sem FGTS, 13º, férias ou INSS. Confirme se não há vínculo que gere risco trabalhista.', 'tipoContrato');
+  if (dre.encargosPadrao && dre.folha > 0 && dre.pctClt > 0) add('info', 'Encargos pelo padrão do regime', `Encargos de ${dgPct(dre.encargosPct)} sobre a folha (padrão do regime). Ajuste no campo "Encargos sobre a folha" se souber o valor real.`, 'encargosPct');
+  if (dre.folha > 0 && dgN(d.qtdFuncionarios) === 0) add('alta', 'Folha sem funcionários', 'Há folha salarial informada, mas a quantidade de funcionários é 0. Vale-transporte e alimentação ficam zerados no cálculo.', 'qtdFuncionarios');
+  if (dgN(d.valeTransporte) > 1500 || dgN(d.valeAlimentacao) > 2500) add('media', 'VT/VA parece ser o total', 'VT e VA devem ser o valor POR colaborador. Os valores informados parecem ser o total da empresa, o que multiplicaria o custo.', 'valeTransporte');
+  if (d.regimeTributario === 'mei' && fat > 6750) add('alta', 'Faturamento acima do limite do MEI', `O limite do MEI é R$ 81 mil por ano (R$ 6.750 por mês) e o faturamento informado é ${fmt(fat)} por mês. Confirme o regime.`, 'regimeTributario');
+  if (d.regimeTributario === 'simples' && fat > 400000) add('alta', 'Faturamento acima do limite do Simples', `O limite do Simples Nacional é R$ 4,8 milhões por ano (R$ 400 mil por mês) e o faturamento informado é ${fmt(fat)} por mês. Confirme o regime.`, 'regimeTributario');
+  if (dre.retiradas > 0 && dre.resultadoOperacional < 0) add('media', 'Retiradas dos sócios maiores que a sobra', `Mesmo com as retiradas (${fmt(dre.retiradas)}) tratadas como despesa, o resultado operacional é negativo: o negócio não sustenta o pró-labore informado.`, 'retiradaSocios');
+  if (fat && dre.resultadoLiquido < 0) add('alta', 'Custos superam o faturamento', `Custos, despesas e dívidas superam o faturamento em ${fmt(-dre.resultadoLiquido)} por mês. Revise os valores ou confirme que é a realidade do cliente.`);
+  if (fat && dre.custosDiretos === 0) add('info', 'Custos diretos zerados', 'Sem custo direto informado o lucro bruto fica igual ao faturamento líquido. Confirme se o negócio realmente não tem custo de mercadoria ou do serviço.', 'custosDiretos');
+  if (d.endividamento === 'sim' && dgN(d.endividamentoValor) === 0) add('media', 'Dívida sem valor de parcela', 'O cliente tem endividamento, mas o pagamento mensal está em branco ou zero.', 'endividamentoValor');
+  if (d.taxaMaquininha === 'sim' && dgN(d.taxaMaquininhaValor) > 6) add('info', 'Taxa de cartão alta', `Taxa média de ${dgPct(dgN(d.taxaMaquininhaValor))}: confira se inclui antecipação ou se é a taxa por transação.`, 'taxaMaquininhaValor');
+  if (d.taxaMaquininha === 'sim' && d.pctCartao === '' && dgN(d.taxaMaquininhaRS) === 0) add('info', 'Cartão considerado em 100% das vendas', 'Sem a informação de quanto das vendas é no cartão, a taxa foi aplicada sobre todo o faturamento (pode superestimar a despesa).', 'pctCartao');
+  if (d.possuiMaisCnpj === 'sim') add('info', 'Mais de um CNPJ', 'Confirme se os valores informados são consolidados (todos os CNPJs) ou de apenas uma empresa, para a DRE não misturar bases.', 'possuiMaisCnpj');
+  if (sc.provisorio) add('media', `Nível provisório (${sc.respondidas} de ${sc.pontuaveis} perguntas de pontuação respondidas)`, 'Perguntas sem resposta valem 0 ponto. Responda todas para fechar o nível de maturidade.');
+  const mf = dgN(d.metaFaturamento), ml = dgN(d.metaLucro);
+  if (mf && fat) { const cr = (mf / 12 / fat - 1) * 100; if (cr > 40) add('info', 'Meta de faturamento muito ambiciosa', `A meta de 12 meses equivale a ${dgPct(cr)} acima do faturamento atual (média mensal da meta: ${fmt(mf / 12)}). Vale validar o realismo com o cliente.`, 'metaFaturamento'); }
+  if (ml && fat && dre.margem < ml) add('info', 'Margem abaixo da meta de lucratividade', `A margem líquida estimada é ${dgPct(dre.margem)} e a meta é ${dgPct(ml)}: faltam ${dgPct(ml - dre.margem)} (cerca de ${fmt((ml / 100 - dre.margem / 100) * fat)} por mês).`, 'metaLucro');
+  const ordem = { alta: 0, media: 1, info: 2 }; return out.sort((a, b) => ordem[a.nivel] - ordem[b.nivel]);
+}
+
+const dgRecs = cid => Object.values(S.diags).filter(x => x.cid === cid).sort((a, b) => (a.data || '').localeCompare(b.data || '') || (a.createdAt || 0) - (b.createdAt || 0));
+const dgCur = cid => { const l = dgRecs(cid), pick = UI.dg?.ver?.[cid]; return l.find(x => x.id === pick) || l[l.length - 1] || null; };
+const dgLast = cid => { const l = dgRecs(cid); return l[l.length - 1] || null; };
+const dgLevelPill = c => { const r = dgLast(c.id); if (!r) return ''; const s = dgScore(r.r || {}); return `<span class="pill dg-${s.cls}" title="Diagnóstico de ${fmtD(r.data)}: ${s.score} pontos${s.provisorio ? ' (provisório)' : ''}"><i class="ti ti-gauge"></i>${s.nivel.replace('Gestão ', '')}${s.provisorio ? '*' : ''}</span>`; };
+
+function dgNew(c, tipo, base) {
+  const prev = dgLast(c.id), r = base ? JSON.parse(JSON.stringify(base)) : {};
+  if (!base) { r.nomeEmpresa = c.nome; if (c.seg) r.segmento = c.seg; if (c.fat != null) r.faturamentoMedio = c.fat; if (c.fin) r.responsavelFinanceiro = c.fin === 'Sim' ? 'sim' : 'nao'; }
+  const rec = create('diags', { cid: c.id, data: today(), titulo: tipo || (prev ? 'Reavaliação' : 'Diagnóstico inicial'), r, notas: '' });
+  UI.dg.ver = { ...(UI.dg.ver || {}), [c.id]: rec.id }; UI.dg.view = 'resp'; UI.dg.sec = 'empresa'; saveUI(); return rec;
+}
+function dgSet(rid, field, raw) {
+  const rec = S.diags[rid], c = DG_CAMPO[field]; if (!rec || !c) return; let v = raw;
+  if (['moeda', 'percentual', 'numero'].includes(c.tipo)) { v = parseNum(raw); if (v == null) v = ''; } else if (typeof v === 'string') v = v.trim();
+  const r = { ...(rec.r || {}) }; if (v === '' || v == null) delete r[field]; else r[field] = v;
+  if ((rec.r || {})[field] === r[field]) return; patch('diags', rid, { r });
+}
+
+/* ── campos ── */
+function dgField(rec, c) {
+  const v = rec.r?.[c.id], id = `dg-${c.id}`, key = `${rec.id}|${c.id}`, star = DG_PONT[c.id] ? '<i class="ti ti-star-filled dgstar" title="Esta resposta entra na pontuação de maturidade"></i>' : '';
+  const ph = esc(c.placeholder || ''); let ctl;
+  if (c.tipo === 'escolha') ctl = `<div class="dgopts">${c.opcoes.map(o => `<button type="button" class="dgopt ${v === o.v ? 'on' : ''}" data-act="dg-pick" data-k="${key}" data-v="${esc(o.v)}">${esc(o.t)}</button>`).join('')}</div>`;
+  else if (c.tipo === 'longo') ctl = `<textarea class="field" id="${id}" rows="3" data-dg="${key}" placeholder="${ph}">${esc(v ?? '')}</textarea>`;
+  else if (c.tipo === 'lista') {
+    const items = Array.isArray(v) ? v : [];
+    ctl = `<div class="dglist">${items.map((it, i) => `<div class="dgrow"><input class="field" data-dgl="${rec.id}|${i}|d" value="${esc(it.d)}" placeholder="Qual despesa?"><div class="dgin"><span>R$</span><input class="field" inputmode="decimal" data-dgl="${rec.id}|${i}|v" value="${it.v ? esc(num(it.v)) : ''}" placeholder="0,00"></div><button class="iconbtn danger" data-act="dg-lrm" data-k="${rec.id}|${i}" title="Remover"><i class="ti ti-x"></i></button></div>`).join('')}
+      <button class="btn sm" data-act="dg-ladd" data-k="${rec.id}"><i class="ti ti-plus"></i>Adicionar despesa</button><div class="dgtot">Total: <b>${brl(items.reduce((a, i) => a + dgN(i.v), 0))}</b></div></div>`;
+  } else {
+    const pre = c.tipo === 'moeda' ? '<span>R$</span>' : '', suf = c.tipo === 'percentual' ? '<span>%</span>' : '';
+    const val = v === '' || v == null ? '' : (['moeda', 'percentual', 'numero'].includes(c.tipo) ? num(v) : esc(v));
+    const inp = `<input class="field" id="${id}" ${['moeda', 'percentual', 'numero'].includes(c.tipo) ? 'inputmode="decimal"' : ''} data-dg="${key}" value="${val}" placeholder="${ph}">`;
+    ctl = pre || suf ? `<div class="dgin">${pre}${inp}${suf}</div>` : inp;
+  }
+  return `<div class="dgf${c.largo ? ' wide' : ''}${c.se ? ' cond' : ''}" id="dgf-${c.id}"><label for="${id}">${esc(c.label)}${star}</label>${c.desc ? `<small>${esc(c.desc)}</small>` : ''}${ctl}</div>`;
+}
+function dgProgress(rec) {
+  const r = rec.r || {}, out = {};
+  DG_SECOES.forEach(s => { let t = 0, f = 0; s.blocos.forEach(b => b.campos.forEach(c => { if (!dgVisivel(c, r)) return; t++; const v = r[c.id]; if (c.tipo === 'lista' ? dgList(v).length : (v != null && v !== '')) f++; })); out[s.id] = { t, f }; });
+  out.notas = { t: 1, f: rec.notas ? 1 : 0 };
+  const all = Object.entries(out).filter(([k]) => k !== 'notas').reduce((a, [, x]) => ({ t: a.t + x.t, f: a.f + x.f }), { t: 0, f: 0 });
+  out.total = all; return out;
+}
+
+/* ── tela principal ── */
+function viewDiag(c) {
+  const recs = dgRecs(c.id);
+  if (!recs.length) return `<div class="card dgempty"><i class="ti ti-stethoscope"></i><h3>Diagnóstico de gestão</h3><p>Ainda não há diagnóstico para este cliente. Ao iniciar, o painel já preenche nome, segmento, faturamento médio e responsável pelo financeiro com o que está no cadastro.</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn primary" data-act="dg-new" data-id="${c.id}"><i class="ti ti-player-play"></i>Iniciar diagnóstico</button><button class="btn" data-act="dg-import" data-id="${c.id}"><i class="ti ti-file-import"></i>Importar do formulário (.json ou .html)</button></div></div>`;
+  const rec = dgCur(c.id), sc = dgScore(rec.r || {}), dre = dgDRE(rec.r || {}), pr = dgProgress(rec), view = UI.dg.view || 'resp';
+  const vsel = `<select class="btn dgver" data-dgver="${c.id}" aria-label="Versão do diagnóstico">${recs.map(x => `<option value="${x.id}"${x.id === rec.id ? ' selected' : ''}>${fmtD(x.data)} · ${esc(x.titulo)}</option>`).join('')}</select>`;
+  const bar = `<div class="card dgbar"><div class="dgbar-l">${vsel}<span class="pill dg-${sc.cls}"><i class="ti ti-gauge"></i>${sc.nivel} · ${sc.score}/${DG_MAX}${sc.provisorio ? ' *' : ''}</span>
+      <span class="dgmini">Resultado <b class="${dre.resultadoLiquido >= 0 ? 'pos' : 'neg'}">${brl(dre.resultadoLiquido)}</b> · margem <b class="${dre.margem >= 0 ? 'pos' : 'neg'}">${dgPct(dre.margem)}</b></span><span class="dgmini">${pr.total.f}/${pr.total.t} respostas${pr.total.f < pr.total.t * .6 ? ` <span class="pill c-amber" style="height:20px;font-size:11px" title="Poucas respostas: o resultado ainda é parcial">parcial</span>` : ''}</span></div>
+    <div class="dgbar-r"><div class="seg sm">${[['resp', 'Respostas', 'ti-forms'], ['res', 'Resultado', 'ti-chart-pie'], ['evo', 'Evolução', 'ti-timeline']].map(([k, l, i]) => `<button data-act="dg-view" data-v="${k}" class="${view === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}</button>`).join('')}</div>
+      <button class="btn sm" data-act="dg-new" data-id="${c.id}" title="Cria uma nova versão com as respostas atuais como ponto de partida"><i class="ti ti-refresh"></i>Reavaliar</button>
+      <button class="btn sm" data-act="dg-menu" data-id="${c.id}" aria-label="Mais ações"><i class="ti ti-dots"></i></button></div></div>`;
+  const sync = dgSync(c, rec);
+  return bar + sync + (view === 'resp' ? dgRespostas(c, rec, pr) : view === 'res' ? dgResultado(c, rec, sc, dre) : dgEvolucao(c));
+}
+function dgSync(c, rec) {
+  const r = rec.r || {}, diffs = [];
+  if (r.segmento && norm(r.segmento) !== norm(c.seg)) diffs.push(['seg', 'Segmento', c.seg || '—', r.segmento]);
+  if (r.faturamentoMedio != null && r.faturamentoMedio !== '' && dgN(r.faturamentoMedio) !== dgN(c.fat)) diffs.push(['fat', 'Faturamento médio', c.fat != null ? brl(c.fat) : '—', brl(dgN(r.faturamentoMedio))]);
+  const fin = r.responsavelFinanceiro === 'sim' ? 'Sim' : r.responsavelFinanceiro === 'nao' ? 'Não' : ''; if (fin && fin !== (c.fin || '')) diffs.push(['fin', 'Financeiro dedicado', c.fin || '—', fin]);
+  if (!diffs.length || rec.id !== dgLast(c.id)?.id) return '';
+  return `<div class="card dgsync"><i class="ti ti-arrows-diff"></i><div style="flex:1;min-width:240px"><b>O diagnóstico traz dados diferentes do cadastro</b>${diffs.map(([k, l, a, b]) => `<div class="dgdiff">${l}: <span>${esc(a)}</span> → <b>${esc(b)}</b> <button class="btn sm" data-act="dg-sync" data-k="${c.id}|${rec.id}|${k}">Usar o do diagnóstico</button></div>`).join('')}</div>${diffs.length > 1 ? `<button class="btn sm primary" data-act="dg-sync" data-k="${c.id}|${rec.id}|all">Atualizar tudo</button>` : ''}</div>`;
+}
+function dgRespostas(c, rec, pr) {
+  const sec = DG_SECOES.some(s => s.id === UI.dg.sec) || UI.dg.sec === 'notas' ? UI.dg.sec : 'empresa', r = rec.r || {};
+  const nav = `<div class="dgnav">${DG_SECOES.map(s => { const p = pr[s.id]; return `<button class="dgnb ${sec === s.id ? 'on' : ''} ${p.t && p.f === p.t ? 'ok' : ''}" data-act="dg-sec" data-v="${s.id}"><span>${s.icone}</span><b>${esc(s.nome)}</b><i>${p.f}/${p.t}</i></button>`; }).join('')}<button class="dgnb ${sec === 'notas' ? 'on' : ''} ${rec.notas ? 'ok' : ''}" data-act="dg-sec" data-v="notas"><span>📝</span><b>Anotações</b><i>${rec.notas ? '✓' : '—'}</i></button></div>`;
+  let body;
+  if (sec === 'notas') body = `<div class="card"><div class="card-h"><h3>Anotações da reunião</h3><span class="hint">Livre. Entra no PDF.</span></div><div class="card-b"><textarea class="field" id="dg-notas" rows="12" data-dgn="${rec.id}" placeholder="Pontos que o cliente citou, combinados, dúvidas…">${esc(rec.notas || '')}</textarea></div></div>`;
+  else {
+    const s = DG_SECOES.find(x => x.id === sec);
+    body = `<div class="card"><div class="card-h"><div><h3>${s.icone} ${esc(s.nome)}</h3><div class="hint">${esc(s.sub)}</div></div></div><div class="card-b">${s.blocos.map(b => {
+      const campos = b.campos.filter(c2 => dgVisivel(c2, r)); const tot = b.soma === 'admin' ? `<div class="dgtot">Total de despesas administrativas: <b>${brl(dgDRE(r).despesasAdmin)}</b></div>` : '';
+      return `${b.titulo ? `<h4 class="dgbt">${esc(b.titulo)}</h4>` : ''}<div class="dggrid">${campos.map(c2 => dgField(rec, c2)).join('')}</div>${tot}`;
+    }).join('')}</div></div>`;
+  }
+  const idx = ['notas'].concat(DG_SECOES.map(s => s.id)).indexOf(sec), order = DG_SECOES.map(s => s.id).concat(['notas']), i = order.indexOf(sec);
+  const foot = `<div class="dgfoot">${i > 0 ? `<button class="btn" data-act="dg-sec" data-v="${order[i - 1]}"><i class="ti ti-arrow-left"></i>Anterior</button>` : '<span></span>'}${i < order.length - 1 ? `<button class="btn primary" data-act="dg-sec" data-v="${order[i + 1]}">Próxima<i class="ti ti-arrow-right"></i></button>` : `<button class="btn primary" data-act="dg-view" data-v="res"><i class="ti ti-chart-pie"></i>Ver resultado</button>`}</div>`;
+  return `<div class="dglayout">${nav}<div class="dgmain">${body}${foot}</div></div>`;
+}
+
+/* ── resultado ── */
+function dgBlocks(c, rec, sc, dre, print) {
+  const r = rec.r || {}, d = dgDados(r), base = dre.faturamento || 1, ck = dgChecks(r, dre, sc), nome = d.nomeEmpresa || c.nome;
+  const w = { bronze: DG_FAIXAS.bronze + 1, prata: DG_FAIXAS.prata - DG_FAIXAS.bronze, ouro: DG_MAX - DG_FAIXAS.prata };
+  const zonas = { bronze: ['Gestão Bronze', `0 a ${DG_FAIXAS.bronze} pts`, 'Apaga incêndios; contas misturadas e pouca clareza do lucro.'], prata: ['Gestão Prata', `${DG_FAIXAS.bronze + 1} a ${DG_FAIXAS.prata} pts`, 'Tem controles, mas ainda não os usa para decidir.'], ouro: ['Gestão Ouro', `${DG_FAIXAS.prata + 1} a ${DG_MAX} pts`, 'Gestão estratégica: números planejam o futuro.'] };
+  const head = `<section class="dgblk dghead" style="--nv:${DG_COR[sc.cls]}"><div class="dgh-t"><div><small>Diagnóstico de gestão · ${fmtD(rec.data)}</small><h2>${esc(nome)}</h2><span>${esc([d.segmento, rec.titulo].filter(Boolean).join(' · '))}</span></div><span class="dgseal" style="background:${DG_COR[sc.cls]}">${sc.nivel}</span></div></section>`;
+  const reg = `<section class="dgblk"><h3 class="dgt">Nível de maturidade</h3><div class="dgscore"><b>${sc.score}</b><span>/ ${DG_MAX} pontos${sc.provisorio ? ` · provisório (${sc.respondidas}/${sc.pontuaveis} respondidas)` : ''}</span></div><p class="dgdesc">${esc(sc.desc)}</p>
+    <div class="dgrule">${['bronze', 'prata', 'ouro'].map(n => `<div class="z ${n}${n === sc.cls ? '' : ' off'}" style="width:${w[n] / DG_MAX * 100}%;background:${DG_COR[n]}"></div>`).join('')}<i style="left:${Math.min(100, sc.score / DG_MAX * 100)}%"></i></div>
+    <div class="dgleg">${['bronze', 'prata', 'ouro'].map(n => `<div class="${n === sc.cls ? 'atual' : ''}" style="width:${w[n] / DG_MAX * 100}%"><b>${zonas[n][0]}</b> · ${zonas[n][1]}<br>${zonas[n][2]}</div>`).join('')}</div></section>`;
+  const kpis = `<section class="dgblk"><div class="dgkpis"><div><small>Faturamento mensal</small><b>${brl(dre.faturamento)}</b></div><div class="${dre.resultadoLiquido >= 0 ? 'bom' : 'ruim'}"><small>Resultado líquido (mês)</small><b>${brl(dre.resultadoLiquido)}</b></div><div class="${dre.margem >= 0 ? 'bom' : 'ruim'}"><small>Margem líquida</small><b>${dgPct(dre.margem)}</b></div></div>${dre.impostoEstimado || dre.encargosPadrao ? `<div class="dgnote">Resultado estimado: ${[dre.impostoEstimado ? `impostos em ${dgPct(dre.impostoPct)} (padrão do regime)` : '', dre.encargosPadrao && dre.folha ? `encargos em ${dgPct(dre.encargosPct)} (padrão do regime)` : ''].filter(Boolean).join(' e ')}.</div>` : ''}</section>`;
+  const partes = [['Impostos e taxas de venda', dre.despesasVendas + dre.impostos, '#005A9C'], ['Custos diretos', dre.custosDiretos, '#E3A21A'], ['Pessoal e retiradas', dre.despesasPessoal, '#8A63B8'], ['Despesas administrativas e dívidas', dre.despesasAdmin + dre.dividas, '#D9573B'], ['Resultado líquido (sobra)', Math.max(0, dre.resultadoLiquido), '#00A79D']];
+  const tb = partes.reduce((a, p) => a + p[1], 0) || 1;
+  const comp = `<section class="dgblk"><h3 class="dgt">Para onde vai cada R$ 100 faturados</h3><div class="dgstack">${partes.filter(p => p[1] > 0).map(p => `<div style="width:${p[1] / tb * 100}%;background:${p[2]}" title="${esc(p[0])}"></div>`).join('')}</div>
+    <ul class="dgls">${partes.map(p => `<li><i style="background:${p[2]}"></i><span>${esc(p[0])}</span><b>${brl(p[1])}</b><em>${(p[1] / tb * 100).toFixed(1).replace('.', ',')}%</em></li>`).join('')}</ul>${dre.resultadoLiquido < 0 ? `<div class="dgwarn">⚠ Os custos e despesas superam o faturamento em ${brl(-dre.resultadoLiquido)} por mês. Os percentuais acima são sobre o total gasto.</div>` : ''}</section>`;
+  const L = (t, v, tipo, sub) => { const neg = tipo === 'd'; if (neg && !v) return `<tr class="${sub ? 'sub' : ''}"><td class="mut">${t}</td><td class="mut">—</td><td class="mut">—</td></tr>`; return `<tr class="${tipo === 's' || tipo === 'r' ? 'tot' : ''}${sub ? ' sub' : ''}"><td>${t}</td><td class="${tipo === 'r' ? (v >= 0 ? 'pos' : 'neg') : neg ? 'neg' : ''}">${neg ? '−' : ''}${brl(Math.abs(v))}</td><td>${neg ? '−' : ''}${dgPct(Math.abs(v) / base * 100)}</td></tr>`; };
+  const dreh = `<section class="dgblk"><h3 class="dgt">DRE gerencial (estimativa mensal)</h3><table class="dgdre"><thead><tr><th>Descrição</th><th>Valor</th><th>% AV</th></tr></thead><tbody>
+    ${L('Faturamento bruto', dre.faturamento, 's')}${L('(−) Despesas sobre vendas (taxas de cartão)', dre.despesasVendas, 'd')}${L(`(−) Impostos sobre faturamento${dre.impostoEstimado ? ' (estimado)' : ''}`, dre.impostos, 'd')}${L('Faturamento líquido', dre.faturamentoLiquido, 's')}${L('(−) Custos diretos', dre.custosDiretos, 'd')}${L('Lucro bruto', dre.lucroBruto, 's')}
+    ${L('(−) Despesas com pessoal', dre.despesasPessoal, 'd')}${L('Folha salarial', dre.folha, 'd', 1)}${L('Vale-transporte e alimentação', dre.beneficios, 'd', 1)}${L(dre.pctClt === 0 ? 'Encargos (equipe PJ: não contabilizados)' : `Encargos (${dgPct(dre.encargosPct)}${dre.encargosPadrao ? ', padrão' : ''}${dre.pctClt < 100 ? `, sobre ${dgPct(dre.pctClt)} da folha` : ''})`, dre.encargos, 'd', 1)}${L('Retirada dos sócios', dre.retiradas, 'd', 1)}${L('(−) Despesas administrativas', dre.despesasAdmin, 'd')}
+    ${L('Resultado operacional', dre.resultadoOperacional, 'r')}${L('(−) Pagamento de dívidas (parcelas)', dre.dividas, 'd')}<tr class="fecha"><td>Resultado líquido</td><td class="${dre.resultadoLiquido >= 0 ? 'pos' : 'neg'}">${brl(dre.resultadoLiquido)}</td><td class="${dre.margem >= 0 ? 'pos' : 'neg'}">${dgPct(dre.margem)}</td></tr></tbody></table></section>`;
+  const sev = { alta: ['ti-alert-octagon', 'Atenção'], media: ['ti-alert-triangle', 'Revisar'], info: ['ti-info-circle', 'Nota'] };
+  const checks = ck.length ? `<section class="dgblk"><h3 class="dgt">Checagens de consistência</h3><div class="dgck">${ck.map(x => `<div class="dgc ${x.nivel}"><i class="ti ${sev[x.nivel][0]}"></i><div><b>${esc(x.titulo)}</b><span>${esc(x.texto)}</span></div>${x.campo && !print ? `<button class="btn sm" data-act="dg-goto" data-v="${x.campo}">Ir ao campo</button>` : ''}</div>`).join('')}</div></section>` : '';
+  const mf = dgN(d.metaFaturamento), ml = dgN(d.metaLucro);
+  const metas = `<section class="dgblk"><h3 class="dgt">Metas</h3><div class="dgmetas"><div><small>Meta de faturamento (12 meses)</small><b>${mf ? brl(mf) : 'Não informada'}</b>${mf && dre.faturamento ? `<em>${brl(mf / 12)}/mês · ${dgPct((mf / 12 / dre.faturamento - 1) * 100)} vs. hoje</em>` : ''}</div><div><small>Meta de lucratividade</small><b>${ml ? dgPct(ml) : 'Não informada'}</b>${ml ? `<em>hoje: ${dgPct(dre.margem)}</em>` : ''}</div><div><small>Objetivo (6 meses)</small><b>${esc(d.principalObjetivo || 'Não informado')}</b></div><div><small>Principal desafio</small><b>${esc(d.principalDesafio || 'Não informado')}</b></div></div></section>`;
+  const plano = `<section class="dgblk"><div class="dgcols"><div><h3 class="dgt" style="color:#D9534F">Pontos de atenção</h3><ul>${sc.riscos.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><div><h3 class="dgt" style="color:#00A79D">Plano de ação</h3><ul>${sc.melhorias.map(x => `<li>${esc(x).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')}</li>`).join('')}</ul></div></div></section>`;
+  return { head, reg, kpis, comp, dre: dreh, checks, metas, plano, ck };
+}
+function dgResultado(c, rec, sc, dre) {
+  const b = dgBlocks(c, rec, sc, dre, false);
+  return `<div class="dgres">${b.head}${b.reg}${b.kpis}${b.checks}<div class="dgtwo">${b.comp}${b.dre}</div>${b.metas}${b.plano}<div class="note">Estimativa gerencial a partir de médias informadas na reunião. Não substitui contabilidade.</div></div>`;
+}
+
+/* ── evolução (versões) ── */
+function dgEvolucao(c) {
+  const recs = dgRecs(c.id).map(x => { const sc = dgScore(x.r || {}), dre = dgDRE(x.r || {}); return { x, sc, dre }; });
+  if (recs.length < 2) return `<div class="card dgempty"><i class="ti ti-timeline"></i><h3>Evolução entre diagnósticos</h3><p>Quando houver pelo menos duas versões (inicial e reavaliação), o painel compara o nível de maturidade e os principais números ao longo do tempo.</p><button class="btn primary" data-act="dg-new" data-id="${c.id}"><i class="ti ti-refresh"></i>Criar reavaliação</button></div>`;
+  const dl = (a, b, f) => { const d = b - a; return `<span class="${d >= 0 ? 'pos' : 'neg'}">${d >= 0 ? '▲' : '▼'} ${f(Math.abs(d))}</span>`; };
+  const first = recs[0], last = recs[recs.length - 1];
+  const rows = [['Pontuação', x => `${x.sc.score}/${DG_MAX}`], ['Nível', x => x.sc.nivel.replace('Gestão ', '')], ['Faturamento mensal', x => brl(x.dre.faturamento)], ['Resultado líquido', x => brl(x.dre.resultadoLiquido)], ['Margem líquida', x => dgPct(x.dre.margem)], ['Custos diretos (% fat.)', x => dgPct(x.dre.faturamento ? x.dre.custosDiretos / x.dre.faturamento * 100 : 0)], ['Pessoal (% fat.)', x => dgPct(x.dre.faturamento ? x.dre.despesasPessoal / x.dre.faturamento * 100 : 0)]];
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Evolução da maturidade</h3><span class="hint">${first.sc.nivel.replace('Gestão ', '')} (${first.sc.score}) → ${last.sc.nivel.replace('Gestão ', '')} (${last.sc.score}) · ${dl(first.sc.score, last.sc.score, v => v + ' pts')}</span></div><div class="card-b"><div class="chartbox" style="height:260px"><canvas id="chDg"></canvas></div></div></div>
+    <div class="card"><div class="card-h"><h3>Comparativo entre versões</h3></div><div class="tblwrap" style="max-height:none"><table class="tbl ootbl"><thead><tr><th class="sticky">Indicador</th>${recs.map(({ x }) => `<th>${fmtD(x.data)}<br><span style="font-weight:500;color:var(--muted)">${esc(x.titulo)}</span></th>`).join('')}<th>Variação</th></tr></thead><tbody>
+    ${rows.map(([l, f], i) => `<tr><td class="sk sticky">${l}</td>${recs.map(r => `<td>${f(r)}</td>`).join('')}<td>${i === 0 ? dl(first.sc.score, last.sc.score, v => v + ' pts') : i === 2 ? dl(first.dre.faturamento, last.dre.faturamento, brl) : i === 3 ? dl(first.dre.resultadoLiquido, last.dre.resultadoLiquido, brl) : i === 4 ? dl(first.dre.margem, last.dre.margem, v => dgPct(v)) : ''}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+function dgChart() {
+  const el = $('#chDg'); if (!el || typeof Chart === 'undefined') return; const c = S.clients[(location.hash.match(/^#\/cliente\/([\w-]+)/) || [])[1]]; if (!c) return;
+  const recs = dgRecs(c.id).map(x => ({ x, sc: dgScore(x.r || {}), dre: dgDRE(x.r || {}) }));
+  Chart.defaults.font.family = 'Poppins, system-ui, sans-serif'; Chart.defaults.font.size = 11; Chart.defaults.color = cssv('--muted');
+  const lab = recs.map(r => fmtDs(r.x.data) + '/' + r.x.data.slice(2, 4));
+  charts.push(new Chart(el, { data: { labels: lab, datasets: [
+    { type: 'bar', label: 'Margem líquida (%)', data: recs.map(r => Math.round(r.dre.margem * 10) / 10), backgroundColor: cssv('--s2') + 'AA', borderRadius: 4, yAxisID: 'y1', order: 2, maxBarThickness: 40 },
+    { type: 'line', label: 'Pontuação de maturidade', data: recs.map(r => r.sc.score), borderColor: cssv('--ink'), backgroundColor: cssv('--ink'), pointBackgroundColor: recs.map(r => DG_COR[r.sc.cls]), pointRadius: 7, pointBorderColor: cssv('--surface'), pointBorderWidth: 2, borderWidth: 2, tension: .25, yAxisID: 'y', order: 1 },
+  ] }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { display: true, position: 'bottom', labels: { usePointStyle: true, boxWidth: 8, color: cssv('--ink-2') } }, tooltip: tooltipStyle() },
+    scales: { x: { grid: { display: false } }, y: { min: 0, max: DG_MAX, grid: { color: cssv('--grid') }, border: { display: false }, ticks: { stepSize: 25 }, title: { display: true, text: 'pontos' } }, y1: { position: 'right', grid: { drawOnChartArea: false }, border: { display: false }, ticks: { callback: v => v + '%' } } } } }));
+}
+
+/* ── eventos ── */
+let dgTimer = null;
+document.addEventListener('input', e => { const el = e.target; if (el.dataset?.dg != null && (el.tagName === 'TEXTAREA' || el.type === 'text')) { clearTimeout(dgTimer); dgTimer = setTimeout(() => { if (document.body.contains(el)) { const [rid, f] = el.dataset.dg.split('|'); dgSet(rid, f, el.value); } }, 700); } if (el.dataset?.dgn != null) { clearTimeout(dgTimer); dgTimer = setTimeout(() => { if (document.body.contains(el)) patch('diags', el.dataset.dgn, { notas: el.value }); }, 700); } });
+document.addEventListener('change', e => {
+  const el = e.target, d = el.dataset; if (!d) return;
+  if (d.dg != null) { const [rid, f] = d.dg.split('|'); return dgSet(rid, f, el.value); }
+  if (d.dgn != null) return patch('diags', d.dgn, { notas: el.value });
+  if (d.dgl != null) { const [rid, i, f] = d.dgl.split('|'), rec = S.diags[rid]; if (!rec) return; const l = (Array.isArray(rec.r?.outrasDespesas) ? rec.r.outrasDespesas : []).map(x => ({ ...x })); if (!l[+i]) return; if (f === 'v') l[+i].v = dgN(el.value); else l[+i].d = el.value.trim(); return patch('diags', rid, { r: { ...rec.r, outrasDespesas: l } }); }
+  if (d.dgver != null) { UI.dg.ver = { ...(UI.dg.ver || {}), [d.dgver]: el.value }; saveUI(); return render(); }
+  if (d.dgset != null) { const [k, reg] = d.dgset.split('|'); const s = S.settings.diag || (S.settings.diag = {}); s[k] = { ...(s[k] || {}), [reg]: Math.max(0, parseNum(el.value) ?? 0) }; return saveSettings(); }
+  if (d.dgfile != null && el.files[0]) { dgImportFile(el.files[0], d.dgfile); el.value = ''; }
+});
+function dgImportFile(file, cid) {
+  const fr = new FileReader();
+  fr.onload = () => {
+    try {
+      let txt = String(fr.result), j; const m = txt.match(/<script[^>]*id=["']dados-iniciais["'][^>]*>([\s\S]*?)<\/script>/i); if (m) txt = m[1];
+      j = JSON.parse(txt); if (!j || !j.campos) throw new Error('arquivo sem respostas');
+      const r = {}; Object.entries(j.campos).forEach(([id, e]) => {
+        const c = DG_CAMPO[id]; if (!c) return; let v = e && typeof e === 'object' && 'v' in e ? e.v : e; if (v == null || v === '') return;
+        if (c.tipo === 'lista') { try { v = typeof v === 'string' ? JSON.parse(v) : v; } catch { v = []; } r[id] = dgList(v); if (!r[id].length) delete r[id]; }
+        else if (['moeda', 'percentual', 'numero'].includes(c.tipo)) { const n = parseNum(v); if (n != null) r[id] = n; } else r[id] = String(v);
+      });
+      const cl = S.clients[cid], data = (j.exportadoEm || j.atualizadoEm || '').slice(0, 10) || today();
+      const rec = create('diags', { cid, data, titulo: dgRecs(cid).length ? 'Reavaliação (importado)' : 'Diagnóstico inicial (importado)', r, notas: j.anotacoes || '' });
+      UI.dg.ver = { ...(UI.dg.ver || {}), [cid]: rec.id }; UI.dg.view = 'res'; UI.cTab = 'diag'; saveUI(); render(); toast(`Diagnóstico importado (${Object.keys(r).length} respostas)`);
+    } catch (err) { toast('Não foi possível importar: ' + err.message); }
+  };
+  fr.readAsText(file);
+}
+function dgGoto(campo) { const c = DG_CAMPO[campo]; if (!c) return; UI.dg.view = 'resp'; UI.dg.sec = c.secao; saveUI(); render(); setTimeout(() => { const el = $('#dgf-' + campo); el?.scrollIntoView({ block: 'center', behavior: 'smooth' }); el?.classList.add('flash'); setTimeout(() => el?.classList.remove('flash'), 1800); }, 80); }
+
+/* ── PDF e PPTX ── */
+async function dgPdf(c, rec) {
+  try { await loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'); await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'); } catch { return toast('As bibliotecas de PDF não carregaram. Verifique a internet.'); }
+  toast('Gerando PDF…');
+  const r = rec.r || {}, sc = dgScore(r), dre = dgDRE(r), B = dgBlocks(c, rec, sc, dre, true), nome = dgDados(r).nomeEmpresa || c.nome;
+  const resp = DG_SECOES.map((s, i) => `<section class="dgblk"><table class="dgresp"><tr class="sec"><td colspan="2">${i === 0 ? 'Respostas do formulário · ' : ''}${esc(s.nome)}</td></tr>${s.blocos.flatMap(b => b.campos).filter(f => dgVisivel(f, r)).map(f => {
+    if (f.tipo === 'lista') { const it = dgList(r[f.id]); return it.length ? it.map(x => `<tr><td>Outra despesa: ${esc(x.d || 'sem descrição')}</td><td>${brl(x.v)}</td></tr>`).join('') : `<tr><td>${esc(f.label)}</td><td>Não preenchido</td></tr>`; }
+    const v = r[f.id]; let t = v == null || v === '' ? 'Não preenchido' : f.tipo === 'escolha' ? (f.opcoes.find(o => o.v === v)?.t || v) : f.tipo === 'moeda' ? brl(dgN(v)) : f.tipo === 'percentual' ? dgPct(dgN(v)) : String(v);
+    return `<tr><td>${esc(f.label)}</td><td>${esc(t)}</td></tr>`; }).join('')}</table></section>`).join('') + (rec.notas ? `<section class="dgblk"><table class="dgresp"><tr class="sec"><td>Anotações da reunião</td></tr><tr><td style="white-space:pre-wrap">${esc(rec.notas)}</td></tr></table></section>` : '');
+  const host = document.createElement('div'); host.className = 'dgprint'; host.innerHTML = `<div class="dgres dgpdf">${B.head}${B.reg}${B.kpis}${B.checks}${B.comp}${B.dre}${B.metas}${B.plano}</div><div class="dgres dgpdf" id="dgPrintResp">${resp}</div>`; document.body.appendChild(host);
+  try {
+    const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4'), W = 210, H = 297, mx = 14, mt = 12, mb = 17, cw = W - 2 * mx, uh = H - mt - mb; let y = mt;
+    const put = async el => { const cv = await html2canvas(el, { scale: 2, backgroundColor: '#ffffff', useCORS: true }); if (!cv.width) return; const h = cv.height * cw / cv.width;
+      if (h <= uh) { if (y > mt && y + h > mt + uh) { pdf.addPage(); y = mt; } pdf.addImage(cv.toDataURL('image/jpeg', .92), 'JPEG', mx, y, cw, h, undefined, 'FAST'); y += h + 3; return; }
+      if (y > mt) { pdf.addPage(); y = mt; } const px = Math.floor(uh * cv.width / cw);
+      for (let off = 0; off < cv.height; off += px) { const hh = Math.min(px, cv.height - off), c2 = document.createElement('canvas'); c2.width = cv.width; c2.height = hh; c2.getContext('2d').drawImage(cv, 0, off, cv.width, hh, 0, 0, cv.width, hh); if (off > 0) { pdf.addPage(); y = mt; } const mm = hh * cw / cv.width; pdf.addImage(c2.toDataURL('image/jpeg', .92), 'JPEG', mx, y, cw, mm, undefined, 'FAST'); y += mm + 3; } };
+    for (const el of host.firstElementChild.children) await put(el);
+    pdf.addPage(); y = mt; for (const el of $('#dgPrintResp', host).children) await put(el);
+    const n = pdf.getNumberOfPages(); for (let i = 1; i <= n; i++) { pdf.setPage(i); pdf.setFontSize(8); pdf.setTextColor(120, 128, 138); pdf.text(`Power Gestão & Resultados  ·  Diagnóstico de Gestão  ·  ${nome}`, mx, H - 9); pdf.text(`Página ${i} de ${n}`, W - mx, H - 9, { align: 'right' }); }
+    pdf.save(`Diagnostico_${nome.replace(/[^\w]+/g, '_')}_${rec.data}.pdf`); toast('PDF gerado');
+  } catch (err) { console.error(err); toast('Erro ao gerar o PDF: ' + err.message); } finally { host.remove(); }
+}
+async function dgPptx(c, rec) {
+  try { await loadScript('https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js'); } catch { return toast('A biblioteca de PowerPoint não carregou. Verifique a internet.'); }
+  try {
+    const r = rec.r || {}, sc = dgScore(r), dre = dgDRE(r), d = dgDados(r), nome = d.nomeEmpresa || c.nome, base = dre.faturamento || 1, ck = dgChecks(r, dre, sc);
+    const pptx = new window.PptxGenJS(); pptx.author = 'Power Gestão & Resultados'; pptx.title = 'Diagnóstico de Gestão: ' + nome;
+    const azul = '005A9C', verde = '00A79D', branco = 'FFFFFF', preto = '333333', cinza = 'F8F9FA', verm = 'D9534F', nv = DG_COR[sc.cls].slice(1), cr = dre.resultadoLiquido >= 0 ? verde : verm;
+    let s = pptx.addSlide(); s.background = { color: azul };
+    s.addText('Diagnóstico de Gestão', { x: .5, y: 1.5, w: '90%', h: 1, fontSize: 32, color: branco, align: 'center', bold: true }); s.addText(nome, { x: .5, y: 2.5, w: '90%', h: 1, fontSize: 44, color: branco, align: 'center', bold: true });
+    s.addText(`${rec.titulo} · ${fmtD(rec.data)}`, { x: .5, y: 5.5, w: '90%', h: .5, fontSize: 14, color: 'F1F1F1', align: 'center' });
+    s = pptx.addSlide(); s.background = { color: cinza }; s.addText('Resumo do diagnóstico', { x: .5, y: .25, w: '90%', h: .5, fontSize: 24, bold: true, color: azul });
+    s.addShape(pptx.shapes.RECTANGLE, { x: .5, y: 1, w: 4.5, h: 2.5, fill: { color: branco } }); s.addText('Nível de maturidade', { x: .7, y: 1.2, w: 4, h: .4, fontSize: 14, color: azul, bold: true }); s.addText(`${sc.score} PTS`, { x: .7, y: 1.7, w: 4, h: 1, fontSize: 36, color: preto, bold: true }); s.addText(sc.nivel + (sc.provisorio ? ' (provisório)' : ''), { x: .7, y: 2.7, w: 4, h: .5, fontSize: 20, color: nv, bold: true });
+    [['Faturamento mensal', brl(dre.faturamento), preto, 1], ['Resultado líquido (mês)', brl(dre.resultadoLiquido), cr, 2.35], ['Margem líquida', dgPct(dre.margem), cr, 3.7]].forEach(([t, v, col, y]) => { s.addShape(pptx.shapes.RECTANGLE, { x: 5, y, w: 4.5, h: 1.15, fill: { color: branco } }); s.addText(t, { x: 5.2, y: y + .1, w: 4, h: .4, fontSize: 12, color: preto }); s.addText(v, { x: 5.2, y: y + .5, w: 4, h: .5, fontSize: 22, color: col, bold: true }); });
+    s = pptx.addSlide(); s.addText('Análise e plano de ação', { x: .5, y: .25, w: '90%', h: .5, fontSize: 24, bold: true, color: azul });
+    s.addText([{ text: 'Pontos de atenção (riscos)', options: { bold: true, fontSize: 16, color: verm, breakLine: true } }, ...sc.riscos.map(x => ({ text: '• ' + x, options: { breakLine: true, fontSize: 12 } }))], { x: .5, y: 1, w: '45%', h: 4, color: preto, valign: 'top' });
+    s.addText([{ text: 'Plano de ação (melhorias)', options: { bold: true, fontSize: 16, color: verde, breakLine: true } }, ...sc.melhorias.map(x => ({ text: '• ' + x.replace(/\*\*/g, ''), options: { breakLine: true, fontSize: 12 } }))], { x: 5, y: 1, w: '45%', h: 4, color: preto, valign: 'top' });
+    s = pptx.addSlide(); s.addText('DRE gerencial (estimativa mensal)', { x: .5, y: .25, w: '90%', h: .5, fontSize: 24, bold: true, color: azul });
+    const R = (t, v, neg, bold) => [{ text: t, options: { bold: !!bold } }, { text: brl(Math.abs(v)), options: { align: 'right', bold: !!bold, color: neg ? verm : undefined } }, { text: (neg ? '(' : '') + dgPct(Math.abs(v) / base * 100) + (neg ? ')' : ''), options: { align: 'right', bold: !!bold, color: neg ? verm : undefined } }];
+    s.addTable([[{ text: 'Descrição', options: { bold: true, fill: cinza } }, { text: 'Valor (R$)', options: { bold: true, fill: cinza, align: 'right' } }, { text: '% AV', options: { bold: true, fill: cinza, align: 'right' } }],
+      R('(=) Faturamento bruto', dre.faturamento, false, 1), R('(−) Despesas sobre vendas', dre.despesasVendas, true), R('(−) Impostos' + (dre.impostoEstimado ? ' (estimado)' : ''), dre.impostos, true), R('(=) Faturamento líquido', dre.faturamentoLiquido, false, 1), R('(−) Custos diretos', dre.custosDiretos, true), R('(=) Lucro bruto', dre.lucroBruto, false, 1),
+      R('(−) Pessoal (folha, benefícios, encargos e retiradas)', dre.despesasPessoal, true), R('(−) Despesas administrativas', dre.despesasAdmin, true), R('(=) Resultado operacional', dre.resultadoOperacional, dre.resultadoOperacional < 0, 1), R('(−) Pagamento de dívidas', dre.dividas, true), R('(=) Resultado líquido', dre.resultadoLiquido, dre.resultadoLiquido < 0, 1)], { x: .5, y: 1, w: 9, colW: [5, 2.1, 1.9], border: { type: 'solid', pt: 1, color: 'CCCCCC' }, autoPage: true, fontSize: 10 });
+    if (ck.length) { s = pptx.addSlide(); s.addText('Checagens e pontos de atenção do diagnóstico', { x: .5, y: .25, w: '90%', h: .5, fontSize: 22, bold: true, color: azul }); s.addText(ck.slice(0, 8).map(x => ({ text: `• ${x.titulo}: ${x.texto}`, options: { breakLine: true, fontSize: 11, color: x.nivel === 'alta' ? verm : preto } })), { x: .5, y: 1, w: 9, h: 4.5, valign: 'top' }); }
+    s = pptx.addSlide(); s.background = { color: cinza }; s.addText('Painel de metas', { x: .5, y: .25, w: '90%', h: .5, fontSize: 24, bold: true, color: azul });
+    [['Meta faturamento (12m)', dgN(d.metaFaturamento) ? brl(dgN(d.metaFaturamento)) : '-', .5, 1], ['Meta lucratividade', dgN(d.metaLucro) ? dgPct(dgN(d.metaLucro)) : '-', 5, 1], ['Objetivo (6m)', d.principalObjetivo || '-', .5, 3.2], ['Principal desafio', d.principalDesafio || '-', 5, 3.2]].forEach(([t, v, x, y]) => { s.addShape(pptx.shapes.RECTANGLE, { x, y, w: 4.5, h: 2, fill: { color: branco }, line: { color: verde, width: 2 } }); s.addText(t, { x: x + .2, y: y + .2, w: 4, h: .4, fontSize: 14, color: azul, bold: true }); s.addText(v, { x: x + .2, y: y + .6, w: 4, h: .9, fontSize: 18, color: preto, bold: true }); });
+    await pptx.writeFile({ fileName: `Diagnostico_Power_${nome.replace(/[^\w]+/g, '_')}_${rec.data}.pptx` }); toast('PowerPoint gerado');
+  } catch (err) { console.error(err); toast('Erro ao gerar o PowerPoint: ' + err.message); }
+}
+
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
 function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
 
@@ -2024,6 +2499,9 @@ const DRAWERS = {
       <div class="setsec"><h5>ICP Power</h5><p>Cliente ideal: ramo de alimentação, faturamento médio mensal mínimo e pessoa dedicada ao financeiro.</p>
         <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:10px">Faturamento médio mínimo (R$ por mês)<input class="field" inputmode="decimal" data-icpmin value="${esc(num(st.icpFatMin))}"></label>
         ${tagEd('icpSegs', 'Segmentos que contam como alimentação', 'Segmentos com “aliment” no nome também são aceitos.')}</div>
+      <div class="setsec"><h5>Diagnóstico: premissas da DRE</h5><p>Usadas quando o cliente não informa imposto ou encargos. Cada diagnóstico pode sobrescrever informando o valor real.</p>
+        <table class="dtable"><thead><tr><th>Regime</th><th>Imposto estimado (% fat.)</th><th>Encargos s/ folha (%)</th></tr></thead><tbody>${DG_REGIMES.map(([k, l]) => { const P = dgPrem(); return `<tr><td>${l}</td><td><input class="field" style="padding:5px 8px;text-align:right;width:84px" inputmode="decimal" data-dgset="imp|${k}" value="${esc(num(P.imp[k]))}"></td><td><input class="field" style="padding:5px 8px;text-align:right;width:84px" inputmode="decimal" data-dgset="enc|${k}" value="${esc(num(P.enc[k]))}"></td></tr>`; }).join('')}</tbody></table>
+        <p style="margin-top:8px">Encargos (só sobre a folha CLT): FGTS 8% + 13º 8,33% + férias com 1/3 11,11% ≈ 27%; Presumido/Real somam INSS patronal 20%, RAT 1–3% e terceiros 5,8% ≈ 55%. Impostos: Simples comércio/alimentação ≈ 9–11% (Anexo I, faturamento de R$ 100–400 mil/mês), serviços ≈ 13–16%; Presumido ≈ 12–16%. Valores de referência de mercado: revise com a contabilidade de cada cliente.</p></div>
       ${tagEd('segmentos', 'Segmentos', 'Sugestões do campo Segmento.')}
       ${tagEd('responsaveis', 'Responsáveis', 'Lista usada em tarefas, metas e pautas.')}
       ${tagEd('catInternas', 'Categorias: Internas', '')}
@@ -2190,6 +2668,29 @@ document.addEventListener('click', async e => {
     case 'edit-meta': return metaPop(el);
     case 'edit-atn': return atnPop(el);
     case 'ctab': UI.cTab = v; saveUI(); return render();
+    case 'dg-new': { const cl = S.clients[id]; if (!cl) return; closePop(); dgNew(cl); UI.cTab = 'diag'; saveUI(); return render(); }
+    case 'dg-sec': UI.dg.sec = v; saveUI(); render(); return window.scrollTo({ top: 0, behavior: 'smooth' });
+    case 'dg-view': UI.dg.view = v; saveUI(); render(); return window.scrollTo({ top: 0 });
+    case 'dg-pick': { const [rid, f] = el.dataset.k.split('|'), rec = S.diags[rid]; if (!rec) return; return dgSet(rid, f, rec.r?.[f] === v ? '' : v); }
+    case 'dg-ladd': { const rec = S.diags[el.dataset.k]; if (!rec) return; const l = Array.isArray(rec.r?.outrasDespesas) ? [...rec.r.outrasDespesas] : []; l.push({ d: '', v: 0 }); patch('diags', rec.id, { r: { ...rec.r, outrasDespesas: l } }); setTimeout(() => { const n = $$(`[data-dgl^="${rec.id}|"][data-dgl$="|d"]`).pop(); n?.focus(); }, 80); return; }
+    case 'dg-lrm': { const [rid, i] = el.dataset.k.split('|'), rec = S.diags[rid]; if (!rec) return; const l = (rec.r?.outrasDespesas || []).filter((_, k) => k !== +i); const r = { ...rec.r }; if (l.length) r.outrasDespesas = l; else delete r.outrasDespesas; return patch('diags', rid, { r }); }
+    case 'dg-goto': return dgGoto(v);
+    case 'dg-sync': { const [cid, rid, k] = el.dataset.k.split('|'), cl = S.clients[cid], rec = S.diags[rid]; if (!cl || !rec) return; const r = rec.r || {}, ch = {};
+      if ((k === 'seg' || k === 'all') && r.segmento) ch.seg = r.segmento; if ((k === 'fat' || k === 'all') && r.faturamentoMedio != null && r.faturamentoMedio !== '') ch.fat = dgN(r.faturamentoMedio);
+      if ((k === 'fin' || k === 'all') && r.responsavelFinanceiro) ch.fin = r.responsavelFinanceiro === 'sim' ? 'Sim' : 'Não'; patch('clients', cid, ch); toast('Cadastro atualizado'); return; }
+    case 'dg-import': { const fi = $('#fileDg'); fi.dataset.dgfile = id; closePop(); return fi.click(); }
+    case 'dg-pdf': { closePop(); return dgPdf(S.clients[id], dgCur(id)); }
+    case 'dg-pptx': { closePop(); return dgPptx(S.clients[id], dgCur(id)); }
+    case 'dg-dup': { const cl = S.clients[id], rec = dgCur(id); closePop(); if (!cl || !rec) return; dgNew(cl, 'Cópia de ' + rec.titulo, rec.r); return; }
+    case 'dg-meta': { const rec = dgCur(id); closePop(); if (!rec) return; const m = $('#modal'); m.innerHTML = `<div class="box" role="dialog" aria-modal="true"><h3>Título e data da versão</h3><form id="dgm"><div class="fields"><label>Título<input class="field" name="t" value="${esc(rec.titulo)}" required autofocus></label><label>Data do diagnóstico<input class="field" type="date" name="d" value="${esc(rec.data)}" required></label></div><div class="acts"><button type="button" class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" type="submit">Salvar</button></div></form></div>`; m.hidden = false; $('#backdrop').classList.add('show'); $('#dgm').onsubmit = e2 => { e2.preventDefault(); const fd = new FormData(e2.target); closeModal(); patch('diags', rec.id, { titulo: String(fd.get('t')).trim(), data: fd.get('d') }); }; return; }
+    case 'dg-del': { const rec = dgCur(id); closePop(); if (!rec) return; if (!(await confirmDlg('Excluir esta versão?', `O diagnóstico “${esc(rec.titulo)}” de ${fmtD(rec.data)} será excluído para toda a equipe.`))) return; removeRec('diags', rec.id); toast('Versão excluída', { label: 'Desfazer', fn: () => put('diags', rec) }); return; }
+    case 'dg-menu': { const rec = dgCur(id); openPop(el, `<div class="menu"><h6>Esta versão</h6>
+      <button class="mi c-blue" data-act="dg-pdf" data-id="${id}"><i class="ti ti-file-type-pdf"></i>Baixar PDF</button>
+      <button class="mi c-orange" data-act="dg-pptx" data-id="${id}"><i class="ti ti-presentation"></i>Baixar PowerPoint</button>
+      <button class="mi c-teal" data-act="dg-dup" data-id="${id}"><i class="ti ti-copy"></i>Duplicar como nova versão</button>
+      <button class="mi c-violet" data-act="dg-meta" data-id="${id}"><i class="ti ti-pencil"></i>Título e data</button>
+      <button class="mi c-green" data-act="dg-import" data-id="${id}"><i class="ti ti-file-import"></i>Importar do formulário</button>
+      <button class="mi c-red" data-act="dg-del" data-id="${id}"><i class="ti ti-trash"></i>Excluir versão</button></div>`); return; }
     case 'mk-add': { const cl = S.clients[id]; if (!cl) return; const marcos = [...(cl.marcos || [])], last = marcos.reduce((a, m) => Math.max(a, m.mes), 0), nm = { id: uid(), mes: last ? last + 1 : (mesConsultoria(cl) || 1), itens: [], fonte: '' }; marcos.push(nm); UI.mkEdit = { ...(UI.mkEdit || {}), [nm.id]: true }; patch('clients', id, { marcos }); return; }
     case 'mk-edit': UI.mkEdit = { ...(UI.mkEdit || {}), [id]: !UI.mkEdit?.[id] }; return render();
     case 'mk-cat': UI.mkCat = v; saveUI(); return render();
@@ -2337,6 +2838,8 @@ async function importXlsx(file) {
       });
       Object.values(grp).forEach(({ cl, m }) => { const marcos = Object.values(m).sort((a, b) => a.mes - b.mes), tgt = out.clients.find(x => x.id === cl.id); if (tgt) tgt.marcos = marcos; else out.clients.push({ ...cl, marcos }); });
     }
+    const dgRows = sheetRows(wb, 'Diagnósticos');
+    if (dgRows && dgRows.length) { out.diags = []; dgRows.forEach(r => { try { const cid = xStr(pick(r, 'id do cliente')), cl = S.clients[cid] || out.clients.find(x => x.id === cid); if (!cl) return; const j = JSON.parse(xStr(pick(r, 'dados (json)'))); out.diags.push({ id: uid(), createdAt: Date.now(), cid, data: xDate(pick(r, 'data')) || today(), titulo: xStr(pick(r, 'titulo')) || 'Diagnóstico', r: j.r || {}, notas: j.notas || '' }); } catch { } }); }
     const cobRows = sheetRows(wb, 'Cobrança');
     if (cobRows && cobRows.length) {
       const grp = {};
@@ -2388,6 +2891,7 @@ async function exportXlsx() {
     const add = (name, rows) => XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows.length ? rows : [{}]), name);
     add('Clientes', clientsArr().map(c => ({ ID: c.id, Nome: c.nome, CNPJ: fmtCNPJ(c.cnpj), Segmento: c.seg, 'Faturamento médio (R$)': c.fat, 'Financeiro dedicado': c.fin || '', Plano: c.plano, 'Valor cheio do plano (R$)': c.valorCheio, Desconto: c.desconto ? 'Sim' : 'Não', 'Valor real (R$)': c.valorReal, 'Regra do desconto': c.regraDesconto, 'Desconto válido até': fmtD(c.descontoAte), Consultor: c.con, Status: c.st, Fase: c.fase, Tag: c.tag, 'Data de início': fmtD(c.di), 'Data fim': fmtD(c.de), 'Motivo do encerramento': c.motivo, 'Observações': c.obs })));
     add('Planos', S.settings.planos.map(p => ({ Plano: p.nome, 'Valor cheio (R$)': p.valor })));
+    add('Diagnósticos', Object.values(S.diags).map(x => ({ 'ID do cliente': x.cid, Cliente: S.clients[x.cid]?.nome || '', Data: fmtD(x.data), 'Título': x.titulo, 'Dados (JSON)': JSON.stringify({ r: x.r || {}, notas: x.notas || '' }) })));
     add('Resultados', clientsArr().flatMap(c => (c.marcos || []).flatMap(m => mkItems(m).map(t => ({ 'ID do cliente': c.id, Cliente: c.nome, 'Mês de consultoria': m.mes, Categoria: MK_CATS[t.c].one, Conquista: t.t, Fonte: m.fonte || '' })))));
     add('Cobrança', clientsArr().flatMap(c => (c.cobr || []).map(r => ({ 'ID do cliente': c.id, Cliente: c.nome, 'A partir de (mm/aaaa)': `${r.de.slice(5, 7)}/${r.de.slice(0, 4)}`, 'Valor cobrado (R$)': r.valor, 'Valor cheio (R$)': r.cheio, 'Observação': r.nota }))));
     const mk = Object.keys(S.settings.metaAtivos || {}).sort();
