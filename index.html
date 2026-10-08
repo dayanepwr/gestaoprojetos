@@ -625,6 +625,10 @@ body.dg-dock .main{padding-right:372px} body.dg-dock .fab{right:372px}
 .dbg-b{position:absolute;top:0;height:100%;border-radius:99px;background:color-mix(in srgb,var(--c) 26%,var(--surface));overflow:hidden} .dbg-b i{display:block;height:100%;background:var(--c)}
 .dbg-now{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--red-fg);z-index:2}
 .dbedit td,.dbedit th{white-space:nowrap} .dbedit .in{min-width:88px} .dbedit td.mut{color:var(--muted)} .dbedit td:nth-child(1) .in{min-width:150px} .dbedit td:nth-child(2) .in{min-width:170px} .dbedit td:nth-child(7) .in{min-width:150px}
+.ttbl .cellrow.stk{flex-direction:column;align-items:flex-start;gap:5px}
+.ttbl td .cellrow select.in{min-width:0;flex:1 1 auto;width:100%}
+.ttbl td .cellrow .ti-repeat{flex:none;margin-top:6px}
+.ttbl select.pill{width:auto;max-width:100%}
 .tfcli{flex:none} .tfcli input{height:32px;width:230px;font-size:12.5px;padding-left:34px;border-radius:9px} .tfcli .ti{left:11px;font-size:15px} .tfcli.on input{border-color:var(--ink)}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
@@ -1882,7 +1886,7 @@ function taskRow(t) {
     <td><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—"></td>
     <td><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
     <td><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"></td>
-    <td><div class="cellrow">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
+    <td><div class="cellrow stk">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
     <td><div class="cellrow">${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}<select class="in" data-bind="${b('recorrencia')}" style="min-width:96px">${opts(RECOR, t.recorrencia || 'Não')}</select></div></td>
     <td><div class="cellrow" style="gap:0"><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button><button class="iconbtn" data-act="tdup" data-id="${t.id}" title="Duplicar tarefa"><i class="ti ti-copy"></i></button></div></td>
     <td><button class="iconbtn danger" data-act="del" data-col="tasks" data-id="${t.id}" aria-label="Excluir"><i class="ti ti-trash"></i></button></td>
@@ -1897,7 +1901,7 @@ function taskCard(t) {
   </div>`;
 }
 // colunas da tabela de tarefas: [chave, título, largura padrão]; a largura é ajustável arrastando a borda do cabeçalho
-const TCOLS = [['chk', '', 44], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 150], ['rec', 'Recorrência', 120], ['open', '', 76], ['del', '', 44]];
+const TCOLS = [['chk', '', 44], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 170], ['rec', 'Recorrência', 140], ['open', '', 76], ['del', '', 44]];
 const TCOLS_MIN = 40;
 function autosize(root = document) { $$('textarea.tarea', root).forEach(a => { a.style.height = 'auto'; a.style.height = a.scrollHeight + 2 + 'px'; }); }
 document.addEventListener('input', e => { if (e.target.matches?.('textarea.tarea')) autosize(e.target.parentElement); });
@@ -2795,7 +2799,7 @@ function quickCreate(type, preset = {}) {
   closePop();
   const F = {
     cliente: { t: 'Novo cliente', f: `<label>Nome do cliente<input class="field" name="nome" required autofocus></label><div class="row2"><label>Consultor<select class="field" name="con">${opts(CONSULTORES, CONSULTORES[0])}</select></label><label>Plano<select class="field" name="plano">${opts(planNames(), planNames()[0])}</select></label></div><label>Data de início<input class="field" type="date" name="di" value="${today()}"></label>` },
-    tarefa: { t: 'Nova tarefa', f: `<label>Título<input class="field" name="titulo" required autofocus></label><div class="row2"><label>Responsável<input class="field" name="resp" list="dl-resp-m"></label><label>Prazo<input class="field" type="date" name="prazo"></label></div><label>Cliente<input class="field" name="cliente" list="dl-cli-m" value="${esc(preset.cliente || '')}"></label>` },
+    tarefa: { t: 'Nova tarefa', f: `<label>Título<input class="field" name="titulo" required autofocus></label><div class="row2"><label>Responsável<input class="field" name="resp" list="dl-resp-m"></label><label>Prazo<input class="field" type="date" name="prazo"></label></div><div class="row2"><label>Cliente<input class="field" name="cliente" list="dl-cli-m" value="${esc(preset.cliente || '')}"></label><label>Recorrência<select class="field" name="rec">${opts([['Não', 'Não repete'], ['Diária', 'Diária'], ['Semanal', 'Semanal'], ['Mensal', 'Mensal']], 'Não')}</select></label></div>` },
     meta: { t: 'Nova meta do time', f: `<label>Título<input class="field" name="titulo" required autofocus placeholder="Ex.: Clientes ativos"></label><div class="row2"><label>Meta<input class="field" name="meta" inputmode="decimal"></label><label>Unidade<input class="field" name="unidade" placeholder="clientes, %, pontos…"></label></div><label>Prazo<input class="field" type="date" name="prazo"></label>` },
     pauta: { t: 'Nova pauta de alinhamento', f: `<label>Título<input class="field" name="titulo" required autofocus value="Alinhamento semanal"></label><div class="row2"><label>Data<input class="field" type="date" name="data" value="${esc(preset.data || today())}"></label><label>Responsável<input class="field" name="resp" list="dl-resp-m"></label></div>` },
     conteudo: { t: 'Novo conteúdo', f: `<label>Título<input class="field" name="titulo" required autofocus></label><div class="row2"><label>Área<select class="field" name="area">${opts([['Internas', 'Internas'], ['Clientes', 'Para clientes']], route() === 'info' ? UI.infoArea : 'Internas')}</select></label><label>Categoria<input class="field" name="categoria" list="dl-cat-m" value="${esc(route() === 'info' ? UI.infoCat : '')}"></label></div>` },
@@ -2812,7 +2816,7 @@ function quickCreate(type, preset = {}) {
       const c = create('clients', { nome: v.nome.trim(), con: v.con, plano: v.plano, valorCheio: p?.valor ?? null, desconto: false, st: 'Ativo', fase: 'Diagnóstico', tag: 'Em dia', di: v.di || today(), seg: '', obs: '' });
       openClient(c.id); toast('Cliente criado');
     } else if (type === 'tarefa') {
-      create('tasks', { titulo: v.titulo.trim(), resp: v.resp.trim(), prazo: v.prazo || null, cliente: v.cliente.trim(), status: 'A fazer', recorrencia: 'Não', desc: preset.desc || '' });
+      create('tasks', { titulo: v.titulo.trim(), resp: v.resp.trim(), prazo: v.prazo || null, cliente: v.cliente.trim(), status: 'A fazer', recorrencia: v.rec || 'Não', desc: preset.desc || '' });
       if (route() !== 'cliente') { UI.timeTab = 'tarefas'; go('time'); }
       toast('Tarefa criada');
     } else if (type === 'meta') {
