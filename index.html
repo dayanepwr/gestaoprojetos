@@ -625,6 +625,7 @@ body.dg-dock .main{padding-right:372px} body.dg-dock .fab{right:372px}
 .dbg-b{position:absolute;top:0;height:100%;border-radius:99px;background:color-mix(in srgb,var(--c) 26%,var(--surface));overflow:hidden} .dbg-b i{display:block;height:100%;background:var(--c)}
 .dbg-now{position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--red-fg);z-index:2}
 .dbedit td,.dbedit th{white-space:nowrap} .dbedit .in{min-width:88px} .dbedit td.mut{color:var(--muted)} .dbedit td:nth-child(1) .in{min-width:150px} .dbedit td:nth-child(2) .in{min-width:170px} .dbedit td:nth-child(7) .in{min-width:150px}
+.tfcli{flex:none} .tfcli input{height:32px;width:230px;font-size:12.5px;padding-left:34px;border-radius:9px} .tfcli .ti{left:11px;font-size:15px} .tfcli.on input{border-color:var(--ink)}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -1577,7 +1578,7 @@ function viewTime() {
   return head + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
 { const _ad = AFTER.dashboard; AFTER.dashboard = function () { _ad.call(this); atnChart(); }; }
-AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
+AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); const qc = $('#tfcli'); if (qc) qc.oninput = debounce(() => { UI.tf.cli = qc.value; saveUI(); render(); }, 200); initKanban(); };
 
 /* ── one a one ── */
 // Visibilidade e edição são controladas aqui, na tela. Dayane vê e edita tudo; cada pessoa edita a própria
@@ -1832,7 +1833,7 @@ function filteredTasks() {
     const st = tStatus(t);
     if (f.q && !norm([t.titulo, t.desc, t.cliente, t.resp].join(' ')).includes(norm(f.q))) return false;
     if (f.st === 'Abertas' ? st === 'Concluído' : f.st && st !== f.st) return false;
-    if (f.cli && t.cliente !== f.cli) return false;
+    if (f.cli && !norm(t.cliente).includes(norm(f.cli))) return false;
     if (f.resp && t.resp !== f.resp) return false;
     if (f.de && (!t.prazo || t.prazo < f.de)) return false;
     if (f.ate && (!t.prazo || t.prazo > f.ate)) return false;
@@ -1851,7 +1852,7 @@ function viewTasks() {
   </div>
   <div class="hscroll" style="margin:-4px 0 14px;align-items:center">
     <select class="btn sm ${f.st ? 'on' : ''}" data-tf="st">${opts([['', 'Status: todos'], ['Abertas', 'Abertas'], ...T_ALL.map(s => [s, s])], f.st)}</select>
-    <select class="btn sm ${f.cli ? 'on' : ''}" data-tf="cli">${opts([['', 'Cliente: todos'], ...clis.map(s => [s, s])], f.cli)}</select>
+    <label class="search tfcli ${f.cli ? 'on' : ''}"><i class="ti ti-building-store"></i><input id="tfcli" list="dl-clif" data-tf="cli" placeholder="Cliente: digite para buscar…" value="${esc(f.cli)}" autocomplete="off" aria-label="Filtrar por cliente"></label><datalist id="dl-clif">${[...new Set([...clientsArr().map(x => x.nome), ...clis])].sort((a, b) => a.localeCompare(b, 'pt-BR')).map(s => `<option value="${esc(s)}">`).join('')}</datalist>
     <select class="btn sm ${f.resp ? 'on' : ''}" data-tf="resp">${opts([['', 'Responsável: todos'], ...resps.map(s => [s, s])], f.resp)}</select>
     <span class="chip ${f.de || f.ate ? 'filter' : ''}" style="padding:0 6px 0 12px"><i class="ti ti-calendar"></i>Prazo<input type="date" class="in" style="min-width:0;width:128px;padding:2px 4px" data-tf="de" value="${esc(f.de)}" aria-label="Prazo de"><span>até</span><input type="date" class="in" style="min-width:0;width:128px;padding:2px 4px" data-tf="ate" value="${esc(f.ate)}" aria-label="Prazo até"></span>
     ${nf ? `<button class="chip" data-act="tf-clear">Limpar filtros</button>` : ''}
@@ -1883,7 +1884,7 @@ function taskRow(t) {
     <td><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"></td>
     <td><div class="cellrow">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
     <td><div class="cellrow">${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}<select class="in" data-bind="${b('recorrencia')}" style="min-width:96px">${opts(RECOR, t.recorrencia || 'Não')}</select></div></td>
-    <td><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button></td>
+    <td><div class="cellrow" style="gap:0"><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button><button class="iconbtn" data-act="tdup" data-id="${t.id}" title="Duplicar tarefa"><i class="ti ti-copy"></i></button></div></td>
     <td><button class="iconbtn danger" data-act="del" data-col="tasks" data-id="${t.id}" aria-label="Excluir"><i class="ti ti-trash"></i></button></td>
   </tr>`;
 }
@@ -1896,7 +1897,7 @@ function taskCard(t) {
   </div>`;
 }
 // colunas da tabela de tarefas: [chave, título, largura padrão]; a largura é ajustável arrastando a borda do cabeçalho
-const TCOLS = [['chk', '', 44], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 150], ['rec', 'Recorrência', 120], ['open', '', 44], ['del', '', 44]];
+const TCOLS = [['chk', '', 44], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 150], ['rec', 'Recorrência', 120], ['open', '', 76], ['del', '', 44]];
 const TCOLS_MIN = 40;
 function autosize(root = document) { $$('textarea.tarea', root).forEach(a => { a.style.height = 'auto'; a.style.height = a.scrollHeight + 2 + 'px'; }); }
 document.addEventListener('input', e => { if (e.target.matches?.('textarea.tarea')) autosize(e.target.parentElement); });
@@ -2712,13 +2713,13 @@ const DRAWERS = {
     const b = f => `tasks|${t.id}|${f}`, st = tStatus(t);
     return drHead('Tarefa', 'tasks', t.id) + `<div class="dr-b">
       <input class="in dr-title" data-bind="${b('titulo')}" value="${esc(t.titulo)}" placeholder="Título da tarefa">
-      <div class="pills" style="padding:4px 8px">${lateBadge(t)}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div>
+      <div class="pills" style="padding:4px 8px;align-items:center">${lateBadge(t)}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select><button class="btn sm" style="margin-left:auto" data-act="tdup" data-id="${t.id}" title="Cria uma cópia desta tarefa e abre para você editar os campos e as datas"><i class="ti ti-copy"></i>Duplicar</button></div>
       <div class="form">
         <label>Cliente</label><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—">
         <label>Responsável</label><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div>
         <label>Prazo</label><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}">
-        <label>Recorrência</label><select class="in" data-bind="${b('recorrencia')}">${opts(RECOR, t.recorrencia || 'Não')}</select>
-        ${t.recorrencia && t.recorrencia !== 'Não' ? `<div class="full" style="font-size:12px;color:var(--muted);padding:0 8px"><i class="ti ti-repeat"></i> Ao concluir, a próxima ocorrência é criada automaticamente.</div>` : ''}
+        <label>Recorrência</label><div class="seg sm" role="group" aria-label="Recorrência">${RECOR.map(r => `<button type="button" data-act="trec" data-id="${t.id}" data-v="${r}" class="${(t.recorrencia || 'Não') === r ? 'on' : ''}">${r === 'Não' ? 'Não repete' : r}</button>`).join('')}</div>
+        ${t.recorrencia && t.recorrencia !== 'Não' ? `<div class="full" style="font-size:12px;color:var(--muted);padding:0 8px"><i class="ti ti-repeat"></i> Ao concluir, a próxima ocorrência é criada automaticamente${t.prazo ? ` (próximo prazo: <b>${fmtD(nextDue(t.prazo, t.recorrencia))}</b>)` : ''}.</div>` : ''}
         <div class="blk"><label>Descrição / observações</label><textarea class="in field" style="min-height:180px" data-live data-bind="${b('desc')}" placeholder="Detalhes, links, próximos passos…">${esc(t.desc)}</textarea></div>
       </div>
       <p class="note">“Atrasado” é automático: aparece quando o prazo passa e a tarefa não está concluída. Mude o prazo para uma data futura ou conclua a tarefa para sair do atraso.</p>
@@ -3001,6 +3002,8 @@ document.addEventListener('click', async e => {
     case 'wgo': UI.week = v; saveUI(); window.scrollTo({ top: 0, behavior: 'smooth' }); return render();
     case 'mpart': { const m = S.meetings[id]; const s = new Set(m.participantes || []); s.has(v) ? s.delete(v) : s.add(v); patch('meetings', id, { participantes: [...s] }); return; }
     case 'tview': UI.tView = v; saveUI(); return render();
+    case 'tdup': { const t = S.tasks[id]; if (!t) return; const nt = create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }); toast('Tarefa duplicada: ajuste os campos e as datas'); openDrawer('task', nt.id, 'titulo'); return; }
+    case 'trec': { const t = S.tasks[id]; if (!t || (t.recorrencia || 'Não') === v) return; patch('tasks', id, { recorrencia: v }); return; }
     case 'tdone': { e.stopPropagation(); const t = S.tasks[id]; patch('tasks', id, { status: el.checked ? 'Concluído' : 'A fazer' }); if (el.checked && !(t.recorrencia && t.recorrencia !== 'Não')) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
     case 'tgroup-toggle': UI.tCollapsed[v] = !UI.tCollapsed[v]; saveUI(); return render();
     case 'tf-clear': UI.tf = { q: UI.tf.q, st: '', cli: '', resp: '', de: '', ate: '' }; saveUI(); return render();
