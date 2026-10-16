@@ -705,6 +705,26 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .fp.on{border-color:var(--ink);color:var(--ink);font-weight:500} .fp.on>.ti:first-child{color:var(--ink)}
 .fp.clr{border-style:dashed;color:var(--danger)} .fp.clr .ti{color:var(--danger)!important}
 .fp-list{max-height:280px;overflow-y:auto;margin:0 -4px;padding:0 4px} .fp-list .opt.z{opacity:.5} .fp-list .opt[hidden]{display:none}
+.app{transition:grid-template-columns .2s ease} .app.collapsed{grid-template-columns:72px 1fr}
+@media (max-width:860px){.app.collapsed{grid-template-columns:1fr}}
+.sidehead{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+.sidetog{flex:none;width:34px;height:34px;margin-top:2px;border-radius:10px;color:var(--side-ink);display:grid;place-items:center;cursor:pointer;border:0;background:transparent} .sidetog:hover{background:rgba(255,255,255,.1);color:#fff} .sidetog .ti{font-size:20px}
+.app.collapsed .side{padding:22px 10px;align-items:center} .app.collapsed .side .logo{display:none} .app.collapsed .sidehead{justify-content:center;margin-bottom:18px}
+.app.collapsed .nav{width:100%} .app.collapsed .nav a{justify-content:center;padding:11px 0} .app.collapsed .nav a span{display:none}
+.app.collapsed .userbtn{justify-content:center;padding:10px 0} .app.collapsed .userbtn .who,.app.collapsed .userbtn>.ti{display:none} .app.collapsed .side .foot{width:100%}
+.modal .box.wide{width:min(620px,100%);max-height:calc(100vh - 32px);overflow-y:auto} .modal .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px} .modal .fields label[hidden],.modal .row3[hidden]{display:none}
+.modal textarea.field{min-height:60px;resize:vertical} .qdrow{display:flex;gap:6px;flex-wrap:wrap;margin-top:-4px} .qdrow .chip{height:26px;font-size:12px;cursor:pointer}
+.ggrid3{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px}
+.gc3{padding:16px 18px;display:flex;flex-direction:column;gap:10px;cursor:pointer;border-top:3px solid var(--gc,var(--line));transition:transform .12s,box-shadow .12s;min-width:0} .gc3:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.gc3-top{display:flex;gap:6px;flex-wrap:wrap} .gc3 h4{margin:0;font-size:15px;line-height:1.35;font-weight:600}
+.gc3-val{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap} .gc3-val b{font-size:28px;line-height:1;letter-spacing:-.02em} .gc3-val span{font-size:12.5px;color:var(--muted)} .gc3-val em{margin-left:auto;font-style:normal;font-size:18px;font-weight:700}
+.gc3-scale{display:flex;justify-content:space-between;gap:8px;font-size:11.5px;color:var(--muted);margin-top:-4px}
+.gc3-foot{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:10px;border-top:1px solid var(--line)} .gc3-foot .spk{display:inline-flex;margin-left:4px} .gc3-upd{margin-left:auto;display:inline-flex}
+.gc3-yn{display:flex;align-items:center;gap:8px;font-size:15px;color:var(--muted)} .gc3-yn .ti{font-size:24px} .gc3-yn.on{color:var(--accent)}
+.spark{display:block}
+.gdr-prog{padding:4px 8px 6px;display:flex;flex-direction:column;gap:10px} .gdr-spark{display:flex;flex-direction:column;gap:2px} .gdr-spark small{font-size:11px;color:var(--muted)} .gdr-spark .spark{width:100%;height:54px}
+.ghist{display:flex;flex-direction:column} .ghist>div{display:grid;grid-template-columns:90px 1fr auto;gap:8px;padding:6px 8px;border-bottom:1px solid var(--line);font-size:13px} .ghist em{font-style:normal;font-size:12px;color:var(--muted)} .ghist em.up{color:var(--accent-ink)} .ghist em.dn{color:var(--danger)}
+.glist td{vertical-align:middle;padding:10px 8px} .glist tr:hover td{background:var(--surface-2)}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -846,12 +866,12 @@ select.pill.c-red{background-color:var(--red-bg);border-color:transparent;color:
 <!-- APP -->
 <div id="app" class="app" hidden>
   <aside class="side">
-    <div class="logo" data-logo-white></div>
+    <div class="sidehead"><div class="logo" data-logo-white></div><button class="sidetog" id="sideTog" data-act="side-toggle" aria-label="Recolher ou expandir o menu" title="Recolher menu"><i class="ti ti-layout-sidebar-left-collapse"></i></button></div>
     <nav class="nav" id="nav">
-      <a href="#/dashboard" data-r="dashboard"><i class="ti ti-layout-dashboard"></i>Visão geral</a>
-      <a href="#/clientes" data-r="clientes"><i class="ti ti-users"></i>Clientes</a>
-      <a href="#/info" data-r="info"><i class="ti ti-books"></i>Informações úteis</a>
-      <a href="#/time" data-r="time"><i class="ti ti-heart-handshake"></i>Time dos Lindos</a>
+      <a href="#/dashboard" data-r="dashboard" title="Visão geral"><i class="ti ti-layout-dashboard"></i><span>Visão geral</span></a>
+      <a href="#/clientes" data-r="clientes" title="Clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+      <a href="#/info" data-r="info" title="Informações úteis"><i class="ti ti-books"></i><span>Informações úteis</span></a>
+      <a href="#/time" data-r="time" title="Time dos Lindos"><i class="ti ti-heart-handshake"></i><span>Time dos Lindos</span></a>
     </nav>
     <div class="foot">
       <button class="userbtn" data-act="settings"><span class="av" id="meAv">PG</span><span class="who" id="meName">—</span><i class="ti ti-settings"></i></button>
@@ -1121,6 +1141,7 @@ function render() {
   const sc = $$('[data-sk]').map(el => [el.dataset.sk, el.scrollLeft, el.scrollTop]);
   const dsc = $('#drawer .dr-b')?.scrollTop;
   const r = route();
+  $('#app').classList.toggle('collapsed', !!UI.sideCollapsed); { const tg = $('#sideTog'); if (tg) { tg.title = UI.sideCollapsed ? 'Expandir menu' : 'Recolher menu'; tg.innerHTML = `<i class="ti ti-layout-sidebar-left-${UI.sideCollapsed ? 'expand' : 'collapse'}"></i>`; } }
   $$('#nav a,#bnav a').forEach(el => el.classList.toggle('on', el.dataset.r === (r === 'cliente' ? 'clientes' : r)));
   charts.forEach(c => c.destroy()); charts = [];
   $('#view').innerHTML = VIEWS[r]();
@@ -1931,11 +1952,16 @@ function goalValue(g) {
 }
 function goalProgress(g) {
   if (g.tipo === 'Sim/Não') return g.feito ? 1 : 0;
-  const v = +goalValue(g) || 0, m = +g.meta || 0;
+  const v = +goalValue(g) || 0, m = +g.meta || 0, i0 = g.ini === '' || g.ini == null ? null : +g.ini;
+  if (i0 != null && !isNaN(i0) && i0 !== m) return Math.max(0, (v - i0) / (m - i0));
   if (g.inverso) return v <= m ? 1 : (v ? m / v : 0);
   return m ? v / m : 0;
 }
 const fmtGoal = (g, v) => v == null || v === '' ? '—' : g.tipo === 'Valor (R$)' ? brl(v) : g.tipo === 'Percentual' ? num(v) + '%' : num(v);
+const gUn = g => (!g.tipo || g.tipo === 'Número') ? (g.unidade || '') : '';
+const GCATS = ['Clientes', 'Financeiro', 'Equipe', 'Processos', 'Comercial', 'Outras'];
+const gCats = () => [...new Set([...GCATS, ...Object.values(S.goals).map(g => g.cat).filter(Boolean)])];
+const G_SIT = [['late', 'Prazo vencido'], ['risk', 'Atenção ao ritmo'], ['prog', 'Em andamento'], ['good', 'No caminho'], ['ok', 'Atingida']];
 function goalInfo(g) {
   const p = goalProgress(g), pc = Math.round(p * 100), done = p >= 1, td = parseISO(today());
   let exp = null, dleft = null;
@@ -1947,40 +1973,70 @@ function goalInfo(g) {
   return { p, pc, done, exp, dleft, state };
 }
 const G_STATE = { ok: ['Atingida', 'green', 'trophy', 'var(--accent)'], good: ['No caminho', 'green', 'trending-up', 'var(--accent)'], prog: ['Em andamento', 'blue', 'progress', 'var(--s1)'], risk: ['Atenção ao ritmo', 'amber', 'alert-triangle', '#E5A82A'], late: ['Prazo vencido', 'red', 'clock-exclamation', 'var(--danger)'] };
+HOOKS.goals = (next, cur, ch) => { if ('atual' in ch && +ch.atual !== +cur.atual && !isNaN(+ch.atual)) { const h = [...(cur.hist || [])], d = today(); if (h.length && h[h.length - 1].d === d) h[h.length - 1] = { d, v: +ch.atual }; else h.push({ d, v: +ch.atual }); next.hist = h.slice(-80); } };
+function gSpark(g, w = 120, h = 30) {
+  const pts = [...(g.hist || [])]; if (g.ini != null && g.ini !== '' && !isNaN(+g.ini) && g.createdAt) pts.unshift({ d: isoD(new Date(g.createdAt)), v: +g.ini });
+  if (pts.length < 2) return '';
+  const vs = pts.map(p => +p.v), mn = Math.min(...vs), mx = Math.max(...vs), rg = mx - mn || 1;
+  const xy = pts.map((p, i) => [Math.round(i / (pts.length - 1) * (w - 4) + 2), Math.round(h - 3 - (p.v - mn) / rg * (h - 6))]);
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" aria-hidden="true"><polyline points="${xy.map(a => a.join(',')).join(' ')}" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${xy[xy.length - 1][0]}" cy="${xy[xy.length - 1][1]}" r="3" fill="currentColor"/></svg>`;
+}
+function goalsFiltered() {
+  const f = (UI.gf ||= { cat: [], resp: [], sit: [] }); ['cat', 'resp', 'sit'].forEach(k => f[k] = arr(f[k]));
+  return Object.values(S.goals).filter(g => {
+    if (f.cat.length && !f.cat.includes(g.cat || 'Outras')) return false;
+    if (f.resp.length && !f.resp.includes(g.resp)) return false;
+    if (f.sit.length && !f.sit.includes(goalInfo(g).state)) return false;
+    return true;
+  }).sort((a, b) => (a.prazo || '9').localeCompare(b.prazo || '9'));
+}
 function viewGoals() {
-  const list = Object.values(S.goals).sort((a, b) => (a.prazo || '9').localeCompare(b.prazo || '9'));
-  if (!list.length) return `<div class="card empty"><i class="ti ti-target"></i>Nenhuma meta cadastrada.<br><br><button class="btn primary" data-act="new" data-v="meta"><i class="ti ti-plus"></i>Nova meta</button></div>`;
-  const info = new Map(list.map(g => [g.id, goalInfo(g)]));
-  const n = list.length, ok = list.filter(g => info.get(g.id).done).length, warn = list.filter(g => ['risk', 'late'].includes(info.get(g.id).state)).length;
-  const avg = Math.round(list.reduce((a, g) => a + Math.min(1, info.get(g.id).p), 0) / n * 100);
+  const all = Object.values(S.goals);
+  if (!all.length) return `<div class="card empty"><i class="ti ti-target"></i>Nenhuma meta cadastrada ainda.<br><br><button class="btn primary" data-act="new" data-v="meta"><i class="ti ti-plus"></i>Cadastrar a primeira meta</button></div>`;
+  const list = goalsFiltered(), f = UI.gf, info = new Map(all.map(g => [g.id, goalInfo(g)]));
+  const n = all.length, ok = all.filter(g => info.get(g.id).done).length, warn = all.filter(g => ['risk', 'late'].includes(info.get(g.id).state)).length;
+  const avg = Math.round(all.reduce((a, g) => a + Math.min(1, info.get(g.id).p), 0) / n * 100);
   const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
-  const sections = [['Exigem atenção', 'alert-triangle', g => ['risk', 'late'].includes(info.get(g.id).state)], ['Em andamento', 'progress', g => ['prog', 'good'].includes(info.get(g.id).state)], ['Atingidas', 'trophy', g => info.get(g.id).done]];
-  return `<div class="gkpis">${kpi('target', 'Metas', n, 'cadastradas', 'var(--s1)')}${kpi('trophy', 'Atingidas', ok, `${Math.round(ok / n * 100)}% do total`, 'var(--accent)')}${kpi('alert-triangle', 'Exigem atenção', warn, warn ? 'ritmo abaixo do esperado ou prazo vencido' : 'tudo no ritmo', warn ? 'var(--danger)' : '#8b97a8')}${kpi('chart-line', 'Progresso médio', avg + '%', 'de todas as metas', '#6B34C9')}</div>` +
-    sections.map(([lab, ic, test]) => { const items = list.filter(test); return items.length ? `<div class="gtitle"><i class="ti ti-${ic}"></i>${lab}<span class="n">${items.length}</span></div><div class="ggrid2">${items.map(goalCard).join('')}</div>` : ''; }).join('');
+  const any = f.cat.length + f.resp.length + f.sit.length;
+  const bar = `<div class="toolbar" style="margin-top:14px"><div class="seg"><button data-act="gview" data-v="cards" class="${UI.gView !== 'list' ? 'on' : ''}"><i class="ti ti-layout-grid"></i>Cards</button><button data-act="gview" data-v="list" class="${UI.gView === 'list' ? 'on' : ''}"><i class="ti ti-list-details"></i>Lista</button></div>
+    <span class="mut" style="font-size:12.5px;margin-left:auto">${list.length === n ? n : `${list.length} de ${n}`} ${n === 1 ? 'meta' : 'metas'}</span><button class="btn primary sm" data-act="new" data-v="meta"><i class="ti ti-plus"></i>Nova meta</button></div>
+    <div class="fbarx"><span class="fbl"><i class="ti ti-filter"></i>Filtros</span>${fpBtn('g', 'cat', 'ti-category')}${fpBtn('g', 'resp', 'ti-user')}${fpBtn('g', 'sit', 'ti-flag')}${any ? `<button class="fp clr" data-act="gf-clear"><i class="ti ti-filter-off"></i>Limpar</button>` : ''}</div>`;
+  let body;
+  if (!list.length) body = `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhuma meta com esses filtros.</div>`;
+  else if (UI.gView === 'list') body = goalList(list);
+  else {
+    const sections = [['Exigem atenção', 'alert-triangle', g => ['risk', 'late'].includes(info.get(g.id).state)], ['Em andamento', 'progress', g => ['prog', 'good'].includes(info.get(g.id).state)], ['Atingidas', 'trophy', g => info.get(g.id).done]];
+    body = sections.map(([lab, ic, test]) => { const items = list.filter(test); return items.length ? `<div class="gtitle"><i class="ti ti-${ic}"></i>${lab}<span class="n">${items.length}</span></div><div class="ggrid3">${items.map(goalCard).join('')}</div>` : ''; }).join('');
+  }
+  return `<div class="gkpis">${kpi('target', 'Metas', n, 'cadastradas', 'var(--s1)')}${kpi('trophy', 'Atingidas', ok, `${Math.round(ok / n * 100)}% do total`, 'var(--accent)')}${kpi('alert-triangle', 'Exigem atenção', warn, warn ? 'ritmo baixo ou prazo vencido' : 'tudo no ritmo', warn ? 'var(--danger)' : '#8b97a8')}${kpi('chart-line', 'Progresso médio', avg + '%', 'de todas as metas', '#6B34C9')}</div>` + bar + body;
+}
+function goalBar(g, I, col, h = 10) {
+  return `<div class="g2-bar" style="height:${h}px"><i style="width:${Math.min(100, I.pc)}%;background:${col}"></i>${I.exp != null ? `<u style="left:${Math.round(I.exp * 100)}%" title="Onde deveria estar hoje (${Math.round(I.exp * 100)}%)"></u>` : ''}</div>`;
 }
 function goalCard(g) {
-  const I = goalInfo(g), [stl, stc, sti, col] = G_STATE[I.state], b = f => `goals|${g.id}|${f}`, auto = g.fonte && g.fonte !== 'manual', v = goalValue(g);
-  const dl = I.dleft == null ? '' : I.done ? '' : I.dleft < 0 ? `venceu há ${-I.dleft} d` : I.dleft === 0 ? 'vence hoje' : `${I.dleft} d restantes`;
-  return `<div class="card gcard2 st-${I.state}">
-    <div class="g2-top"><div style="min-width:0;flex:1"><input class="in strong g2-title" data-bind="${b('titulo')}" value="${esc(g.titulo)}" placeholder="Nome da meta">
-      <div class="g2-sub"><span class="pill c-${stc}"><i class="ti ti-${sti}"></i>${stl}</span>${g.prazo ? `<span class="g2-chip"><i class="ti ti-calendar"></i>${fmtD(g.prazo)}${dl ? ` · ${dl}` : ''}</span>` : ''}${g.resp ? `<span class="g2-chip">${avatar(g.resp)}${esc(g.resp.split(' ')[0])}</span>` : ''}${auto ? `<span class="pill c-blue" style="height:20px"><i class="ti ti-bolt"></i>auto</span>` : ''}</div></div></div>
-    ${g.tipo === 'Sim/Não' ? `<label class="sw g2-yn"><input type="checkbox" data-bind="${b('feito')}" ${g.feito ? 'checked' : ''}><span></span>${g.feito ? 'Concluída' : 'Marcar como concluída'}</label>` : `
-    <div class="g2-nums"><b class="g2-v">${fmtGoal(g, v)}</b><span class="g2-of">de ${fmtGoal(g, g.meta)} ${esc(g.unidade || '')}</span><span class="g2-pc" style="color:${col}">${I.pc}%</span></div>
-    <div class="g2-bar"><i style="width:${Math.min(100, I.pc)}%;background:${col}"></i>${I.exp != null ? `<u style="left:${Math.round(I.exp * 100)}%" title="Onde deveria estar hoje (${Math.round(I.exp * 100)}%)"></u>` : ''}</div>
-    <div class="g2-leg"><span>${I.done ? 'Meta atingida' : g.inverso ? 'Quanto menor, melhor' : `Faltam ${fmtGoal(g, Math.max(0, (+g.meta || 0) - (+v || 0)))}`}</span>${I.exp != null ? `<span>Esperado hoje: ${Math.round(I.exp * 100)}%</span>` : ''}</div>
-    ${auto ? '' : `<div class="g2-ctl"><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="-1" aria-label="Diminuir"><i class="ti ti-minus"></i></button><input class="in num strong" style="font-size:16px;width:96px;text-align:center" data-type="num" inputmode="decimal" data-bind="${b('atual')}" value="${esc(num(g.atual))}" aria-label="Valor atual"><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="1" aria-label="Aumentar"><i class="ti ti-plus"></i></button><span class="mut" style="font-size:12px">valor atual · meta</span><input class="in num" style="width:84px" data-type="num" inputmode="decimal" data-bind="${b('meta')}" value="${esc(num(g.meta))}" placeholder="meta" aria-label="Meta"></div>`}`}
-    ${UI.goalOpen[g.id] ? `<div class="gmore">
-      <label>Tipo<select class="field" data-bind="${b('tipo')}">${opts(G_TIPOS, g.tipo || 'Número')}</select></label>
-      <label>Unidade<input class="field" data-bind="${b('unidade')}" value="${esc(g.unidade)}" placeholder="clientes, pontos…"></label>
-      <label class="full">Fonte do valor<select class="field" data-bind="${b('fonte')}">${opts(Object.entries(G_FONTES), g.fonte || 'manual')}</select></label>
-      <label>Prazo<input type="date" class="field" data-type="date" data-bind="${b('prazo')}" value="${esc(g.prazo)}"></label>
-      <label>Responsável<input class="field" list="dl-resp" data-bind="${b('resp')}" value="${esc(g.resp)}"></label>
-      <label class="sw full" style="flex-direction:row;color:var(--ink)"><input type="checkbox" data-bind="${b('inverso')}" ${g.inverso ? 'checked' : ''}><span></span>Menor é melhor (ex.: churn)</label>
-      <label class="full">Observações<textarea class="field" style="min-height:70px" data-live data-bind="${b('obs')}">${esc(g.obs)}</textarea></label>
-    </div>` : ''}
-    <div class="foot"><span class="mut" style="font-size:12px">${g.obs ? '<i class="ti ti-notes"></i> tem observações' : ''}</span>
-      <span style="margin-left:auto;display:flex;gap:2px"><button class="iconbtn ${UI.goalOpen[g.id] ? 'on' : ''}" data-act="gmore" data-id="${g.id}" title="Ajustes"><i class="ti ti-adjustments-horizontal"></i></button><button class="iconbtn danger" data-act="del" data-col="goals" data-id="${g.id}" title="Excluir"><i class="ti ti-trash"></i></button></span></div>
+  const I = goalInfo(g), [stl, stc, sti, col] = G_STATE[I.state], auto = g.fonte && g.fonte !== 'manual', v = goalValue(g), yn = g.tipo === 'Sim/Não', hasIni = g.ini != null && g.ini !== '' && !isNaN(+g.ini);
+  const dl = I.dleft == null || I.done ? '' : I.dleft < 0 ? `venceu há ${-I.dleft} d` : I.dleft === 0 ? 'vence hoje' : `${I.dleft} d`;
+  const cat = g.cat || 'Outras';
+  return `<div class="card gc3 st-${I.state}" data-act="open-goal" data-id="${g.id}">
+    <div class="gc3-top"><span class="pill c-${hashTone(cat)}"><i class="ti ${catIcon(cat)}"></i>${esc(cat)}</span><span class="pill c-${stc}"><i class="ti ti-${sti}"></i>${stl}</span></div>
+    <h4>${esc(g.titulo || 'Sem título')}</h4>
+    ${yn ? `<div class="gc3-yn ${g.feito ? 'on' : ''}"><i class="ti ${g.feito ? 'ti-circle-check-filled' : 'ti-circle'}"></i>${g.feito ? 'Concluída' : 'Pendente'}</div>` : `
+    <div class="gc3-val"><b>${fmtGoal(g, v)}</b><span>de ${fmtGoal(g, g.meta)} ${esc(gUn(g))}</span><em style="color:${col}">${I.pc}%</em></div>
+    ${goalBar(g, I, col)}
+    <div class="gc3-scale"><span>${hasIni ? `início ${fmtGoal(g, g.ini)}` : ''}</span><span>${I.done ? 'meta atingida' : g.inverso ? 'quanto menor, melhor' : `faltam ${fmtGoal(g, Math.max(0, (+g.meta || 0) - (+v || 0)))}`}</span></div>`}
+    <div class="gc3-foot"><span class="g2-chip">${g.resp ? `${avatar(g.resp)}${esc(g.resp.split(' ')[0])}` : '<i class="ti ti-user-question"></i>sem resp.'}</span>${g.prazo ? `<span class="g2-chip"><i class="ti ti-calendar"></i>${fmtDs(g.prazo)}${dl ? ` · ${dl}` : ''}</span>` : ''}<span class="spk" style="color:${col}">${gSpark(g, 70, 24)}</span>
+      ${yn ? `<label class="sw" data-stop style="margin-left:auto" title="Marcar como concluída"><input type="checkbox" data-bind="goals|${g.id}|feito" ${g.feito ? 'checked' : ''}><span></span></label>` : auto ? `<span class="pill c-blue" style="height:20px;margin-left:auto"><i class="ti ti-bolt"></i>auto</span>` : `<span class="gc3-upd"><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="-1" aria-label="Diminuir"><i class="ti ti-minus"></i></button><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="1" aria-label="Aumentar"><i class="ti ti-plus"></i></button></span>`}</div>
   </div>`;
+}
+function goalList(list) {
+  return `<div class="card tblwrap"><table class="tbl glist"><thead><tr><th>Meta</th><th>Categoria</th><th>Responsável</th><th style="min-width:220px">Progresso</th><th>Atual / meta</th><th>Prazo</th><th>Situação</th></tr></thead><tbody>${list.map(g => {
+    const I = goalInfo(g), [stl, stc, sti, col] = G_STATE[I.state], v = goalValue(g), yn = g.tipo === 'Sim/Não', cat = g.cat || 'Outras';
+    return `<tr data-act="open-goal" data-id="${g.id}" style="cursor:pointer"><td><b>${esc(g.titulo || 'Sem título')}</b></td><td><span class="pill c-${hashTone(cat)}">${esc(cat)}</span></td><td>${g.resp ? `<span class="cellrow">${avatar(g.resp)}${esc(g.resp.split(' ')[0])}</span>` : '<span class="mut">—</span>'}</td>
+      <td><div style="display:flex;align-items:center;gap:10px"><div style="flex:1">${goalBar(g, I, col, 8)}</div><b style="width:42px;text-align:right;color:${col}">${I.pc}%</b></div></td>
+      <td>${yn ? (g.feito ? 'Concluída' : 'Pendente') : `<b>${fmtGoal(g, v)}</b> <span class="mut">/ ${fmtGoal(g, g.meta)} ${esc(gUn(g))}</span>`}</td>
+      <td>${g.prazo ? `${fmtD(g.prazo)}${I.dleft != null && !I.done ? `<div class="mut" style="font-size:11.5px">${I.dleft < 0 ? `venceu há ${-I.dleft} d` : I.dleft === 0 ? 'vence hoje' : `${I.dleft} d restantes`}</div>` : ''}` : '<span class="mut">—</span>'}</td>
+      <td><span class="pill c-${stc}"><i class="ti ti-${sti}"></i>${stl}</span></td></tr>`;
+  }).join('')}</tbody></table></div>`;
 }
 /* ── alinhamentos ── */
 const weekStart = s => { const d = parseISO(s); const wd = (d.getDay() + 6) % 7; d.setDate(d.getDate() - wd); return isoD(d); };
@@ -2037,6 +2093,12 @@ function fpDef(s, k) {
   if (s === 'c') {
     const d = CF.find(x => x.k === k), src = clientsFor(k);
     return { label: d.l, sel: UI.cf[k] || [], opts: d.o().map(v => [v, v, src.filter(r => (d.g ? d.g(r) : r[k]) === v).length, !!TONE[v]]), set: a => { if (a.length) UI.cf[k] = a; else delete UI.cf[k]; } };
+  }
+  if (s === 'g') {
+    goalsFiltered(); const gf = UI.gf, all = Object.values(S.goals);
+    if (k === 'cat') return { label: 'Categoria', sel: gf.cat, opts: gCats().map(v => [v, v, all.filter(g => (g.cat || 'Outras') === v).length, false]), set: a => { gf.cat = a; } };
+    if (k === 'resp') { const nm = [...new Set([...respList(), ...all.map(g => g.resp).filter(Boolean)])]; return { label: 'Responsável', sel: gf.resp, opts: nm.map(v => [v, v, all.filter(g => g.resp === v).length, false]), set: a => { gf.resp = a; } }; }
+    return { label: 'Situação', sel: gf.sit, opts: G_SIT.map(([v, l]) => [v, l, all.filter(g => goalInfo(g).state === v).length, false]), set: a => { gf.sit = a; } };
   }
   const f = tfNorm(), src = filteredTasks(k);
   if (k === 'st') return { label: 'Status', sel: f.st, opts: [['Abertas', 'Todas as abertas', src.filter(t => t.status !== 'Concluído').length, false], ...T_ALL.map(v => [v, v, src.filter(t => tStatus(t) === v).length, true])], set: a => { f.st = a; } };
@@ -3087,7 +3149,7 @@ function openDrawer(type, id, focus) { if (type === 'client') return openClient(
 function closeDrawer() { UI.drawer = null; renderDrawer(); }
 function renderDrawer() {
   const d = UI.drawer, el = $('#drawer'), bd = $('#backdrop');
-  const rec = d && d.type !== 'settings' ? S[{ client: 'clients', task: 'tasks', meeting: 'meetings', content: 'content' }[d.type]]?.[d.id] : null;
+  const rec = d && d.type !== 'settings' ? S[{ client: 'clients', task: 'tasks', meeting: 'meetings', content: 'content', goal: 'goals' }[d.type]]?.[d.id] : null;
   if (!d || (d.type !== 'settings' && !rec)) { el.classList.remove('show'); bd.classList.remove('show'); el.setAttribute('aria-hidden', 'true'); if (!d) setTimeout(() => { if (!UI.drawer) el.innerHTML = ''; }, 260); UI.drawer = null; return; }
   const html = DRAWERS[d.type](rec);
   el.innerHTML = html; el.classList.add('show'); bd.classList.add('show'); el.setAttribute('aria-hidden', 'false');
@@ -3162,6 +3224,30 @@ const DRAWERS = {
     </div>` + drFoot(m);
   },
   content(c) { return UI.cEdit === c.id ? DRAWERS.contentEdit(c) : drContentRead(c); },
+  goal(g) {
+    const b = f => `goals|${g.id}|${f}`, auto = g.fonte && g.fonte !== 'manual', I = goalInfo(g), [stl, stc, sti, col] = G_STATE[I.state], h = [...(g.hist || [])].reverse().slice(0, 12);
+    return drHead('Meta do time', 'goals', g.id) + `<div class="dr-b">
+      <input class="in dr-title" data-bind="${b('titulo')}" value="${esc(g.titulo)}" placeholder="Nome da meta">
+      <div class="pills" style="padding:4px 8px"><span class="pill c-${stc}"><i class="ti ti-${sti}"></i>${stl}</span><span class="pill c-gray">${I.pc}% da meta</span></div>
+      <div class="gdr-prog">${g.tipo === 'Sim/Não' ? '' : `<div class="gc3-val"><b>${fmtGoal(g, goalValue(g))}</b><span>de ${fmtGoal(g, g.meta)} ${esc(gUn(g))}</span><em style="color:${col}">${I.pc}%</em></div>${goalBar(g, I, col, 12)}`}${gSpark(g, 300, 54) ? `<div class="gdr-spark" style="color:${col}">${gSpark(g, 300, 54)}<small>evolução dos valores registrados</small></div>` : ''}</div>
+      <div class="form">
+        <label>Categoria</label><input class="in" list="dl-gcat" data-bind="${b('cat')}" value="${esc(g.cat || '')}" placeholder="Clientes, Financeiro…">
+        <label>Responsável</label><div class="cellrow">${avatar(g.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(g.resp)}" placeholder="—"></div>
+        <label>Prazo</label><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(g.prazo)}">
+        <label>Tipo</label><select class="in" data-bind="${b('tipo')}">${opts(G_TIPOS, g.tipo || 'Número')}</select>
+        <label>Unidade</label><input class="in" data-bind="${b('unidade')}" value="${esc(g.unidade)}" placeholder="clientes, %, pontos…">
+        ${g.tipo === 'Sim/Não' ? `<label>Concluída</label><label class="sw"><input type="checkbox" data-bind="${b('feito')}" ${g.feito ? 'checked' : ''}><span></span>${g.feito ? 'Sim' : 'Não'}</label>` : `
+        <label>Valor inicial</label><input class="in num" data-type="num" inputmode="decimal" data-bind="${b('ini')}" value="${esc(num(g.ini))}" placeholder="de onde partiu">
+        <label>Valor atual</label>${auto ? `<span class="mut" style="padding:0 8px">${fmtGoal(g, goalValue(g))} · automático</span>` : `<input class="in num" data-type="num" inputmode="decimal" data-bind="${b('atual')}" value="${esc(num(g.atual))}">`}
+        <label>Meta</label><input class="in num" data-type="num" inputmode="decimal" data-bind="${b('meta')}" value="${esc(num(g.meta))}">
+        <label>Menor é melhor</label><label class="sw"><input type="checkbox" data-bind="${b('inverso')}" ${g.inverso ? 'checked' : ''}><span></span>Ex.: churn, inadimplência</label>`}
+        <label>Fonte do valor</label><select class="in" data-bind="${b('fonte')}">${opts(Object.entries(G_FONTES), g.fonte || 'manual')}</select>
+        <div class="blk"><label>Descrição · por que essa meta existe</label><textarea class="in field" style="min-height:110px" data-live data-bind="${b('obs')}" placeholder="Contexto, como será medida, plano de ação…">${esc(g.obs)}</textarea></div>
+      </div>
+      ${h.length ? `<div class="subsec"><h6 style="margin:0 0 6px;font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em">Histórico de valores</h6><div class="ghist">${h.map((x, i) => { const prev = h[i + 1]; const dlt = prev ? x.v - prev.v : null; return `<div><span>${fmtD(x.d)}</span><b>${fmtGoal(g, x.v)}</b><em class="${dlt > 0 ? 'up' : dlt < 0 ? 'dn' : ''}">${dlt == null ? '' : (dlt > 0 ? '+' : '') + num(Math.round(dlt * 100) / 100)}</em></div>`; }).join('')}</div></div>` : ''}
+      <datalist id="dl-gcat">${gCats().map(s => `<option value="${esc(s)}">`).join('')}</datalist><div class="dl-host">${datalists()}</div>
+    </div>` + drFoot(g);
+  },
   contentEdit(c) {
     const b = f => `content|${c.id}|${f}`, area = c.area || 'Internas';
     const cats = area === 'Internas' ? S.settings.catInternas : S.settings.catClientes;
@@ -3217,15 +3303,30 @@ function quickCreate(type, preset = {}) {
   const F = {
     cliente: { t: 'Novo cliente', f: `<label>Nome do cliente<input class="field" name="nome" required autofocus></label><div class="row2"><label>Consultor<select class="field" name="con">${opts(CONSULTORES, CONSULTORES[0])}</select></label><label>Plano<select class="field" name="plano">${opts(planNames(), planNames()[0])}</select></label></div><label>Data de início<input class="field" type="date" name="di" value="${today()}"></label>` },
     tarefa: { t: 'Nova tarefa', f: `<label>Título<input class="field" name="titulo" required autofocus></label><div class="row2"><label>Responsável<input class="field" name="resp" list="dl-resp-m"></label><label>Prazo<input class="field" type="date" name="prazo"></label></div><div class="row2"><label>Cliente<input class="field" name="cliente" list="dl-cli-m" value="${esc(preset.cliente || '')}"></label><label>Recorrência<select class="field" name="rec">${opts([['Não', 'Não repete'], ['Diária', 'Diária'], ['Semanal', 'Semanal'], ['Mensal', 'Mensal']], 'Não')}</select></label></div>` },
-    meta: { t: 'Nova meta do time', f: `<label>Título<input class="field" name="titulo" required autofocus placeholder="Ex.: Clientes ativos"></label><div class="row2"><label>Meta<input class="field" name="meta" inputmode="decimal"></label><label>Unidade<input class="field" name="unidade" placeholder="clientes, %, pontos…"></label></div><label>Prazo<input class="field" type="date" name="prazo"></label>` },
+    meta: { t: 'Nova meta do time', w: true, f: `<label>O que vamos alcançar?<input class="field" name="titulo" required autofocus placeholder="Ex.: Chegar a 40 clientes ativos"></label>
+      <div class="row2"><label>Categoria<input class="field" name="cat" list="dl-gcat-m" placeholder="Clientes, Financeiro…" autocomplete="off"></label><label>Responsável<select class="field" name="resp">${opts([['', '—'], ...respList().map(s => [s, s])], '')}</select></label></div>
+      <div class="row2"><label>Tipo de meta<select class="field" name="tipo">${opts(G_TIPOS, 'Número')}</select></label><label>Unidade<input class="field" name="unidade" placeholder="clientes, %, pontos…"></label></div>
+      <div class="row3 gnum"><label>Valor inicial<input class="field" name="ini" inputmode="decimal" placeholder="de onde parte"></label><label>Valor atual<input class="field" name="atual" inputmode="decimal" placeholder="hoje"></label><label>Meta<input class="field" name="meta" inputmode="decimal" placeholder="onde chegar"></label></div>
+      <label class="sw gnum" style="flex-direction:row;align-items:center;color:var(--ink);font-size:13px"><input type="checkbox" name="inverso"><span></span>Menor é melhor (ex.: churn, inadimplência)</label>
+      <label>Prazo<input class="field" type="date" name="prazo"></label>
+      <div class="qdrow"><button type="button" class="chip" data-qd="m">Fim do mês</button><button type="button" class="chip" data-qd="t">Fim do trimestre</button><button type="button" class="chip" data-qd="s">Fim do semestre</button><button type="button" class="chip" data-qd="a">Fim do ano</button></div>
+      <label>Fonte do valor<select class="field" name="fonte">${opts(Object.entries(G_FONTES), 'manual')}</select></label>
+      <label>Por que essa meta? (opcional)<textarea class="field" name="obs" rows="2" placeholder="Contexto e como será medida"></textarea></label>` },
     pauta: { t: 'Nova pauta de alinhamento', f: `<label>Título<input class="field" name="titulo" required autofocus value="Alinhamento semanal"></label><div class="row2"><label>Data<input class="field" type="date" name="data" value="${esc(preset.data || today())}"></label><label>Responsável<input class="field" name="resp" list="dl-resp-m"></label></div>` },
     conteudo: { t: 'Novo conteúdo', f: `<label>Título<input class="field" name="titulo" required autofocus></label><div class="row2"><label>Área<select class="field" name="area">${opts([['Internas', 'Internas'], ['Clientes', 'Para clientes']], route() === 'info' ? UI.infoArea : 'Internas')}</select></label><label>Categoria<input class="field" name="categoria" list="dl-cat-m" value="${esc(route() === 'info' ? UI.infoCat : '')}"></label></div>` },
   }[type];
   const m = $('#modal');
-  m.innerHTML = `<div class="box" role="dialog" aria-modal="true"><h3>${F.t}</h3><form id="qc"><div class="fields">${F.f}</div><div class="acts"><button type="button" class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" type="submit"><i class="ti ti-check"></i>Criar</button></div></form>
-    <datalist id="dl-resp-m">${respList().map(s => `<option value="${esc(s)}">`).join('')}</datalist><datalist id="dl-cli-m">${clientsArr().filter(c => c.st !== 'Encerrado').map(c => `<option value="${esc(c.nome)}">`).join('')}</datalist><datalist id="dl-cat-m">${[...new Set([...S.settings.catInternas, ...S.settings.catClientes])].map(s => `<option value="${esc(s)}">`).join('')}</datalist></div>`;
+  m.innerHTML = `<div class="box ${F.w ? 'wide' : ''}" role="dialog" aria-modal="true"><h3>${F.t}</h3><form id="qc"><div class="fields">${F.f}</div><div class="acts"><button type="button" class="btn ghost" data-act="modal-close">Cancelar</button><button class="btn primary" type="submit"><i class="ti ti-check"></i>Criar</button></div></form>
+    <datalist id="dl-gcat-m">${gCats().map(s => `<option value="${esc(s)}">`).join('')}</datalist><datalist id="dl-resp-m">${respList().map(s => `<option value="${esc(s)}">`).join('')}</datalist><datalist id="dl-cli-m">${clientsArr().filter(c => c.st !== 'Encerrado').map(c => `<option value="${esc(c.nome)}">`).join('')}</datalist><datalist id="dl-cat-m">${[...new Set([...S.settings.catInternas, ...S.settings.catClientes])].map(s => `<option value="${esc(s)}">`).join('')}</datalist></div>`;
   m.hidden = false; $('#backdrop').classList.add('show');
   setTimeout(() => $('[autofocus]', m)?.focus(), 30);
+  if (type === 'meta') {
+    const q = (y, mo) => { const d = new Date(y, mo + 1, 0); return isoD(d); }, n = new Date(), y = n.getFullYear(), mo = n.getMonth();
+    const dts = { m: q(y, mo), t: q(y, Math.floor(mo / 3) * 3 + 2), s: q(y, mo < 6 ? 5 : 11), a: q(y, 11) };
+    $$('[data-qd]', m).forEach(b => b.onclick = () => { $('[name=prazo]', m).value = dts[b.dataset.qd]; });
+    const tp = $('[name=tipo]', m), un = $('[name=unidade]', m), sync = () => { $$('.gnum', m).forEach(el => el.hidden = tp.value === 'Sim/Não'); };
+    tp.onchange = () => { if (!un.value || ['%', 'R$'].includes(un.value)) un.value = tp.value === 'Percentual' ? '%' : tp.value === 'Valor (R$)' ? 'R$' : ''; sync(); }; sync();
+  }
   $('#qc').onsubmit = e => {
     e.preventDefault(); const v = Object.fromEntries(new FormData(e.target)); closeModal();
     if (type === 'cliente') {
@@ -3237,7 +3338,8 @@ function quickCreate(type, preset = {}) {
       if (route() !== 'cliente') { UI.timeTab = 'tarefas'; go('time'); }
       toast('Tarefa criada');
     } else if (type === 'meta') {
-      create('goals', { titulo: v.titulo.trim(), tipo: 'Número', atual: 0, meta: parseNum(v.meta), unidade: v.unidade.trim(), inverso: false, fonte: 'manual', prazo: v.prazo || null });
+      const ini = parseNum(v.ini), at = parseNum(v.atual), cur = at ?? ini ?? 0;
+      create('goals', { titulo: v.titulo.trim(), cat: (v.cat || '').trim(), resp: v.resp || '', tipo: v.tipo || 'Número', ini: ini ?? null, atual: cur, meta: parseNum(v.meta), unidade: (v.unidade || '').trim(), inverso: !!v.inverso, fonte: v.fonte || 'manual', prazo: v.prazo || null, obs: (v.obs || '').trim(), hist: [{ d: today(), v: cur }] });
       UI.timeTab = 'metas'; go('time'); toast('Meta criada');
     } else if (type === 'pauta') {
       const m2 = create('meetings', { titulo: v.titulo.trim(), data: v.data || today(), resp: v.resp.trim(), link: '', pauta: '', participantes: [] });
@@ -3342,6 +3444,10 @@ document.addEventListener('click', async e => {
     case 'open-task': return openDrawer('task', id);
     case 'open-meeting': return openDrawer('meeting', id);
     case 'open-content': return openDrawer('content', id);
+    case 'open-goal': return openDrawer('goal', id);
+    case 'gview': UI.gView = v; saveUI(); return render();
+    case 'gf-clear': UI.gf = { cat: [], resp: [], sit: [] }; saveUI(); return render();
+    case 'side-toggle': UI.sideCollapsed = !UI.sideCollapsed; saveUI(); return render();
     case 'del': {
       const col = el.dataset.col, rec = S[col][id]; if (!rec) return;
       const name = rec.nome || rec.titulo || 'este item';
