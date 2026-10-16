@@ -687,6 +687,16 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .kanban.five{overflow-x:auto} .kanban.five .kcol{flex:1 1 220px;min-width:220px}
 .kcard .t{display:flex;gap:8px;align-items:flex-start;font-size:13px} .kck{border:0;background:transparent;padding:0;font-size:19px;color:var(--muted);display:grid;place-items:center;cursor:pointer;flex:none;margin-top:-1px} .kck:hover,.kck.on{color:var(--accent)} .kcard.dn{opacity:.7}
 .kempty{font-size:12px;color:var(--muted);text-align:center;padding:16px 0}
+.catcol{position:sticky;top:12px;display:flex;flex-direction:column;gap:12px} .catcol .catnav{position:static}
+@media (max-width:980px){.catcol{position:static}}
+.qfbar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:10px 14px;margin-bottom:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qfg{display:flex;flex-wrap:wrap;align-items:center;gap:6px} .qfl{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-right:2px}
+.chip.qf{height:28px;padding:0 10px} .chip.qf .n{font-size:11px;opacity:.7;font-weight:600}
+.rowctl{display:flex;align-items:center;justify-content:center;gap:9px;height:28px}
+.selbox{position:relative;width:18px;height:18px;flex:none;cursor:pointer;opacity:.4;transition:opacity .12s} .selbox input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.selbox span{display:grid;place-items:center;width:18px;height:18px;border:1.5px solid var(--line-2,#b9c2cf);border-radius:5px;background:var(--surface);color:transparent;font-size:13px;pointer-events:none}
+.selbox input:checked+span{background:var(--focus);border-color:var(--focus);color:#fff} .ttbl tr:hover .selbox,.ttbl.anysel .selbox,.selbox.on{opacity:1}
+.doneb{border:0;background:transparent;padding:0;font-size:22px;line-height:1;color:var(--axis,#b9c2cf);display:grid;place-items:center;cursor:pointer;flex:none;transition:color .12s,transform .12s} .doneb:hover{color:var(--accent);transform:scale(1.1)} .doneb.on{color:var(--accent)}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -1525,7 +1535,11 @@ function clientMap(list) {
   else if (UI.cView === 'map') body = clientMap(list);
   else if (isMobile()) body = clientCards(list);
   else body = clientTable(list);
-  return pageHead('Clientes', `${list.length === total ? total : `${list.length} de ${total}`} clientes`) + tb + filterChips(CF, UI.cf, 'cf-clear') + body + datalists();
+  return pageHead('Clientes', `${list.length === total ? total : `${list.length} de ${total}`} clientes`) + tb + quickFilters() + filterChips(CF, UI.cf, 'cf-clear') + body + datalists();
+}
+const QF = [['st', 'Status', 'ti-circle-dot', () => STATUS], ['tag', 'Tag', 'ti-tag', () => TAGS], ['con', 'Consultor', 'ti-user', () => CONSULTORES], ['fase', 'Fase', 'ti-stairs-up', () => FASES]];
+function quickFilters() {
+  return `<div class="qfbar">${QF.map(([k, l, ic, o]) => { const d = CF.find(x => x.k === k), src = clientsFor(k), sel = UI.cf[k] || []; return `<div class="qfg"><span class="qfl"><i class="ti ${ic}"></i>${l}</span>${o().map(v => `<button class="chip qf ${sel.includes(v) ? 'on' : ''}" data-act="cq-t" data-k="${k}" data-v="${esc(v)}">${esc(v)}<span class="n">${src.filter(r => (d.g ? d.g(r) : r[k]) === v).length}</span></button>`).join('')}</div>`; }).join('')}${Object.values(UI.cf).some(fActive) ? `<button class="chip" data-act="cf-clear" data-k="*"><i class="ti ti-filter-off"></i>Limpar filtros</button>` : ''}</div>`;
 }
 function datalists() {
   return `<datalist id="dl-seg">${segList().map(s => `<option value="${esc(s)}">`).join('')}</datalist>
@@ -1663,12 +1677,15 @@ function viewInfo() {
     const order = [...cats, 'Sem categoria'];
     body = Object.keys(groups).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99)).map(g => `<div class="gtitle"><span class="pill c-${hashTone(g)}"><i class="ti ${catIcon(g)}"></i>${esc(g)}</span><span class="n">${groups[g].length}</span></div><div class="igrid ${area === 'Internas' ? 'int' : ''}">${groups[g].map(card).join('')}</div>`).join('');
   } else body = `<div class="igrid ${area === 'Internas' ? 'int' : ''}">${list.map(card).join('')}</div>`;
-  const nav = `<aside class="catnav"><div class="catnav-h">Categorias</div>
+  const nA = a => contentArr().filter(c => (c.area || 'Internas') === a).length;
+  const nav = `<aside class="catcol"><div class="catnav"><div class="catnav-h">Tipo</div>
+    <button class="cat ${area === 'Internas' ? 'on' : ''}" data-act="iarea" data-v="Internas"><span class="cdot" style="background:var(--brand-2)"><i class="ti ti-lock"></i></span><span class="cn">Internas</span><span class="n">${nA('Internas')}</span></button>
+    <button class="cat ${area === 'Clientes' ? 'on' : ''}" data-act="iarea" data-v="Clientes"><span class="cdot" style="background:#0B7F85"><i class="ti ti-books"></i></span><span class="cn">Para clientes</span><span class="n">${nA('Clientes')}</span></button></div>
+  <div class="catnav"><div class="catnav-h">Categorias</div>
     <button class="cat ${!UI.infoCat ? 'on' : ''}" data-act="icat" data-v=""><span class="cdot" style="background:var(--ink-2)"><i class="ti ti-layout-grid"></i></span><span class="cn">Todas</span><span class="n">${all.length}</span></button>
     ${cats.map(c => `<button class="cat ${UI.infoCat === c ? 'on' : ''}" data-act="icat" data-v="${esc(c)}"><span class="cdot" style="background:${catColor(c)}"><i class="ti ${catIcon(c)}"></i></span><span class="cn">${esc(c)}</span><span class="n">${all.filter(x => x.categoria === c).length}</span></button>`).join('')}
-  </aside>`;
-  return pageHead('Informações úteis', area === 'Internas' ? 'Senhas, mensagens padrão e conteúdos da equipe' : 'Biblioteca de conteúdos para clientes',
-    `<div class="seg"><button data-act="iarea" data-v="Internas" class="${area === 'Internas' ? 'on' : ''}"><i class="ti ti-lock"></i>Internas</button><button data-act="iarea" data-v="Clientes" class="${area === 'Clientes' ? 'on' : ''}"><i class="ti ti-books"></i>Para clientes</button></div>`) +
+  </div></aside>`;
+  return pageHead('Informações úteis', area === 'Internas' ? 'Senhas, mensagens padrão e conteúdos da equipe' : 'Biblioteca de conteúdos para clientes') +
     `<div class="infolayout">${nav}<div class="infomain">
       <div class="toolbar"><label class="search full-m"><i class="ti ti-search"></i><input id="iq" placeholder="Buscar por título ou conteúdo…" value="${esc(UI.iq)}"></label>
         <label class="sw"><input type="checkbox" data-act="igroup" ${UI.infoGroup ? 'checked' : ''}><span></span>Agrupar por categoria</label>
@@ -2032,7 +2049,7 @@ function lateBadge(t) { return tStatus(t) === 'Atrasado' ? `<span class="pill c-
 function taskRow(t) {
   const st = tStatus(t), b = f => `tasks|${t.id}|${f}`;
   return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''} ${SEL.has(t.id) ? 'sel' : ''}">
-    <td class="sticky" style="text-align:center"><div class="cellrow" style="justify-content:center;gap:8px;align-items:center;padding-top:0"><input type="checkbox" class="chk" data-act="tsel" data-id="${t.id}" ${SEL.has(t.id) ? 'checked' : ''} aria-label="Selecionar" title="Selecionar para editar em lote"><input type="checkbox" class="chk rnd" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir" title="Concluir"></div></td>
+    <td class="sticky"><div class="rowctl"><label class="selbox" title="Selecionar para editar em lote"><input type="checkbox" data-act="tsel" data-id="${t.id}" ${SEL.has(t.id) ? 'checked' : ''} aria-label="Selecionar"><span><i class="ti ti-check"></i></span></label><button type="button" class="doneb ${st === 'Concluído' ? 'on' : ''}" data-act="tcheck" data-id="${t.id}" title="${st === 'Concluído' ? 'Reabrir' : 'Concluir'}" aria-label="Concluir"><i class="ti ${st === 'Concluído' ? 'ti-circle-check-filled' : 'ti-circle'}"></i></button></div></td>
     <td><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea></td>
     <td><textarea class="in tarea" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea></td>
     <td><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(cliOf(t))}" placeholder="Interno"></td>
@@ -2077,8 +2094,8 @@ function taskTable(list) {
   if (!list.length) return `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhuma tarefa com esses filtros.</div>`;
   if (isMobile()) return groups.map(([g, items]) => `${g ? `<div class="gtitle" data-act="tgroup-toggle" data-v="${esc(g)}" style="cursor:pointer">${TONE[g] ? pill(g) : `<b>${esc(g)}</b>`}<span class="n">${items.length}</span><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}" style="color:var(--muted)"></i></div>` : ''}${UI.tCollapsed[g] ? '' : `<div class="mlist">${items.map(taskCard).join('')}</div>`}`).join('');
   const W = k => Math.max(TCOLS_MIN, +(UI.tcw?.[k]) || TCOLS.find(x => x[0] === k)[2]), total = TCOLS.reduce((a, x) => a + W(x[0]), 0);
-  const th = ([k, l]) => `<th${k === 'chk' ? ' class="sticky"' : ''}>${k === 'chk' ? `<div class="cellrow" style="justify-content:center"><input type="checkbox" class="chk" data-act="tselall" ${list.length && list.every(t => SEL.has(t.id)) ? 'checked' : ''} title="Selecionar todas as listadas" aria-label="Selecionar todas"></div>` : l}${l ? `<span class="rz" data-rz="${k}" title="Arraste para ajustar a largura"></span>` : ''}</th>`;
-  return `<div class="card tblwrap" data-sk="ttbl"><table class="tbl ttbl" style="table-layout:fixed;width:${total}px"><colgroup>${TCOLS.map(([k]) => `<col data-col="${k}" style="width:${W(k)}px">`).join('')}</colgroup><thead><tr>${TCOLS.map(th).join('')}</tr></thead><tbody>
+  const th = ([k, l]) => `<th${k === 'chk' ? ' class="sticky"' : ''}>${k === 'chk' ? `<div class="rowctl"><label class="selbox on" title="Selecionar todas as listadas"><input type="checkbox" data-act="tselall" ${list.length && list.every(t => SEL.has(t.id)) ? 'checked' : ''} aria-label="Selecionar todas"><span><i class="ti ti-check"></i></span></label></div>` : l}${l ? `<span class="rz" data-rz="${k}" title="Arraste para ajustar a largura"></span>` : ''}</th>`;
+  return `<div class="card tblwrap" data-sk="ttbl"><table class="tbl ttbl ${SEL.size ? 'anysel' : ''}" style="table-layout:fixed;width:${total}px"><colgroup>${TCOLS.map(([k]) => `<col data-col="${k}" style="width:${W(k)}px">`).join('')}</colgroup><thead><tr>${TCOLS.map(th).join('')}</tr></thead><tbody>
     ${groups.map(([g, items]) => `${g ? `<tr class="grp" data-act="tgroup-toggle" data-v="${esc(g)}"><td colspan="${TCOLS.length}"><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}"></i> ${TONE[g] ? pill(g) : esc(g)}<span class="n">${items.length}</span></td></tr>` : ''}${UI.tCollapsed[g] ? '' : items.map(taskRow).join('')}`).join('')}
   </tbody></table></div>`;
 }
@@ -3339,6 +3356,7 @@ document.addEventListener('click', async e => {
     case 'csort': UI.cSort = UI.cSort.k === el.dataset.k ? { k: el.dataset.k, dir: -UI.cSort.dir } : { k: el.dataset.k, dir: 1 }; saveUI(); return render();
     case 'colfilter': { const k = el.dataset.k, d = CF.find(x => x.k === k); openPop(el, `<h6>Filtrar: ${esc(d.l)}</h6>${filterControl(CF, UI.cf, k, 'c')}<div class="ft"><button class="btn sm ghost" data-act="cf-clear" data-k="${k}">Limpar</button><button class="btn sm" data-act="pop-close">OK</button></div>`); setTimeout(() => $('#pop input.field')?.focus(), 20); return; }
     case 'cfilters': openPop(el, `<h6>Filtros</h6>${CF.map(d => `<div class="fsec"><b>${esc(d.l)}</b>${filterControl(CF, UI.cf, d.k, 'c')}</div>`).join('')}<div class="ft"><button class="btn sm ghost" data-act="cf-clear" data-k="*">Limpar tudo</button><button class="btn sm primary" data-act="pop-close">Ver ${filteredClients().length} clientes</button></div>`); return;
+    case 'cq-t': { const k = el.dataset.k, s = new Set(UI.cf[k] || []); s.has(v) ? s.delete(v) : s.add(v); if (s.size) UI.cf[k] = [...s]; else delete UI.cf[k]; saveUI(); return render(); }
     case 'cf-clear': if (el.dataset.k === '*') UI.cf = {}; else delete UI.cf[el.dataset.k]; saveUI(); if (!$('#pop').hidden && el.closest('#pop')) closePop(); return render();
     case 'pop-close': return closePop();
     // info
