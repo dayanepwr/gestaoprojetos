@@ -642,6 +642,51 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .pi .pick{border:0;background:transparent;cursor:pointer;font-size:20px;color:var(--muted);display:grid;place-items:center;padding:0;flex:none} .pi .pick:hover{color:var(--ink)} .pi.done .pick{color:var(--green-fg,#2e7d4f)}
 .piin{flex:1;min-width:0;border:0;background:transparent;font:inherit;font-size:14px;color:var(--ink);padding:6px 4px;outline:none;border-bottom:1px solid transparent} .piin:focus{border-bottom-color:var(--focus,var(--ink))}
 .pi.done .piin{text-decoration:line-through;color:var(--muted)} .pi.add{margin-top:4px;color:var(--muted)} .pi .iconbtn{opacity:0} .pi:hover .iconbtn,.pi:focus-within .iconbtn{opacity:1} .piat{font-size:11px;color:var(--muted);white-space:nowrap}
+.infolayout{display:grid;grid-template-columns:232px minmax(0,1fr);gap:20px;align-items:start} .infomain{min-width:0}
+.catnav{position:sticky;top:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px;display:flex;flex-direction:column;gap:2px}
+.catnav-h{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600;padding:6px 8px 4px}
+.cat{display:flex;align-items:center;gap:10px;padding:6px 8px;border-radius:9px;font-size:13px;text-align:left;color:var(--ink-2);width:100%;cursor:pointer}
+.cat:hover{background:var(--surface-2)} .cat.on{background:var(--surface-3);color:var(--ink);font-weight:600}
+.cat .cdot{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;font-size:14px;flex:none} .cat .cn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .cat .n{font-size:12px;color:var(--muted)}
+@media (max-width:980px){.infolayout{grid-template-columns:1fr}.catnav{position:static;flex-direction:row;overflow-x:auto;padding:6px}.catnav-h{display:none}.cat{width:auto;white-space:nowrap}}
+.icard.int{border-left:4px solid var(--ct,var(--line));gap:10px} .icard h4{font-size:15px} .icard .prev{color:var(--ink-2);font-size:12.5px;-webkit-line-clamp:3;margin:0;white-space:pre-line}
+.icfoot{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:2px}
+.dr-h .btn{margin-left:8px} .dr-b.rd{display:flex;flex-direction:column;gap:14px;padding-top:18px} .rd-t{margin:0;font-size:22px;line-height:1.25;letter-spacing:-.01em}
+.rd-link{display:flex;align-items:center;gap:8px;padding:9px 12px;border:1px solid var(--line);border-radius:10px;font-size:13px;color:var(--focus);word-break:break-all;text-decoration:none} .rd-link:hover{background:var(--surface-2)}
+.rd-cred{display:flex;flex-direction:column;gap:8px;padding:12px 14px;background:var(--surface-2);border:1px solid var(--line);border-radius:11px} .rd-cred>div{display:flex;align-items:center;gap:10px} .rd-cred .lab{width:48px;font-size:12px;color:var(--muted)} .rd-cred code{flex:1;font-size:13.5px;word-break:break-all}
+.rd-body{font-size:14.5px;line-height:1.65;color:var(--ink)} .rd-body p{margin:0 0 9px} .rd-body ul.md li{font-size:14.5px} .rd-body a{color:var(--focus)}
+.editbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 12px;margin-bottom:10px;background:var(--surface-2);border:1px dashed var(--line);border-radius:10px;font-size:12.5px;color:var(--muted)}
+.ttabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:-4px 0 18px;overflow-x:auto;overflow-y:hidden}
+.ttabs button{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;font-size:13.5px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;cursor:pointer}
+.ttabs button:hover{color:var(--ink)} .ttabs button.on{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)} .ttabs .ti{font-size:17px}
+.ttabs .tn{background:var(--surface-3);border-radius:99px;font-size:11.5px;padding:1px 8px;color:var(--ink-2);font-weight:600} .ttabs .tn.red{background:var(--red-bg);color:var(--red-fg)}
+.gkpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:6px} @media (max-width:1000px){.gkpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.gk{padding:14px 16px;display:flex;gap:12px;align-items:center} .gk-i{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:#fff;font-size:20px;flex:none}
+.gk small{display:block;font-size:12px;color:var(--muted)} .gk b{font-size:24px;line-height:1.15} .gk em{display:block;font-style:normal;font-size:11.5px;color:var(--muted)}
+.ggrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:16px}
+.gcard2{padding:18px 20px;display:flex;flex-direction:column;gap:13px;border-top:3px solid var(--gc,var(--line))}
+.st-ok,.st-good{--gc:var(--accent)} .st-late{--gc:var(--danger)} .st-risk{--gc:#E5A82A} .st-prog{--gc:var(--s1)}
+.g2-title{font-size:16px} .g2-sub{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:2px 8px}
+.g2-chip{display:inline-flex;align-items:center;gap:5px;background:var(--surface-3);border-radius:99px;padding:0 9px;height:22px;font-size:12px;color:var(--ink-2)}
+.g2-nums{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap} .g2-v{font-size:32px;line-height:1;letter-spacing:-.02em} .g2-of{font-size:13px;color:var(--muted)} .g2-pc{margin-left:auto;font-size:22px;font-weight:700}
+.g2-bar{position:relative;height:12px;background:var(--surface-3);border-radius:99px} .g2-bar i{display:block;height:100%;border-radius:99px;transition:width .3s} .g2-bar u{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink);opacity:.55;border-radius:2px}
+.g2-leg{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)} .g2-ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap} .g2-yn{padding:6px 8px;font-size:14px}
+.gcard2 .foot{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.tpanel{display:grid;grid-template-columns:210px 210px minmax(0,1fr);gap:12px;margin-bottom:14px} @media (max-width:900px){.tpanel{grid-template-columns:1fr 1fr}.tp-week{grid-column:1/-1}}
+.tp-box,.tp-week{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.tp-box{display:flex;gap:12px;align-items:center} .tp-i{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#fff;font-size:19px;flex:none}
+.tp-box small{display:block;font-size:12px;color:var(--muted)} .tp-box b{font-size:26px;line-height:1.1;display:block} .tp-box em{font-style:normal;font-size:11.5px;color:var(--muted)} .tp-box.bad b{color:var(--danger)}
+.tp-wh{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--ink-2)} .tp-wh b{font-size:22px;color:var(--ink)}
+.tp-bar{height:10px;background:var(--surface-3);border-radius:99px;overflow:hidden;margin:8px 0 6px} .tp-bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .3s}
+.tp-wf{display:flex;justify-content:space-between;gap:8px;font-size:12px;color:var(--muted)} .tp-wf b{color:var(--ink)}
+.bulkbar{position:sticky;top:8px;z-index:20;display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:8px 12px;margin-bottom:12px;background:var(--surface);border:1.5px solid var(--focus);border-radius:12px;box-shadow:var(--shadow-lg)}
+.bulkbar>b{font-size:13px;margin-right:4px} .bulkbar .bk{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:9px;padding:0 6px;height:30px;color:var(--muted)} .bulkbar .bk .in{width:130px;min-width:0;padding:2px 4px;font-size:12.5px} .bulkbar .bk input[type=date].in{width:122px}
+.tbl.ttbl tr.sel td{background:var(--accent-soft)} .tbl .chk.rnd{border-radius:50%}
+.tbl.ttbl,.tbl.ttbl .in,.tbl.ttbl textarea.in,.tbl.ttbl select.in{font-size:12.5px} .tbl.ttbl th{font-size:11.5px;height:34px} .tbl.ttbl td{padding:2px 3px} .tbl.ttbl select.pill{font-size:11.5px;height:24px} .tbl.ttbl .in{padding:4px 6px;line-height:1.4}
+.kmode{display:flex;align-items:center;gap:8px;margin:0 0 10px;font-size:12.5px;color:var(--muted)}
+.kanban.five{overflow-x:auto} .kanban.five .kcol{flex:1 1 220px;min-width:220px}
+.kcard .t{display:flex;gap:8px;align-items:flex-start;font-size:13px} .kck{border:0;background:transparent;padding:0;font-size:19px;color:var(--muted);display:grid;place-items:center;cursor:pointer;flex:none;margin-top:-1px} .kck:hover,.kck.on{color:var(--accent)} .kcard.dn{opacity:.7}
+.kempty{font-size:12px;color:var(--muted);text-align:center;padding:16px 0}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -1036,7 +1081,7 @@ function nextDue(prazo, rec) {
   while (d < t && guard++ < 1000) d = step(d);
   return d;
 }
-function put(col, rec, silent) { rec.updatedAt = Date.now(); if (me) rec.updatedBy = me; S[col][rec.id] = rec; enqueue(keyOf(col, rec.id), 'up', rec); if (!silent) scheduleRender(); return rec; }
+function put(col, rec, silent) { if (col === 'tasks' && !String(rec.cliente || '').trim()) rec.cliente = 'Interno'; rec.updatedAt = Date.now(); if (me) rec.updatedBy = me; S[col][rec.id] = rec; enqueue(keyOf(col, rec.id), 'up', rec); if (!silent) scheduleRender(); return rec; }
 function create(col, data) { return put(col, { id: uid(), createdAt: Date.now(), ...data }); }
 function patch(col, id, ch) { const cur = S[col][id]; if (!cur) return; const next = { ...cur, ...ch }; HOOKS[col]?.(next, cur, ch); put(col, next); }
 function removeRec(col, id) { delete S[col][id]; enqueue(keyOf(col, id), 'del', null); scheduleRender(); }
@@ -1484,7 +1529,7 @@ function clientMap(list) {
 }
 function datalists() {
   return `<datalist id="dl-seg">${segList().map(s => `<option value="${esc(s)}">`).join('')}</datalist>
-  <datalist id="dl-cli">${clientsArr().filter(c => c.st !== 'Encerrado').map(c => c.nome).sort().map(s => `<option value="${esc(s)}">`).join('')}</datalist>
+  <datalist id="dl-cli">${['Interno', ...clientsArr().filter(c => c.st !== 'Encerrado').map(c => c.nome).sort()].map(s => `<option value="${esc(s)}">`).join('')}</datalist>
   <datalist id="dl-resp">${respList().map(s => `<option value="${esc(s)}">`).join('')}</datalist>`;
 }
 const respList = () => [...new Set([...(S.settings.responsaveis || CONSULTORES)])];
@@ -1552,8 +1597,8 @@ AFTER.clientes = () => {
 function initKanban() {
   if (typeof Sortable === 'undefined') return;
   $$('[data-kan]').forEach(el => {
-    if (el.dataset.nodrop) { new Sortable(el, { group: { name: el.dataset.kan, put: false }, animation: 150, delay: 160, delayOnTouchOnly: true, sort: false, onEnd: kanDrop }); return; }
-    new Sortable(el, { group: el.dataset.kan, animation: 150, delay: 160, delayOnTouchOnly: true, sort: false, ghostClass: 'sortable-ghost', chosenClass: 'sortable-chosen', onEnd: kanDrop });
+    if (el.dataset.nodrop) { new Sortable(el, { group: { name: el.dataset.kan, put: false }, animation: 150, delay: 160, delayOnTouchOnly: true, sort: false, filter: '.kck', preventOnFilter: false, onEnd: kanDrop }); return; }
+    new Sortable(el, { group: el.dataset.kan, animation: 150, delay: 160, delayOnTouchOnly: true, sort: false, filter: '.kck', preventOnFilter: false, ghostClass: 'sortable-ghost', chosenClass: 'sortable-chosen', onEnd: kanDrop });
   });
 }
 function kanDrop(ev) {
@@ -1564,7 +1609,9 @@ function kanDrop(ev) {
     patch('clients', id, { [field]: val || null });
     if (field === 'st' && val === 'Encerrado') { openDrawer('client', id, 'motivo'); toast('Cliente encerrado. Registre o motivo.'); }
   } else if (col === 'tasks') {
-    const t = S.tasks[id]; patch('tasks', id, { status: val });
+    const t = S.tasks[id];
+    if (field === 'prazo') { if (val) { patch('tasks', id, { prazo: val }); toast('Prazo alterado para ' + fmtD(val)); } return; }
+    patch('tasks', id, { status: val });
     if (val !== 'Concluído' && t.prazo && t.prazo < today()) toast('O prazo está vencido. Altere o prazo para sair de “Atrasado”.');
   }
 }
@@ -1598,6 +1645,8 @@ function onFilterInput(el) {
 
 /* ═══════════════ TELA 03: INFORMAÇÕES ÚTEIS ═══════════════ */
 const contentArr = () => Object.values(S.content);
+const mdPlain = s => String(s || '').replace(/\*\*/g, '').replace(/^\s*[-•*]\s+\[[ xX]\]\s*/gm, '☐ ').replace(/^\s*[-•*]\s+/gm, '• ');
+const catColor = c => CAT_GRAD[hashTone(c || 'Sem categoria')][0];
 function viewInfo() {
   const area = UI.infoArea, all = contentArr().filter(c => (c.area || 'Internas') === area);
   const cats = [...new Set([...(area === 'Internas' ? S.settings.catInternas : S.settings.catClientes) || [], ...all.map(c => c.categoria).filter(Boolean)])];
@@ -1608,36 +1657,56 @@ function viewInfo() {
   const card = area === 'Internas' ? infoCardInt : infoCardLib;
   let body;
   if (!all.length) body = `<div class="card empty"><i class="ti ti-books"></i>Nada por aqui ainda.<br><br><button class="btn primary" data-act="new" data-v="conteudo"><i class="ti ti-plus"></i>Novo conteúdo</button></div>`;
-  else if (!list.length) body = `<div class="card empty"><i class="ti ti-search-off"></i>Nada encontrado para “${esc(UI.iq)}”.</div>`;
+  else if (!list.length) body = `<div class="card empty"><i class="ti ti-search-off"></i>Nada encontrado${UI.iq ? ` para “${esc(UI.iq)}”` : ''}.</div>`;
   else if (UI.infoGroup) {
     const groups = {}; list.forEach(c => (groups[c.categoria || 'Sem categoria'] ||= []).push(c));
     const order = [...cats, 'Sem categoria'];
     body = Object.keys(groups).sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99)).map(g => `<div class="gtitle"><span class="pill c-${hashTone(g)}"><i class="ti ${catIcon(g)}"></i>${esc(g)}</span><span class="n">${groups[g].length}</span></div><div class="igrid ${area === 'Internas' ? 'int' : ''}">${groups[g].map(card).join('')}</div>`).join('');
   } else body = `<div class="igrid ${area === 'Internas' ? 'int' : ''}">${list.map(card).join('')}</div>`;
+  const nav = `<aside class="catnav"><div class="catnav-h">Categorias</div>
+    <button class="cat ${!UI.infoCat ? 'on' : ''}" data-act="icat" data-v=""><span class="cdot" style="background:var(--ink-2)"><i class="ti ti-layout-grid"></i></span><span class="cn">Todas</span><span class="n">${all.length}</span></button>
+    ${cats.map(c => `<button class="cat ${UI.infoCat === c ? 'on' : ''}" data-act="icat" data-v="${esc(c)}"><span class="cdot" style="background:${catColor(c)}"><i class="ti ${catIcon(c)}"></i></span><span class="cn">${esc(c)}</span><span class="n">${all.filter(x => x.categoria === c).length}</span></button>`).join('')}
+  </aside>`;
   return pageHead('Informações úteis', area === 'Internas' ? 'Senhas, mensagens padrão e conteúdos da equipe' : 'Biblioteca de conteúdos para clientes',
     `<div class="seg"><button data-act="iarea" data-v="Internas" class="${area === 'Internas' ? 'on' : ''}"><i class="ti ti-lock"></i>Internas</button><button data-act="iarea" data-v="Clientes" class="${area === 'Clientes' ? 'on' : ''}"><i class="ti ti-books"></i>Para clientes</button></div>`) +
-    `<div class="toolbar"><label class="search full-m"><i class="ti ti-search"></i><input id="iq" placeholder="Buscar por título ou conteúdo…" value="${esc(UI.iq)}"></label>
-      <label class="sw"><input type="checkbox" data-act="igroup" ${UI.infoGroup ? 'checked' : ''}><span></span>Agrupar por categoria</label></div>
-    <div class="hscroll" style="margin-bottom:14px"><button class="chip ${!UI.infoCat ? 'on' : ''}" data-act="icat" data-v="">Todas <span class="n">${all.length}</span></button>${cats.map(c => `<button class="chip ${UI.infoCat === c ? 'on' : ''}" data-act="icat" data-v="${esc(c)}"><i class="ti ${catIcon(c)}"></i>${esc(c)} <span class="n">${all.filter(x => x.categoria === c).length}</span></button>`).join('')}</div>` + body;
+    `<div class="infolayout">${nav}<div class="infomain">
+      <div class="toolbar"><label class="search full-m"><i class="ti ti-search"></i><input id="iq" placeholder="Buscar por título ou conteúdo…" value="${esc(UI.iq)}"></label>
+        <label class="sw"><input type="checkbox" data-act="igroup" ${UI.infoGroup ? 'checked' : ''}><span></span>Agrupar por categoria</label>
+        <span class="mut" style="font-size:12.5px;margin-left:auto">${list.length} ${list.length === 1 ? 'item' : 'itens'}</span></div>${body}</div></div>`;
 }
 function infoCardInt(c) {
-  const secret = c.senha || c.usuario;
-  return `<div class="card icard" data-act="open-content" data-id="${c.id}">
-    <div class="top">${UI.infoGroup ? '<span></span>' : `<span class="pill c-${hashTone(c.categoria || 'Sem categoria')}"><i class="ti ${catIcon(c.categoria)}"></i>${esc(c.categoria || 'Sem categoria')}</span>`}
-      ${c.conteudo ? `<button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="conteudo" title="Copiar texto"><i class="ti ti-copy"></i></button>` : ''}</div>
+  const cat = c.categoria || 'Sem categoria', t = hashTone(cat);
+  return `<div class="card icard int" style="--ct:${catColor(c.categoria)}" data-act="open-content" data-id="${c.id}">
+    <div class="top"><span class="pill c-${t}"><i class="ti ${catIcon(c.categoria)}"></i>${esc(cat)}</span>${c.senha ? '<i class="ti ti-lock" style="color:var(--muted)" title="Tem senha"></i>' : ''}</div>
     <h4>${esc(c.titulo || 'Sem título')}</h4>
-    ${secret ? `${c.usuario ? `<div class="secret"><span class="lab">Login</span><code>${esc(c.usuario)}</code><button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="usuario" title="Copiar login"><i class="ti ti-copy"></i></button></div>` : ''}
-      ${c.senha ? `<div class="secret"><span class="lab">Senha</span><code data-secret="${c.id}">••••••••</code><button class="iconbtn" data-act="reveal" data-id="${c.id}" title="Mostrar"><i class="ti ti-eye"></i></button><button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="senha" title="Copiar senha"><i class="ti ti-copy"></i></button></div>` : ''}` : ''}
-    ${c.conteudo ? `<p class="clamp">${esc(c.conteudo)}</p>` : ''}
-    ${c.link ? `<a class="btn sm" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener" data-stop style="align-self:flex-start"><i class="ti ti-external-link"></i>Abrir link</a>` : ''}
+    ${c.conteudo ? `<p class="clamp prev">${esc(mdPlain(c.conteudo))}</p>` : ''}
+    ${c.usuario || c.senha || c.conteudo || c.link ? `<div class="icfoot">
+      ${c.usuario ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="usuario" title="Copiar login"><i class="ti ti-user"></i>Login</button>` : ''}
+      ${c.senha ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="senha" title="Copiar senha"><i class="ti ti-key"></i>Senha</button>` : ''}
+      ${c.conteudo ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="conteudo" title="Copiar texto"><i class="ti ti-copy"></i>Texto</button>` : ''}
+      ${c.link ? `<a class="btn sm" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener" data-stop><i class="ti ti-external-link"></i>Link</a>` : ''}</div>` : ''}
   </div>`;
 }
 function infoCardLib(c) {
   const t = hashTone(c.categoria || 'x'), [g1, g2] = CAT_GRAD[t];
   return `<div class="card icard lib" data-act="open-content" data-id="${c.id}">
     <div class="cover" style="background:linear-gradient(135deg,${g1},${g2})"><i class="ti ${catIcon(c.categoria)}"></i>${c.link ? `<a class="iconbtn" style="color:#fff" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener" data-stop title="Abrir link"><i class="ti ti-external-link"></i></a>` : ''}</div>
-    <div class="body"><span style="font-size:11.5px;color:var(--muted);font-weight:500">${esc(c.categoria || 'Sem categoria')}</span><h4>${esc(c.titulo || 'Sem título')}</h4>${c.conteudo ? `<p class="clamp">${esc(c.conteudo)}</p>` : ''}</div>
+    <div class="body"><span class="pill c-${t}" style="align-self:flex-start;height:22px;font-size:11.5px">${esc(c.categoria || 'Sem categoria')}</span><h4>${esc(c.titulo || 'Sem título')}</h4>${c.conteudo ? `<p class="clamp prev">${esc(mdPlain(c.conteudo))}</p>` : ''}</div>
   </div>`;
+}
+// leitura do card (antes de editar)
+function drContentRead(c) {
+  const area = c.area || 'Internas', cat = c.categoria || 'Sem categoria', t = hashTone(cat);
+  return `<div class="dr-h"><button class="iconbtn" data-act="close-drawer" aria-label="Fechar"><i class="ti ti-${isMobile() ? 'arrow-left' : 'x'}"></i></button><span class="ttl">${area === 'Internas' ? 'Conteúdo interno' : 'Conteúdo para clientes'}</span><button class="btn sm primary" data-act="cedit-on" data-id="${c.id}"><i class="ti ti-pencil"></i>Editar</button><button class="btn sm danger" data-act="del" data-col="content" data-id="${c.id}" title="Excluir"><i class="ti ti-trash"></i></button></div>
+  <div class="dr-b rd">
+    <span class="pill c-${t}" style="align-self:flex-start"><i class="ti ${catIcon(c.categoria)}"></i>${esc(cat)}</span>
+    <h2 class="rd-t">${esc(c.titulo || 'Sem título')}</h2>
+    ${c.link ? `<a class="rd-link" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener"><i class="ti ti-external-link"></i><span>${esc(c.link)}</span></a>` : ''}
+    ${area === 'Internas' && (c.usuario || c.senha) ? `<div class="rd-cred">
+      ${c.usuario ? `<div><span class="lab">Login</span><code>${esc(c.usuario)}</code><button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="usuario" title="Copiar"><i class="ti ti-copy"></i></button></div>` : ''}
+      ${c.senha ? `<div><span class="lab">Senha</span><code data-dsecret="${c.id}">••••••••</code><button class="iconbtn" data-act="dreveal" data-id="${c.id}" title="Mostrar"><i class="ti ti-eye"></i></button><button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="senha" title="Copiar"><i class="ti ti-copy"></i></button></div>` : ''}</div>` : ''}
+    ${c.conteudo ? `<div class="rd-body">${mdHtml(c.conteudo)}</div><div><button class="btn sm" data-act="copy" data-id="${c.id}" data-f="conteudo"><i class="ti ti-copy"></i>Copiar texto</button></div>` : `<p class="mut" style="margin:0">Sem conteúdo ainda. Clique em <b>Editar</b> para escrever.</p>`}
+  </div>` + drFoot(c);
 }
 const safeUrl = u => /^(https?:|mailto:|tel:)/i.test(u || '') ? u : 'https://' + String(u || '').replace(/^\/+/, '');
 AFTER.info = () => { const q = $('#iq'); if (q) q.oninput = debounce(() => { UI.iq = q.value; saveUI(); render(); }, 150); };
@@ -1645,10 +1714,10 @@ AFTER.info = () => { const q = $('#iq'); if (q) q.oninput = debounce(() => { UI.
 /* ═══════════════ TELA 04: TIME DOS LINDOS ═══════════════ */
 function viewTime() {
   const tabs = [['metas', 'Metas', 'ti-target'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['tarefas', 'Tarefas', 'ti-checkbox'], ['oneone', 'One a One', 'ti-users-group']];
-  const late = Object.values(S.tasks).filter(t => tStatus(t) === 'Atrasado').length;
-  const head = pageHead('Gestão Time dos Lindos', 'Metas, alinhamentos semanais, tarefas e One a One da equipe',
-    `<div class="seg">${tabs.map(([k, l, i]) => `<button data-act="ttab" data-v="${k}" class="${UI.timeTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${k === 'tarefas' && late ? ` <span class="pill c-red" style="height:18px;padding:0 6px;font-size:11px">${late}</span>` : ''}</button>`).join('')}</div>`);
-  return head + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
+  const tl = Object.values(S.tasks), late = tl.filter(t => tStatus(t) === 'Atrasado').length, wk = weekStart(today());
+  const cnt = { metas: Object.keys(S.goals).length, alinhamentos: Object.values(S.meetings).filter(m => m.data && weekStart(m.data) === wk).length, tarefas: tl.filter(t => t.status !== 'Concluído').length };
+  const strip = `<nav class="ttabs" role="tablist">${tabs.map(([k, l, i]) => `<button role="tab" data-act="ttab" data-v="${k}" class="${UI.timeTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${cnt[k] != null ? `<span class="tn" title="${k === 'alinhamentos' ? 'nesta semana' : k === 'tarefas' ? 'abertas' : ''}">${cnt[k]}</span>` : ''}${k === 'tarefas' && late ? `<span class="tn red">${late} atrasada${late > 1 ? 's' : ''}</span>` : ''}</button>`).join('')}</nav>`;
+  return pageHead('Gestão Time dos Lindos', 'Metas, alinhamentos semanais, tarefas e One a One da equipe') + strip + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
 { const _ad = AFTER.dashboard; AFTER.dashboard = function () { _ad.call(this); atnChart(); }; }
 AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); const qc = $('#tfcli'); if (qc) qc.oninput = debounce(() => { UI.tf.cli = qc.value; saveUI(); render(); }, 200); initKanban(); };
@@ -1845,38 +1914,52 @@ function goalProgress(g) {
   return m ? v / m : 0;
 }
 const fmtGoal = (g, v) => v == null || v === '' ? '—' : g.tipo === 'Valor (R$)' ? brl(v) : g.tipo === 'Percentual' ? num(v) + '%' : num(v);
+function goalInfo(g) {
+  const p = goalProgress(g), pc = Math.round(p * 100), done = p >= 1, td = parseISO(today());
+  let exp = null, dleft = null;
+  if (g.prazo) {
+    dleft = Math.round((parseISO(g.prazo) - td) / 86400000);
+    if (g.createdAt && !done) { const s0 = parseISO(isoD(new Date(g.createdAt))), tot = parseISO(g.prazo) - s0; if (tot > 0) exp = Math.min(1, Math.max(0, (td - s0) / tot)); }
+  }
+  const state = done ? 'ok' : dleft != null && dleft < 0 ? 'late' : exp != null && p + .12 < exp ? 'risk' : p >= .7 ? 'good' : 'prog';
+  return { p, pc, done, exp, dleft, state };
+}
+const G_STATE = { ok: ['Atingida', 'green', 'trophy', 'var(--accent)'], good: ['No caminho', 'green', 'trending-up', 'var(--accent)'], prog: ['Em andamento', 'blue', 'progress', 'var(--s1)'], risk: ['Atenção ao ritmo', 'amber', 'alert-triangle', '#E5A82A'], late: ['Prazo vencido', 'red', 'clock-exclamation', 'var(--danger)'] };
 function viewGoals() {
   const list = Object.values(S.goals).sort((a, b) => (a.prazo || '9').localeCompare(b.prazo || '9'));
   if (!list.length) return `<div class="card empty"><i class="ti ti-target"></i>Nenhuma meta cadastrada.<br><br><button class="btn primary" data-act="new" data-v="meta"><i class="ti ti-plus"></i>Nova meta</button></div>`;
-  return `<div class="ggrid">${list.map(g => {
-    const p = goalProgress(g), pc = Math.round(p * 100), done = p >= 1;
-    const col = done ? 'var(--accent)' : p >= .7 ? 'var(--s1)' : p >= .4 ? '#E5A82A' : 'var(--s3)';
-    const C = 2 * Math.PI * 28, b = f => `goals|${g.id}|${f}`, auto = g.fonte && g.fonte !== 'manual';
-    const v = goalValue(g);
-    return `<div class="card gcard">
-      <div class="top">
-        <div class="ring"><svg width="66" height="66"><circle cx="33" cy="33" r="28" fill="none" stroke="var(--surface-3)" stroke-width="7"/><circle cx="33" cy="33" r="28" fill="none" stroke="${col}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - Math.min(1, p))}"/></svg><b>${done ? '<i class="ti ti-check" style="font-size:22px;color:var(--accent)"></i>' : pc + '%'}</b></div>
-        <div style="flex:1;min-width:0"><input class="in strong" style="font-size:15px" data-bind="${b('titulo')}" value="${esc(g.titulo)}" placeholder="Nome da meta">
-          <div style="padding:0 8px;font-size:12px;color:var(--muted)">${done ? `<span class="pill badge-ok" style="height:20px"><i class="ti ti-trophy"></i>Meta atingida</span>` : g.inverso ? 'Quanto menor, melhor' : `Faltam ${fmtGoal(g, Math.max(0, (+g.meta || 0) - (+v || 0)))}`}</div></div>
-      </div>
-      ${g.tipo === 'Sim/Não' ? `<label class="sw" style="padding:0 8px"><input type="checkbox" data-bind="${b('feito')}" ${g.feito ? 'checked' : ''}><span></span>Concluída</label>` :
-        `<div class="vals">${auto ? `<b style="font-size:20px;color:var(--ink);padding:0 8px">${fmtGoal(g, v)}</b><span class="pill c-blue" style="height:20px"><i class="ti ti-bolt"></i>auto</span>` : `<button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="-1" aria-label="Diminuir"><i class="ti ti-minus"></i></button><input class="in num strong" style="font-size:18px;width:92px" data-type="num" inputmode="decimal" data-bind="${b('atual')}" value="${esc(num(g.atual))}"><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="1" aria-label="Aumentar"><i class="ti ti-plus"></i></button>`}
-          <span>de</span><input class="in num" data-type="num" inputmode="decimal" data-bind="${b('meta')}" value="${esc(num(g.meta))}" placeholder="meta"><span>${esc(g.unidade || '')}</span></div>`}
-      ${UI.goalOpen[g.id] ? `<div class="gmore">
-        <label>Tipo<select class="field" data-bind="${b('tipo')}">${opts(G_TIPOS, g.tipo || 'Número')}</select></label>
-        <label>Unidade<input class="field" data-bind="${b('unidade')}" value="${esc(g.unidade)}" placeholder="clientes, pontos…"></label>
-        <label class="full">Fonte do valor<select class="field" data-bind="${b('fonte')}">${opts(Object.entries(G_FONTES), g.fonte || 'manual')}</select></label>
-        <label>Prazo<input type="date" class="field" data-type="date" data-bind="${b('prazo')}" value="${esc(g.prazo)}"></label>
-        <label>Responsável<input class="field" list="dl-resp" data-bind="${b('resp')}" value="${esc(g.resp)}"></label>
-        <label class="sw full" style="flex-direction:row;color:var(--ink)"><input type="checkbox" data-bind="${b('inverso')}" ${g.inverso ? 'checked' : ''}><span></span>Menor é melhor (ex.: churn)</label>
-        <label class="full">Observações<textarea class="field" style="min-height:70px" data-live data-bind="${b('obs')}">${esc(g.obs)}</textarea></label>
-      </div>` : ''}
-      <div class="foot">${g.prazo ? `<span><i class="ti ti-calendar"></i> ${fmtD(g.prazo)}</span>` : ''}${g.resp ? `${avatar(g.resp)}<span>${esc(g.resp)}</span>` : ''}
-        <span style="margin-left:auto;display:flex;gap:2px"><button class="iconbtn ${UI.goalOpen[g.id] ? 'on' : ''}" data-act="gmore" data-id="${g.id}" title="Ajustes"><i class="ti ti-adjustments-horizontal"></i></button><button class="iconbtn danger" data-act="del" data-col="goals" data-id="${g.id}" title="Excluir"><i class="ti ti-trash"></i></button></span></div>
-    </div>`;
-  }).join('')}</div>`;
+  const info = new Map(list.map(g => [g.id, goalInfo(g)]));
+  const n = list.length, ok = list.filter(g => info.get(g.id).done).length, warn = list.filter(g => ['risk', 'late'].includes(info.get(g.id).state)).length;
+  const avg = Math.round(list.reduce((a, g) => a + Math.min(1, info.get(g.id).p), 0) / n * 100);
+  const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
+  const sections = [['Exigem atenção', 'alert-triangle', g => ['risk', 'late'].includes(info.get(g.id).state)], ['Em andamento', 'progress', g => ['prog', 'good'].includes(info.get(g.id).state)], ['Atingidas', 'trophy', g => info.get(g.id).done]];
+  return `<div class="gkpis">${kpi('target', 'Metas', n, 'cadastradas', 'var(--s1)')}${kpi('trophy', 'Atingidas', ok, `${Math.round(ok / n * 100)}% do total`, 'var(--accent)')}${kpi('alert-triangle', 'Exigem atenção', warn, warn ? 'ritmo abaixo do esperado ou prazo vencido' : 'tudo no ritmo', warn ? 'var(--danger)' : '#8b97a8')}${kpi('chart-line', 'Progresso médio', avg + '%', 'de todas as metas', '#6B34C9')}</div>` +
+    sections.map(([lab, ic, test]) => { const items = list.filter(test); return items.length ? `<div class="gtitle"><i class="ti ti-${ic}"></i>${lab}<span class="n">${items.length}</span></div><div class="ggrid2">${items.map(goalCard).join('')}</div>` : ''; }).join('');
 }
-
+function goalCard(g) {
+  const I = goalInfo(g), [stl, stc, sti, col] = G_STATE[I.state], b = f => `goals|${g.id}|${f}`, auto = g.fonte && g.fonte !== 'manual', v = goalValue(g);
+  const dl = I.dleft == null ? '' : I.done ? '' : I.dleft < 0 ? `venceu há ${-I.dleft} d` : I.dleft === 0 ? 'vence hoje' : `${I.dleft} d restantes`;
+  return `<div class="card gcard2 st-${I.state}">
+    <div class="g2-top"><div style="min-width:0;flex:1"><input class="in strong g2-title" data-bind="${b('titulo')}" value="${esc(g.titulo)}" placeholder="Nome da meta">
+      <div class="g2-sub"><span class="pill c-${stc}"><i class="ti ti-${sti}"></i>${stl}</span>${g.prazo ? `<span class="g2-chip"><i class="ti ti-calendar"></i>${fmtD(g.prazo)}${dl ? ` · ${dl}` : ''}</span>` : ''}${g.resp ? `<span class="g2-chip">${avatar(g.resp)}${esc(g.resp.split(' ')[0])}</span>` : ''}${auto ? `<span class="pill c-blue" style="height:20px"><i class="ti ti-bolt"></i>auto</span>` : ''}</div></div></div>
+    ${g.tipo === 'Sim/Não' ? `<label class="sw g2-yn"><input type="checkbox" data-bind="${b('feito')}" ${g.feito ? 'checked' : ''}><span></span>${g.feito ? 'Concluída' : 'Marcar como concluída'}</label>` : `
+    <div class="g2-nums"><b class="g2-v">${fmtGoal(g, v)}</b><span class="g2-of">de ${fmtGoal(g, g.meta)} ${esc(g.unidade || '')}</span><span class="g2-pc" style="color:${col}">${I.pc}%</span></div>
+    <div class="g2-bar"><i style="width:${Math.min(100, I.pc)}%;background:${col}"></i>${I.exp != null ? `<u style="left:${Math.round(I.exp * 100)}%" title="Onde deveria estar hoje (${Math.round(I.exp * 100)}%)"></u>` : ''}</div>
+    <div class="g2-leg"><span>${I.done ? 'Meta atingida' : g.inverso ? 'Quanto menor, melhor' : `Faltam ${fmtGoal(g, Math.max(0, (+g.meta || 0) - (+v || 0)))}`}</span>${I.exp != null ? `<span>Esperado hoje: ${Math.round(I.exp * 100)}%</span>` : ''}</div>
+    ${auto ? '' : `<div class="g2-ctl"><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="-1" aria-label="Diminuir"><i class="ti ti-minus"></i></button><input class="in num strong" style="font-size:16px;width:96px;text-align:center" data-type="num" inputmode="decimal" data-bind="${b('atual')}" value="${esc(num(g.atual))}" aria-label="Valor atual"><button class="iconbtn" data-act="gstep" data-id="${g.id}" data-v="1" aria-label="Aumentar"><i class="ti ti-plus"></i></button><span class="mut" style="font-size:12px">valor atual · meta</span><input class="in num" style="width:84px" data-type="num" inputmode="decimal" data-bind="${b('meta')}" value="${esc(num(g.meta))}" placeholder="meta" aria-label="Meta"></div>`}`}
+    ${UI.goalOpen[g.id] ? `<div class="gmore">
+      <label>Tipo<select class="field" data-bind="${b('tipo')}">${opts(G_TIPOS, g.tipo || 'Número')}</select></label>
+      <label>Unidade<input class="field" data-bind="${b('unidade')}" value="${esc(g.unidade)}" placeholder="clientes, pontos…"></label>
+      <label class="full">Fonte do valor<select class="field" data-bind="${b('fonte')}">${opts(Object.entries(G_FONTES), g.fonte || 'manual')}</select></label>
+      <label>Prazo<input type="date" class="field" data-type="date" data-bind="${b('prazo')}" value="${esc(g.prazo)}"></label>
+      <label>Responsável<input class="field" list="dl-resp" data-bind="${b('resp')}" value="${esc(g.resp)}"></label>
+      <label class="sw full" style="flex-direction:row;color:var(--ink)"><input type="checkbox" data-bind="${b('inverso')}" ${g.inverso ? 'checked' : ''}><span></span>Menor é melhor (ex.: churn)</label>
+      <label class="full">Observações<textarea class="field" style="min-height:70px" data-live data-bind="${b('obs')}">${esc(g.obs)}</textarea></label>
+    </div>` : ''}
+    <div class="foot"><span class="mut" style="font-size:12px">${g.obs ? '<i class="ti ti-notes"></i> tem observações' : ''}</span>
+      <span style="margin-left:auto;display:flex;gap:2px"><button class="iconbtn ${UI.goalOpen[g.id] ? 'on' : ''}" data-act="gmore" data-id="${g.id}" title="Ajustes"><i class="ti ti-adjustments-horizontal"></i></button><button class="iconbtn danger" data-act="del" data-col="goals" data-id="${g.id}" title="Excluir"><i class="ti ti-trash"></i></button></span></div>
+  </div>`;
+}
 /* ── alinhamentos ── */
 const weekStart = s => { const d = parseISO(s); const wd = (d.getDay() + 6) % 7; d.setDate(d.getDate() - wd); return isoD(d); };
 const weekLabel = ws => { const we = addDays(ws, 6); const a = parseISO(ws), b = parseISO(we); return a.getMonth() === b.getMonth() ? `${a.getDate()} a ${b.getDate()} de ${MSHORT[b.getMonth()]} ${b.getFullYear()}` : `${a.getDate()} ${MSHORT[a.getMonth()]} a ${b.getDate()} ${MSHORT[b.getMonth()]} ${b.getFullYear()}`; };
@@ -1906,7 +1989,7 @@ function filteredTasks() {
     const st = tStatus(t);
     if (f.q && !norm([t.titulo, t.desc, t.cliente, t.resp].join(' ')).includes(norm(f.q))) return false;
     if (f.st === 'Abertas' ? st === 'Concluído' : f.st && st !== f.st) return false;
-    if (f.cli && !norm(t.cliente).includes(norm(f.cli))) return false;
+    if (f.cli && !norm(cliOf(t)).includes(norm(f.cli))) return false;
     if (f.resp && t.resp !== f.resp) return false;
     if (f.de && (!t.prazo || t.prazo < f.de)) return false;
     if (f.ate && (!t.prazo || t.prazo > f.ate)) return false;
@@ -1934,13 +2017,13 @@ function viewTasks() {
   if (!Object.keys(S.tasks).length) body = `<div class="card empty"><i class="ti ti-checkbox"></i>Nenhuma tarefa ainda.<br><br><button class="btn primary" data-act="new" data-v="tarefa"><i class="ti ti-plus"></i>Nova tarefa</button></div>`;
   else if (UI.tView === 'kanban') body = taskKanban(list);
   else body = taskTable(list);
-  return tb + body;
+  return taskPanel() + bulkBar() + tb + body;
 }
 function groupTasks(list) {
   const g = UI.tGroup; if (g === 'none') return [['', list]];
   const m = new Map();
   if (g === 'status') T_ALL.forEach(s => m.set(s, []));
-  list.forEach(t => { const k = g === 'status' ? tStatus(t) : (t[g] || (g === 'cliente' ? 'Sem cliente' : 'Sem responsável')); if (!m.has(k)) m.set(k, []); m.get(k).push(t); });
+  list.forEach(t => { const k = g === 'status' ? tStatus(t) : (g === 'cliente' ? cliOf(t) : t[g] || 'Sem responsável'); if (!m.has(k)) m.set(k, []); m.get(k).push(t); });
   let e = [...m.entries()].filter(([, v]) => v.length);
   if (g !== 'status') e.sort((a, b) => a[0].startsWith('Sem ') ? 1 : b[0].startsWith('Sem ') ? -1 : a[0].localeCompare(b[0], 'pt-BR'));
   return e;
@@ -1948,11 +2031,11 @@ function groupTasks(list) {
 function lateBadge(t) { return tStatus(t) === 'Atrasado' ? `<span class="pill c-red"><i class="ti ti-clock-exclamation"></i>Atrasado${t.prazo ? ` · ${daysLate(t)}d` : ''}</span>` : ''; }
 function taskRow(t) {
   const st = tStatus(t), b = f => `tasks|${t.id}|${f}`;
-  return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''}">
-    <td class="sticky" style="width:40px;text-align:center"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir"></td>
+  return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''} ${SEL.has(t.id) ? 'sel' : ''}">
+    <td class="sticky" style="text-align:center"><div class="cellrow" style="justify-content:center;gap:8px;align-items:center;padding-top:0"><input type="checkbox" class="chk" data-act="tsel" data-id="${t.id}" ${SEL.has(t.id) ? 'checked' : ''} aria-label="Selecionar" title="Selecionar para editar em lote"><input type="checkbox" class="chk rnd" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir" title="Concluir"></div></td>
     <td><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea></td>
     <td><textarea class="in tarea" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea></td>
-    <td><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—"></td>
+    <td><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(cliOf(t))}" placeholder="Interno"></td>
     <td><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
     <td><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"></td>
     <td><div class="cellrow stk">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
@@ -1966,11 +2049,11 @@ function taskCard(t) {
   return `<div class="card mcard" data-act="open-task" data-id="${t.id}" style="${st === 'Atrasado' ? 'border-left:3px solid var(--danger)' : ''}">
     <div class="t" style="justify-content:flex-start"><input type="checkbox" class="chk" data-act="tdone" data-id="${t.id}" ${st === 'Concluído' ? 'checked' : ''} aria-label="Concluir"><span style="flex:1;${st === 'Concluído' ? 'text-decoration:line-through;color:var(--muted)' : ''}">${esc(t.titulo)}</span>${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}</div>
     ${t.desc ? `<p class="clamp" style="-webkit-line-clamp:6">${esc(t.desc)}</p>` : ''}
-    <div class="meta">${pill(st)}${t.prazo ? `<span style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"><i class="ti ti-calendar"></i> ${fmtD(t.prazo)}</span>` : ''}${t.cliente ? `<span>· ${esc(t.cliente)}</span>` : ''}<span style="margin-left:auto">${avatar(t.resp)}</span></div>
+    <div class="meta">${pill(st)}${t.prazo ? `<span style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"><i class="ti ti-calendar"></i> ${fmtD(t.prazo)}</span>` : ''}<span>· ${esc(cliOf(t))}</span><span style="margin-left:auto">${avatar(t.resp)}</span></div>
   </div>`;
 }
 // colunas da tabela de tarefas: [chave, título, largura padrão]; a largura é ajustável arrastando a borda do cabeçalho
-const TCOLS = [['chk', '', 44], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 170], ['rec', 'Recorrência', 140], ['open', '', 76], ['del', '', 44]];
+const TCOLS = [['chk', '', 72], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 170], ['rec', 'Recorrência', 140], ['open', '', 76], ['del', '', 44]];
 const TCOLS_MIN = 40;
 function autosize(root = document) { $$('textarea.tarea', root).forEach(a => { a.style.height = 'auto'; a.style.height = a.scrollHeight + 2 + 'px'; }); }
 document.addEventListener('input', e => { if (e.target.matches?.('textarea.tarea')) autosize(e.target.parentElement); });
@@ -1994,25 +2077,87 @@ function taskTable(list) {
   if (!list.length) return `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhuma tarefa com esses filtros.</div>`;
   if (isMobile()) return groups.map(([g, items]) => `${g ? `<div class="gtitle" data-act="tgroup-toggle" data-v="${esc(g)}" style="cursor:pointer">${TONE[g] ? pill(g) : `<b>${esc(g)}</b>`}<span class="n">${items.length}</span><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}" style="color:var(--muted)"></i></div>` : ''}${UI.tCollapsed[g] ? '' : `<div class="mlist">${items.map(taskCard).join('')}</div>`}`).join('');
   const W = k => Math.max(TCOLS_MIN, +(UI.tcw?.[k]) || TCOLS.find(x => x[0] === k)[2]), total = TCOLS.reduce((a, x) => a + W(x[0]), 0);
-  const th = ([k, l]) => `<th${k === 'chk' ? ' class="sticky"' : ''}>${l}${l ? `<span class="rz" data-rz="${k}" title="Arraste para ajustar a largura"></span>` : ''}</th>`;
+  const th = ([k, l]) => `<th${k === 'chk' ? ' class="sticky"' : ''}>${k === 'chk' ? `<div class="cellrow" style="justify-content:center"><input type="checkbox" class="chk" data-act="tselall" ${list.length && list.every(t => SEL.has(t.id)) ? 'checked' : ''} title="Selecionar todas as listadas" aria-label="Selecionar todas"></div>` : l}${l ? `<span class="rz" data-rz="${k}" title="Arraste para ajustar a largura"></span>` : ''}</th>`;
   return `<div class="card tblwrap" data-sk="ttbl"><table class="tbl ttbl" style="table-layout:fixed;width:${total}px"><colgroup>${TCOLS.map(([k]) => `<col data-col="${k}" style="width:${W(k)}px">`).join('')}</colgroup><thead><tr>${TCOLS.map(th).join('')}</tr></thead><tbody>
     ${groups.map(([g, items]) => `${g ? `<tr class="grp" data-act="tgroup-toggle" data-v="${esc(g)}"><td colspan="${TCOLS.length}"><i class="ti ti-chevron-${UI.tCollapsed[g] ? 'right' : 'down'}"></i> ${TONE[g] ? pill(g) : esc(g)}<span class="n">${items.length}</span></td></tr>` : ''}${UI.tCollapsed[g] ? '' : items.map(taskRow).join('')}`).join('')}
   </tbody></table></div>`;
 }
+const SEL = new Set();
+const cliOf = t => (t.cliente || '').trim() || 'Interno';
+function taskPanel() {
+  const t0 = today(), ws = weekStart(t0), we = addDays(ws, 6), rf = UI.tf.resp;
+  const all = Object.values(S.tasks).filter(t => !rf || t.resp === rf);
+  const hoje = all.filter(t => t.prazo === t0), hojeOpen = hoje.filter(t => t.status !== 'Concluído').length;
+  const atras = all.filter(t => t.status !== 'Concluído' && t.prazo && t.prazo < t0).length;
+  const sem = all.filter(t => t.prazo && t.prazo >= ws && t.prazo <= we), semDone = sem.filter(t => t.status === 'Concluído').length;
+  const pc = sem.length ? Math.round(semDone / sem.length * 100) : 0;
+  return `<div class="tpanel">
+    <div class="tp-box"><span class="tp-i" style="background:var(--s1)"><i class="ti ti-sun"></i></span><div><small>Para hoje${rf ? ` · ${esc(rf.split(' ')[0])}` : ''}</small><b>${hojeOpen}</b><em>${hoje.length ? `${hoje.length - hojeOpen} de ${hoje.length} concluídas` : 'nenhuma com prazo hoje'}</em></div></div>
+    <div class="tp-box ${atras ? 'bad' : ''}"><span class="tp-i" style="background:${atras ? 'var(--danger)' : '#8b97a8'}"><i class="ti ti-clock-exclamation"></i></span><div><small>Em atraso</small><b>${atras}</b><em>${atras ? 'abertas com prazo vencido' : 'tudo em dia'}</em></div></div>
+    <div class="tp-week"><div class="tp-wh"><span><i class="ti ti-calendar-week"></i> Semana · ${weekLabel(ws)}</span><b>${pc}%</b></div>
+      <div class="tp-bar"><i style="width:${pc}%"></i></div>
+      <div class="tp-wf"><span><b>${semDone}</b> de <b>${sem.length}</b> concluídas</span><span>${sem.length - semDone ? `faltam ${sem.length - semDone}` : sem.length ? 'semana completa 🎉' : 'sem tarefas na semana'}</span></div></div>
+  </div>`;
+}
+function bulkBar() {
+  const n = SEL.size; if (!n) return '';
+  return `<div class="bulkbar"><b><i class="ti ti-checks"></i> ${n} ${n === 1 ? 'selecionada' : 'selecionadas'}</b>
+    <button class="btn sm" data-act="b-done"><i class="ti ti-circle-check"></i>Concluir</button>
+    <button class="btn sm" data-act="b-reopen"><i class="ti ti-rotate"></i>Reabrir</button>
+    <button class="btn sm" data-act="b-shift" data-v="1" title="Adiar o prazo em 1 dia">+1 dia</button>
+    <button class="btn sm" data-act="b-shift" data-v="7" title="Adiar o prazo em 7 dias">+7 dias</button>
+    <label class="bk"><i class="ti ti-calendar"></i><input type="date" class="in" data-bulk="prazo" aria-label="Definir prazo"></label>
+    <label class="bk"><i class="ti ti-building-store"></i><input class="in" list="dl-cli" data-bulk="cliente" placeholder="Cliente…" autocomplete="off" aria-label="Definir cliente"></label>
+    <select class="btn sm" data-bulk="resp" aria-label="Definir responsável">${opts([['', 'Responsável…'], ...respList().map(s => [s, s])], '')}</select>
+    <select class="btn sm" data-bulk="status" aria-label="Definir status">${opts([['', 'Status…'], ...T_BASE.map(s => [s, s])], '')}</select>
+    <select class="btn sm" data-bulk="recorrencia" aria-label="Definir recorrência">${opts([['', 'Recorrência…'], ...RECOR.map(s => [s, s])], '')}</select>
+    <button class="btn sm" data-act="b-dup"><i class="ti ti-copy"></i>Duplicar</button>
+    <button class="btn sm danger" data-act="b-del"><i class="ti ti-trash"></i>Excluir</button>
+    <button class="btn sm ghost" data-act="b-clear" style="margin-left:auto">Limpar seleção</button></div>`;
+}
+document.addEventListener('change', e => {
+  const el = e.target, f = el.dataset?.bulk; if (!f || !SEL.size) return;
+  const v = (el.value || '').trim(); if (!v) return;
+  const ids = [...SEL].filter(id => S.tasks[id]); el.blur();
+  ids.forEach(id => patch('tasks', id, { [f]: v }));
+  el.value = ''; toast(`${ids.length} ${ids.length === 1 ? 'tarefa atualizada' : 'tarefas atualizadas'}`);
+});
+function kanPrazoCols() {
+  const t0 = today(), tm = addDays(t0, 1), ws = weekStart(t0), we = addDays(ws, 6), fri = addDays(ws, 4), rs = addDays(t0, 2);
+  const sd = rs > fri ? rs : fri;
+  return [
+    { k: 'late', l: 'Em atraso', tone: 'red', sub: 'Prazo vencido · mova para reagendar', test: t => t.prazo && t.prazo < t0, drop: null },
+    { k: 'hoje', l: 'Hoje', tone: 'blue', sub: fmtD(t0), test: t => t.prazo === t0, drop: t0 },
+    { k: 'amanha', l: 'Amanhã', tone: 'violet', sub: fmtD(tm), test: t => t.prazo === tm, drop: tm },
+    { k: 'semana', l: 'Restante da semana', tone: 'teal', sub: rs <= we ? `${fmtD(rs)} a ${fmtD(we)}` : 'Sem dias restantes', test: t => t.prazo && t.prazo > tm && t.prazo <= we, drop: rs <= we ? (sd > we ? we : sd) : null },
+    { k: 'demais', l: 'Demais prazos', tone: 'gray', sub: 'Próximas semanas e sem prazo', test: () => true, drop: addDays(we, 1) },
+  ];
+}
+function kCard(t, late) {
+  const done = t.status === 'Concluído';
+  return `<div class="kcard ${late ? 'late' : ''} ${done ? 'dn' : ''}" data-id="${t.id}" data-act="open-task">
+    <div class="t"><button type="button" class="kck ${done ? 'on' : ''}" data-act="tcheck" data-id="${t.id}" title="${done ? 'Reabrir' : 'Concluir'}"><i class="ti ${done ? 'ti-circle-check-filled' : 'ti-circle'}"></i></button><span style="flex:1;${done ? 'text-decoration:line-through;color:var(--muted)' : ''}">${esc(t.titulo)}</span></div>
+    <div class="meta"><i class="ti ti-building-store"></i>${esc(cliOf(t))}</div>
+    <div class="row"><span class="meta">${t.prazo ? `<span class="pill c-${late ? 'red' : 'gray'}" style="height:22px"><i class="ti ti-calendar"></i>${fmtDs(t.prazo)}${late ? ` · ${daysLate(t)}d` : ''}</span>` : ''}${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" title="Recorrente"></i>' : ''}${t.desc ? '<i class="ti ti-notes"></i>' : ''}</span>${avatar(t.resp)}</div>
+  </div>`;
+}
 function taskKanban(list) {
-  return `<div class="kanban" data-sk="tkan">${T_ALL.map(s => {
+  const seg = `<div class="kmode"><span>Colunas:</span><div class="seg sm"><button data-act="kmode" data-v="status" class="${UI.kMode !== 'prazo' ? 'on' : ''}"><i class="ti ti-progress"></i>Status</button><button data-act="kmode" data-v="prazo" class="${UI.kMode === 'prazo' ? 'on' : ''}"><i class="ti ti-calendar-due"></i>Prazo</button></div></div>`;
+  if (UI.kMode === 'prazo') {
+    const cols = kanPrazoCols(), buckets = cols.map(() => []);
+    list.filter(t => t.status !== 'Concluído').sort((a, b) => (a.prazo || '9999').localeCompare(b.prazo || '9999') || (a.titulo || '').localeCompare(b.titulo || '', 'pt-BR')).forEach(t => { const i = cols.findIndex(c => c.test(t)); buckets[i].push(t); });
+    return seg + `<div class="kanban five" data-sk="tkan">${cols.map((c, i) => `<div class="kcol ${c.drop ? '' : 'nodrop'}"><div class="kcol-h c-${c.tone}"><span class="dot"></span>${c.l}<span class="cnt">${buckets[i].length}</span></div>
+      <div class="kcol-sum">${c.sub}</div>
+      <div class="kcol-b" data-kan="tasks" data-field="prazo" data-val="${c.drop || ''}" ${c.drop ? '' : 'data-nodrop="1"'}>${buckets[i].map(t => kCard(t, c.k === 'late')).join('') || '<div class="kempty">Nada por aqui</div>'}</div></div>`).join('')}</div>`;
+  }
+  return seg + `<div class="kanban" data-sk="tkan">${T_ALL.map(s => {
     let items = list.filter(t => tStatus(t) === s); const n = items.length;
     if (s === 'Concluído' && !UI.showAllDone) items = items.slice(0, 20);
     return `<div class="kcol ${s === 'Atrasado' ? 'nodrop' : ''}"><div class="kcol-h c-${tone(s)}"><span class="dot"></span>${s}<span class="cnt">${n}</span></div>
       <div class="kcol-sum">${s === 'Atrasado' ? 'Automático: prazo vencido' : '&nbsp;'}</div>
-      <div class="kcol-b" data-kan="tasks" data-field="status" data-val="${s}" ${s === 'Atrasado' ? 'data-nodrop="1"' : ''}>${items.map(t => `<div class="kcard ${s === 'Atrasado' ? 'late' : ''}" data-id="${t.id}" data-act="open-task">
-        <div class="t" style="${s === 'Concluído' ? 'text-decoration:line-through;color:var(--muted)' : ''}">${esc(t.titulo)}</div>
-        ${t.cliente ? `<div class="meta"><i class="ti ti-building-store"></i>${esc(t.cliente)}</div>` : ''}
-        <div class="row"><span class="meta">${t.prazo ? `<span class="pill c-${s === 'Atrasado' ? 'red' : 'gray'}" style="height:22px"><i class="ti ti-calendar"></i>${fmtDs(t.prazo)}${s === 'Atrasado' ? ` · ${daysLate(t)}d` : ''}</span>` : ''}${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" title="Recorrente"></i>' : ''}${t.desc ? '<i class="ti ti-notes"></i>' : ''}</span>${avatar(t.resp)}</div>
-      </div>`).join('')}${s === 'Concluído' && n > 20 && !UI.showAllDone ? `<button class="kmore" data-act="show-all-done">Ver todas (${n})</button>` : ''}</div></div>`;
+      <div class="kcol-b" data-kan="tasks" data-field="status" data-val="${s}" ${s === 'Atrasado' ? 'data-nodrop="1"' : ''}>${items.map(t => kCard(t, s === 'Atrasado')).join('')}${s === 'Concluído' && n > 20 && !UI.showAllDone ? `<button class="kmore" data-act="show-all-done">Ver todas (${n})</button>` : ''}</div></div>`;
   }).join('')}</div>`;
 }
-
 /* ═══════════════ ICP, FASES E FICHA DO CLIENTE (PÁGINA) ═══════════════ */
 function icpEval(c) {
   const st = S.settings, min = +st.icpFatMin || 120000, segs = st.icpSegs || [], seg = norm(c.seg);
@@ -2742,7 +2887,7 @@ document.addEventListener('change', e => {
 });
 
 /* ═══════════════ TEXTO RICO: negrito, tópicos e check (markdown leve) ═══════════════ */
-const mdInline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+const mdInline = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener" data-stop>$1</a>');
 const MD_LI = /^(\s*)[-•*]\s+(?:\[( |x|X)\]\s*)?(.*)$/;
 const hasMd = t => /(^|\n)\s*[-•]\s|\*\*.+?\*\*/.test(t || '');
 function mdHtml(txt, act) {
@@ -2869,7 +3014,7 @@ document.addEventListener('keydown', e => {
 document.addEventListener('change', e => { if (e.target.dataset?.pinew) { const v = e.target.value.trim(); if (v) piAdd(e.target.dataset.pinew, v); } });
 
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
-function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
+function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); if (type === 'content') UI.cEdit = focus ? id : null; UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
 
 function closeDrawer() { UI.drawer = null; renderDrawer(); }
 function renderDrawer() {
@@ -2921,7 +3066,7 @@ const DRAWERS = {
       <input class="in dr-title" data-bind="${b('titulo')}" value="${esc(t.titulo)}" placeholder="Título da tarefa">
       <div class="pills" style="padding:4px 8px;align-items:center">${lateBadge(t)}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select><button class="btn sm" style="margin-left:auto" data-act="tdup" data-id="${t.id}" title="Cria uma cópia desta tarefa e abre para você editar os campos e as datas"><i class="ti ti-copy"></i>Duplicar</button></div>
       <div class="form">
-        <label>Cliente</label><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(t.cliente)}" placeholder="—">
+        <label>Cliente</label><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(cliOf(t))}" placeholder="Interno">
         <label>Responsável</label><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div>
         <label>Prazo</label><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}">
         <label>Recorrência</label><div class="seg sm" role="group" aria-label="Recorrência">${RECOR.map(r => `<button type="button" data-act="trec" data-id="${t.id}" data-v="${r}" class="${(t.recorrencia || 'Não') === r ? 'on' : ''}">${r === 'Não' ? 'Não repete' : r}</button>`).join('')}</div>
@@ -2948,10 +3093,11 @@ const DRAWERS = {
       <div class="dl-host">${datalists()}</div>
     </div>` + drFoot(m);
   },
-  content(c) {
+  content(c) { return UI.cEdit === c.id ? DRAWERS.contentEdit(c) : drContentRead(c); },
+  contentEdit(c) {
     const b = f => `content|${c.id}|${f}`, area = c.area || 'Internas';
     const cats = area === 'Internas' ? S.settings.catInternas : S.settings.catClientes;
-    return drHead(area === 'Internas' ? 'Conteúdo interno' : 'Conteúdo para clientes', 'content', c.id) + `<div class="dr-b">
+    return drHead(area === 'Internas' ? 'Conteúdo interno' : 'Conteúdo para clientes', 'content', c.id) + `<div class="dr-b"><div class="editbar"><span><i class="ti ti-pencil"></i> Editando</span><button class="btn sm primary" data-act="cedit-off"><i class="ti ti-check"></i>Concluir edição</button></div>
       <input class="in dr-title" data-bind="${b('titulo')}" value="${esc(c.titulo)}" placeholder="Título">
       <div class="form">
         <label>Área</label><select class="in" data-bind="${b('area')}">${opts([['Internas', 'Internas'], ['Clientes', 'Para clientes']], area)}</select>
@@ -3215,6 +3361,18 @@ document.addEventListener('click', async e => {
     case 'pi-rm': piSet(id, l => { const ix = l.findIndex(i => i.id === v); if (ix >= 0) l.splice(ix, 1); }); return;
     case 'pi-import': { const m = S.meetings[id]; if (!m) return; const keep = [], add = []; (m.pauta || '').split('\n').forEach(x => { const mm = x.match(MD_LI); if (mm && mm[3].trim()) add.push({ id: uid(), t: mm[3].trim(), ok: mm[2] != null && mm[2] !== ' ', at: mm[2] != null && mm[2] !== ' ' ? today() : null }); else keep.push(x); }); patch('meetings', id, { itens: [...piList(m), ...add], pauta: keep.join('\n').replace(/\n{3,}/g, '\n\n').trim() }); toast(`${add.length} itens criados`); return; }
     case 'mdck': { const pv = el.closest('.mdprev'); if (pv) mdToggle(pv, +v); return; }
+    case 'cedit-on': UI.cEdit = id; renderDrawer(); return;
+    case 'cedit-off': UI.cEdit = null; renderDrawer(); return;
+    case 'dreveal': { const code = $(`[data-dsecret="${id}"]`); if (!code) return; const show = code.textContent.startsWith('•'); code.textContent = show ? S.content[id].senha : '••••••••'; el.innerHTML = `<i class="ti ti-eye${show ? '-off' : ''}"></i>`; return; }
+    case 'kmode': UI.kMode = v; saveUI(); return render();
+    case 'tcheck': { const t = S.tasks[id]; if (!t) return; const dn = t.status === 'Concluído'; patch('tasks', id, { status: dn ? 'A fazer' : 'Concluído' }); if (!dn) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
+    case 'tsel': { e.stopPropagation(); el.checked ? SEL.add(id) : SEL.delete(id); return render(); }
+    case 'tselall': { const l = filteredTasks(), all = l.length && l.every(t => SEL.has(t.id)); l.forEach(t => all ? SEL.delete(t.id) : SEL.add(t.id)); return render(); }
+    case 'b-clear': SEL.clear(); return render();
+    case 'b-done': case 'b-reopen': { const ids = [...SEL].filter(i => S.tasks[i]), prev = ids.map(i => [i, S.tasks[i].status]); ids.forEach(i => patch('tasks', i, { status: a === 'b-done' ? 'Concluído' : 'A fazer' })); toast(`${ids.length} ${ids.length === 1 ? 'tarefa' : 'tarefas'} ${a === 'b-done' ? 'concluída(s)' : 'reaberta(s)'}`, { label: 'Desfazer', fn: () => prev.forEach(([i, s]) => patch('tasks', i, { status: s || 'A fazer' })) }); return; }
+    case 'b-shift': { const n = +v, ids = [...SEL].filter(i => S.tasks[i]); ids.forEach(i => patch('tasks', i, { prazo: addDays(S.tasks[i].prazo || today(), n) })); toast(`Prazo adiado em ${n} ${n === 1 ? 'dia' : 'dias'} (${ids.length})`); return; }
+    case 'b-dup': { const ids = [...SEL].filter(i => S.tasks[i]), nids = ids.map(i => { const t = S.tasks[i]; return create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }).id; }); SEL.clear(); nids.forEach(i => SEL.add(i)); toast(`${ids.length} ${ids.length === 1 ? 'tarefa duplicada' : 'tarefas duplicadas'}: as cópias ficaram selecionadas`); return; }
+    case 'b-del': { const ids = [...SEL].filter(i => S.tasks[i]); if (!ids.length) return; if (!(await confirmDlg(`Excluir ${ids.length} ${ids.length === 1 ? 'tarefa' : 'tarefas'}?`, 'Serão excluídas para toda a equipe.'))) return; const recs = ids.map(i => S.tasks[i]); ids.forEach(i => { removeRec('tasks', i); SEL.delete(i); }); toast(`${recs.length} excluída(s)`, { label: 'Desfazer', fn: () => recs.forEach(r => put('tasks', r)) }); return; }
     case 'tdup': { const t = S.tasks[id]; if (!t) return; const nt = create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }); toast('Tarefa duplicada: ajuste os campos e as datas'); openDrawer('task', nt.id, 'titulo'); return; }
     case 'trec': { const t = S.tasks[id]; if (!t || (t.recorrencia || 'Não') === v) return; patch('tasks', id, { recorrencia: v }); return; }
     case 'tdone': { e.stopPropagation(); const t = S.tasks[id]; patch('tasks', id, { status: el.checked ? 'Concluído' : 'A fazer' }); if (el.checked && !(t.recorrencia && t.recorrencia !== 'Não')) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
