@@ -697,6 +697,14 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .selbox span{display:grid;place-items:center;width:18px;height:18px;border:1.5px solid var(--line-2,#b9c2cf);border-radius:5px;background:var(--surface);color:transparent;font-size:13px;pointer-events:none}
 .selbox input:checked+span{background:var(--focus);border-color:var(--focus);color:#fff} .ttbl tr:hover .selbox,.ttbl.anysel .selbox,.selbox.on{opacity:1}
 .doneb{border:0;background:transparent;padding:0;font-size:22px;line-height:1;color:var(--axis,#b9c2cf);display:grid;place-items:center;cursor:pointer;flex:none;transition:color .12s,transform .12s} .doneb:hover{color:var(--accent);transform:scale(1.1)} .doneb.on{color:var(--accent)}
+.fbarx{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 14px}
+.fbl{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-right:4px}
+.fp{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px 0 11px;border:1px solid var(--line);border-radius:10px;background:var(--surface);font-size:13px;color:var(--ink-2);cursor:pointer;white-space:nowrap;transition:border-color .12s,background .12s}
+.fp:hover{border-color:var(--line-2,#b9c2cf);color:var(--ink)} .fp>.ti:first-child{font-size:15px;color:var(--muted)} .fp .cv{font-size:13px;color:var(--muted)}
+.fp b{font-weight:600;max-width:190px;overflow:hidden;text-overflow:ellipsis;color:var(--ink);background:var(--surface-3);border-radius:6px;padding:1px 7px;font-size:12px}
+.fp.on{border-color:var(--ink);color:var(--ink);font-weight:500} .fp.on>.ti:first-child{color:var(--ink)}
+.fp.clr{border-style:dashed;color:var(--danger)} .fp.clr .ti{color:var(--danger)!important}
+.fp-list{max-height:280px;overflow-y:auto;margin:0 -4px;padding:0 4px} .fp-list .opt.z{opacity:.5} .fp-list .opt[hidden]{display:none}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -1537,10 +1545,7 @@ function clientMap(list) {
   else body = clientTable(list);
   return pageHead('Clientes', `${list.length === total ? total : `${list.length} de ${total}`} clientes`) + tb + quickFilters() + filterChips(CF, UI.cf, 'cf-clear') + body + datalists();
 }
-const QF = [['st', 'Status', 'ti-circle-dot', () => STATUS], ['tag', 'Tag', 'ti-tag', () => TAGS], ['con', 'Consultor', 'ti-user', () => CONSULTORES], ['fase', 'Fase', 'ti-stairs-up', () => FASES]];
-function quickFilters() {
-  return `<div class="qfbar">${QF.map(([k, l, ic, o]) => { const d = CF.find(x => x.k === k), src = clientsFor(k), sel = UI.cf[k] || []; return `<div class="qfg"><span class="qfl"><i class="ti ${ic}"></i>${l}</span>${o().map(v => `<button class="chip qf ${sel.includes(v) ? 'on' : ''}" data-act="cq-t" data-k="${k}" data-v="${esc(v)}">${esc(v)}<span class="n">${src.filter(r => (d.g ? d.g(r) : r[k]) === v).length}</span></button>`).join('')}</div>`; }).join('')}${Object.values(UI.cf).some(fActive) ? `<button class="chip" data-act="cf-clear" data-k="*"><i class="ti ti-filter-off"></i>Limpar filtros</button>` : ''}</div>`;
-}
+
 function datalists() {
   return `<datalist id="dl-seg">${segList().map(s => `<option value="${esc(s)}">`).join('')}</datalist>
   <datalist id="dl-cli">${['Interno', ...clientsArr().filter(c => c.st !== 'Encerrado').map(c => c.nome).sort()].map(s => `<option value="${esc(s)}">`).join('')}</datalist>
@@ -1730,14 +1735,14 @@ AFTER.info = () => { const q = $('#iq'); if (q) q.oninput = debounce(() => { UI.
 
 /* ═══════════════ TELA 04: TIME DOS LINDOS ═══════════════ */
 function viewTime() {
-  const tabs = [['metas', 'Metas', 'ti-target'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['tarefas', 'Tarefas', 'ti-checkbox'], ['oneone', 'One a One', 'ti-users-group']];
+  const tabs = [['tarefas', 'Tarefas', 'ti-checkbox'], ['metas', 'Metas', 'ti-target'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['oneone', 'One a One', 'ti-users-group']];
   const tl = Object.values(S.tasks), late = tl.filter(t => tStatus(t) === 'Atrasado').length, wk = weekStart(today());
   const cnt = { metas: Object.keys(S.goals).length, alinhamentos: Object.values(S.meetings).filter(m => m.data && weekStart(m.data) === wk).length, tarefas: tl.filter(t => t.status !== 'Concluído').length };
   const strip = `<nav class="ttabs" role="tablist">${tabs.map(([k, l, i]) => `<button role="tab" data-act="ttab" data-v="${k}" class="${UI.timeTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${cnt[k] != null ? `<span class="tn" title="${k === 'alinhamentos' ? 'nesta semana' : k === 'tarefas' ? 'abertas' : ''}">${cnt[k]}</span>` : ''}${k === 'tarefas' && late ? `<span class="tn red">${late} atrasada${late > 1 ? 's' : ''}</span>` : ''}</button>`).join('')}</nav>`;
   return pageHead('Gestão Time dos Lindos', 'Metas, alinhamentos semanais, tarefas e One a One da equipe') + strip + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
 { const _ad = AFTER.dashboard; AFTER.dashboard = function () { _ad.call(this); atnChart(); }; }
-AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); const qc = $('#tfcli'); if (qc) qc.oninput = debounce(() => { UI.tf.cli = qc.value; saveUI(); render(); }, 200); initKanban(); };
+AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
 
 /* ── one a one ── */
 // Visibilidade e edição são controladas aqui, na tela. Dayane vê e edita tudo; cada pessoa edita a própria
@@ -2000,36 +2005,82 @@ function viewMeetings() {
 /* ── tarefas ── */
 const tStatus = t => t.status === 'Concluído' ? 'Concluído' : (t.prazo && t.prazo < today() ? 'Atrasado' : (t.status || 'A fazer'));
 const daysLate = t => Math.round((parseISO(today()) - parseISO(t.prazo)) / 86400000);
-function filteredTasks() {
-  const f = UI.tf;
+/* ── filtros: botões com seleção múltipla (mesmo padrão em Clientes e Tarefas) ── */
+const arr = v => Array.isArray(v) ? v : (v ? [v] : []);
+const TF_PZ = [['atrasadas', 'Em atraso'], ['hoje', 'Hoje'], ['amanha', 'Amanhã'], ['semana', 'Esta semana'], ['prox', 'Próxima semana'], ['sem', 'Sem prazo']];
+function tfNorm() { const f = UI.tf; ['st', 'cli', 'resp', 'pz'].forEach(k => { f[k] = k === 'cli' && typeof f[k] === 'string' ? [] : arr(f[k]); }); f.de ||= ''; f.ate ||= ''; return f; }
+function pzTest(k, t) {
+  const t0 = today(), ws = weekStart(t0), we = addDays(ws, 6);
+  if (k === 'sem') return !t.prazo; if (!t.prazo) return false;
+  if (k === 'atrasadas') return t.prazo < t0 && t.status !== 'Concluído';
+  if (k === 'hoje') return t.prazo === t0; if (k === 'amanha') return t.prazo === addDays(t0, 1);
+  if (k === 'semana') return t.prazo >= ws && t.prazo <= we; if (k === 'prox') return t.prazo >= addDays(ws, 7) && t.prazo <= addDays(we, 7);
+  return true;
+}
+function filteredTasks(excl) {
+  const f = tfNorm();
   return Object.values(S.tasks).filter(t => {
     const st = tStatus(t);
     if (f.q && !norm([t.titulo, t.desc, t.cliente, t.resp].join(' ')).includes(norm(f.q))) return false;
-    if (f.st === 'Abertas' ? st === 'Concluído' : f.st && st !== f.st) return false;
-    if (f.cli && !norm(cliOf(t)).includes(norm(f.cli))) return false;
-    if (f.resp && t.resp !== f.resp) return false;
-    if (f.de && (!t.prazo || t.prazo < f.de)) return false;
-    if (f.ate && (!t.prazo || t.prazo > f.ate)) return false;
+    if (excl !== 'st' && f.st.length && !f.st.some(s => s === 'Abertas' ? st !== 'Concluído' : s === st)) return false;
+    if (excl !== 'cli' && f.cli.length && !f.cli.some(c => norm(cliOf(t)) === norm(c))) return false;
+    if (excl !== 'resp' && f.resp.length && !f.resp.includes(t.resp)) return false;
+    if (excl !== 'pz') {
+      if (f.pz.length && !f.pz.some(k => pzTest(k, t))) return false;
+      if (f.de && (!t.prazo || t.prazo < f.de)) return false;
+      if (f.ate && (!t.prazo || t.prazo > f.ate)) return false;
+    }
     return true;
   }).sort((a, b) => { const o = T_ALL.indexOf(tStatus(a)) - T_ALL.indexOf(tStatus(b)); if (tStatus(a) === 'Concluído' && tStatus(b) === 'Concluído') return (b.doneAt || '').localeCompare(a.doneAt || ''); return (a.prazo || '9999').localeCompare(b.prazo || '9999') || o; });
 }
+function fpDef(s, k) {
+  if (s === 'c') {
+    const d = CF.find(x => x.k === k), src = clientsFor(k);
+    return { label: d.l, sel: UI.cf[k] || [], opts: d.o().map(v => [v, v, src.filter(r => (d.g ? d.g(r) : r[k]) === v).length, !!TONE[v]]), set: a => { if (a.length) UI.cf[k] = a; else delete UI.cf[k]; } };
+  }
+  const f = tfNorm(), src = filteredTasks(k);
+  if (k === 'st') return { label: 'Status', sel: f.st, opts: [['Abertas', 'Todas as abertas', src.filter(t => t.status !== 'Concluído').length, false], ...T_ALL.map(v => [v, v, src.filter(t => tStatus(t) === v).length, true])], set: a => { f.st = a; } };
+  if (k === 'cli') { const names = [...new Set(['Interno', ...Object.values(S.tasks).map(cliOf)])].sort((a, b) => a === 'Interno' ? -1 : b === 'Interno' ? 1 : a.localeCompare(b, 'pt-BR')); return { label: 'Cliente', sel: f.cli, opts: names.map(v => [v, v, src.filter(t => cliOf(t) === v).length, false]), set: a => { f.cli = a; } }; }
+  if (k === 'resp') { const names = [...new Set([...respList(), ...Object.values(S.tasks).map(t => t.resp).filter(Boolean)])]; return { label: 'Responsável', sel: f.resp, opts: names.map(v => [v, v, src.filter(t => t.resp === v).length, false]), set: a => { f.resp = a; } }; }
+  return { label: 'Prazo', sel: f.pz, opts: TF_PZ.map(([v, l]) => [v, l, src.filter(t => pzTest(v, t)).length, false]), set: a => { f.pz = a; if (!a.length) { f.de = ''; f.ate = ''; } },
+    extra: `<div class="fsec"><b>Período personalizado</b><div class="rng"><input class="field" type="date" data-tf="de" value="${esc(f.de)}" aria-label="De"><input class="field" type="date" data-tf="ate" value="${esc(f.ate)}" aria-label="Até"></div></div>` };
+}
+function fpBtn(s, k, icon, extra) {
+  const d = fpDef(s, k), lab = v => (d.opts.find(o => o[0] === v) || [v, v])[1], n = d.sel.length;
+  const txt = n ? (n === 1 ? lab(d.sel[0]) : `${lab(d.sel[0])} +${n - 1}`) : extra || '';
+  return `<button class="fp ${n || extra ? 'on' : ''}" data-act="fp-open" data-s="${s}" data-k="${k}"><i class="ti ${icon}"></i><span>${d.label}</span>${txt ? `<b>${esc(txt)}</b>` : ''}<i class="ti ti-chevron-down cv"></i></button>`;
+}
+function fpHtml(s, k) {
+  const d = fpDef(s, k);
+  return `<h6>${esc(d.label)}</h6>${d.opts.length > 8 ? `<input class="field fp-q" placeholder="Buscar…" autocomplete="off" style="margin-bottom:6px">` : ''}
+    <div class="fp-list">${d.opts.map(([v, l, n, pl]) => `<label class="opt ${n ? '' : 'z'}"><input type="checkbox" class="chk" data-act="fp-t" data-s="${s}" data-k="${k}" data-v="${esc(v)}" ${d.sel.includes(v) ? 'checked' : ''}>${pl ? pill(v) : esc(l)}<span class="n">${n}</span></label>`).join('')}</div>${d.extra || ''}
+    <div class="ft"><button class="btn sm ghost" data-act="fp-clear" data-s="${s}" data-k="${k}">Limpar</button><button class="btn sm" data-act="pop-close">OK</button></div>`;
+}
+function fpShow(s, k, keep) {
+  const a = $(`[data-act="fp-open"][data-s="${s}"][data-k="${k}"]`); if (!a) return;
+  openPop(a, fpHtml(s, k));
+  const pl = $('#pop .fp-list'); if (pl && keep) pl.scrollTop = keep.top;
+  const q = $('#pop .fp-q'); if (q && keep?.q) { q.value = keep.q; fpFilter(q); }
+}
+function fpFilter(q) { const t = norm(q.value); $$('#pop .fp-list .opt').forEach(o => { o.hidden = !!t && !norm(o.textContent).includes(t); }); }
+document.addEventListener('input', e => { if (e.target.matches?.('.fp-q')) fpFilter(e.target); });
+function fpChange(el) { saveUI(); const keep = { top: $('#pop .fp-list')?.scrollTop || 0, q: $('#pop .fp-q')?.value || '' }; render(); fpShow(el.dataset.s, el.dataset.k, keep); }
+const CFP = [['st', 'ti-circle-dot'], ['tag', 'ti-tag'], ['con', 'ti-user'], ['fase', 'ti-stairs-up'], ['icp', 'ti-target-arrow'], ['seg', 'ti-category'], ['plano', 'ti-credit-card']];
+function quickFilters() {
+  const any = Object.values(UI.cf).some(fActive);
+  return `<div class="fbarx"><span class="fbl"><i class="ti ti-filter"></i>Filtros</span>${CFP.map(([k, ic]) => fpBtn('c', k, ic)).join('')}${any ? `<button class="fp clr" data-act="cf-clear" data-k="*"><i class="ti ti-filter-off"></i>Limpar</button>` : ''}</div>`;
+}
 function viewTasks() {
-  const list = filteredTasks(), f = UI.tf;
-  const clis = [...new Set(Object.values(S.tasks).map(t => t.cliente).filter(Boolean))].sort();
-  const resps = [...new Set([...respList(), ...Object.values(S.tasks).map(t => t.resp).filter(Boolean)])];
-  const nf = ['st', 'cli', 'resp', 'de', 'ate'].filter(k => f[k]).length;
+  const list = filteredTasks(), f = tfNorm();
+  const nf = f.st.length + f.cli.length + f.resp.length + f.pz.length + (f.de || f.ate ? 1 : 0);
+  const rng = f.de || f.ate ? `${f.de ? fmtD(f.de) : '…'} – ${f.ate ? fmtD(f.ate) : '…'}` : '';
   const tb = `<div class="toolbar">
     <label class="search"><i class="ti ti-search"></i><input id="tq" placeholder="Buscar tarefa…" value="${esc(f.q)}"></label>
     <div class="seg"><button data-act="tview" data-v="table" class="${UI.tView === 'table' ? 'on' : ''}"><i class="ti ti-table"></i>${isMobile() ? '' : 'Tabela'}</button><button data-act="tview" data-v="kanban" class="${UI.tView === 'kanban' ? 'on' : ''}"><i class="ti ti-layout-kanban"></i>${isMobile() ? '' : 'Kanban'}</button></div>
     ${UI.tView === 'table' ? `<select class="btn" data-ui="tGroup" aria-label="Agrupar por">${opts([['status', 'Agrupar: Status'], ['cliente', 'Agrupar: Cliente'], ['resp', 'Agrupar: Responsável'], ['none', 'Sem agrupamento']], UI.tGroup)}</select>` : ''}
+    <span class="mut" style="font-size:12.5px;margin-left:auto">${list.length} ${list.length === 1 ? 'tarefa' : 'tarefas'}</span>
   </div>
-  <div class="hscroll" style="margin:-4px 0 14px;align-items:center">
-    <select class="btn sm ${f.st ? 'on' : ''}" data-tf="st">${opts([['', 'Status: todos'], ['Abertas', 'Abertas'], ...T_ALL.map(s => [s, s])], f.st)}</select>
-    <label class="search tfcli ${f.cli ? 'on' : ''}"><i class="ti ti-building-store"></i><input id="tfcli" list="dl-clif" data-tf="cli" placeholder="Cliente: digite para buscar…" value="${esc(f.cli)}" autocomplete="off" aria-label="Filtrar por cliente"></label><datalist id="dl-clif">${[...new Set([...clientsArr().map(x => x.nome), ...clis])].sort((a, b) => a.localeCompare(b, 'pt-BR')).map(s => `<option value="${esc(s)}">`).join('')}</datalist>
-    <select class="btn sm ${f.resp ? 'on' : ''}" data-tf="resp">${opts([['', 'Responsável: todos'], ...resps.map(s => [s, s])], f.resp)}</select>
-    <span class="chip ${f.de || f.ate ? 'filter' : ''}" style="padding:0 6px 0 12px"><i class="ti ti-calendar"></i>Prazo<input type="date" class="in" style="min-width:0;width:128px;padding:2px 4px" data-tf="de" value="${esc(f.de)}" aria-label="Prazo de"><span>até</span><input type="date" class="in" style="min-width:0;width:128px;padding:2px 4px" data-tf="ate" value="${esc(f.ate)}" aria-label="Prazo até"></span>
-    ${nf ? `<button class="chip" data-act="tf-clear">Limpar filtros</button>` : ''}
-  </div>`;
+  <div class="fbarx"><span class="fbl"><i class="ti ti-filter"></i>Filtros</span>${fpBtn('t', 'st', 'ti-circle-dot')}${fpBtn('t', 'cli', 'ti-building-store')}${fpBtn('t', 'resp', 'ti-user')}${fpBtn('t', 'pz', 'ti-calendar', rng)}${nf ? `<button class="fp clr" data-act="tf-clear"><i class="ti ti-filter-off"></i>Limpar</button>` : ''}</div>`;
   let body;
   if (!Object.keys(S.tasks).length) body = `<div class="card empty"><i class="ti ti-checkbox"></i>Nenhuma tarefa ainda.<br><br><button class="btn primary" data-act="new" data-v="tarefa"><i class="ti ti-plus"></i>Nova tarefa</button></div>`;
   else if (UI.tView === 'kanban') body = taskKanban(list);
@@ -2102,14 +2153,14 @@ function taskTable(list) {
 const SEL = new Set();
 const cliOf = t => (t.cliente || '').trim() || 'Interno';
 function taskPanel() {
-  const t0 = today(), ws = weekStart(t0), we = addDays(ws, 6), rf = UI.tf.resp;
-  const all = Object.values(S.tasks).filter(t => !rf || t.resp === rf);
+  const t0 = today(), ws = weekStart(t0), we = addDays(ws, 6), rf = arr(UI.tf.resp);
+  const all = Object.values(S.tasks).filter(t => !rf.length || rf.includes(t.resp));
   const hoje = all.filter(t => t.prazo === t0), hojeOpen = hoje.filter(t => t.status !== 'Concluído').length;
   const atras = all.filter(t => t.status !== 'Concluído' && t.prazo && t.prazo < t0).length;
   const sem = all.filter(t => t.prazo && t.prazo >= ws && t.prazo <= we), semDone = sem.filter(t => t.status === 'Concluído').length;
   const pc = sem.length ? Math.round(semDone / sem.length * 100) : 0;
   return `<div class="tpanel">
-    <div class="tp-box"><span class="tp-i" style="background:var(--s1)"><i class="ti ti-sun"></i></span><div><small>Para hoje${rf ? ` · ${esc(rf.split(' ')[0])}` : ''}</small><b>${hojeOpen}</b><em>${hoje.length ? `${hoje.length - hojeOpen} de ${hoje.length} concluídas` : 'nenhuma com prazo hoje'}</em></div></div>
+    <div class="tp-box"><span class="tp-i" style="background:var(--s1)"><i class="ti ti-sun"></i></span><div><small>Para hoje${rf.length ? ` · ${esc(rf.map(x => x.split(' ')[0]).join(', '))}` : ''}</small><b>${hojeOpen}</b><em>${hoje.length ? `${hoje.length - hojeOpen} de ${hoje.length} concluídas` : 'nenhuma com prazo hoje'}</em></div></div>
     <div class="tp-box ${atras ? 'bad' : ''}"><span class="tp-i" style="background:${atras ? 'var(--danger)' : '#8b97a8'}"><i class="ti ti-clock-exclamation"></i></span><div><small>Em atraso</small><b>${atras}</b><em>${atras ? 'abertas com prazo vencido' : 'tudo em dia'}</em></div></div>
     <div class="tp-week"><div class="tp-wh"><span><i class="ti ti-calendar-week"></i> Semana · ${weekLabel(ws)}</span><b>${pc}%</b></div>
       <div class="tp-bar"><i style="width:${pc}%"></i></div>
@@ -3395,7 +3446,10 @@ document.addEventListener('click', async e => {
     case 'trec': { const t = S.tasks[id]; if (!t || (t.recorrencia || 'Não') === v) return; patch('tasks', id, { recorrencia: v }); return; }
     case 'tdone': { e.stopPropagation(); const t = S.tasks[id]; patch('tasks', id, { status: el.checked ? 'Concluído' : 'A fazer' }); if (el.checked && !(t.recorrencia && t.recorrencia !== 'Não')) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
     case 'tgroup-toggle': UI.tCollapsed[v] = !UI.tCollapsed[v]; saveUI(); return render();
-    case 'tf-clear': UI.tf = { q: UI.tf.q, st: '', cli: '', resp: '', de: '', ate: '' }; saveUI(); return render();
+    case 'tf-clear': UI.tf = { q: UI.tf.q, st: [], cli: [], resp: [], pz: [], de: '', ate: '' }; saveUI(); return render();
+    case 'fp-open': { if (!$('#pop').hidden && $('#pop').dataset.fp === el.dataset.s + el.dataset.k) return closePop(); fpShow(el.dataset.s, el.dataset.k); $('#pop').dataset.fp = el.dataset.s + el.dataset.k; return; }
+    case 'fp-t': { const d = fpDef(el.dataset.s, el.dataset.k), s = new Set(d.sel); el.checked ? s.add(v) : s.delete(v); d.set([...s]); fpChange(el); $('#pop').dataset.fp = el.dataset.s + el.dataset.k; return; }
+    case 'fp-clear': { fpDef(el.dataset.s, el.dataset.k).set([]); fpChange(el); $('#pop').dataset.fp = el.dataset.s + el.dataset.k; return; }
     case 'show-all-done': UI.showAllDone = true; return render();
     // one a one
     case 'oo-sec': UI.oo.sec = v; saveUI(); return render();
