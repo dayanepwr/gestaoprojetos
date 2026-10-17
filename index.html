@@ -725,6 +725,10 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .gdr-prog{padding:4px 8px 6px;display:flex;flex-direction:column;gap:10px} .gdr-spark{display:flex;flex-direction:column;gap:2px} .gdr-spark small{font-size:11px;color:var(--muted)} .gdr-spark .spark{width:100%;height:54px}
 .ghist{display:flex;flex-direction:column} .ghist>div{display:grid;grid-template-columns:90px 1fr auto;gap:8px;padding:6px 8px;border-bottom:1px solid var(--line);font-size:13px} .ghist em{font-style:normal;font-size:12px;color:var(--muted)} .ghist em.up{color:var(--accent-ink)} .ghist em.dn{color:var(--danger)}
 .glist td{vertical-align:middle;padding:10px 8px} .glist tr:hover td{background:var(--surface-2)}
+.anstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:10px;margin:4px 0 14px}
+.anchip{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2)} .anchip>.ti{font-size:21px;color:var(--focus);flex:none}
+.anchip small{display:block;font-size:11.5px;color:var(--muted)} .anchip b{font-size:17px;line-height:1.2} .anchip em{display:block;font-style:normal;font-size:11px;color:var(--muted)} .anchip.bad b{color:var(--danger)}
+.anbody{font-size:13.5px;line-height:1.65} .anbody h4.mdh{margin:24px 0 8px;font-size:15.5px;padding:0 0 7px;border-bottom:1px solid var(--line)} .anbody h4.mdh:first-child{margin-top:4px} .anbody ul.md li{font-size:13.5px;line-height:1.6;padding:3px 0} .anbody p{margin:0 0 8px}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -1361,8 +1365,158 @@ function viewDashboard() {
     <div class="grid2">
       ${['tag:Clientes por tag', 'con:Clientes por consultor', 'fase:Clientes por fase', 'seg:Clientes por segmento'].map(x => { const [k, l] = x.split(':'); const n = distEntries(M.ativos, k).length; return `<div class="card"><div class="card-h"><h3>${l}</h3><span class="hint">ativos · clique para filtrar</span></div><div class="card-b"><div class="chartbox" style="height:${Math.max(n, 1) * 36 + 28}px"><canvas id="ch-${k}"></canvas></div></div></div>`; }).join('')}
     </div>
-    <p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn nunca é somado: churn do mês = encerrados no mês ÷ ativos no início do mês; o do período é a média dos meses do período e o acumulado é a média de janeiro até o fim do período. O faturamento soma, mês a mês até o mês atual, o que foi realmente cobrado de cada cliente (histórico de cobrança na ficha do cliente); “sem descontos” usa o valor cheio de cada mês.</p>`;
+    ${analysisCard(R)}<p class="note">Ativos = clientes com início até o fim do período e sem encerramento antes dele (pausados não entram). Churn nunca é somado: churn do mês = encerrados no mês ÷ ativos no início do mês; o do período é a média dos meses do período e o acumulado é a média de janeiro até o fim do período. O faturamento soma, mês a mês até o mês atual, o que foi realmente cobrado de cada cliente (histórico de cobrança na ficha do cliente); “sem descontos” usa o valor cheio de cada mês.</p>`;
 }
+/* ═══════════════ ANÁLISE DO PERÍODO (comercial, operacional e estratégica) ═══════════════ */
+const anKey = R => `${UI.period.mode}:${R.s}:${R.e}`;
+function prevRange(R) {
+  const m = UI.period.mode, back = m === 'month' ? 1 : m === 'quarter' ? 3 : m === 'year' ? 12 : null;
+  if (back) return { s: addMonths(R.s, -back), e: addDays(R.s, -1) };
+  const len = Math.round((parseISO(R.e) - parseISO(R.s)) / 86400000) + 1; return { s: addDays(R.s, -len), e: addDays(R.s, -1) };
+}
+const anNames = (arr, max = 6) => { const n = arr.map(x => typeof x === 'string' ? x : x.nome); return n.slice(0, max).join(', ') + (n.length > max ? ` e mais ${n.length - max}` : ''); };
+const anPl = (n, a, b) => n === 1 ? a : b;
+const anDelta = (a, b) => b ? (a - b) / b * 100 : null;
+const anSgn = v => v == null ? '' : (v >= 0 ? '+' : '') + NUMF.format(Math.round(v * 10) / 10) + '%';
+function anFacts(R) {
+  const t = today(), ref = R.e < t ? R.e : t, P = prevRange(R), M = metrics(R.s, R.e), MP = metrics(P.s, P.e);
+  const inR = d => !!d && d >= R.s && d <= R.e, isoOf = ms => ms ? isoD(new Date(ms)) : '';
+  const cl = clientsArr(), ativos = M.ativos, F = { R, P, M, MP, t, ref, inR };
+  F.novos = M.novos; F.enc = M.enc;
+  F.tagCh = []; F.faseCh = [];
+  cl.forEach(c => { (c.tagHist || []).filter(x => inR(x.d)).forEach(x => F.tagCh.push({ c, from: x.from, to: x.to, d: x.d })); (c.faseHist || []).filter(x => inR(x.d)).forEach(x => F.faseCh.push({ c, from: x.from, to: x.to, d: x.d })); });
+  const tasks = Object.values(S.tasks);
+  F.done = tasks.filter(x => x.status === 'Concluído' && inR(x.doneAt));
+  F.withPz = F.done.filter(x => x.prazo); F.onTime = F.withPz.filter(x => x.doneAt <= x.prazo).length;
+  F.overdue = tasks.filter(x => x.status !== 'Concluído' && x.prazo && x.prazo < t);
+  F.planned = tasks.filter(x => x.prazo && inR(x.prazo)); F.plannedDone = F.planned.filter(x => x.status === 'Concluído').length;
+  F.created = tasks.filter(x => inR(isoOf(x.createdAt))).length;
+  F.odByResp = {}; F.overdue.forEach(x => { const r = x.resp || 'Sem responsável'; F.odByResp[r] = (F.odByResp[r] || 0) + 1; });
+  F.odByCli = {}; F.overdue.forEach(x => { const r = cliOf(x); F.odByCli[r] = (F.odByCli[r] || 0) + 1; });
+  F.doneByResp = {}; F.done.forEach(x => { const r = x.resp || 'Sem responsável'; F.doneByResp[r] = (F.doneByResp[r] || 0) + 1; });
+  F.mts = Object.values(S.meetings).filter(m => inR(m.data));
+  F.itens = F.mts.reduce((a, m) => a + piList(m).length, 0); F.itensOk = F.mts.reduce((a, m) => a + piList(m).filter(i => i.ok).length, 0);
+  F.emAtn = ativos.filter(c => tagAt(c, ref) === 'Atenção'); F.atnMeta = S.settings.atencao?.meta ?? 15;
+  F.atnPct = ativos.length ? F.emAtn.length / ativos.length * 100 : null;
+  F.marcos = [];
+  cl.forEach(c => (c.marcos || []).forEach(m => { if (!c.di) return; const d = addMonths(c.di.slice(0, 7) + '-01', m.mes - 1).slice(0, 7); if (d >= R.s.slice(0, 7) && d <= R.e.slice(0, 7)) mkItems(m).forEach(it => F.marcos.push({ c, cat: it.c, t: it.t })); }));
+  F.goals = Object.values(S.goals).map(g => ({ g, I: goalInfo(g) }));
+  F.renov = ativos.filter(c => c.st === 'Ativo' && c.de && c.de >= t && c.de <= addDays(t, 60)).sort((a, b) => a.de.localeCompare(b.de));
+  const fees = ativos.map(c => ({ c, v: feeAt(c, ref) })).sort((a, b) => b.v - a.v), tot = fees.reduce((a, x) => a + x.v, 0);
+  F.top3 = fees.slice(0, 3); F.top3Share = tot ? F.top3.reduce((a, x) => a + x.v, 0) / tot * 100 : 0; F.tot = tot;
+  F.icp = { Dentro: 0, Fora: 0, 'A confirmar': 0 }; ativos.forEach(c => F.icp[icpEval(c).status]++);
+  F.foraIcp = ativos.filter(c => icpEval(c).status === 'Fora');
+  F.diags = Object.values(S.diags).filter(d => inR(d.data));
+  F.semMarco = ativos.filter(c => c.st === 'Ativo' && c.di && monthsBetween(c.di, ref) > 3 && !(c.marcos || []).length);
+  F.demoraDiag = ativos.filter(c => c.fase === 'Diagnóstico' && c.di && monthsBetween(c.di, ref) > 2);
+  F.cobrCh = [];
+  cl.forEach(c => { const rows = [...(c.cobr || [])].sort((a, b) => a.de.localeCompare(b.de)); rows.forEach((r, i) => { if (r.de >= R.s.slice(0, 7) && r.de <= R.e.slice(0, 7) && i > 0 && r.valor != null && rows[i - 1].valor != null && r.valor !== rows[i - 1].valor) F.cobrCh.push({ c, de: rows[i - 1].valor, para: r.valor }); }); });
+  const cd = comboData(R.s, R.e).filter(b => b.sel), last = cd[cd.length - 1]; F.metaAtivos = last?.meta ?? null; F.totalAtivos = last?.total ?? ativos.length;
+  F.disc = M.hip ? (M.hip - M.real) / M.hip * 100 : 0; F.ticket = ativos.length ? M.mrr / ativos.length : 0;
+  F.pausados = clientsArr().filter(c => c.st === 'Pausado');
+  F.fases = {}; FASES.forEach(f => F.fases[f] = ativos.filter(c => c.fase === f).length);
+  return F;
+}
+function anGanhosGaps(F) {
+  const { M, MP } = F, G = [], P = [], lab = F.R.label;
+  if (F.novos.length) G.push(`**${F.novos.length} ${anPl(F.novos.length, 'novo cliente', 'novos clientes')}**: ${anNames(F.novos)} (MRR adicionado: ${brl(F.novos.reduce((a, c) => a + feeAt(c, F.ref), 0))}).`);
+  if (!F.enc.length && M.base) G.push(`**Nenhum cliente encerrado** em ${lab} (churn de 0% sobre ${M.base} ativos no início).`);
+  const dm = anDelta(M.mrr, MP.mrr); if (dm != null && dm > 0) G.push(`**MRR de ${brl(M.mrr)}**, ${anSgn(dm)} sobre o período anterior (${brl(MP.mrr)}).`);
+  if (F.metaAtivos != null && F.totalAtivos >= F.metaAtivos) G.push(`**Meta de carteira batida**: ${F.totalAtivos} ativos para uma meta de ${F.metaAtivos}.`);
+  if (F.withPz.length && F.onTime / F.withPz.length >= .8) G.push(`**${Math.round(F.onTime / F.withPz.length * 100)}% das entregas no prazo** (${F.onTime} de ${F.withPz.length} tarefas com prazo).`);
+  else if (F.done.length >= 10) G.push(`**${F.done.length} tarefas concluídas** no período.`);
+  const saiu = F.tagCh.filter(x => x.from === 'Atenção' && x.to && x.to !== 'Atenção'); if (saiu.length) G.push(`**${saiu.length} ${anPl(saiu.length, 'cliente saiu', 'clientes saíram')} de “Atenção”**: ${anNames(saiu.map(x => x.c))}.`);
+  const prom = F.faseCh.filter(x => FASES.indexOf(x.to) > FASES.indexOf(x.from)); if (prom.length) G.push(`**Evolução de fase**: ${prom.map(x => `${x.c.nome} (${x.from} → ${x.to})`).join('; ')}.`);
+  const pri = F.marcos.filter(x => ['reducao', 'meta', 'divida'].includes(x.cat)); if (F.marcos.length) G.push(`**${F.marcos.length} resultados registrados nos clientes**${pri.length ? `, com destaque para ${pri.length} entre reduções, metas batidas e dívidas/contas` : ''}.`);
+  const metasOk = F.goals.filter(x => x.I.done); if (metasOk.length) G.push(`**${metasOk.length} ${anPl(metasOk.length, 'meta do time atingida', 'metas do time atingidas')}**: ${anNames(metasOk.map(x => x.g.titulo || ''))}.`);
+  const up = F.cobrCh.filter(x => x.para > x.de); if (up.length) G.push(`**Reajuste/upgrade de plano**: ${up.map(x => `${x.c.nome} (${brl(x.de)} → ${brl(x.para)})`).join('; ')}.`);
+  if (F.mts.length) G.push(`**${F.mts.length} ${anPl(F.mts.length, 'alinhamento realizado', 'alinhamentos realizados')}** com o time${F.itens ? `, ${F.itensOk} de ${F.itens} itens de pauta tratados` : ''}.`);
+  if (F.diags.length) G.push(`**${F.diags.length} ${anPl(F.diags.length, 'diagnóstico registrado', 'diagnósticos registrados')}**: ${anNames(F.diags.map(d => (S.clients[d.cid] || {}).nome || 'Cliente'))}.`);
+  if (F.enc.length) P.push(`**${F.enc.length} ${anPl(F.enc.length, 'encerramento', 'encerramentos')}**: ${F.enc.map(c => `${c.nome}${c.motivo ? ` (${c.motivo})` : ''}`).join('; ')}. Churn do período: ${pct(M.churnP)}.`);
+  if (F.metaAtivos != null && F.totalAtivos < F.metaAtivos) P.push(`**Meta de carteira não batida**: ${F.totalAtivos} ativos para uma meta de ${F.metaAtivos} (faltam ${F.metaAtivos - F.totalAtivos}).`);
+  if (dm != null && dm < 0) P.push(`**MRR caiu ${anSgn(Math.abs(dm)).replace('+', '')}** sobre o período anterior (${brl(MP.mrr)} → ${brl(M.mrr)}).`);
+  if (F.overdue.length) P.push(`**${F.overdue.length} ${anPl(F.overdue.length, 'tarefa em atraso', 'tarefas em atraso')}** hoje; concentradas em ${Object.entries(F.odByResp).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([r, n]) => `${r} (${n})`).join(', ')}.`);
+  if (F.withPz.length && F.onTime / F.withPz.length < .7) P.push(`**Só ${Math.round(F.onTime / F.withPz.length * 100)}% das entregas saíram no prazo** (${F.onTime} de ${F.withPz.length}).`);
+  if (F.atnPct != null && F.atnPct > F.atnMeta) P.push(`**Clientes em atenção acima da meta**: ${F.emAtn.length} de ${F.M.ativos.length} (${pct1(F.atnPct)} para uma meta de ${num(F.atnMeta)}%) — ${anNames(F.emAtn)}.`);
+  const novoAtn = F.tagCh.filter(x => x.to === 'Atenção' && x.from !== 'Atenção'); if (novoAtn.length) P.push(`**${novoAtn.length} ${anPl(novoAtn.length, 'cliente passou', 'clientes passaram')} para “Atenção”** no período: ${anNames(novoAtn.map(x => x.c))}.`);
+  if (F.renov.length) P.push(`**${F.renov.length} ${anPl(F.renov.length, 'contrato vence', 'contratos vencem')} nos próximos 60 dias**: ${F.renov.slice(0, 6).map(c => `${c.nome} (${fmtD(c.de)})`).join(', ')}${F.renov.length > 6 ? '…' : ''}.`);
+  if (F.top3Share > 45) P.push(`**Concentração de receita**: os 3 maiores clientes (${anNames(F.top3.map(x => x.c), 3)}) respondem por ${Math.round(F.top3Share)}% do MRR.`);
+  const risk = F.goals.filter(x => ['risk', 'late'].includes(x.I.state)); if (risk.length) P.push(`**${risk.length} ${anPl(risk.length, 'meta do time exige', 'metas do time exigem')} atenção**: ${risk.map(x => `${x.g.titulo} (${x.I.pc}%)`).join('; ')}.`);
+  if (F.semMarco.length) P.push(`**${F.semMarco.length} ${anPl(F.semMarco.length, 'cliente ativo', 'clientes ativos')} há mais de 3 meses sem resultados registrados**: ${anNames(F.semMarco)}.`);
+  if (F.demoraDiag.length) P.push(`**Diagnóstico longo**: ${anNames(F.demoraDiag)} ${anPl(F.demoraDiag.length, 'está', 'estão')} há mais de 2 meses na fase de Diagnóstico.`);
+  if (F.disc > 12) P.push(`**Desconto médio de ${NUMF.format(Math.round(F.disc * 10) / 10)}%** sobre o valor cheio dos planos (${brl(M.hip - M.real)} deixados de faturar no período).`);
+  if (F.pausados.length) P.push(`**${F.pausados.length} ${anPl(F.pausados.length, 'cliente pausado', 'clientes pausados')}** fora da conta: ${anNames(F.pausados)}.`);
+  return { G, P };
+}
+function buildAnalysis(R) {
+  const F = anFacts(R), { M, MP } = F, { G, P } = anGanhosGaps(F), L = [], h = s => L.push('', `## ${s}`), p = s => L.push(s), b = s => L.push('- ' + s), lab = R.label;
+  const dm = anDelta(M.mrr, MP.mrr), dr = anDelta(M.real, MP.real);
+  h('Resumo executivo');
+  p(`Em **${lab}** a carteira fechou com **${M.ativos.length} clientes ativos** (${F.novos.length} ${anPl(F.novos.length, 'novo', 'novos')} e ${F.enc.length} ${anPl(F.enc.length, 'encerrado', 'encerrados')}), **MRR de ${brl(M.mrr)}**${dm != null ? ` (${anSgn(dm)} vs. período anterior)` : ''} e faturamento de planos de **${brl(M.real)}**${dr != null ? ` (${anSgn(dr)})` : ''}. Operacionalmente foram **${F.done.length} ${anPl(F.done.length, 'tarefa concluída', 'tarefas concluídas')}**${F.withPz.length ? ` (${Math.round(F.onTime / F.withPz.length * 100)}% no prazo)` : ''}, com **${F.overdue.length} em atraso** hoje, e **${F.emAtn.length} ${anPl(F.emAtn.length, 'cliente', 'clientes')} em atenção**${F.atnPct != null ? ` (${pct1(F.atnPct)} da carteira)` : ''}.`);
+  p(`Saldo do período: **${G.length} ganhos** e **${P.length} gaps** mapeados abaixo.`);
+  h('Principais ganhos'); if (G.length) G.forEach(b); else p('Sem ganhos relevantes identificados nos dados do período.');
+  h('Principais gaps'); if (P.length) P.forEach(b); else p('Sem gaps relevantes identificados nos dados do período.');
+  h('Análise comercial');
+  b(`**Carteira:** ${M.base} ativos no início → **${M.ativos.length}** ao final; ${F.novos.length} ${anPl(F.novos.length, 'entrada', 'entradas')}, ${F.enc.length} ${anPl(F.enc.length, 'saída', 'saídas')} (saldo ${F.novos.length - F.enc.length >= 0 ? '+' : ''}${F.novos.length - F.enc.length}).${F.metaAtivos != null ? ` Meta de ativos: ${F.metaAtivos} (${F.totalAtivos >= F.metaAtivos ? 'batida' : `faltam ${F.metaAtivos - F.totalAtivos}`}).` : ''}`);
+  b(`**Receita:** MRR ${brl(M.mrr)} (cheio ${brl(M.mrrHip)}); ticket médio ${brl(F.ticket)}; desconto médio ${NUMF.format(Math.round(F.disc * 10) / 10)}%. Período anterior: MRR ${brl(MP.mrr)}, faturamento ${brl(MP.real)}.`);
+  b(`**Churn:** ${pct(M.churnP)} no período e ${pct(M.churnY)} de média mensal no ano (${M.encY} ${anPl(M.encY, 'encerrado', 'encerrados')} em ${R.e.slice(0, 4)}). LTV médio: ${brl(M.ltvV)} (${NUMF.format(Math.round(M.ltvM * 10) / 10)} meses).`);
+  if (F.novos.length) b(`**Novos clientes:** ${F.novos.map(c => `${c.nome}${c.plano ? ` — ${c.plano}` : ''}${c.seg ? ` (${c.seg})` : ''}`).join('; ')}.`);
+  if (F.enc.length) b(`**Encerrados:** ${F.enc.map(c => `${c.nome}${c.di && c.de ? `, ${NUMF.format(Math.round(monthsBetween(c.di, c.de) * 10) / 10)} meses de casa` : ''}${c.motivo ? `, motivo: ${c.motivo}` : ''}`).join('; ')}.`);
+  if (F.cobrCh.length) b(`**Mudanças de valor cobrado:** ${F.cobrCh.map(x => `${x.c.nome} (${brl(x.de)} → ${brl(x.para)})`).join('; ')}.`);
+  b(`**Aderência ao ICP:** ${F.icp.Dentro} dentro, ${F.icp.Fora} fora e ${F.icp['A confirmar']} a confirmar entre os ativos${F.foraIcp.length ? ` (fora: ${anNames(F.foraIcp)})` : ''}.`);
+  if (F.top3.length) b(`**Concentração:** os 3 maiores (${anNames(F.top3.map(x => x.c), 3)}) somam ${Math.round(F.top3Share)}% do MRR.`);
+  h('Análise operacional');
+  b(`**Entregas:** ${F.done.length} ${anPl(F.done.length, 'tarefa concluída', 'tarefas concluídas')} no período${F.withPz.length ? `, ${F.onTime} de ${F.withPz.length} no prazo (${Math.round(F.onTime / F.withPz.length * 100)}%)` : ''}; ${F.created} ${anPl(F.created, 'criada', 'criadas')}; ${F.planned.length ? `${F.plannedDone} de ${F.planned.length} com prazo no período já foram concluídas.` : 'nenhuma tarefa com prazo no período.'}`);
+  if (Object.keys(F.doneByResp).length) b(`**Entregas por pessoa:** ${Object.entries(F.doneByResp).sort((a, c) => c[1] - a[1]).map(([r, n]) => `${r} (${n})`).join(', ')}.`);
+  b(`**Atrasos hoje:** ${F.overdue.length}${F.overdue.length ? ` — por pessoa: ${Object.entries(F.odByResp).sort((a, c) => c[1] - a[1]).map(([r, n]) => `${r} (${n})`).join(', ')}; por cliente: ${Object.entries(F.odByCli).sort((a, c) => c[1] - a[1]).slice(0, 5).map(([r, n]) => `${r} (${n})`).join(', ')}` : ''}.`);
+  b(`**Alinhamentos:** ${F.mts.length} no período${F.itens ? `; ${F.itensOk} de ${F.itens} itens de pauta tratados (${Math.round(F.itensOk / F.itens * 100)}%)` : ''}.`);
+  b(`**Saúde da carteira (tags):** ${F.emAtn.length} em atenção (${pct1(F.atnPct)}; meta ${num(F.atnMeta)}%).${F.tagCh.length ? ` Mudanças de tag no período: ${F.tagCh.map(x => `${x.c.nome} (${x.from || '—'} → ${x.to || '—'}, ${fmtD(x.d)})`).join('; ')}.` : ' Sem mudanças de tag registradas no período.'}`);
+  if (F.faseCh.length) b(`**Mudanças de fase:** ${F.faseCh.map(x => `${x.c.nome} (${x.from || '—'} → ${x.to || '—'})`).join('; ')}.`);
+  if (F.diags.length) b(`**Diagnósticos:** ${F.diags.length} registrados no período.`);
+  h('Análise estratégica');
+  b(`**Maturidade da carteira:** ${FASES.map(f => `${F.fases[f]} em ${f}`).join(', ')}.`);
+  if (F.marcos.length) {
+    const byC = {}; F.marcos.forEach(x => (byC[x.cat] ||= []).push(x));
+    b(`**Resultados entregues aos clientes:** ${F.marcos.length} registrados (${Object.entries(MK_CATS).filter(([k]) => byC[k]).map(([k, v]) => `${byC[k].length} ${(byC[k].length === 1 ? v.one : v.l).toLowerCase()}`).join(', ')}).`);
+    ['reducao', 'meta', 'divida', 'indicador', 'cliente'].forEach(k => (byC[k] || []).slice(0, 3).forEach(x => L.push(`  - ${MK_CATS[k].one} · **${x.c.nome}**: ${x.t}`)));
+  } else b('**Resultados entregues aos clientes:** nenhum marco registrado no período — vale consolidar as conquistas nas fichas dos clientes.');
+  if (F.goals.length) b(`**Metas do time:** ${F.goals.filter(x => x.I.done).length} atingidas, ${F.goals.filter(x => ['prog', 'good'].includes(x.I.state)).length} em andamento e ${F.goals.filter(x => ['risk', 'late'].includes(x.I.state)).length} exigindo atenção. ${F.goals.map(x => `${x.g.titulo}: ${x.I.pc}%`).join('; ')}.`);
+  b(`**Renovações:** ${F.renov.length ? `${F.renov.length} ${anPl(F.renov.length, 'contrato vence', 'contratos vencem')} em até 60 dias (${F.renov.map(c => `${c.nome} ${fmtD(c.de)}`).join(', ')}) — oportunidade de renovação e risco de churn.` : 'nenhum contrato vence nos próximos 60 dias.'}`);
+  if (F.pausados.length) b(`**Pausados:** ${anNames(F.pausados)} — definir retomada ou encerramento.`);
+  h('Próximos passos sugeridos');
+  const nx = [];
+  if (F.renov.length) nx.push(`Abrir conversa de renovação com ${anNames(F.renov, 4)}.`);
+  if (F.emAtn.length && F.atnPct > F.atnMeta) nx.push(`Plano de recuperação para os clientes em atenção: ${anNames(F.emAtn, 5)}.`);
+  if (F.overdue.length) nx.push(`Zerar as ${F.overdue.length} tarefas em atraso (começar por ${Object.entries(F.odByResp).sort((a, c) => c[1] - a[1])[0][0]}).`);
+  if (F.metaAtivos != null && F.totalAtivos < F.metaAtivos) nx.push(`Reforçar a geração de novos clientes: faltam ${F.metaAtivos - F.totalAtivos} para a meta de carteira.`);
+  if (F.enc.length) nx.push(`Registrar o aprendizado dos encerramentos (${anNames(F.enc, 3)}) e revisar sinais de alerta anteriores.`);
+  if (F.semMarco.length) nx.push(`Consolidar resultados de ${anNames(F.semMarco, 4)} (sem marcos registrados).`);
+  if (F.top3Share > 45) nx.push('Reduzir a dependência dos 3 maiores clientes com novas entradas e upsell.');
+  if (F.demoraDiag.length) nx.push(`Concluir o diagnóstico de ${anNames(F.demoraDiag, 4)}.`);
+  F.goals.filter(x => ['risk', 'late'].includes(x.I.state)).forEach(x => nx.push(`Revisar a meta “${x.g.titulo}” (${x.I.pc}%).`));
+  if (!nx.length) nx.push('Manter a rotina e registrar os resultados do próximo período.');
+  nx.forEach(x => L.push(`- [ ] ${x}`));
+  return L.join('\n').trim();
+}
+function anStrip(F) {
+  const { M, MP } = F, dm = anDelta(M.mrr, MP.mrr);
+  const chip = (i, l, v, sub, c = '') => `<div class="anchip ${c}"><i class="ti ${i}"></i><div><small>${l}</small><b>${v}</b>${sub ? `<em>${sub}</em>` : ''}</div></div>`;
+  return `<div class="anstrip">${chip('ti-users', 'Ativos', M.ativos.length, `+${F.novos.length} novos · ${F.enc.length} encerr.`)}${chip('ti-cash', 'MRR', brl(M.mrr), dm != null ? `${anSgn(dm)} vs. anterior` : '', dm != null && dm < 0 ? 'bad' : '')}${chip('ti-circle-check', 'Tarefas concluídas', F.done.length, F.withPz.length ? `${Math.round(F.onTime / F.withPz.length * 100)}% no prazo` : '')}${chip('ti-clock-exclamation', 'Em atraso', F.overdue.length, 'hoje', F.overdue.length ? 'bad' : '')}${chip('ti-alert-triangle', 'Em atenção', F.emAtn.length, F.atnPct != null ? pct1(F.atnPct) : '', F.atnPct > F.atnMeta ? 'bad' : '')}${chip('ti-trophy', 'Resultados registrados', F.marcos.length, 'nos clientes')}</div>`;
+}
+function analysisCard(R) {
+  const key = anKey(R), rec = S.settings.analises?.[key], ed = UI.anEdit === key, F = anFacts(R);
+  const body = !rec ? `<div class="card-b"><div class="empty" style="padding:26px 10px"><i class="ti ti-sparkles"></i>Ainda não há análise de <b>${esc(R.label)}</b>.<br>O painel monta o texto com os dados de clientes, tarefas, metas, resultados registrados e histórico de tags e fases. Depois você pode editar à vontade.<br><br><button class="btn primary" data-act="an-gen"><i class="ti ti-wand"></i>Gerar análise de ${esc(R.label)}</button></div></div>`
+    : ed ? `<div class="card-b"><textarea id="an-ta" class="in field" style="min-height:520px" data-key="${esc(key)}" placeholder="Texto da análise…">${esc(rec.texto)}</textarea><div class="note" style="margin:8px 0 0">Use os botões <b>B</b>, tópicos e check (ou Ctrl+B). Linhas iniciadas com <code>##</code> viram títulos. As alterações são salvas automaticamente.</div></div>`
+      : `<div class="card-b"><div class="anbody">${mdHtml(rec.texto, true).replace(/data-act="mdck"/g, 'data-act="an-ck"')}</div></div>`;
+  return `<div class="card ancard" style="margin-bottom:14px"><div class="card-h"><div><h3><i class="ti ti-sparkles" style="color:var(--focus)"></i> Análise do período · ${esc(R.label)}</h3><div class="hint">Comercial, operacional e estratégica · gerada com os dados do painel; edite o texto como quiser</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end">${rec ? `<button class="btn sm ${ed ? 'primary' : ''}" data-act="${ed ? 'an-done' : 'an-edit'}"><i class="ti ti-${ed ? 'check' : 'pencil'}"></i>${ed ? 'Concluir edição' : 'Editar'}</button><button class="btn sm" data-act="an-copy"><i class="ti ti-copy"></i>${isMobile() ? '' : 'Copiar'}</button><button class="btn sm" data-act="an-gen" title="Refaz o texto com os dados atuais"><i class="ti ti-refresh"></i>${isMobile() ? '' : 'Gerar novamente'}</button>` : ''}</div></div>
+    <div class="card-b" style="padding-bottom:0">${anStrip(F)}</div>${body}
+    ${rec ? `<div class="card-b" style="padding-top:0"><div class="note" style="margin:0">Gerada em ${new Date(rec.geradoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}${rec.editadoEm ? ` · editada em ${new Date(rec.editadoEm).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' })}` : ''}. Os números do texto são uma foto do momento da geração; use “Gerar novamente” para atualizar (isso substitui o texto atual).</div></div>` : ''}</div>`;
+}
+let anTm = 0; const anSave = el => { clearTimeout(anTm); anTm = setTimeout(() => { if (!document.body.contains(el)) return; const k = el.dataset.key, r = S.settings.analises?.[k]; if (!r || r.texto === el.value) return; S.settings.analises[k] = { ...r, texto: el.value, editadoEm: Date.now() }; saveSettings(); }, 700); };
+document.addEventListener('input', e => { if (e.target.id === 'an-ta') anSave(e.target); });
+document.addEventListener('change', e => { if (e.target.id === 'an-ta') anSave(e.target); });
+
 function comboTable(R) {
   const d = comboData(R.s, R.e);
   return `<table class="dtable"><thead><tr><th>Mês</th><th>Ativos</th><th>Novos</th><th>Encerrados</th><th>Total ativos</th><th>Meta</th><th>Faturamento</th><th>Sem descontos</th></tr></thead><tbody>${d.map(b => `<tr style="${b.sel ? '' : 'opacity:.55'}"><td>${b.label}</td><td>${b.ativos}</td><td>${b.novos}</td><td>${b.enc}</td><td><b>${b.total}</b></td><td>${b.meta ?? '—'}</td><td><b>${b.fat == null ? '—' : brl(b.fat)}</b></td><td>${b.cheio == null ? '—' : brl(b.cheio)}</td></tr>`).join('')}</tbody></table>`;
@@ -3023,11 +3177,14 @@ const hasMd = t => /(^|\n)\s*[-•]\s|\*\*.+?\*\*/.test(t || '');
 function mdHtml(txt, act) {
   let out = '', open = false;
   String(txt || '').split('\n').forEach((raw, ln) => {
+    const hd = raw.match(/^(#{2,3})\s+(.*)$/);
+    if (hd) { if (open) { out += '</ul>'; open = false; } out += `<h${hd[1].length + 2} class="mdh">${mdInline(hd[2])}</h${hd[1].length + 2}>`; return; }
     const m = raw.match(MD_LI);
     if (m) {
       if (!open) { out += '<ul class="md">'; open = true; }
-      if (m[2] != null) { const dn = m[2] !== ' '; out += `<li class="ck${dn ? ' done' : ''}" ${act ? `data-act="mdck" data-v="${ln}"` : ''}><i class="ti ${dn ? 'ti-square-check-filled' : 'ti-square'}"></i><span>${mdInline(m[3])}</span></li>`; }
-      else out += `<li>${mdInline(m[3])}</li>`;
+      const ind = m[1].length >= 2 ? ` style="margin-left:${Math.min(m[1].length, 8) * 7}px"` : '';
+      if (m[2] != null) { const dn = m[2] !== ' '; out += `<li class="ck${dn ? ' done' : ''}"${ind} ${act ? `data-act="mdck" data-v="${ln}"` : ''}><i class="ti ${dn ? 'ti-square-check-filled' : 'ti-square'}"></i><span>${mdInline(m[3])}</span></li>`; }
+      else out += `<li${ind}><span>${mdInline(m[3])}</span></li>`;
     } else { if (open) { out += '</ul>'; open = false; } if (raw.trim()) out += `<p>${mdInline(raw)}</p>`; }
   });
   return out + (open ? '</ul>' : '');
@@ -3548,6 +3705,11 @@ document.addEventListener('click', async e => {
     case 'b-shift': { const n = +v, ids = [...SEL].filter(i => S.tasks[i]); ids.forEach(i => patch('tasks', i, { prazo: addDays(S.tasks[i].prazo || today(), n) })); toast(`Prazo adiado em ${n} ${n === 1 ? 'dia' : 'dias'} (${ids.length})`); return; }
     case 'b-dup': { const ids = [...SEL].filter(i => S.tasks[i]), nids = ids.map(i => { const t = S.tasks[i]; return create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }).id; }); SEL.clear(); nids.forEach(i => SEL.add(i)); toast(`${ids.length} ${ids.length === 1 ? 'tarefa duplicada' : 'tarefas duplicadas'}: as cópias ficaram selecionadas`); return; }
     case 'b-del': { const ids = [...SEL].filter(i => S.tasks[i]); if (!ids.length) return; if (!(await confirmDlg(`Excluir ${ids.length} ${ids.length === 1 ? 'tarefa' : 'tarefas'}?`, 'Serão excluídas para toda a equipe.'))) return; const recs = ids.map(i => S.tasks[i]); ids.forEach(i => { removeRec('tasks', i); SEL.delete(i); }); toast(`${recs.length} excluída(s)`, { label: 'Desfazer', fn: () => recs.forEach(r => put('tasks', r)) }); return; }
+    case 'an-gen': { const R = periodRange(), key = anKey(R), ex = S.settings.analises?.[key]; if (ex && ex.editadoEm && !(await confirmDlg('Gerar novamente?', 'O texto atual, com as suas edições, será substituído por uma nova análise com os dados de agora.', 'Gerar'))) return; S.settings.analises = { ...(S.settings.analises || {}), [key]: { texto: buildAnalysis(R), geradoEm: Date.now() } }; UI.anEdit = null; saveSettings(); toast('Análise gerada'); return; }
+    case 'an-edit': UI.anEdit = anKey(periodRange()); return render();
+    case 'an-done': UI.anEdit = null; return render();
+    case 'an-copy': { const r = S.settings.analises?.[anKey(periodRange())]; if (r) { navigator.clipboard?.writeText(r.texto); toast('Análise copiada'); } return; }
+    case 'an-ck': { const key = anKey(periodRange()), r = S.settings.analises?.[key]; if (!r) return; const L = r.texto.split('\n'), m = (L[+v] || '').match(MD_LI); if (!m || m[2] == null) return; L[+v] = m[1] + '- [' + (m[2] === ' ' ? 'x' : ' ') + '] ' + m[3]; S.settings.analises[key] = { ...r, texto: L.join('\n'), editadoEm: Date.now() }; saveSettings(); return; }
     case 'tdup': { const t = S.tasks[id]; if (!t) return; const nt = create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }); toast('Tarefa duplicada: ajuste os campos e as datas'); openDrawer('task', nt.id, 'titulo'); return; }
     case 'trec': { const t = S.tasks[id]; if (!t || (t.recorrencia || 'Não') === v) return; patch('tasks', id, { recorrencia: v }); return; }
     case 'tdone': { e.stopPropagation(); const t = S.tasks[id]; patch('tasks', id, { status: el.checked ? 'Concluído' : 'A fazer' }); if (el.checked && !(t.recorrencia && t.recorrencia !== 'Não')) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
