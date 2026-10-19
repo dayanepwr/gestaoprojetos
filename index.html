@@ -114,7 +114,7 @@ a{color:var(--focus)}
   .app{grid-template-columns:1fr}
   .side{display:none}
   .main{padding:14px 16px calc(150px + env(safe-area-inset-bottom))}
-  .bottomnav{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+  .bottomnav{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
   .bottomnav a{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 2px;border-radius:10px;color:var(--muted);text-decoration:none;font-size:11px;font-weight:500}
   .bottomnav a .ti{font-size:22px}
   .bottomnav a.on{color:var(--ink)}
@@ -729,6 +729,14 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .anchip{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:var(--surface-2)} .anchip>.ti{font-size:21px;color:var(--focus);flex:none}
 .anchip small{display:block;font-size:11.5px;color:var(--muted)} .anchip b{font-size:17px;line-height:1.2} .anchip em{display:block;font-style:normal;font-size:11px;color:var(--muted)} .anchip.bad b{color:var(--danger)}
 .anbody{font-size:13.5px;line-height:1.65} .anbody h4.mdh{margin:24px 0 8px;font-size:15.5px;padding:0 0 7px;border-bottom:1px solid var(--line)} .anbody h4.mdh:first-child{margin-top:4px} .anbody ul.md li{font-size:13.5px;line-height:1.6;padding:3px 0} .anbody p{margin:0 0 8px}
+.gkpis.hk{grid-template-columns:repeat(auto-fit,minmax(215px,1fr));margin-bottom:14px}
+.hgrid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:14px} @media (max-width:1100px){.hgrid3{grid-template-columns:1fr}}
+.hgrid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:14px} @media (max-width:1000px){.hgrid2{grid-template-columns:1fr}}
+.hal{padding:0;overflow:hidden} .hal-h{display:flex;gap:8px;align-items:center;padding:11px 14px;font-weight:600;font-size:13.5px;background:var(--p-bg);color:var(--p-fg)} .hal-b{padding:4px 14px 10px}
+.hal-r{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:7px 0;border-bottom:1px solid var(--line);font-size:13px} .hal-r:last-child{border-bottom:0} .hal-r em{grid-column:1/-1;font-style:normal;font-size:11.5px;color:var(--muted)}
+.hbars{display:flex;flex-direction:column;gap:9px} .hb{display:grid;grid-template-columns:minmax(0,190px) 1fr 70px 44px;gap:10px;align-items:center;font-size:12.5px} .hb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .hb em{font-style:normal;color:var(--muted);text-align:right} .hb b{text-align:right}
+.hcapbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)} .hcapbar small{display:block;font-size:11.5px;color:var(--muted)} .hcapbar b{font-size:20px}
+.hcli td{vertical-align:middle;padding:8px 6px} .hcli tr.tot td{background:var(--surface-2)} .dtable tr.tot td{background:var(--surface-2)}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -874,6 +882,7 @@ select.pill.c-red{background-color:var(--red-bg);border-color:transparent;color:
     <nav class="nav" id="nav">
       <a href="#/dashboard" data-r="dashboard" title="Visão geral"><i class="ti ti-layout-dashboard"></i><span>Visão geral</span></a>
       <a href="#/clientes" data-r="clientes" title="Clientes"><i class="ti ti-users"></i><span>Clientes</span></a>
+      <a href="#/horas" data-r="horas" title="Alocação de horas"><i class="ti ti-clock-hour-4"></i><span>Alocação de horas</span></a>
       <a href="#/info" data-r="info" title="Informações úteis"><i class="ti ti-books"></i><span>Informações úteis</span></a>
       <a href="#/time" data-r="time" title="Time dos Lindos"><i class="ti ti-heart-handshake"></i><span>Time dos Lindos</span></a>
     </nav>
@@ -888,6 +897,7 @@ select.pill.c-red{background-color:var(--red-bg);border-color:transparent;color:
   <nav class="bottomnav" id="bnav">
     <a href="#/dashboard" data-r="dashboard"><i class="ti ti-layout-dashboard"></i>Visão geral</a>
     <a href="#/clientes" data-r="clientes"><i class="ti ti-users"></i>Clientes</a>
+    <a href="#/horas" data-r="horas"><i class="ti ti-clock-hour-4"></i>Horas</a>
     <a href="#/info" data-r="info"><i class="ti ti-books"></i>Infos</a>
     <a href="#/time" data-r="time"><i class="ti ti-heart-handshake"></i>Time</a>
   </nav>
@@ -1029,8 +1039,8 @@ const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setIte
 /* ═══════════════ DADOS / SINCRONIZAÇÃO ═══════════════ */
 // Cada registro é uma linha própria em kv_store (chave v2:<coleção>:<id>),
 // assim duas pessoas editando itens diferentes nunca se sobrescrevem.
-const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags', 'debts'];
-const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, debts: {}, settings: DEF_SETTINGS() };
+const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags', 'debts', 'hours'];
+const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, debts: {}, hours: {}, settings: DEF_SETTINGS() };
 let sb = null, me = '', booted = false, syncState = 'ok', flushing = false, flushTimer = null;
 let queue = (() => { try { return JSON.parse(localStorage.getItem('pw2_queue') || '{}'); } catch { return {}; } })();
 const saveQueue = () => { try { localStorage.setItem('pw2_queue', JSON.stringify(queue)); } catch { } };
@@ -2254,6 +2264,13 @@ function fpDef(s, k) {
     if (k === 'resp') { const nm = [...new Set([...respList(), ...all.map(g => g.resp).filter(Boolean)])]; return { label: 'Responsável', sel: gf.resp, opts: nm.map(v => [v, v, all.filter(g => g.resp === v).length, false]), set: a => { gf.resp = a; } }; }
     return { label: 'Situação', sel: gf.sit, opts: G_SIT.map(([v, l]) => [v, l, all.filter(g => goalInfo(g).state === v).length, false]), set: a => { gf.sit = a; } };
   }
+  if (s === 'h') {
+    const hf = hFilt(), B = hModel(true), rows = hClientRows(B, true);
+    if (k === 'cons') return { label: 'Consultor', sel: hf.cons, opts: CONSULTORES.map(v => [v, v, rows.filter(r => (r.byCons[v] || 0) > 0).length, false]), set: a => { hf.cons = a; } };
+    if (k === 'fase') return { label: 'Fase', sel: hf.fase, opts: [...FASES, 'Sem cadastro'].map(v => [v, v, rows.filter(r => r.fase === v).length, !!TONE[v]]), set: a => { hf.fase = a; } };
+    if (k === 'tag') return { label: 'Tag', sel: hf.tag, opts: [...TAGS, 'Sem tag', 'Sem cadastro'].map(v => [v, v, rows.filter(r => r.tag === v).length, !!TONE[v]]), set: a => { hf.tag = a; } };
+    return { label: 'Situação', sel: hf.sit, opts: Object.entries(HSIT).map(([v, x]) => [v, x[0], rows.filter(r => r.sit === v).length, false]), set: a => { hf.sit = a; } };
+  }
   const f = tfNorm(), src = filteredTasks(k);
   if (k === 'st') return { label: 'Status', sel: f.st, opts: [['Abertas', 'Todas as abertas', src.filter(t => t.status !== 'Concluído').length, false], ...T_ALL.map(v => [v, v, src.filter(t => tStatus(t) === v).length, true])], set: a => { f.st = a; } };
   if (k === 'cli') { const names = [...new Set(['Interno', ...Object.values(S.tasks).map(cliOf)])].sort((a, b) => a === 'Interno' ? -1 : b === 'Interno' ? 1 : a.localeCompare(b, 'pt-BR')); return { label: 'Cliente', sel: f.cli, opts: names.map(v => [v, v, src.filter(t => cliOf(t) === v).length, false]), set: a => { f.cli = a; } }; }
@@ -3300,6 +3317,220 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('change', e => { if (e.target.dataset?.pinew) { const v = e.target.value.trim(); if (v) piAdd(e.target.dataset.pinew, v); } });
 
+/* ═══════════════ TELA 05: ALOCAÇÃO DE HORAS ═══════════════ */
+const HFER = new Set(['2026-01-01', '2026-02-16', '2026-02-17', '2026-04-03', '2026-04-21', '2026-05-01', '2026-06-04', '2026-09-07', '2026-10-12', '2026-11-02', '2026-11-15', '2026-11-20', '2026-12-25']);
+const hBiz = (a, b) => { let n = 0; for (let d = parseISO(a); d <= parseISO(b); d.setDate(d.getDate() + 1)) { const w = d.getDay(); if (w > 0 && w < 6 && !HFER.has(isoD(d))) n++; } return n; };
+const hh = v => v == null || !isFinite(v) ? '—' : NUMF.format(Math.round(v * 10) / 10) + ' h';
+const hpc = v => v == null || !isFinite(v) ? '—' : NUMF.format(Math.round(v)) + '%';
+const HCONS_DEF = { 'Gabriel Andrade': { horas: 160, cliDia: 7 }, 'Dayane Sousa': { horas: 160, cliDia: 5 }, "Samuel Sant'Ana": { horas: 120, cliDia: 5 }, 'Maria Luiza': { horas: 120, cliDia: 5 } };
+function hs() { const h = (S.settings.horas ||= {}); h.cons ||= {}; CONSULTORES.forEach(p => { h.cons[p] = { ...(HCONS_DEF[p] || {}), ...(h.cons[p] || {}) }; }); h.cargos ||= [{ id: 'consultor', nome: 'Consultor', ocup: 70 }]; h.fase ||= {}; h.cap ||= {}; if (h.tol == null) h.tol = 20; if (h.ocupPad == null) h.ocupPad = 70; return h; }
+const hMonths = () => Object.values(S.hours || {}).sort((a, b) => a.id.localeCompare(b.id));
+function hFactor(rec) {
+  const y = +rec.id.slice(0, 4), m = +rec.id.slice(5, 7), s = mStart(y, m), e = mEnd(y, m), ate = rec.ate && rec.ate < e ? rec.ate : e, tot = hBiz(s, e) || 1;
+  return { f: hBiz(s, ate) / tot, partial: ate < e, ate, bd: hBiz(s, ate), tot, s, e };
+}
+function faseAt(c, d) { const h = (c.faseHist || []).filter(x => x.d <= d); if (h.length) return h[h.length - 1].to || c.fase; return c.faseHist?.length ? (c.faseHist[0].from || c.fase) : c.fase; }
+const hRefOf = rec => { const fc = hFactor(rec), r = fc.partial ? fc.ate : fc.e; return r > today() ? today() : r; };
+function hCliCapRec(rec, p, fc) { const h = hs(), c = h.cons[p] || {}, full = hCapFull(rec.id, p), pad = +c.horas || 0, ratio = pad ? full / pad : 1; if (c.cliDia != null && c.cliDia !== '' && !isNaN(+c.cliDia)) return +c.cliDia * fc.bd * ratio; const cg = h.cargos.find(x => x.id === c.cargo), oc = cg && cg.ocup != null ? +cg.ocup : +h.ocupPad; return full * fc.f * oc / 100; }
+const hMonthLabel = id => `${MONTHS[+id.slice(5, 7) - 1]} ${id.slice(0, 4)}`;
+function hSelRecs() {
+  const ms = hMonths(); if (!ms.length) return { recs: [], avg: false, id: null };
+  if (UI.hSel === 'avg') { const full = ms.filter(m => !hFactor(m).partial); return { recs: full.length ? full : ms, avg: true, id: null }; }
+  const rec = ms.find(m => m.id === UI.hSel) || ms[ms.length - 1];
+  return { recs: [rec], avg: false, id: rec.id };
+}
+const hCapFull = (ym, p) => +(hs().cap?.[ym]?.[p] ?? hs().cons?.[p]?.horas ?? 0) || 0;
+const hOcup = p => { const h = hs(), c = h.cargos.find(x => x.id === h.cons?.[p]?.cargo); return c && c.ocup != null ? +c.ocup : +h.ocupPad; };
+const HALIAS = { aquaville: 'Pizzaria Aquaville', innova: 'Innova Custom' };
+function hClient(name) {
+  const n = norm(name); if (!n) return null; const cs = clientsArr();
+  let c = cs.find(x => norm(x.nome) === n); if (c) return c;
+  if (HALIAS[n]) { const a = norm(HALIAS[n]); c = cs.find(x => norm(x.nome) === a); if (c) return c; }
+  return cs.find(x => n.length >= 4 && (norm(x.nome).includes(n) || n.includes(norm(x.nome)))) || null;
+}
+function hFilt() { const f = (UI.hf ||= {}); ['cons', 'fase', 'tag', 'sit'].forEach(k => f[k] = arr(f[k])); f.noVal = !!f.noVal; return f; }
+function hModel(noFilter) {
+  const { recs, avg, id } = hSelRecs(), f = noFilter ? { cons: [], fase: [], tag: [], sit: [], noVal: false } : hFilt(), n = recs.length || 1;
+  const M = { recs, avg, id, n, byCons: {}, byCli: {}, byFase: {}, byTag: {}, byFr: {}, byVal: {}, tot: { c: 0, a: 0, o: 0 }, partial: false, ate: null, fac: 1, ref: recs.length ? hRefOf(recs[recs.length - 1]) : today() };
+  CONSULTORES.forEach(p => M.byCons[p] = { c: 0, a: 0, o: 0, cap: 0, capFull: 0, capCli: 0 });
+  recs.forEach(rec => { const fc = hFactor(rec); if (!avg) { M.partial = fc.partial; M.ate = fc.ate; M.fac = fc.f; M.bd = fc.bd; M.bdTot = fc.tot; } CONSULTORES.forEach(p => { M.byCons[p].cap += hCapFull(rec.id, p) * fc.f / n; M.byCons[p].capFull += hCapFull(rec.id, p) / n; M.byCons[p].capCli += hCliCapRec(rec, p, fc) / n; }); });
+  const onlyCli = f.fase.length || f.tag.length;
+  recs.forEach(rec => (rec.rows || []).forEach(r => {
+    const bc = M.byCons[r.c]; if (!bc) return;
+    if (f.cons.length && !f.cons.includes(r.c)) return;
+    if (r.t !== 'c' && onlyCli) return;
+    if (r.t === 'o' && f.noVal) return;
+    const rr = hRefOf(rec), cli = r.t === 'c' ? hClient(r.k) : null;
+    const fase = r.t === 'c' ? (cli ? faseAt(cli, rr) || 'Sem cadastro' : 'Sem cadastro') : '', tag = r.t === 'c' ? (cli ? (tagAt(cli, rr) || 'Sem tag') : 'Sem cadastro') : '';
+    if (r.t === 'c' && f.fase.length && !f.fase.includes(fase)) return;
+    if (r.t === 'c' && f.tag.length && !f.tag.includes(tag)) return;
+    const h = r.h / n; bc[r.t] += h; M.tot[r.t] += h; M.byFr[r.f || '—'] = (M.byFr[r.f || '—'] || 0) + h;
+    if (r.t === 'o') { const v = M.byVal[r.k || '—'] ||= { k: r.k || '—', h: 0, byCons: {}, fr: {} }; v.h += h; v.byCons[r.c] = (v.byCons[r.c] || 0) + h; v.fr[r.f || '—'] = (v.fr[r.f || '—'] || 0) + h; }
+    if (r.t === 'c') {
+      const key = cli ? cli.id : 'x:' + r.k, o = M.byCli[key] ||= { id: key, cli, nome: cli ? cli.nome : r.k, h: 0, byCons: {}, fr: {} };
+      o.h += h; o.byCons[r.c] = (o.byCons[r.c] || 0) + h; o.fr[r.f || '—'] = (o.fr[r.f || '—'] || 0) + h;
+      if (cli && activeAt(cli, rr)) { (M.byFase[fase] ||= { h: 0 }).h += h; M.byTag[tag] = (M.byTag[tag] || 0) + h; }
+    }
+  }));
+  return M;
+}
+function hMetaCli(c, fase) { const h = hs(); const v = c.hMeta != null && c.hMeta !== '' ? +c.hMeta : h.fase?.[fase ?? c.fase]; return v != null && !isNaN(v) ? +v : null; }
+function hClientRows(M, noFilter) {
+  const f = noFilter ? { cons: [], fase: [], tag: [], sit: [] } : hFilt(), tol = hs().tol / 100, ref = today();
+  const mk = (c, o) => { const fc_ = c ? faseAt(c, M.ref) : null, meta = c ? hMetaCli(c, fc_) : null, mt = meta != null ? meta * M.fac : null, h = o ? o.h : 0, dev = mt != null ? h - mt : null, pct = mt ? dev / mt * 100 : null;
+    const sit = mt == null ? 'sem' : h > mt * (1 + tol) ? 'acima' : h < mt * (1 - tol) ? 'abaixo' : 'dentro';
+    return { id: c ? c.id : o.id, c, nome: c ? c.nome : o.nome, fase: c ? (fc_ || 'Sem cadastro') : 'Sem cadastro', ativo: c ? activeAt(c, M.ref) : false, tag: c ? (tagAt(c, M.ref) || 'Sem tag') : 'Sem cadastro', con: c ? c.con : '', st: c ? c.st : '—', h, byCons: o ? o.byCons : {}, fr: o ? o.fr : {}, meta, mt, dev, pct, sit }; };
+  const rows = clientsArr().filter(c => activeAt(c, M.ref) || M.byCli[c.id]).map(c => mk(c, M.byCli[c.id]));
+  Object.values(M.byCli).filter(o => !o.cli).forEach(o => rows.push(mk(null, o)));
+  return rows.filter(r => (!f.fase.length || f.fase.includes(r.fase)) && (!f.tag.length || f.tag.includes(r.tag)) && (!f.sit.length || f.sit.includes(r.sit)) && (!f.cons.length || f.cons.some(p => (r.byCons[p] || 0) > 0) || (r.c && f.cons.includes(r.c.con))));
+}
+function hFases(M) {
+  const h = hs(), out = {}; [...FASES, 'Sem cadastro'].forEach(fs_ => { const at = clientsArr().filter(c => activeAt(c, M.ref) && faseAt(c, M.ref) === fs_).length; if (!at && fs_ === 'Sem cadastro') return; const meta = h.fase?.[fs_] != null ? +h.fase[fs_] * M.fac : null, hrs = M.byFase[fs_]?.h || 0, real = at ? hrs / at : null; out[fs_] = { fase: fs_, at, hrs, real, meta, dev: meta != null && real != null ? real - meta : null, pct: meta && real != null ? (real - meta) / meta * 100 : null }; });
+  return out;
+}
+function hCap(M, F) {
+  const h = hs(), capTot = CONSULTORES.reduce((a, p) => a + M.byCons[p].cap, 0), capCli = CONSULTORES.reduce((a, p) => a + M.byCons[p].capCli, 0);
+  const totAll = M.tot.c + M.tot.a + M.tot.o, ativos = clientsArr().filter(c => activeAt(c, M.ref)).length;
+  const withMeta = Object.values(F).filter(x => x.meta != null && x.at);
+  const demandMeta = withMeta.reduce((a, x) => a + x.at * x.meta, 0), nMeta = withMeta.reduce((a, x) => a + x.at, 0), avgMeta = nMeta ? demandMeta / nMeta : null;
+  const realTot = Object.values(F).reduce((a, x) => a + x.hrs, 0), avgReal = ativos ? realTot / ativos : null;
+  const saldoMeta = withMeta.length ? capCli - demandMeta : null, saldoReal = capCli - realTot;
+  return { capTot, capCli, totAll, ativos, demandMeta: withMeta.length ? demandMeta : null, avgMeta, realTot, avgReal, saldoMeta, saldoReal, vagasTot: capTot - totAll, vagasCli: capCli - M.tot.c, limMeta: avgMeta ? Math.floor(capCli / avgMeta) : null, limReal: avgReal ? Math.floor(capCli / avgReal) : null };
+}
+const HSIT = { acima: ['Acima da meta', 'red'], abaixo: ['Abaixo da meta', 'blue'], dentro: ['Dentro da meta', 'green'], sem: ['Sem meta', 'gray'] };
+const hSitPill = s => `<span class="pill c-${HSIT[s][1]}">${HSIT[s][0]}</span>`;
+function viewHoras() {
+  UI.hTab ||= 'visao';
+  const ms = hMonths();
+  const tabs = [['visao', 'Visão geral', 'ti-chart-pie'], ['clientes', 'Por cliente', 'ti-building-store'], ['consultores', 'Por consultor', 'ti-users'], ['capacidade', 'Capacidade', 'ti-gauge'], ['metas', 'Metas e cadastro', 'ti-adjustments']];
+  const strip = `<nav class="ttabs" role="tablist">${tabs.map(([k, l, i]) => `<button role="tab" data-act="htab" data-v="${k}" class="${UI.hTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}</button>`).join('')}</nav>`;
+  if (!ms.length) return pageHead('Alocação de horas', 'Horas do time por cliente, consultor, fase e tag') + `<div class="card empty"><i class="ti ti-clock-hour-4"></i>Ainda não há horas carregadas.<br>Peça para o Claude carregar a base do controle de horas.</div>`;
+  const M = hModel(), F = hFases(M), C = hCap(M, F), sel = hSelRecs();
+  const idx = sel.avg ? -1 : ms.findIndex(m => m.id === sel.id);
+  const lbl = sel.avg ? `Média dos meses fechados` : `${hMonthLabel(sel.id)}${M.partial ? ` · parcial até ${fmtD(M.ate)}` : ''}`;
+  const nav = `<div class="toolbar period"><div class="seg"><button data-act="hmode" data-v="mes" class="${!sel.avg ? 'on' : ''}">Mês</button><button data-act="hmode" data-v="avg" class="${sel.avg ? 'on' : ''}">Média mensal</button></div>
+    ${sel.avg ? `<span class="mut" style="font-size:12.5px">${M.n} ${M.n === 1 ? 'mês' : 'meses'} fechados na média</span>` : `<div class="pnav"><button class="iconbtn" data-act="hmo" data-v="-1" aria-label="Mês anterior" ${idx <= 0 ? 'disabled' : ''}><i class="ti ti-chevron-left"></i></button><span class="lbl" style="min-width:230px">${lbl}</span><button class="iconbtn" data-act="hmo" data-v="1" aria-label="Próximo mês" ${idx >= ms.length - 1 ? 'disabled' : ''}><i class="ti ti-chevron-right"></i></button></div>`}
+    <span class="mut" style="font-size:12px;margin-left:auto">Base: ${esc(ms[ms.length - 1].fonte || 'controle de horas')} · dados até ${fmtD(ms[ms.length - 1].ate)}</span></div>`;
+  const f = hFilt(), any = f.cons.length + f.fase.length + f.tag.length + f.sit.length + (f.noVal ? 1 : 0);
+  const fbar = `<div class="fbarx"><span class="fbl"><i class="ti ti-filter"></i>Filtros</span>${fpBtn('h', 'cons', 'ti-user')}${fpBtn('h', 'fase', 'ti-stairs-up')}${fpBtn('h', 'tag', 'ti-tag')}<button class="fp ${f.noVal ? 'on' : ''}" data-act="h-noval" title="Tira as horas “A validar” de todos os totais"><i class="ti ti-eye-off"></i>Sem “A validar”</button>${UI.hTab === 'clientes' ? fpBtn('h', 'sit', 'ti-flag') : ''}${any ? `<button class="fp clr" data-act="hf-clear"><i class="ti ti-filter-off"></i>Limpar</button>` : ''}</div>`;
+  const body = { visao: hVisao, clientes: hClientes, consultores: hConsultores, capacidade: hCapacidade, metas: hMetas }[UI.hTab](M, F, C);
+  return pageHead('Alocação de horas', 'Quanto tempo o time dedica a cada cliente, fase e função — e quanta capacidade ainda existe') + strip + nav + (UI.hTab === 'metas' ? '' : fbar) + (M.partial && !sel.avg ? `<div class="note" style="margin:0 0 12px"><i class="ti ti-info-circle"></i> Mês parcial (${M.bd} de ${M.bdTot} dias úteis). Capacidade e metas são proporcionais aos dias úteis já decorridos, para a comparação ser justa.</div>` : '') + body;
+}
+function hKpi(i, l, v, s, c) { return `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`; }
+function hVisao(M, F, C) {
+  const rows = hClientRows(M), com = rows.filter(r => r.h > 0).length, ativosR = rows.filter(r => r.ativo);
+  const acima = rows.filter(r => r.sit === 'acima').sort((a, b) => b.pct - a.pct), semH = ativosR.filter(r => r.h === 0);
+  const fAcima = Object.values(F).filter(x => x.pct != null && x.pct > hs().tol), consOrd = CONSULTORES.map(p => ({ p, ...M.byCons[p], tot: M.byCons[p].c + M.byCons[p].a + M.byCons[p].o })).sort((a, b) => b.tot - a.tot);
+  const topCons = consOrd[0], topOc = [...consOrd].filter(x => x.cap).sort((a, b) => b.tot / b.cap - a.tot / a.cap)[0];
+  const kpis = `<div class="gkpis hk">${hKpi('clock-hour-4', 'Horas registradas', hh(C.totAll), C.capTot ? `${hpc(C.totAll / C.capTot * 100)} da capacidade (${hh(C.capTot)})` : 'cadastre a capacidade em Metas', 'var(--s1)')}${hKpi('building-store', 'Horas em clientes', hh(M.tot.c), C.totAll ? `${hpc(M.tot.c / C.totAll * 100)} das registradas` : '', 'var(--accent)')}${hKpi('briefcase', 'Horas administrativas', hh(M.tot.a), C.totAll ? `${hpc(M.tot.a / C.totAll * 100)} · MaxPower` : '', '#6B34C9')}${hKpi('hourglass-empty', 'Horas vagas', C.capTot ? hh(Math.max(0, C.vagasTot)) : '—', C.capTot ? `${hh(Math.max(0, C.vagasCli))} disponíveis p/ clientes` : 'sem capacidade cadastrada', C.vagasTot < 0 ? 'var(--danger)' : '#0B7F85')}${hKpi('users', 'Clientes com horas', `${com}`, `de ${C.ativos} ativos · média ${hh(C.avgReal)}/cliente`, '#E5A82A')}</div>`;
+  const alert = (ic, t, items, tone) => `<div class="card hal"><div class="hal-h c-${tone}"><i class="ti ${ic}"></i>${t}</div><div class="hal-b">${items.length ? items.join('') : '<div class="mut" style="padding:6px 2px;font-size:12.5px">Nada a destacar.</div>'}</div></div>`;
+  const li = (a, b, c2) => `<div class="hal-r"><span>${a}</span><b>${b}</b>${c2 ? `<em>${c2}</em>` : ''}</div>`;
+  const alerts = `<div class="hgrid3">
+    ${alert('ti-flame', 'Clientes com muita alocação', (acima.length ? acima : rows.filter(r => r.h > 0).sort((a, b) => b.h - a.h)).slice(0, 5).map(r => li(esc(r.nome), hh(r.h), r.pct != null ? `${r.pct > 0 ? '+' : ''}${hpc(r.pct)} vs meta` : r.fase)), 'red')}
+    ${alert('ti-stairs-up', 'Fases acima do ideal', fAcima.length ? fAcima.map(x => li(x.fase, hh(x.real), `meta ${hh(x.meta)} · ${x.pct > 0 ? '+' : ''}${hpc(x.pct)}`)) : (Object.values(F).some(x => x.meta != null) ? [] : ['<div class="mut" style="font-size:12.5px;padding:6px 2px">Cadastre a meta por fase em <b>Metas e cadastro</b>.</div>']), 'amber')}
+    ${alert('ti-user-bolt', 'Maior carga do time', [topCons ? li(`<b>${esc(topCons.p)}</b> · mais horas`, hh(topCons.tot), `${hh(topCons.c)} em clientes`) : '', topOc && topOc.cap ? li(`<b>${esc(topOc.p)}</b> · maior ocupação`, hpc(topOc.tot / topOc.cap * 100), `de ${hh(topOc.cap)} disponíveis`) : '', semH.length ? li(`${semH.length} cliente(s) ativo(s) sem horas`, '', esc(semH.slice(0, 3).map(r => r.nome).join(', ') + (semH.length > 3 ? '…' : ''))) : ''].filter(Boolean), 'violet')}
+  </div>`;
+  const charts = `<div class="hgrid2"><div class="card"><div class="card-h"><div><h3>Horas por consultor</h3><div class="hint">Cliente, administrativo, outros e horas vagas até a capacidade</div></div></div><div class="card-b"><div class="chartbox" style="height:300px"><canvas id="chHCons"></canvas></div></div></div>
+    <div class="card"><div class="card-h"><div><h3>Média por cliente × meta, por fase</h3><div class="hint">Horas por cliente ativo no período</div></div></div><div class="card-b"><div class="chartbox" style="height:300px"><canvas id="chHFase"></canvas></div></div></div></div>
+    <div class="hgrid2"><div class="card"><div class="card-h"><div><h3>Clientes que mais consomem horas</h3><div class="hint">Top 10 do período</div></div></div><div class="card-b"><div class="chartbox" style="height:${Math.max(260, Math.min(10, rows.filter(r => r.h > 0).length) * 30 + 30)}px"><canvas id="chHTop"></canvas></div></div></div>
+    <div class="card"><div class="card-h"><div><h3>Horas por frente de trabalho</h3><div class="hint">Onde o tempo registrado foi investido</div></div></div><div class="card-b">${hFrentes(M)}</div></div></div>`;
+  return kpis + alerts + charts + hValidar(M, C) + hTagFase(M, F);
+}
+const HVAL_NOTA = { 'Cliente não identificado': 'Falta informar o cliente no apontamento.', 'Sobreposição': 'Apontamentos que se sobrepõem no mesmo horário.', BPO: 'Cliente da base sem cadastro no painel: confirmar se é cliente, interno ou outro.', 'Mercearia Caipirão': 'Cliente da base sem cadastro no painel: confirmar se é cliente ou ex-cliente.', 'Baxo Bar': 'Cliente da base sem cadastro no painel: confirmar se é cliente ou ex-cliente.' };
+function hValidar(M, C) {
+  const e = Object.values(M.byVal).sort((a, b) => b.h - a.h), tot = e.reduce((a, x) => a + x.h, 0), all = C.totAll + (hFilt().noVal ? 0 : 0) || 1;
+  const body = hFilt().noVal ? '<div class="mut" style="padding:6px 2px">As horas “A validar” estão ocultas pelo filtro “Sem A validar”.</div>' : e.length ? `<table class="dtable"><thead><tr><th>O que é</th><th>Horas</th><th>% das registradas</th><th>Quem lançou</th><th>Frente principal</th><th>O que fazer</th></tr></thead><tbody>${e.map(x => `<tr><td><b>${esc(x.k)}</b></td><td><b>${hh(x.h)}</b></td><td>${hpc(x.h / all * 100)}</td><td style="font-size:12px">${Object.entries(x.byCons).sort((a, b) => b[1] - a[1]).map(([p, v]) => `${esc(p.split(' ')[0])} ${hh(v)}`).join(' · ')}</td><td style="font-size:12px">${esc(Object.entries(x.fr).sort((a, b) => b[1] - a[1])[0]?.[0] || '—')}</td><td style="font-size:12px;color:var(--ink-2)">${esc(HVAL_NOTA[x.k] || 'Conferir o lançamento.')}</td></tr>`).join('')}<tr class="tot"><td><b>Total a validar</b></td><td><b>${hh(tot)}</b></td><td><b>${hpc(tot / all * 100)}</b></td><td colspan="3"></td></tr></tbody></table>` : '<div class="mut" style="padding:6px 2px">Nada a validar neste período.</div>';
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><div><h3><i class="ti ti-help-hexagon" style="color:var(--amber-fg)"></i> Horas a validar</h3><div class="hint">Lançamentos que não entram como cliente nem como administrativo (MaxPower) até serem conferidos</div></div></div><div class="card-b" style="overflow-x:auto">${body}</div></div>`;
+}
+function hFrentes(M) {
+  const e = Object.entries(M.byFr).sort((a, b) => b[1] - a[1]), tot = e.reduce((a, x) => a + x[1], 0) || 1;
+  return `<div class="hbars">${e.map(([k, v]) => `<div class="hb"><span>${esc(k)}</span><div class="g2-bar" style="height:8px"><i style="width:${v / e[0][1] * 100}%;background:var(--s1)"></i></div><b>${hh(v)}</b><em>${hpc(v / tot * 100)}</em></div>`).join('') || '<div class="mut">Sem registros.</div>'}</div>`;
+}
+function hTagFase(M, F) {
+  const tags = Object.entries(M.byTag), at = {}; clientsArr().filter(c => activeAt(c, M.ref)).forEach(c => { const t = tagAt(c, M.ref) || 'Sem tag'; at[t] = (at[t] || 0) + 1; });
+  return `<div class="hgrid2"><div class="card"><div class="card-h"><div><h3>Por fase do projeto</h3><div class="hint">Média por cliente ativo comparada com a meta da fase</div></div></div><div class="card-b" style="overflow-x:auto">${hFaseTable(F)}</div></div>
+    <div class="card"><div class="card-h"><div><h3>Por tag</h3><div class="hint">Clientes em atenção costumam exigir mais tempo</div></div></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Tag</th><th>Clientes ativos</th><th>Horas</th><th>Média/cliente</th></tr></thead><tbody>${[...TAGS, 'Sem tag', 'Sem cadastro'].filter(t => at[t] || M.byTag[t]).map(t => { const h = M.byTag[t] || 0, a = at[t] || 0; return `<tr><td>${TONE[t] ? pill(t) : esc(t)}</td><td>${a}</td><td><b>${hh(h)}</b></td><td>${a ? hh(h / a) : '—'}</td></tr>`; }).join('')}</tbody></table></div></div></div>`;
+}
+function hFaseTable(F) {
+  return `<table class="dtable"><thead><tr><th>Fase</th><th>Clientes ativos</th><th>Horas</th><th>Média/cliente</th><th>Meta</th><th>Desvio</th></tr></thead><tbody>${Object.values(F).map(x => `<tr><td>${TONE[x.fase] ? pill(x.fase) : esc(x.fase)}</td><td>${x.at}</td><td><b>${hh(x.hrs)}</b></td><td>${hh(x.real)}</td><td>${x.meta != null ? hh(x.meta) : '<span class="mut">—</span>'}</td><td>${x.dev == null ? '<span class="mut">—</span>' : `<b style="color:${x.pct > hs().tol ? 'var(--danger)' : x.pct < -hs().tol ? 'var(--focus)' : 'var(--accent-ink)'}">${x.dev > 0 ? '+' : ''}${hh(x.dev)} (${x.pct > 0 ? '+' : ''}${hpc(x.pct)})</b>`}</td></tr>`).join('')}</tbody></table>`;
+}
+function hClientes(M) {
+  const rows = hClientRows(M).sort((a, b) => b.h - a.h), adm = ooIsAdmin(), tot = rows.reduce((a, r) => a + r.h, 0) || 1, mx = Math.max(...rows.map(r => r.h), 1);
+  if (!rows.length) return `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhum cliente com esses filtros.</div>`;
+  return `<div class="card tblwrap"><table class="tbl hcli"><thead><tr><th>Cliente</th><th>Fase</th><th>Tag</th><th>Consultor resp.</th><th style="min-width:180px">Horas no período</th><th>% do total</th><th>Meta${hs().tol ? ` (±${hs().tol}%)` : ''}</th><th>Desvio</th><th>Situação</th><th>Quem atuou</th></tr></thead><tbody>${rows.map(r => `<tr>
+    <td><b>${esc(r.nome)}</b>${r.c && r.st !== 'Ativo' ? ` <span class="pill c-gray" style="height:18px;font-size:10.5px">${esc(r.st)}</span>` : ''}</td><td>${TONE[r.fase] ? pill(r.fase) : `<span class="mut">${esc(r.fase)}</span>`}</td><td>${TONE[r.tag] ? pill(r.tag) : `<span class="mut">${esc(r.tag)}</span>`}</td><td>${r.con ? `<span class="cellrow">${avatar(r.con)}${esc(r.con.split(' ')[0])}</span>` : '<span class="mut">—</span>'}</td>
+    <td><div style="display:flex;align-items:center;gap:8px"><div class="g2-bar" style="height:8px;flex:1"><i style="width:${r.h / mx * 100}%;background:${r.sit === 'acima' ? 'var(--danger)' : r.sit === 'abaixo' ? 'var(--focus)' : 'var(--accent)'}"></i></div><b style="width:60px;text-align:right">${hh(r.h)}</b></div></td>
+    <td>${hpc(r.h / tot * 100)}</td>
+    <td>${r.c && adm ? `<input class="in num" style="width:84px" data-hm="${r.c.id}" inputmode="decimal" value="${r.c.hMeta != null && r.c.hMeta !== '' ? esc(num(r.c.hMeta)) : ''}" placeholder="${r.meta != null ? esc(num(r.meta)) : '—'}" title="Meta mensal de horas deste cliente (vazio = meta da fase)">` : r.meta != null ? hh(r.meta) : '<span class="mut">—</span>'}${r.c && r.c.hMeta != null && r.c.hMeta !== '' ? ' <i class="ti ti-pencil" style="font-size:12px;color:var(--muted)" title="Meta própria do cliente"></i>' : ''}</td>
+    <td>${r.dev == null ? '<span class="mut">—</span>' : `<b style="color:${r.sit === 'acima' ? 'var(--danger)' : r.sit === 'abaixo' ? 'var(--focus)' : 'var(--accent-ink)'}">${r.dev > 0 ? '+' : ''}${hh(r.dev)} (${r.pct > 0 ? '+' : ''}${hpc(r.pct)})</b>`}</td>
+    <td>${hSitPill(r.sit)}</td><td style="font-size:12px;color:var(--ink-2)">${Object.entries(r.byCons).sort((a, b) => b[1] - a[1]).map(([p, v]) => `${esc(p.split(' ')[0])} ${hh(v)}`).join(' · ') || '—'}</td></tr>`).join('')}</tbody></table></div>
+    <div class="note">Meta mensal por cliente = meta da fase (em <b>Metas e cadastro</b>) ou a meta própria digitada na linha${M.partial ? ' (proporcional aos dias úteis do mês parcial)' : ''}. Fase e tag são as atuais do cliente. Clientes sem cadastro no painel aparecem como “Sem cadastro”.</div>`;
+}
+function hConsultores(M, F, C) {
+  const adm = ooIsAdmin(), rows = CONSULTORES.map(p => { const b = M.byCons[p], tot = b.c + b.a + b.o, oc = b.cap ? b.capCli / b.cap * 100 : hOcup(p), cargo = hs().cargos.find(x => x.id === hs().cons?.[p]?.cargo); return { p, ...b, tot, vagas: b.cap ? b.cap - tot : null, ocTot: b.cap ? tot / b.cap * 100 : null, ocCli: b.cap ? b.c / b.cap * 100 : null, meta: oc, cargo: cargo?.nome || '—', dev: b.cap ? b.c / b.cap * 100 - oc : null }; });
+  return `<div class="card tblwrap"><table class="tbl hcli"><thead><tr><th>Consultor</th><th>Cargo</th><th>Capacidade${M.partial ? ' (prop.)' : ''}</th><th>Clientes</th><th>Administrativo</th><th>A validar</th><th>Total</th><th>Horas vagas</th><th>Ocupação total</th><th>% em clientes</th><th>Meta % clientes</th><th>Desvio</th></tr></thead><tbody>${rows.map(r => `<tr><td><span class="cellrow">${avatar(r.p)}<b>${esc(r.p)}</b></span></td><td>${esc(r.cargo)}</td><td>${r.cap ? hh(r.cap) : '<span class="mut">cadastre</span>'}</td><td><b>${hh(r.c)}</b></td><td>${hh(r.a)}</td><td>${hh(r.o)}</td><td><b>${hh(r.tot)}</b></td><td>${r.vagas == null ? '—' : `<b style="color:${r.vagas < 0 ? 'var(--danger)' : 'var(--ink)'}">${hh(r.vagas)}</b>`}</td><td>${r.ocTot == null ? '—' : hpc(r.ocTot)}</td><td>${r.ocCli == null ? '—' : `<b>${hpc(r.ocCli)}</b>`}</td><td>${hpc(r.meta)}</td><td>${r.dev == null ? '—' : `<b style="color:${r.dev < -10 ? 'var(--focus)' : r.dev > 10 ? 'var(--danger)' : 'var(--accent-ink)'}">${r.dev > 0 ? '+' : ''}${NUMF.format(Math.round(r.dev))} pp</b>`}</td></tr>`).join('')}
+    <tr class="tot"><td><b>Time</b></td><td></td><td><b>${hh(C.capTot)}</b></td><td><b>${hh(M.tot.c)}</b></td><td><b>${hh(M.tot.a)}</b></td><td><b>${hh(M.tot.o)}</b></td><td><b>${hh(C.totAll)}</b></td><td><b>${C.capTot ? hh(C.vagasTot) : '—'}</b></td><td>${C.capTot ? hpc(C.totAll / C.capTot * 100) : '—'}</td><td>${C.capTot ? hpc(M.tot.c / C.capTot * 100) : '—'}</td><td></td><td></td></tr></tbody></table></div>
+    ${hValidar(M, C)}<div class="hgrid2" style="margin-top:14px"><div class="card"><div class="card-h"><div><h3>Cliente × administrativo</h3><div class="hint">Distribuição das horas registradas de cada consultor</div></div></div><div class="card-b"><div class="chartbox" style="height:280px"><canvas id="chHCons"></canvas></div></div></div>
+    <div class="card"><div class="card-h"><div><h3>Frentes de trabalho</h3><div class="hint">Todo o time filtrado</div></div></div><div class="card-b">${hFrentes(M)}</div></div></div>
+    <div class="note">“A validar” = horas que ainda precisam de conferência: <i>Cliente não identificado</i>, <i>Sobreposição</i> (apontamentos sobrepostos) e clientes da base sem cadastro no painel (BPO, Mercearia Caipirão, Baxo Bar) — veja a tabela acima. “Administrativo” = horas do cliente <i>MaxPower</i>. Horas vagas = capacidade cadastrada − horas registradas.${adm ? '' : ' A capacidade e as metas só podem ser alteradas pela administração.'}</div>`;
+}
+function hCapacidade(M, F, C) {
+  const lim = (v, t) => v == null ? '<span class="mut">—</span>' : `<b>${v}</b>`;
+  const kp = `<div class="gkpis hk">${hKpi('gauge', 'Capacidade para clientes', hh(C.capCli), C.capTot ? `${hh(C.capTot)} totais × meta de ocupação por cargo` : 'cadastre a capacidade', 'var(--s1)')}${hKpi('target', 'Demanda pela meta', C.demandMeta != null ? hh(C.demandMeta) : '—', C.demandMeta != null ? `${C.ativos} clientes ativos × meta da fase` : 'cadastre a meta por fase', '#6B34C9')}${hKpi('chart-line', 'Demanda realizada', hh(C.realTot), `média de ${hh(C.avgReal)} por cliente ativo`, '#E5A82A')}${hKpi('users-plus', 'Limite de clientes (meta)', C.limMeta != null ? `${C.limMeta}` : '—', C.limMeta != null ? `${C.limMeta - C.ativos >= 0 ? `cabem +${C.limMeta - C.ativos}` : `${C.limMeta - C.ativos} (acima do limite)`} · hoje ${C.ativos}` : 'depende da meta por fase', 'var(--accent)')}${hKpi('users-plus', 'Limite de clientes (realizado)', C.limReal != null ? `${C.limReal}` : '—', C.limReal != null ? `${C.limReal - C.ativos >= 0 ? `cabem +${C.limReal - C.ativos}` : `${C.limReal - C.ativos} (acima do limite)`} · hoje ${C.ativos}` : '', '#0B7F85')}</div>`;
+  const tbl = `<div class="card"><div class="card-h"><div><h3>Quantos clientes novos cabem, fase a fase</h3><div class="hint">Saldo de horas para clientes ÷ horas por cliente da fase (se todos os novos entrassem nela)</div></div></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Fase</th><th>Clientes ativos</th><th>Meta h/cliente</th><th>Realizado h/cliente</th><th>Cabem novos (meta)</th><th>Cabem novos (realizado)</th></tr></thead><tbody>${Object.values(F).filter(x => x.fase !== 'Sem cadastro').map(x => `<tr><td>${pill(x.fase)}</td><td>${x.at}</td><td>${x.meta != null ? hh(x.meta) : '<span class="mut">—</span>'}</td><td>${x.real != null ? hh(x.real) : '—'}</td><td>${x.meta && C.saldoMeta != null ? `<b style="color:${C.saldoMeta < 0 ? 'var(--danger)' : 'var(--accent-ink)'}">${Math.max(0, Math.floor(C.saldoMeta / x.meta))}</b>${C.saldoMeta < 0 ? ` <span class="mut" style="font-size:11.5px">(estourado em ${hh(-C.saldoMeta)})</span>` : ''}` : '<span class="mut">—</span>'}</td><td>${x.real ? `<b style="color:${C.saldoReal < 0 ? 'var(--danger)' : 'var(--accent-ink)'}">${Math.max(0, Math.floor(C.saldoReal / x.real))}</b>${C.saldoReal < 0 ? ` <span class="mut" style="font-size:11.5px">(estourado em ${hh(-C.saldoReal)})</span>` : ''}` : '<span class="mut">—</span>'}</td></tr>`).join('')}</tbody></table>
+    <div class="hcapbar"><div><small>Saldo de horas p/ clientes · pela meta</small><b style="color:${C.saldoMeta != null && C.saldoMeta < 0 ? 'var(--danger)' : 'var(--ink)'}">${C.saldoMeta != null ? hh(C.saldoMeta) : '—'}</b></div><div><small>Saldo · pelo realizado</small><b style="color:${C.saldoReal < 0 ? 'var(--danger)' : 'var(--ink)'}">${hh(C.saldoReal)}</b></div><div><small>Horas vagas totais (capacidade − registrado)</small><b>${C.capTot ? hh(C.vagasTot) : '—'}</b></div></div></div></div>`;
+  const per = `<div class="card" style="margin-top:14px"><div class="card-h"><div><h3>Capacidade por consultor</h3><div class="hint">Horas para clientes = capacidade × meta de ocupação do cargo</div></div></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Consultor</th><th>Capacidade</th><th>Meta % clientes</th><th>Horas p/ clientes</th><th>Realizado em clientes</th><th>Saldo</th></tr></thead><tbody>${CONSULTORES.map(p => { const b = M.byCons[p], cc = b.capCli, sd = cc - b.c; return `<tr><td><span class="cellrow">${avatar(p)}${esc(p)}</span></td><td>${b.cap ? hh(b.cap) : '<span class="mut">cadastre</span>'}</td><td>${hpc(b.cap ? b.capCli / b.cap * 100 : hOcup(p))}</td><td>${hh(cc)}</td><td>${hh(b.c)}</td><td><b style="color:${sd < 0 ? 'var(--danger)' : 'var(--accent-ink)'}">${b.cap ? (sd > 0 ? '+' : '') + hh(sd) : '—'}</b></td></tr>`; }).join('')}</tbody></table></div></div>`;
+  return kp + tbl + per + `<div class="note">Como ler: <b>capacidade para clientes</b> = soma da capacidade mensal de cada consultor × a meta de ocupação do cargo (o restante é reservado a horas administrativas). <b>Demanda pela meta</b> = clientes ativos de cada fase × meta de horas da fase. O <b>limite de clientes</b> divide a capacidade pela média por cliente (da meta ou do realizado).</div>`;
+}
+function hMetas(M, F, C) {
+  const h = hs(), adm = ooIsAdmin(), dis = adm ? '' : 'disabled', ym = M.id || (hMonths().slice(-1)[0] || {}).id;
+  const capTbl = `<div class="card"><div class="card-h"><div><h3>Horas disponíveis por consultor</h3><div class="hint">Horas totais por mês, horas por dia dedicadas a clientes (a meta de ocupação sai daí) e exceção para ${ym ? esc(hMonthLabel(ym)) : 'o mês selecionado'} (férias, atestado, etc.)</div></div></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Consultor</th><th>Cargo</th><th>Horas/mês (padrão)</th><th>Exceção em ${ym ? MSHORT[+ym.slice(5, 7) - 1] + '/' + ym.slice(2, 4) : '—'}</th><th>Horas/dia em cliente</th><th>Meta de ocupação</th></tr></thead><tbody>${CONSULTORES.map(p => `<tr><td><span class="cellrow">${avatar(p)}${esc(p)}</span></td><td><select class="in" data-hs="cons|${esc(p)}|cargo" ${dis}>${opts([['', '—'], ...h.cargos.map(c => [c.id, c.nome])], h.cons[p]?.cargo || '')}</select></td><td><input class="in num" style="width:90px" inputmode="decimal" data-hs="cons|${esc(p)}|horas" value="${esc(num(h.cons[p]?.horas))}" placeholder="ex.: 160" ${dis}></td><td>${ym ? `<input class="in num" style="width:90px" inputmode="decimal" data-hs="cap|${ym}|${esc(p)}" value="${esc(num(h.cap?.[ym]?.[p]))}" placeholder="${esc(num(h.cons[p]?.horas) || '—')}" ${dis}>` : '—'}</td><td><input class="in num" style="width:70px" inputmode="decimal" data-hs="cons|${esc(p)}|cliDia" value="${esc(num(h.cons[p]?.cliDia))}" placeholder="—" ${dis}> h/dia</td><td>${hpc(M.byCons[p].cap ? M.byCons[p].capCli / M.byCons[p].cap * 100 : hOcup(p))} em clientes</td></tr>`).join('')}</tbody></table></div></div>`;
+  const cargoReal = id => { const ps = CONSULTORES.filter(p => h.cons[p]?.cargo === id && M.byCons[p].cap); return ps.length ? ps.reduce((a, p) => a + M.byCons[p].c, 0) / ps.reduce((a, p) => a + M.byCons[p].cap, 0) * 100 : null; };
+  const cargoTbl = `<div class="card"><div class="card-h"><div><h3>Meta de ocupação por cargo</h3><div class="hint">% da capacidade que deve ser dedicada a clientes; o restante é administrativo (MaxPower)</div></div>${adm ? `<button class="btn sm" data-act="hs-cargo-add"><i class="ti ti-plus"></i>Novo cargo</button>` : ''}</div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Cargo</th><th>% em clientes (meta)</th><th>Realizado no período</th><th>Consultores</th><th></th></tr></thead><tbody>${h.cargos.map(c => `<tr><td><input class="in" style="min-width:160px" data-hs="cargo|${c.id}|nome" value="${esc(c.nome)}" ${dis}></td><td><input class="in num" style="width:80px" inputmode="decimal" data-hs="cargo|${c.id}|ocup" value="${esc(num(c.ocup))}" ${dis}> %</td><td>${cargoReal(c.id) == null ? '<span class="mut">—</span>' : `<b>${hpc(cargoReal(c.id))}</b>`}</td><td>${esc(CONSULTORES.filter(p => h.cons[p]?.cargo === c.id).map(p => p.split(' ')[0]).join(', ') || '—')}</td><td>${adm && h.cargos.length > 1 ? `<button class="iconbtn danger" data-act="hs-cargo-rm" data-id="${c.id}" title="Remover cargo"><i class="ti ti-trash"></i></button>` : ''}</td></tr>`).join('')}<tr><td><span class="mut">Sem cargo definido</span></td><td><input class="in num" style="width:80px" inputmode="decimal" data-hs="ocupPad|x|x" value="${esc(num(h.ocupPad))}" ${dis}> %</td><td></td><td>${esc(CONSULTORES.filter(p => !h.cons[p]?.cargo).map(p => p.split(' ')[0]).join(', ') || '—')}</td><td></td></tr></tbody></table></div></div>`;
+  const wAvg = C.avgMeta, simple = (() => { const v = FASES.map(f => h.fase[f]).filter(x => x != null && !isNaN(x)); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; })();
+  const faseTbl = `<div class="card"><div class="card-h"><div><h3>Meta de horas por cliente, por fase</h3><div class="hint">Horas por mês que cada cliente deve consumir em cada fase do projeto</div></div></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Fase</th><th>Meta (h/mês por cliente)</th><th>Clientes ativos</th><th>Realizado médio</th><th>Desvio</th></tr></thead><tbody>${FASES.map(fs_ => { const x = F[fs_] || { at: 0, real: null, dev: null, pct: null }; return `<tr><td>${pill(fs_)}</td><td><input class="in num" style="width:90px" inputmode="decimal" data-hs="fase|${fs_}|x" value="${esc(num(h.fase[fs_]))}" placeholder="ex.: 8" ${dis}> h</td><td>${x.at}</td><td>${x.real != null ? hh(x.real / (M.fac || 1)) : '—'}</td><td>${x.dev == null ? '<span class="mut">—</span>' : `<b style="color:${x.pct > h.tol ? 'var(--danger)' : x.pct < -h.tol ? 'var(--focus)' : 'var(--accent-ink)'}">${x.dev > 0 ? '+' : ''}${hh(x.dev / (M.fac || 1))} (${x.pct > 0 ? '+' : ''}${hpc(x.pct)})</b>`}</td></tr>`; }).join('')}
+    <tr class="tot"><td><b>Média geral da meta</b></td><td><b>${wAvg != null ? hh(wAvg / (M.fac || 1)) : '—'}</b> <span class="mut" style="font-size:11.5px">ponderada pelos clientes de cada fase${simple != null ? ` · simples ${hh(simple)}` : ''}</span></td><td><b>${C.ativos}</b></td><td><b>${hh(C.avgReal != null ? C.avgReal / (M.fac || 1) : null)}</b></td><td>${wAvg != null && C.avgReal != null ? (() => { const d = C.avgReal - wAvg; return `<b style="color:${d / wAvg * 100 > h.tol ? 'var(--danger)' : 'var(--accent-ink)'}">${d > 0 ? '+' : ''}${hh(d)} (${d > 0 ? '+' : ''}${hpc(d / wAvg * 100)})</b>`; })() : '<span class="mut">—</span>'}</td></tr></tbody></table>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:12px;font-size:13px;color:var(--ink-2)">Tolerância para considerar “acima” ou “abaixo” da meta: ±<input class="in num" style="width:64px" inputmode="decimal" data-hs="tol|x|x" value="${esc(num(h.tol))}" ${dis}>%</div></div></div>`;
+  const ms = hMonths(), base = `<div class="card"><div class="card-h"><div><h3>Base de horas carregada</h3><div class="hint">Atualizada uma vez por mês a partir do controle de horas</div></div></div><div class="card-b"><table class="dtable"><thead><tr><th>Mês</th><th>Dados até</th><th>Horas (4 consultores)</th><th>Linhas</th></tr></thead><tbody>${ms.map(m => `<tr><td>${hMonthLabel(m.id)}</td><td>${fmtD(m.ate)}${hFactor(m).partial ? ' <span class="pill c-amber" style="height:18px;font-size:10.5px">parcial</span>' : ''}</td><td>${hh((m.rows || []).reduce((a, r) => a + r.h, 0))}</td><td>${(m.rows || []).length}</td></tr>`).join('')}</tbody></table><div class="note" style="margin:10px 0 0">Fonte: ${esc(ms[ms.length - 1]?.fonte || '—')} · só Gabriel Andrade, Dayane Sousa, Samuel Sant'Ana e Maria Luiza. Para atualizar, peça ao Claude.</div></div></div>`;
+  return `<div class="hgrid2">${capTbl}${cargoTbl}</div><div class="hgrid2" style="margin-top:14px">${faseTbl}${base}</div>${adm ? '' : '<div class="note">Somente a administração pode alterar estas metas.</div>'}`;
+}
+document.addEventListener('change', e => {
+  const el = e.target, k = el.dataset?.hs, hm = el.dataset?.hm; if (!k && !hm) return; if (!ooIsAdmin()) return;
+  if (hm) { const v = parseNum(el.value); patch('clients', hm, { hMeta: v == null || isNaN(v) ? null : v }); return; }
+  const [kind, a, b] = k.split('|'), h = hs(), v = el.value.trim(), nv = v === '' ? null : parseNum(v);
+  if (kind === 'cons') { (h.cons[a] ||= {}); if (b === 'cargo') h.cons[a].cargo = v; else h.cons[a][b] = nv; }
+  else if (kind === 'cap') { (h.cap[a] ||= {}); if (nv == null) delete h.cap[a][b]; else h.cap[a][b] = nv; }
+  else if (kind === 'fase') { if (nv == null) delete h.fase[a]; else h.fase[a] = nv; }
+  else if (kind === 'tol') h.tol = nv ?? 20;
+  else if (kind === 'ocupPad') h.ocupPad = nv ?? 70;
+  else if (kind === 'cargo') { const c = h.cargos.find(x => x.id === a); if (c) c[b] = b === 'ocup' ? (nv ?? 0) : v || c.nome; }
+  saveSettings();
+});
+function hChartsDraw() {
+  if (typeof Chart === 'undefined') return;
+  Chart.defaults.font.family = 'Poppins, system-ui, sans-serif'; Chart.defaults.font.size = 11; Chart.defaults.color = cssv('--muted');
+  const M = hModel(), F = hFases(M), rows = hClientRows(M), surf = cssv('--surface'), grid = cssv('--grid'), axis = cssv('--axis');
+  const sc = { x: { grid: { display: false }, border: { color: axis }, ticks: { color: cssv('--ink-2') } }, y: { beginAtZero: true, grid: { color: grid }, border: { display: false }, ticks: { callback: v => v + ' h' } } };
+  const cEl = $('#chHCons');
+  if (cEl) charts.push(new Chart(cEl, { type: 'bar', data: { labels: CONSULTORES.map(p => p.split(' ')[0]), datasets: [
+    { label: 'Clientes', data: CONSULTORES.map(p => Math.round(M.byCons[p].c * 10) / 10), backgroundColor: cssv('--accent'), borderRadius: 4, stack: 's' },
+    { label: 'Administrativo', data: CONSULTORES.map(p => Math.round(M.byCons[p].a * 10) / 10), backgroundColor: '#8B5CF6', borderRadius: 4, stack: 's' },
+    { label: 'A validar', data: CONSULTORES.map(p => Math.round(M.byCons[p].o * 10) / 10), backgroundColor: '#8792A6', borderRadius: 4, stack: 's' },
+    { label: 'Horas vagas', data: CONSULTORES.map(p => { const b = M.byCons[p]; return b.cap ? Math.max(0, Math.round((b.cap - b.c - b.a - b.o) * 10) / 10) : 0; }), backgroundColor: cssv('--surface-3'), borderColor: axis, borderWidth: 1, borderDash: [4, 3], borderRadius: 4, stack: 's' },
+  ] }, options: { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } }, tooltip: { ...tooltipStyle(), callbacks: { label: c => ` ${c.dataset.label}: ${NUMF.format(c.parsed.y)} h` } } }, scales: { x: { ...sc.x, stacked: true }, y: { ...sc.y, stacked: true } } } }));
+  const fEl = $('#chHFase');
+  if (fEl) { const fs_ = Object.values(F).filter(x => x.fase !== 'Sem cadastro'); charts.push(new Chart(fEl, { type: 'bar', data: { labels: fs_.map(x => x.fase), datasets: [
+    { label: 'Realizado (h/cliente)', data: fs_.map(x => x.real == null ? null : Math.round(x.real * 10) / 10), backgroundColor: cssv('--s1'), borderRadius: 5, maxBarThickness: 46 },
+    { label: 'Meta (h/cliente)', data: fs_.map(x => x.meta == null ? null : Math.round(x.meta * 10) / 10), backgroundColor: cssv('--s3'), borderRadius: 5, maxBarThickness: 46 },
+  ] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, boxWidth: 8 } }, tooltip: { ...tooltipStyle(), callbacks: { label: c => ` ${c.dataset.label}: ${NUMF.format(c.parsed.y)} h` } } }, scales: sc } })); }
+  const tEl = $('#chHTop');
+  if (tEl) { const top = rows.filter(r => r.h > 0).sort((a, b) => b.h - a.h).slice(0, 10); charts.push(new Chart(tEl, { type: 'bar', data: { labels: top.map(r => r.nome), datasets: [
+    { label: 'Horas', data: top.map(r => Math.round(r.h * 10) / 10), backgroundColor: top.map(r => r.sit === 'acima' ? cssv('--danger') : cssv('--s1')), borderRadius: 4, maxBarThickness: 20 },
+    { label: 'Meta', data: top.map(r => r.mt == null ? null : Math.round(r.mt * 10) / 10), type: 'line', showLine: false, pointStyle: 'rectRot', pointRadius: 5, pointBackgroundColor: cssv('--ink'), pointBorderColor: surf, borderWidth: 0 },
+  ] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { ...tooltipStyle(), callbacks: { label: c => ` ${c.dataset.label}: ${NUMF.format(c.parsed.x)} h` } } }, scales: { x: { beginAtZero: true, grid: { color: grid }, border: { display: false }, ticks: { callback: v => v + ' h' } }, y: { grid: { display: false }, border: { color: axis }, ticks: { color: cssv('--ink-2') } } } } })); }
+}
+AFTER.horas = () => hChartsDraw();
+
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
 function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); if (type === 'content') UI.cEdit = focus ? id : null; UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
 
@@ -3710,6 +3941,13 @@ document.addEventListener('click', async e => {
     case 'an-done': UI.anEdit = null; return render();
     case 'an-copy': { const r = S.settings.analises?.[anKey(periodRange())]; if (r) { navigator.clipboard?.writeText(r.texto); toast('Análise copiada'); } return; }
     case 'an-ck': { const key = anKey(periodRange()), r = S.settings.analises?.[key]; if (!r) return; const L = r.texto.split('\n'), m = (L[+v] || '').match(MD_LI); if (!m || m[2] == null) return; L[+v] = m[1] + '- [' + (m[2] === ' ' ? 'x' : ' ') + '] ' + m[3]; S.settings.analises[key] = { ...r, texto: L.join('\n'), editadoEm: Date.now() }; saveSettings(); return; }
+    case 'htab': UI.hTab = v; saveUI(); return render();
+    case 'hmode': UI.hSel = v === 'avg' ? 'avg' : ''; saveUI(); return render();
+    case 'hmo': { const ms = hMonths(), cur = hSelRecs().id, i = ms.findIndex(m => m.id === cur) + +v; if (ms[i]) { UI.hSel = ms[i].id; saveUI(); render(); } return; }
+    case 'h-noval': { const f = hFilt(); f.noVal = !f.noVal; saveUI(); return render(); }
+    case 'hf-clear': UI.hf = { cons: [], fase: [], tag: [], sit: [] }; saveUI(); return render();
+    case 'hs-cargo-add': { if (!ooIsAdmin()) return; const h = hs(); h.cargos.push({ id: 'c' + Date.now().toString(36), nome: 'Novo cargo', ocup: h.ocupPad }); saveSettings(); return; }
+    case 'hs-cargo-rm': { if (!ooIsAdmin()) return; const h = hs(); h.cargos = h.cargos.filter(c => c.id !== id); CONSULTORES.forEach(p => { if (h.cons[p]?.cargo === id) h.cons[p].cargo = ''; }); saveSettings(); return; }
     case 'tdup': { const t = S.tasks[id]; if (!t) return; const nt = create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }); toast('Tarefa duplicada: ajuste os campos e as datas'); openDrawer('task', nt.id, 'titulo'); return; }
     case 'trec': { const t = S.tasks[id]; if (!t || (t.recorrencia || 'Não') === v) return; patch('tasks', id, { recorrencia: v }); return; }
     case 'tdone': { e.stopPropagation(); const t = S.tasks[id]; patch('tasks', id, { status: el.checked ? 'Concluído' : 'A fazer' }); if (el.checked && !(t.recorrencia && t.recorrencia !== 'Não')) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
@@ -3898,7 +4136,7 @@ async function exportXlsx() {
 }
 
 /* ═══════════════ LOGIN / BOOT ═══════════════ */
-const VIEWS = { dashboard: viewDashboard, clientes: viewClients, cliente: viewClient, info: viewInfo, time: viewTime };
+const VIEWS = { dashboard: viewDashboard, clientes: viewClients, cliente: viewClient, info: viewInfo, time: viewTime, horas: viewHoras };
 function showLogin(mode) {
   $('#app').hidden = true; $('#login').hidden = false;
   $('#loginForm').hidden = mode === 'recovery'; $('#recoverForm').hidden = mode !== 'recovery';
