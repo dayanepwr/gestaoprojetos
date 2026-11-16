@@ -737,6 +737,8 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .hbars{display:flex;flex-direction:column;gap:9px} .hb{display:grid;grid-template-columns:minmax(0,190px) 1fr 70px 44px;gap:10px;align-items:center;font-size:12.5px} .hb span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap} .hb em{font-style:normal;color:var(--muted);text-align:right} .hb b{text-align:right}
 .hcapbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)} .hcapbar small{display:block;font-size:11.5px;color:var(--muted)} .hcapbar b{font-size:20px}
 .hcli td{vertical-align:middle;padding:8px 6px} .hcli tr.tot td{background:var(--surface-2)} .dtable tr.tot td{background:var(--surface-2)}
+.kpis.k2{grid-template-columns:repeat(2,minmax(0,1fr))} @media (max-width:700px){.kpis.k2{grid-template-columns:1fr}}
+.cactbl td{padding:4px 4px;vertical-align:middle} .cactbl input[type=month]{min-width:130px}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -1364,6 +1366,7 @@ function viewDashboard() {
       <div class="card kpi" title="Churn é sempre a média do churn mensal, nunca a soma"><div class="k c-red"><i class="ti ti-trending-down"></i>Churn</div><div class="twin"><div><div class="v">${pct(M.churnP)}</div><div class="lab">${M.churnPN > 1 ? `média de ${M.churnPN} meses` : 'no período'}</div></div><div><div class="v" style="color:var(--ink-2)">${pct(M.churnY)}</div><div class="lab">média mensal ${R.e.slice(0, 4)}</div></div></div><div class="s">${M.enc.length} encerrados no período · ${M.encY} no ano · ano = média de ${M.churnMesesN} ${M.churnMesesN === 1 ? 'mês' : 'meses'}</div></div>
       ${kpi('ti-hourglass', 'violet', 'LTV médio', brl(M.ltvV), `<b>${NUMF.format(Math.round(M.ltvM * 10) / 10)} meses</b> em média · ${M.ltvN} contratos`)}
     </div>
+    ${commKpis(R, M)}
     <div class="card" style="margin-bottom:14px">
       <div class="card-h"><div><h3>Evolução da carteira</h3><div class="hint">Ativos que continuam, novos e encerrados por mês${comboData(R.s, R.e).some(b => !b.sel) ? ' · meses anteriores em tom claro para contexto' : ''}</div></div>
         <div style="display:flex;gap:6px"><button class="btn sm" data-act="edit-meta"><i class="ti ti-target"></i>Meta</button><button class="btn sm ${UI.comboTable ? 'on' : ''}" data-act="combo-table"><i class="ti ti-table"></i>${isMobile() ? '' : 'Tabela'}</button></div></div>
@@ -1526,6 +1529,41 @@ function analysisCard(R) {
 let anTm = 0; const anSave = el => { clearTimeout(anTm); anTm = setTimeout(() => { if (!document.body.contains(el)) return; const k = el.dataset.key, r = S.settings.analises?.[k]; if (!r || r.texto === el.value) return; S.settings.analises[k] = { ...r, texto: el.value, editadoEm: Date.now() }; saveSettings(); }, 700); };
 document.addEventListener('input', e => { if (e.target.id === 'an-ta') anSave(e.target); });
 document.addEventListener('change', e => { if (e.target.id === 'an-ta') anSave(e.target); });
+
+/* ═══════════════ TICKET MÉDIO E CAC ═══════════════ */
+const cacList = () => (S.settings.cacDesp ||= []);
+const cacSum = (s, e) => cacList().filter(x => x.mes && x.mes >= s.slice(0, 7) && x.mes <= e.slice(0, 7)).reduce((a, x) => a + (+x.valor || 0), 0);
+function tktCalc(s, e) {
+  const cl = clientsArr(), t = today(), cap = e < t ? e : mEnd(+t.slice(0, 4), +t.slice(5, 7)); let fat = 0, n = 0;
+  if (s <= cap) monthsIter(s, cap, (ms, me2) => cl.forEach(c => { if (activeIn(c, ms, me2)) { fat += feeAt(c, ms); n++; } }));
+  return { fat, n, t: n ? fat / n : null };
+}
+function commKpis(R, M) {
+  const t = today(), ref = R.e < t ? R.e : t, y = +ref.slice(0, 4), mo = +ref.slice(5, 7), ys = `${y}-01-01`;
+  const TM = tktCalc(mStart(y, mo), mEnd(y, mo)), TY = tktCalc(ys, mEnd(y, mo));
+  const MY = metrics(ys, R.e), despP = cacSum(R.s, R.e), despY = cacSum(ys, R.e);
+  const cacP = M.novos.length && despP ? despP / M.novos.length : null, cacY = MY.novos.length && despY ? despY / MY.novos.length : null;
+  const payback = cacP && TM.t ? cacP / TM.t : null, ltvcac = cacP && M.ltvV ? M.ltvV / cacP : null;
+  const mLab = `${MONTHS[mo - 1]}/${String(y).slice(2)}`;
+  const twin = (a, la, sa, b, lb, sb) => `<div class="twin"><div><div class="v">${a}</div><div class="lab">${la}</div>${sa ? `<div class="lab" style="margin-top:2px">${sa}</div>` : ''}</div><div><div class="v" style="color:var(--ink-2)">${b}</div><div class="lab">${lb}</div>${sb ? `<div class="lab" style="margin-top:2px">${sb}</div>` : ''}</div></div>`;
+  return `<div class="kpis k2">
+    <div class="card kpi" title="Ticket médio = faturamento dos planos ÷ clientes pagantes. No ano, é o faturamento acumulado ÷ clientes-mês (média mensal por cliente)."><div class="k c-teal"><i class="ti ti-receipt"></i>Ticket médio</div>${twin(TM.t == null ? '—' : brl(TM.t), `no mês · ${mLab}`, TM.n ? `${brl(TM.fat)} ÷ ${TM.n} clientes` : '', TY.t == null ? '—' : brl(TY.t), `no ano · ${y}`, TY.n ? `${brl(TY.fat)} ÷ ${TY.n} clientes-mês` : '')}</div>
+    <div class="card kpi" title="CAC = despesas de aquisição lançadas em Configurações ÷ clientes novos no período."><div class="k c-orange"><i class="ti ti-target-arrow"></i>CAC</div>${cacList().length ? twin(cacP == null ? '—' : brl(cacP), `no período · ${esc(R.label)}`, despP || M.novos.length ? `${brl(despP)} ÷ ${M.novos.length} ${M.novos.length === 1 ? 'novo' : 'novos'}` : '', cacY == null ? '—' : brl(cacY), `no ano · ${y}`, despY || MY.novos.length ? `${brl(despY)} ÷ ${MY.novos.length} ${MY.novos.length === 1 ? 'novo' : 'novos'}` : '') + `<div class="s">${payback != null ? `Payback de <b>${NUMF.format(Math.round(payback * 10) / 10)} meses</b> do ticket` : ''}${ltvcac != null ? `${payback != null ? ' · ' : ''}LTV ÷ CAC = <b>${NUMF.format(Math.round(ltvcac * 10) / 10)}x</b>` : ''}${payback == null && ltvcac == null ? 'Sem despesas ou novos clientes no período' : ''}</div>`
+      : `<div class="v" style="font-size:20px;color:var(--muted)">Sem despesas lançadas</div><div class="s"><button class="btn sm" data-act="settings"><i class="ti ti-settings"></i>Lançar em Configurações</button></div>`}</div>
+  </div>`;
+}
+function cacSettings() {
+  const l = [...cacList()].sort((a, b) => (b.mes || '').localeCompare(a.mes || '')), y = today().slice(0, 4), totY = cacSum(`${y}-01-01`, `${y}-12-31`);
+  return `<div class="setsec"><h5>Despesas de aquisição (CAC)</h5><p>Lance o que foi gasto para trazer clientes (marketing, comissões, ferramentas, tempo comercial…). O CAC da Visão geral = despesas do período ÷ novos clientes do período.</p>
+    ${l.length ? `<table class="dtable cactbl"><thead><tr><th>Mês</th><th>Descrição</th><th>Valor (R$)</th><th></th></tr></thead><tbody>${l.map(x => `<tr><td><input class="field" type="month" style="padding:5px 8px" data-cac="${x.id}|mes" value="${esc(x.mes || '')}"></td><td><input class="field" style="padding:5px 8px" data-cac="${x.id}|desc" value="${esc(x.desc || '')}" placeholder="Ex.: Anúncios, comissão, evento…"></td><td><input class="field" style="padding:5px 8px;text-align:right;width:104px" inputmode="decimal" data-cac="${x.id}|valor" value="${esc(num(x.valor))}"></td><td><button class="iconbtn danger" data-act="cac-rm" data-id="${x.id}" title="Remover"><i class="ti ti-trash"></i></button></td></tr>`).join('')}</tbody></table><p style="margin:6px 0 8px">Total lançado em ${y}: <b>${brl(totY)}</b></p>` : '<p style="font-style:italic">Nenhuma despesa lançada ainda.</p>'}
+    <button class="btn sm" data-act="cac-add"><i class="ti ti-plus"></i>Lançar despesa</button></div>`;
+}
+document.addEventListener('change', e => {
+  const el = e.target, k = el.dataset?.cac; if (!k) return;
+  const [id, f] = k.split('|'), x = cacList().find(r => r.id === id); if (!x) return;
+  if (f === 'valor') { const raw = el.value.trim(), v = parseNum(/^\d{1,3}(\.\d{3})+$/.test(raw) ? raw.replace(/\./g, '') : raw); x.valor = v == null || isNaN(v) ? null : v; } else x[f] = el.value.trim();
+  saveSettings();
+});
 
 function comboTable(R) {
   const d = comboData(R.s, R.e);
@@ -3660,6 +3698,7 @@ const DRAWERS = {
       <div class="setsec"><h5>Planos</h5><p>O valor cheio é usado como “valor sem desconto” no Dashboard.</p>
         ${st.planos.map((p, i) => `<div class="plrow"><input class="field" style="padding:6px 10px" data-plan="${i}" data-pf="nome" value="${esc(p.nome)}"><input class="field" style="padding:6px 10px;text-align:right" inputmode="decimal" data-plan="${i}" data-pf="valor" value="${esc(num(p.valor))}" placeholder="variável"><button class="iconbtn danger" data-act="plan-rm" data-i="${i}"><i class="ti ti-trash"></i></button></div>`).join('')}
         <button class="btn sm ghost" data-act="plan-add"><i class="ti ti-plus"></i>Adicionar plano</button></div>
+      ${cacSettings()}
       <div class="setsec"><h5>ICP Power</h5><p>Cliente ideal: ramo de alimentação, faturamento médio mensal mínimo e pessoa dedicada ao financeiro.</p>
         <label style="font-size:12px;color:var(--muted);display:block;margin-bottom:10px">Faturamento médio mínimo (R$ por mês)<input class="field" inputmode="decimal" data-icpmin value="${esc(num(st.icpFatMin))}"></label>
         ${tagEd('icpSegs', 'Segmentos que contam como alimentação', 'Segmentos com “aliment” no nome também são aceitos.')}</div>
@@ -3946,6 +3985,8 @@ document.addEventListener('click', async e => {
     case 'hf-clear': UI.hf = { cons: [], fase: [], tag: [], sit: [] }; saveUI(); return render();
     case 'hs-cargo-add': { if (!ooIsAdmin()) return; const h = hs(); h.cargos.push({ id: 'c' + Date.now().toString(36), nome: 'Novo cargo', ocup: h.ocupPad }); saveSettings(); return; }
     case 'hs-cargo-rm': { if (!ooIsAdmin()) return; const h = hs(); h.cargos = h.cargos.filter(c => c.id !== id); CONSULTORES.forEach(p => { if (h.cons[p]?.cargo === id) h.cons[p].cargo = ''; }); saveSettings(); return; }
+    case 'cac-add': { cacList().push({ id: uid(), mes: today().slice(0, 7), desc: '', valor: null }); saveSettings(); return; }
+    case 'cac-rm': { S.settings.cacDesp = cacList().filter(x => x.id !== id); saveSettings(); return; }
     case 'tdup': { const t = S.tasks[id]; if (!t) return; const nt = create('tasks', { titulo: t.titulo, cliente: t.cliente, resp: t.resp, prazo: t.prazo || null, status: 'A fazer', recorrencia: t.recorrencia || 'Não', desc: t.desc || '' }); toast('Tarefa duplicada: ajuste os campos e as datas'); openDrawer('task', nt.id, 'titulo'); return; }
     case 'trec': { const t = S.tasks[id]; if (!t || (t.recorrencia || 'Não') === v) return; patch('tasks', id, { recorrencia: v }); return; }
     case 'tdone': { e.stopPropagation(); const t = S.tasks[id]; patch('tasks', id, { status: el.checked ? 'Concluído' : 'A fazer' }); if (el.checked && !(t.recorrencia && t.recorrencia !== 'Não')) toast('Tarefa concluída', { label: 'Desfazer', fn: () => patch('tasks', id, { status: t.status || 'A fazer' }) }); return; }
