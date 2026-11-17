@@ -739,6 +739,38 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .hcli td{vertical-align:middle;padding:8px 6px} .hcli tr.tot td{background:var(--surface-2)} .dtable tr.tot td{background:var(--surface-2)}
 .kpis.k2{grid-template-columns:repeat(2,minmax(0,1fr))} @media (max-width:700px){.kpis.k2{grid-template-columns:1fr}}
 .cactbl td{padding:4px 4px;vertical-align:middle} .cactbl input[type=month]{min-width:130px}
+.thero{position:relative;overflow:hidden;border-radius:16px;padding:22px 26px;margin-bottom:16px;color:#fff;background:linear-gradient(120deg,#0C2340 0%,#163560 52%,#2a5fc4 130%);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.5fr);gap:24px;align-items:center;box-shadow:0 6px 20px rgba(12,35,64,.18)}
+.thero::before,.thero::after{content:'';position:absolute;border-radius:50%;pointer-events:none} .thero::before{right:-70px;top:-100px;width:300px;height:300px;background:rgba(255,255,255,.06)} .thero::after{left:36%;bottom:-130px;width:240px;height:240px;background:rgba(255,255,255,.04)}
+.thero>*{position:relative;z-index:1} .th-k{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;opacity:.7} .th-k .ti{font-size:15px}
+.thero h2{margin:4px 0 2px;font-size:25px;line-height:1.2;letter-spacing:-.01em;font-weight:700;color:#fff} .th-sub{font-size:12.5px;opacity:.75}
+.th-btn{margin-top:14px;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 13px;border-radius:9px;background:#fff;color:#0C2340;font-size:12px;font-weight:600;border:0;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.18);transition:transform .12s} .th-btn:hover{transform:translateY(-1px)} .th-btn .ti{font-size:15px}
+.th-r{display:grid;grid-template-columns:repeat(2,minmax(0,1fr)) minmax(0,1.6fr);gap:12px}
+.th-st{position:relative;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:13px;padding:12px 14px} .th-st>.ti{position:absolute;right:11px;top:11px;font-size:17px;opacity:.55}
+.th-st small,.th-wh small{display:block;font-size:11.5px;opacity:.75} .th-st b{display:block;font-size:30px;line-height:1.1;font-weight:700;letter-spacing:-.02em} .th-st em,.th-week em{display:block;font-style:normal;font-size:11.5px;opacity:.7;margin-top:2px} .th-st.bad{background:rgba(235,80,80,.22);border-color:rgba(255,150,150,.35)} .th-st.bad b{color:#ffc9c9}
+.th-week{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:13px;padding:12px 14px;display:flex;flex-direction:column;justify-content:center} .th-wh{display:flex;justify-content:space-between;align-items:baseline} .th-wh b{font-size:24px;font-weight:700}
+.th-bar{height:8px;background:rgba(255,255,255,.18);border-radius:99px;overflow:hidden;margin:7px 0 4px} .th-bar i{display:block;height:100%;background:#3FD68A;border-radius:99px;transition:width .3s}
+@media (max-width:1100px){.thero{grid-template-columns:1fr}} @media (max-width:640px){.th-r{grid-template-columns:1fr 1fr}.th-week{grid-column:1/-1}}
+.tasksv .toolbar{gap:8px;margin-bottom:10px} .tasksv .btn,.tasksv select.btn{height:30px;padding:0 11px;font-size:12px;border-radius:9px;gap:6px}
+.tasksv select.btn{padding-right:24px} .tasksv .seg{padding:2px;border-radius:10px} .tasksv .seg button{height:26px;padding:0 11px;font-size:12px;border-radius:8px}
+.tasksv .search input{height:30px;font-size:12.5px;border-radius:9px;width:220px;padding-left:32px} .tasksv .search .ti{left:10px;font-size:15px}
+.tasksv .fp{height:27px;font-size:12px;border-radius:9px;padding:0 9px 0 10px} .tasksv .fp>.ti:first-child{font-size:14px} .tasksv .fp b{font-size:11.5px;padding:0 6px} .tasksv .fbl{font-size:11px}
+.tasksv .bulkbar{padding:7px 10px;border-radius:12px;gap:5px} .tasksv .bulkbar .btn{height:27px;font-size:11.5px;padding:0 9px} .tasksv .bulkbar .bk{height:27px;border-radius:8px} .tasksv .bulkbar .bk .in{font-size:11.5px}
+.tasksv .kmode{font-size:12px} .tasksv .iconbtn{width:26px;height:26px;font-size:15px;border-radius:7px}
+.tasksv .tblwrap{border-radius:14px;overflow:auto;box-shadow:0 1px 3px rgba(12,35,64,.06)}
+.tasksv .tbl.ttbl th{height:32px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--surface-2);font-weight:600}
+.tasksv .tbl.ttbl td{padding:7px 5px;vertical-align:top} .tasksv .tbl.ttbl tr:not(.grp){transition:background .1s}
+.tasksv .tbl.ttbl tr.grp td{background:var(--surface-2);padding:6px 10px;font-size:12px}
+.tasksv .tbl.ttbl tr.late td:first-child{box-shadow:inset 3px 0 0 var(--danger)}
+.ttbl .pzc{display:flex;flex-direction:column;gap:0} .ttbl .pzin{font-weight:600;font-size:12.5px;padding:3px 6px;min-width:0;width:100%;border-radius:7px} .ttbl .pzin::-webkit-calendar-picker-indicator{opacity:.35;cursor:pointer}
+.pzl{font-size:11px;padding:0 6px;color:var(--muted);line-height:1.3} .pzc.pz-late .pzin,.pzc.pz-late .pzl{color:var(--danger)} .pzc.pz-late .pzl{font-weight:600} .pzc.pz-today .pzin{color:var(--focus)} .pzc.pz-today .pzl{color:var(--focus);font-weight:600} .pzc.pz-soon .pzl{color:var(--amber-fg)} .pzc.pz-done .pzin{color:var(--muted)} .pzc.pz-none .pzin{color:var(--muted);font-weight:500}
+.ttbl textarea.tarea{min-height:0;resize:none;overflow:hidden}
+.ttl{display:flex;align-items:flex-start;gap:4px} .ttl textarea{flex:1} .ttl-rec{flex:none;font-size:14px;color:var(--focus);margin-top:6px}
+.ttbl textarea.tdesc{font-size:11.5px;color:var(--muted);min-height:0;padding-top:0;padding-bottom:2px;line-height:1.4} .ttbl .tdesc::placeholder{opacity:0} .ttbl tr:hover .tdesc::placeholder{opacity:.55}
+.ttbl tr.done td .strong{color:var(--muted);text-decoration:line-through}
+.ttbl .clic{display:flex;align-items:center;gap:2px;padding-left:6px;color:var(--muted)} .ttbl .clic .ti{font-size:14px;flex:none} .ttbl .clic.int .in{color:var(--muted)}
+.ttbl .rsel{font-size:12px;color:var(--muted);padding:5px 4px;cursor:pointer;appearance:none;-webkit-appearance:none;text-align:left} .ttbl .rsel.on{color:var(--focus);font-weight:600}
+.ract{display:flex;opacity:0;transition:opacity .12s} .ttbl tr:hover .ract,.ttbl tr.sel .ract,.ttbl tr:focus-within .ract{opacity:1}
+.tasksv .kcard{border-radius:12px;box-shadow:0 1px 3px rgba(12,35,64,.07)} .tasksv .kcol{border-radius:14px}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -2356,7 +2388,7 @@ function viewTasks() {
   if (!Object.keys(S.tasks).length) body = `<div class="card empty"><i class="ti ti-checkbox"></i>Nenhuma tarefa ainda.<br><br><button class="btn primary" data-act="new" data-v="tarefa"><i class="ti ti-plus"></i>Nova tarefa</button></div>`;
   else if (UI.tView === 'kanban') body = taskKanban(list);
   else body = taskTable(list);
-  return taskPanel() + bulkBar() + tb + body;
+  return `<div class="tasksv">${taskPanel()}${bulkBar()}${tb}${body}</div>`;
 }
 function groupTasks(list) {
   const g = UI.tGroup; if (g === 'none') return [['', list]];
@@ -2368,19 +2400,27 @@ function groupTasks(list) {
   return e;
 }
 function lateBadge(t) { return tStatus(t) === 'Atrasado' ? `<span class="pill c-red"><i class="ti ti-clock-exclamation"></i>Atrasado${t.prazo ? ` · ${daysLate(t)}d` : ''}</span>` : ''; }
+const WDL = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+function pzInfo(t, st) {
+  if (!t.prazo) return { l: 'sem prazo', c: 'pz-none' };
+  if (st === 'Concluído') return { l: t.doneAt && t.doneAt !== t.prazo ? `concluída em ${fmtDs(t.doneAt)}` : 'concluída', c: 'pz-done' };
+  const d = Math.round((parseISO(t.prazo) - parseISO(today())) / 86400000);
+  if (d < 0) return { l: d === -1 ? 'venceu ontem' : `venceu há ${-d} dias`, c: 'pz-late' };
+  if (d === 0) return { l: 'vence hoje', c: 'pz-today' };
+  if (d === 1) return { l: 'amanhã', c: 'pz-soon' };
+  return { l: d <= 6 ? WDL[parseISO(t.prazo).getDay()].split('-')[0].toLowerCase() : `em ${d} dias`, c: d <= 6 ? 'pz-soon' : 'pz-far' };
+}
 function taskRow(t) {
-  const st = tStatus(t), b = f => `tasks|${t.id}|${f}`;
+  const st = tStatus(t), b = f => `tasks|${t.id}|${f}`, pz = pzInfo(t, st), rec = t.recorrencia && t.recorrencia !== 'Não';
   return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''} ${SEL.has(t.id) ? 'sel' : ''}">
     <td class="sticky"><div class="rowctl"><label class="selbox" title="Selecionar para editar em lote"><input type="checkbox" data-act="tsel" data-id="${t.id}" ${SEL.has(t.id) ? 'checked' : ''} aria-label="Selecionar"><span><i class="ti ti-check"></i></span></label><button type="button" class="doneb ${st === 'Concluído' ? 'on' : ''}" data-act="tcheck" data-id="${t.id}" title="${st === 'Concluído' ? 'Reabrir' : 'Concluir'}" aria-label="Concluir"><i class="ti ${st === 'Concluído' ? 'ti-circle-check-filled' : 'ti-circle'}"></i></button></div></td>
-    <td><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea></td>
-    <td><textarea class="in tarea" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea></td>
-    <td><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(cliOf(t))}" placeholder="Interno"></td>
+    <td><div class="pzc ${pz.c}"><input type="date" class="in pzin" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" aria-label="Prazo"><span class="pzl">${pz.l}</span></div></td>
+    <td><div class="ttl"><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea>${rec ? `<i class="ti ti-repeat ttl-rec" title="Repete: ${esc(t.recorrencia)}"></i>` : ''}</div><textarea class="in tarea tdesc" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea></td>
+    <td><div class="clic ${cliOf(t) === 'Interno' ? 'int' : ''}"><i class="ti ti-building-store"></i><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(cliOf(t))}" placeholder="Interno"></div></td>
     <td><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
-    <td><input type="date" class="in" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" style="${st === 'Atrasado' ? 'color:var(--danger);font-weight:600' : ''}"></td>
     <td><div class="cellrow stk">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
-    <td><div class="cellrow">${t.recorrencia && t.recorrencia !== 'Não' ? '<i class="ti ti-repeat" style="color:var(--focus)"></i>' : ''}<select class="in" data-bind="${b('recorrencia')}" style="min-width:96px">${opts(RECOR, t.recorrencia || 'Não')}</select></div></td>
-    <td><div class="cellrow" style="gap:0"><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button><button class="iconbtn" data-act="tdup" data-id="${t.id}" title="Duplicar tarefa"><i class="ti ti-copy"></i></button></div></td>
-    <td><button class="iconbtn danger" data-act="del" data-col="tasks" data-id="${t.id}" aria-label="Excluir"><i class="ti ti-trash"></i></button></td>
+    <td><select class="in rsel ${rec ? 'on' : ''}" data-bind="${b('recorrencia')}" aria-label="Recorrência">${opts(RECOR.map(r => [r, r === 'Não' ? '—' : r]), t.recorrencia || 'Não')}</select></td>
+    <td><div class="ract"><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button><button class="iconbtn" data-act="tdup" data-id="${t.id}" title="Duplicar"><i class="ti ti-copy"></i></button><button class="iconbtn danger" data-act="del" data-col="tasks" data-id="${t.id}" title="Excluir"><i class="ti ti-trash"></i></button></div></td>
   </tr>`;
 }
 function taskCard(t) {
@@ -2392,7 +2432,7 @@ function taskCard(t) {
   </div>`;
 }
 // colunas da tabela de tarefas: [chave, título, largura padrão]; a largura é ajustável arrastando a borda do cabeçalho
-const TCOLS = [['chk', '', 72], ['titulo', 'Tarefa', 260], ['desc', 'Descrição', 360], ['cliente', 'Cliente', 150], ['resp', 'Responsável', 180], ['prazo', 'Prazo', 140], ['status', 'Status', 170], ['rec', 'Recorrência', 140], ['open', '', 76], ['del', '', 44]];
+const TCOLS = [['chk', '', 72], ['prazo', 'Prazo', 138], ['titulo', 'Tarefa', 440], ['cliente', 'Cliente', 160], ['resp', 'Responsável', 160], ['status', 'Status', 150], ['rec', 'Repete', 96], ['act', '', 96]];
 const TCOLS_MIN = 40;
 function autosize(root = document) { $$('textarea.tarea', root).forEach(a => { a.style.height = 'auto'; a.style.height = a.scrollHeight + 2 + 'px'; }); }
 document.addEventListener('input', e => { if (e.target.matches?.('textarea.tarea')) autosize(e.target.parentElement); });
@@ -2424,18 +2464,22 @@ function taskTable(list) {
 const SEL = new Set();
 const cliOf = t => (t.cliente || '').trim() || 'Interno';
 function taskPanel() {
-  const t0 = today(), ws = weekStart(t0), we = addDays(ws, 6), rf = arr(UI.tf.resp);
-  const all = Object.values(S.tasks).filter(t => !rf.length || rf.includes(t.resp));
+  const t0 = today(), ws = weekStart(t0), we = addDays(ws, 6), rf = arr(UI.tf.resp), dd = new Date();
+  const all = Object.values(S.tasks).filter(t => !rf.length || rf.includes(t.resp)), abertas = all.filter(t => t.status !== 'Concluído').length;
   const hoje = all.filter(t => t.prazo === t0), hojeOpen = hoje.filter(t => t.status !== 'Concluído').length;
   const atras = all.filter(t => t.status !== 'Concluído' && t.prazo && t.prazo < t0).length;
   const sem = all.filter(t => t.prazo && t.prazo >= ws && t.prazo <= we), semDone = sem.filter(t => t.status === 'Concluído').length;
   const pc = sem.length ? Math.round(semDone / sem.length * 100) : 0;
-  return `<div class="tpanel">
-    <div class="tp-box"><span class="tp-i" style="background:var(--s1)"><i class="ti ti-sun"></i></span><div><small>Para hoje${rf.length ? ` · ${esc(rf.map(x => x.split(' ')[0]).join(', '))}` : ''}</small><b>${hojeOpen}</b><em>${hoje.length ? `${hoje.length - hojeOpen} de ${hoje.length} concluídas` : 'nenhuma com prazo hoje'}</em></div></div>
-    <div class="tp-box ${atras ? 'bad' : ''}"><span class="tp-i" style="background:${atras ? 'var(--danger)' : '#8b97a8'}"><i class="ti ti-clock-exclamation"></i></span><div><small>Em atraso</small><b>${atras}</b><em>${atras ? 'abertas com prazo vencido' : 'tudo em dia'}</em></div></div>
-    <div class="tp-week"><div class="tp-wh"><span><i class="ti ti-calendar-week"></i> Semana · ${weekLabel(ws)}</span><b>${pc}%</b></div>
-      <div class="tp-bar"><i style="width:${pc}%"></i></div>
-      <div class="tp-wf"><span><b>${semDone}</b> de <b>${sem.length}</b> concluídas</span><span>${sem.length - semDone ? `faltam ${sem.length - semDone}` : sem.length ? 'semana completa 🎉' : 'sem tarefas na semana'}</span></div></div>
+  const quem = rf.length ? rf.map(x => x.split(' ')[0]).join(', ') : 'do time';
+  return `<div class="thero">
+    <div class="th-l"><span class="th-k"><i class="ti ti-checklist"></i>Tarefas</span><h2>Tarefas ${esc(quem)}</h2>
+      <div class="th-sub">${WDL[dd.getDay()]}, ${dd.getDate()} de ${MONTHS[dd.getMonth()].toLowerCase()} · ${abertas} ${abertas === 1 ? 'aberta' : 'abertas'}</div>
+      <button class="th-btn" data-act="new" data-v="tarefa"><i class="ti ti-plus"></i>Nova tarefa</button></div>
+    <div class="th-r">
+      <div class="th-st"><i class="ti ti-sun"></i><small>Para hoje</small><b>${hojeOpen}</b><em>${hoje.length ? `${hoje.length - hojeOpen} de ${hoje.length} concluídas` : 'nada com prazo hoje'}</em></div>
+      <div class="th-st ${atras ? 'bad' : ''}"><i class="ti ti-clock-exclamation"></i><small>Em atraso</small><b>${atras}</b><em>${atras ? 'com prazo vencido' : 'tudo em dia'}</em></div>
+      <div class="th-week"><div class="th-wh"><small><i class="ti ti-calendar-week"></i> Semana · ${weekLabel(ws)}</small><b>${pc}%</b></div><div class="th-bar"><i style="width:${pc}%"></i></div><em>${semDone} de ${sem.length} concluídas${sem.length - semDone ? ` · faltam ${sem.length - semDone}` : sem.length ? ' · semana completa' : ''}</em></div>
+    </div>
   </div>`;
 }
 function bulkBar() {
