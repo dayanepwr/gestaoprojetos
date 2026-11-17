@@ -787,6 +787,16 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .tasksv .tbl.ttbl .rowctl{height:auto;gap:8px}
 .tasksv .tbl.ttbl .iconbtn{width:24px;height:24px;font-size:14px}
 .tasksv .tbl.ttbl tr.grp td{height:auto;font-size:11.5px;padding:5px 10px}
+.modal .box.reader{width:min(780px,100%);max-height:calc(100vh - 48px);display:flex;flex-direction:column;padding:0;overflow:hidden;border-radius:20px}
+.rd-top{display:flex;justify-content:space-between;gap:12px;padding:22px 26px 18px;background:linear-gradient(120deg,#0C2340,#163560 60%,#2a5fc4 140%);color:#fff}
+.rd-top h2{margin:6px 0 10px;font-size:23px;color:#fff;line-height:1.25;letter-spacing:-.01em} .rd-date{display:inline-flex;gap:6px;align-items:center;font-size:11.5px;opacity:.8;font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+.rd-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px} .rd-av{display:flex;gap:2px} .rd-top .iconbtn{color:#fff;opacity:.8;align-self:flex-start} .rd-top .iconbtn:hover{background:rgba(255,255,255,.14);opacity:1}
+.rd-top .btn{height:26px;background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);color:#fff}
+.rd-prog{display:flex;align-items:center;gap:12px;padding:12px 26px;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink-2)} .rd-prog .pibar{flex:1;margin:0}
+.rd-body{padding:18px 26px 10px;overflow-y:auto;flex:1} .rd-body h4.mdh{margin:22px 0 8px;font-size:11.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:6px} .rd-body h4.mdh:first-child{margin-top:0}
+.rd-body ul.md li{font-size:15px;line-height:1.5;padding:8px 10px;border-radius:10px;gap:11px;margin:1px 0} .rd-body ul.md li.ck{cursor:pointer;transition:background .1s} .rd-body ul.md li.ck:hover{background:var(--surface-2)} .rd-body ul.md li.ck>.ti{font-size:22px;margin-top:0} .rd-body ul.md li.ck.done>.ti{color:var(--accent)}
+.rd-body p{font-size:14.5px;line-height:1.65;margin:0 0 8px}
+.rd-foot{display:flex;gap:8px;padding:12px 26px;border-top:1px solid var(--line);align-items:center}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -2301,7 +2311,7 @@ function viewMeetings() {
   ${wk.length ? `<div class="mgrid">${wk.map(m => `<div class="card mtg" data-act="open-meeting" data-id="${m.id}">
       <div class="meta"><span class="pill c-navy"><i class="ti ti-calendar"></i>${WD[parseISO(m.data).getDay()]}, ${fmtDs(m.data)}</span>${m.resp ? `${avatar(m.resp)}<span>${esc(m.resp)}</span>` : '<span style="color:var(--muted)">Sem responsável</span>'}</div>
       <h4>${esc(m.titulo || 'Alinhamento semanal')}</h4>
-      ${piList(m).length ? (() => { const pg = piProg(m); return `<div class="piprog ${pg.d === pg.n ? 'ok' : ''}" style="margin:6px 0 4px">${pg.d}/${pg.n} itens tratados</div><div class="pibar"><i style="width:${Math.round(pg.d / pg.n * 100)}%"></i></div><ul class="md pcard">${piList(m).slice(0, 4).map(i => `<li class="ck${i.ok ? ' done' : ''}"><i class="ti ${i.ok ? 'ti-square-check-filled' : 'ti-square'}"></i><span>${mdInline(i.t)}</span></li>`).join('')}</ul>${piList(m).length > 4 ? `<div class="piprog">+ ${piList(m).length - 4} itens</div>` : ''}`; })() : m.pauta ? `<div class="clamp md-c">${mdHtml(m.pauta)}</div>` : `<p class="clamp" style="color:var(--muted)">Pauta ainda vazia. Clique para escrever.</p>`}
+      ${(() => { const P = mdProg(m.pauta); return m.pauta && m.pauta.trim() ? `${P.n ? `<div class="piprog ${P.d === P.n ? 'ok' : ''}" style="margin:6px 0 4px">${P.d}/${P.n} tratados</div><div class="pibar"><i style="width:${Math.round(P.d / P.n * 100)}%"></i></div>` : ''}<div class="clamp md-c">${mdHtml(m.pauta)}</div>` : `<p class="clamp" style="color:var(--muted)">Pauta ainda vazia. Clique para escrever.</p>`; })()}
       <div class="meta">${m.link ? `<a class="btn sm" href="${esc(safeUrl(m.link))}" target="_blank" rel="noopener" data-stop><i class="ti ti-player-play"></i>Gravação</a>` : `<span style="color:var(--muted);font-size:12px"><i class="ti ti-video-off"></i> sem gravação</span>`}${(m.participantes || []).length ? `<span style="margin-left:auto;display:flex;gap:-4px">${m.participantes.map(p => avatar(p)).join('')}</span>` : ''}</div>
     </div>`).join('')}</div>` : `<div class="card empty"><i class="ti ti-calendar-plus"></i>Nenhuma pauta registrada nesta semana.<br><br><button class="btn primary" data-act="new" data-v="pauta" data-date="${ws < today() && today() <= we ? today() : ws}"><i class="ti ti-plus"></i>Nova pauta nesta semana</button></div>`}
   <div class="card" style="margin-top:18px"><div class="card-h"><h3>Histórico</h3><span class="hint">${all.length} pautas</span></div>
@@ -3369,7 +3379,7 @@ document.addEventListener('keydown', e => {
 // visualização com checks clicáveis abaixo dos campos longos
 function rtScan() {
   $$('textarea[data-live][data-bind]').forEach(ta => {
-    if (ta.closest('td') || ta.hasAttribute('data-enter-blur')) return;
+    if (ta.closest('td') || ta.hasAttribute('data-enter-blur') || ta.hasAttribute('data-nopv')) return;
     let pv = ta.nextElementSibling; if (pv && !pv.classList.contains('mdprev')) pv = null;
     if (hasMd(ta.value)) { if (!pv) { pv = document.createElement('div'); pv.className = 'mdprev'; ta.insertAdjacentElement('afterend', pv); } const h = mdHtml(ta.value, true); if (pv.dataset.h !== h) { pv.dataset.h = h; pv.innerHTML = `<div class="mdprev-h">Visualização · clique nos quadradinhos para marcar</div>` + h; } }
     else if (pv) pv.remove();
@@ -3627,8 +3637,26 @@ function hChartsDraw() {
 }
 AFTER.horas = () => hChartsDraw();
 
+const mdProg = txt => { let n = 0, d = 0; String(txt || '').split('\n').forEach(l => { const m = l.match(MD_LI); if (m && m[2] != null) { n++; if (m[2] !== ' ') d++; } }); return { n, d }; };
+// pautas antigas com itens separados viram tópicos com check dentro do texto
+function meetMigrate(m) { const it = piList(m); if (!it.length) return; patch('meetings', m.id, { pauta: it.map(i => `- [${i.ok ? 'x' : ' '}] ${i.t}`).join('\n') + (m.pauta && m.pauta.trim() ? '\n\n' + m.pauta : ''), itens: [] }); }
+function readerHtml(m) {
+  const P = mdProg(m.pauta), pc = P.n ? Math.round(P.d / P.n * 100) : 0, part = m.participantes || [];
+  return `<div class="box wide reader" role="dialog" aria-modal="true">
+    <div class="rd-top"><div><span class="rd-date"><i class="ti ti-calendar-event"></i>${WD[parseISO(m.data).getDay()]}, ${fmtD(m.data)}</span><h2>${esc(m.titulo || 'Alinhamento semanal')}</h2>
+      <div class="rd-meta">${m.resp ? `${avatar(m.resp)}<span>Pauta de ${esc(m.resp)}</span>` : ''}${part.length ? `<span class="rd-av">${part.map(p => avatar(p)).join('')}</span>` : ''}${m.link ? `<a class="btn sm" href="${esc(safeUrl(m.link))}" target="_blank" rel="noopener"><i class="ti ti-player-play"></i>Gravação</a>` : ''}</div></div>
+      <button class="iconbtn" data-act="rd-close" aria-label="Fechar"><i class="ti ti-x"></i></button></div>
+    ${P.n ? `<div class="rd-prog"><div class="pibar"><i style="width:${pc}%"></i></div><span><b>${P.d}/${P.n}</b> tratados${P.d === P.n ? ' · pauta concluída' : ''}</span></div>` : ''}
+    <div class="rd-body">${m.pauta && m.pauta.trim() ? mdHtml(m.pauta, true).replace(/data-act="mdck"/g, `data-act="rd-ck" data-id="${m.id}"`) : '<p class="mut">Pauta vazia. Clique em <b>Editar pauta</b> para escrever.</p>'}</div>
+    <div class="rd-foot"><button class="btn sm" data-act="rd-copy" data-id="${m.id}"><i class="ti ti-copy"></i>Copiar</button><span style="flex:1"></span><button class="btn sm" data-act="rd-edit" data-id="${m.id}"><i class="ti ti-pencil"></i>Editar pauta</button><button class="btn sm primary" data-act="rd-close">Fechar</button></div></div>`;
+}
+function openReader(id) {
+  const m = S.meetings[id]; if (!m) return; meetMigrate(m); UI.reader = id;
+  const mo = $('#modal'); mo.innerHTML = readerHtml(S.meetings[id]); mo.hidden = false; $('#backdrop').classList.add('show'); mo.onclick = e => { if (e.target === mo) closeModal(); };
+}
+function renderReader() { const id = UI.reader, m = S.meetings[id]; if (!id || !m || $('#modal').hidden) return; const sc = $('#modal .rd-body')?.scrollTop || 0; $('#modal').innerHTML = readerHtml(m); const b = $('#modal .rd-body'); if (b) b.scrollTop = sc; }
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
-function openDrawer(type, id, focus) { if (type === 'client') return openClient(id, focus); if (type === 'content') UI.cEdit = focus ? id : null; UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
+function openDrawer(type, id, focus) { if (type === 'meeting' && S.meetings[id]) meetMigrate(S.meetings[id]); if (type === 'client') return openClient(id, focus); if (type === 'content') UI.cEdit = focus ? id : null; UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
 
 function closeDrawer() { UI.drawer = null; renderDrawer(); }
 function renderDrawer() {
@@ -3700,8 +3728,7 @@ const DRAWERS = {
         <label>Responsável pela pauta</label><div class="cellrow">${avatar(m.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(m.resp)}" placeholder="—"></div>
         <label>Link da gravação</label><div class="cellrow"><input class="in" type="url" data-bind="${b('link')}" value="${esc(m.link)}" placeholder="https://…">${m.link ? `<a class="iconbtn" href="${esc(safeUrl(m.link))}" target="_blank" rel="noopener" title="Abrir"><i class="ti ti-player-play"></i></a>` : ''}</div>
         <label>Participantes</label><div class="pills">${respList().map(p => `<button class="chip ${part.includes(p) ? 'on' : ''}" data-act="mpart" data-id="${m.id}" data-v="${esc(p)}">${avatar(p)}${esc(p.split(' ')[0])}</button>`).join('')}</div>
-        ${piHtml(m)}
-        <div class="blk"><label>Anotações da reunião</label><textarea class="in field" style="min-height:200px" data-live data-bind="${b('pauta')}" placeholder="Decisões, encaminhamentos e observações…">${esc(m.pauta)}</textarea></div>
+        <div class="blk"><label style="display:flex;justify-content:space-between;align-items:center">Pauta e anotações <button class="btn sm" data-act="rd-open" data-id="${m.id}"><i class="ti ti-book-2"></i>Ler pauta</button></label><textarea class="in field" style="min-height:400px" data-live data-nopv data-bind="${b('pauta')}" placeholder="- [ ] Status geral da semana&#10;- [ ] Clientes em atenção&#10;- [ ] Agenda e ações dos projetos&#10;&#10;## Decisões e encaminhamentos&#10;Escreva aqui…">${esc(m.pauta)}</textarea><div class="note" style="margin:6px 0 0">Escreva os tópicos direto no texto: use a barra (<b>B</b>, tópicos, check) ou digite <code>- [ ] </code>; Enter continua a lista. Para ler e marcar como tratado sem editar, use <b>Ler pauta</b> ou clique no cartão da semana.</div></div>
       </div>
       <div class="subsec"><button class="btn sm" data-act="new" data-v="tarefa" data-desc="${esc(`Origem: alinhamento “${m.titulo || ''}” (${fmtD(m.data)})`)}"><i class="ti ti-plus"></i>Criar tarefa a partir desta pauta</button></div>
       <div class="dl-host">${datalists()}</div>
@@ -3838,7 +3865,7 @@ function quickCreate(type, preset = {}) {
 }
 // criação rápida navega e já abre a ficha: o drawer precisa sobreviver ao hashchange
 function go(r) { if (route() !== r) { keepDrawer = true; location.hash = '#/' + r; } else render(); }
-function closeModal() { $('#modal').hidden = true; $('#modal').innerHTML = ''; if (!UI.drawer) $('#backdrop').classList.remove('show'); }
+function closeModal() { UI.reader = null; $('#modal').hidden = true; $('#modal').innerHTML = ''; if (!UI.drawer) $('#backdrop').classList.remove('show'); }
 function confirmDlg(title, msg, okLabel = 'Excluir') {
   return new Promise(res => {
     const m = $('#modal');
@@ -3927,7 +3954,11 @@ document.addEventListener('click', async e => {
     case 'settings': return openDrawer('settings');
     case 'open-client': return openDrawer('client', id, el.dataset.focus);
     case 'open-task': return openDrawer('task', id);
-    case 'open-meeting': return openDrawer('meeting', id);
+    case 'open-meeting': case 'rd-open': return openReader(id);
+    case 'rd-close': return closeModal();
+    case 'rd-edit': closeModal(); return openDrawer('meeting', id, 'pauta');
+    case 'rd-copy': { const m = S.meetings[id]; if (m) { navigator.clipboard?.writeText(m.pauta || ''); toast('Pauta copiada'); } return; }
+    case 'rd-ck': { const m = S.meetings[id]; if (!m) return; const L = (m.pauta || '').split('\n'), mm = (L[+v] || '').match(MD_LI); if (!mm || mm[2] == null) return; L[+v] = mm[1] + '- [' + (mm[2] === ' ' ? 'x' : ' ') + '] ' + mm[3]; patch('meetings', id, { pauta: L.join('\n') }); renderReader(); return; }
     case 'open-content': return openDrawer('content', id);
     case 'open-goal': return openDrawer('goal', id);
     case 'gview': UI.gView = v; saveUI(); return render();
