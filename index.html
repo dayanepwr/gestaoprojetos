@@ -771,6 +771,22 @@ ul.md li.ck{cursor:default} ul.md li.ck>.ti{flex:none;font-size:16px;margin-top:
 .ttbl .rsel{font-size:12px;color:var(--muted);padding:5px 4px;cursor:pointer;appearance:none;-webkit-appearance:none;text-align:left} .ttbl .rsel.on{color:var(--focus);font-weight:600}
 .ract{display:flex;opacity:0;transition:opacity .12s} .ttbl tr:hover .ract,.ttbl tr.sel .ract,.ttbl tr:focus-within .ract{opacity:1}
 .tasksv .kcard{border-radius:12px;box-shadow:0 1px 3px rgba(12,35,64,.07)} .tasksv .kcol{border-radius:14px}
+.tasksv .tbl.ttbl{font-size:12px} .tasksv .tbl.ttbl td{vertical-align:middle;padding:5px 6px;height:44px}
+.tasksv .tbl.ttbl .in,.tasksv .tbl.ttbl select.in,.tasksv .tbl.ttbl textarea.in{font-size:12px;padding:3px 6px;line-height:1.35}
+.tasksv .tbl.ttbl textarea.strong{font-size:12.5px;font-weight:600}
+.tasksv .tbl.ttbl th{font-size:10px;padding:0 6px;height:30px}
+.tasksv .tbl.ttbl .pzin{font-size:12px;padding:2px 4px}
+.tasksv .tbl.ttbl .pzl{font-size:10.5px;padding:0 4px}
+.tasksv .tbl.ttbl .cellrow{align-items:center;padding-top:0;gap:6px}
+.tasksv .tbl.ttbl td .cellrow .av{margin-top:0;width:22px;height:22px;font-size:9px;flex:none}
+.tasksv .tbl.ttbl td .cellrow input.in{text-overflow:ellipsis}
+.tasksv .tbl.ttbl select.pill{font-size:11px;height:22px}
+.tasksv .tbl.ttbl input[type=date].in{min-width:0;width:100%}
+.tasksv .tbl.ttbl .clic{padding-left:2px} .tasksv .tbl.ttbl .ttl{align-items:center} .tasksv .tbl.ttbl .ttl-rec{margin-top:0;font-size:13px}
+.tasksv .tbl.ttbl .rsel{font-size:11.5px;padding:3px 2px}
+.tasksv .tbl.ttbl .rowctl{height:auto;gap:8px}
+.tasksv .tbl.ttbl .iconbtn{width:24px;height:24px;font-size:14px}
+.tasksv .tbl.ttbl tr.grp td{height:auto;font-size:11.5px;padding:5px 10px}
 .dgresp{width:100%;border-collapse:collapse;font-size:12.5px} .dgresp td{padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top} .dgresp td:first-child{width:58%;color:var(--ink-2)} .dgresp .sec td{background:#0c2340;color:#fff;font-weight:700;width:auto}
 .mkhero{padding:18px 20px;margin-bottom:16px}
 .mkstat{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--ink-2);margin-bottom:14px}
@@ -2415,10 +2431,10 @@ function taskRow(t) {
   return `<tr class="${st === 'Atrasado' ? 'late' : ''} ${st === 'Concluído' ? 'done' : ''} ${SEL.has(t.id) ? 'sel' : ''}">
     <td class="sticky"><div class="rowctl"><label class="selbox" title="Selecionar para editar em lote"><input type="checkbox" data-act="tsel" data-id="${t.id}" ${SEL.has(t.id) ? 'checked' : ''} aria-label="Selecionar"><span><i class="ti ti-check"></i></span></label><button type="button" class="doneb ${st === 'Concluído' ? 'on' : ''}" data-act="tcheck" data-id="${t.id}" title="${st === 'Concluído' ? 'Reabrir' : 'Concluir'}" aria-label="Concluir"><i class="ti ${st === 'Concluído' ? 'ti-circle-check-filled' : 'ti-circle'}"></i></button></div></td>
     <td><div class="pzc ${pz.c}"><input type="date" class="in pzin" data-type="date" data-bind="${b('prazo')}" value="${esc(t.prazo)}" aria-label="Prazo"><span class="pzl">${pz.l}</span></div></td>
-    <td><div class="ttl"><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea>${rec ? `<i class="ti ti-repeat ttl-rec" title="Repete: ${esc(t.recorrencia)}"></i>` : ''}</div><textarea class="in tarea tdesc" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea></td>
+    <td><div class="ttl"><textarea class="in strong tarea" rows="1" data-enter-blur data-bind="${b('titulo')}" placeholder="Título da tarefa">${esc(t.titulo)}</textarea>${rec ? `<i class="ti ti-repeat ttl-rec" title="Repete: ${esc(t.recorrencia)}"></i>` : ''}</div>${t.desc ? `<textarea class="in tarea tdesc" rows="1" data-live data-bind="${b('desc')}" placeholder="Adicionar descrição…">${esc(t.desc)}</textarea>` : ''}</td>
     <td><div class="clic ${cliOf(t) === 'Interno' ? 'int' : ''}"><i class="ti ti-building-store"></i><input class="in" list="dl-cli" data-bind="${b('cliente')}" value="${esc(cliOf(t))}" placeholder="Interno"></div></td>
     <td><div class="cellrow">${avatar(t.resp)}<input class="in" list="dl-resp" data-bind="${b('resp')}" value="${esc(t.resp)}" placeholder="—"></div></td>
-    <td><div class="cellrow stk">${st === 'Atrasado' ? lateBadge(t) : ''}<select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
+    <td><div class="cellrow"><select class="pill c-${tone(st === 'Atrasado' ? t.status || 'A fazer' : st)}" data-bind="${b('status')}" data-tone>${opts(T_BASE, t.status || 'A fazer')}</select></div></td>
     <td><select class="in rsel ${rec ? 'on' : ''}" data-bind="${b('recorrencia')}" aria-label="Recorrência">${opts(RECOR.map(r => [r, r === 'Não' ? '—' : r]), t.recorrencia || 'Não')}</select></td>
     <td><div class="ract"><button class="iconbtn" data-act="open-task" data-id="${t.id}" title="Abrir tarefa"><i class="ti ti-arrows-maximize"></i></button><button class="iconbtn" data-act="tdup" data-id="${t.id}" title="Duplicar"><i class="ti ti-copy"></i></button><button class="iconbtn danger" data-act="del" data-col="tasks" data-id="${t.id}" title="Excluir"><i class="ti ti-trash"></i></button></div></td>
   </tr>`;
@@ -2432,7 +2448,7 @@ function taskCard(t) {
   </div>`;
 }
 // colunas da tabela de tarefas: [chave, título, largura padrão]; a largura é ajustável arrastando a borda do cabeçalho
-const TCOLS = [['chk', '', 72], ['prazo', 'Prazo', 138], ['titulo', 'Tarefa', 440], ['cliente', 'Cliente', 160], ['resp', 'Responsável', 160], ['status', 'Status', 150], ['rec', 'Repete', 96], ['act', '', 96]];
+const TCOLS = [['chk', '', 66], ['prazo', 'Prazo', 124], ['titulo', 'Tarefa', 384], ['cliente', 'Cliente', 148], ['resp', 'Responsável', 152], ['status', 'Status', 148], ['rec', 'Repete', 80], ['act', '', 86]];
 const TCOLS_MIN = 40;
 function autosize(root = document) { $$('textarea.tarea', root).forEach(a => { a.style.height = 'auto'; a.style.height = a.scrollHeight + 2 + 'px'; }); }
 document.addEventListener('input', e => { if (e.target.matches?.('textarea.tarea')) autosize(e.target.parentElement); });
