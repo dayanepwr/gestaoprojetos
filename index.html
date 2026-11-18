@@ -976,6 +976,39 @@ input:focus,select:focus,textarea:focus{outline:none}
 .dr-h{border-bottom-color:var(--card-bd)}
 /* login */
 .login{background:radial-gradient(1100px 600px at 8% -10%,rgba(0,176,80,.22),transparent 60%),radial-gradient(900px 600px at 110% 110%,rgba(31,79,191,.35),transparent 60%),#002060}
+/* ═════════ DESIGN v3.1 · cartões ═════════ */
+.card-h h3{display:flex;align-items:center;gap:9px} .card-h h3::before{content:'';flex:none;width:4px;height:16px;border-radius:3px;background:linear-gradient(180deg,#00B050,#1F4FBF)}
+.card-h h3:has(i)::before{display:none}
+.kcard,.mcard{position:relative;border-radius:14px;border:1px solid var(--card-bd);border-left:4px solid var(--kc,var(--line-2));box-shadow:0 1px 2px rgba(0,32,96,.05),0 6px 16px rgba(0,32,96,.05);transition:transform .14s,box-shadow .14s}
+.kcard:hover,.mcard:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,32,96,.13)}
+.kcard.late{border-left-color:var(--danger)} .kcard .t,.mcard .t{font-weight:600;font-size:13.5px;color:var(--ink)}
+.kcol{background:linear-gradient(180deg,var(--surface-3),color-mix(in srgb,var(--surface-3) 70%,var(--surface)));border:1px solid var(--card-bd)}
+.kcol-h{font-weight:700;letter-spacing:.01em}
+.kcol-h .dot{width:9px;height:9px;box-shadow:0 0 0 3px color-mix(in srgb,var(--p-fg,var(--muted)) 18%,transparent)}
+/* informações úteis */
+.icard.int{position:relative;overflow:hidden;gap:11px;padding:16px 18px;border-left:0}
+.icard.int::before{content:'';position:absolute;left:0;top:0;right:0;height:4px;background:var(--ct,#00B050)}
+.ic-head{display:flex;gap:12px;align-items:center;margin-top:4px}
+.ic-ico{flex:none;width:42px;height:42px;border-radius:13px;display:grid;place-items:center;color:#fff;font-size:21px;box-shadow:0 6px 14px rgba(0,32,96,.18)}
+.ic-ttl{min-width:0;flex:1} .ic-ttl small{display:block;font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis} .ic-ttl h4{margin:1px 0 0;font-size:14.5px;font-weight:700;line-height:1.3;color:var(--ink)}
+.ic-lock{color:var(--muted);font-size:17px}
+.ic-read{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:var(--focus);opacity:.0;transition:opacity .14s} .icard:hover .ic-read{opacity:1}
+.icard.int .prev{min-height:0}
+.icard.lib{overflow:hidden;padding:0;border-radius:16px} .icard.lib .cover{height:92px;position:relative} .icard.lib .cover::after{content:'';position:absolute;right:-18px;bottom:-34px;width:110px;height:110px;border-radius:50%;border:2px solid rgba(255,255,255,.28);box-shadow:0 0 0 14px rgba(255,255,255,.08)}
+.icard.lib .cover .ti{font-size:30px} .icard.lib .body{padding:14px 16px 16px}
+/* pautas */
+.mtg{border-radius:16px;padding:16px 18px;position:relative;overflow:hidden} .mtg::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#00B050,#1F4FBF)}
+.mt-head{display:flex;gap:13px;align-items:center}
+.mt-date{flex:none;width:58px;border-radius:14px;overflow:hidden;text-align:center;background:var(--surface);border:1px solid var(--card-bd);box-shadow:0 4px 12px rgba(0,32,96,.1)}
+.mt-date span{display:block;background:#002060;color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 0}
+.mt-date b{display:block;font-size:22px;line-height:1.15;font-weight:700;color:var(--ink);padding-top:2px} .mt-date em{display:block;font-style:normal;font-size:10.5px;color:var(--muted);padding-bottom:4px}
+.mt-ttl{min-width:0;flex:1} .mt-ttl h4{margin:0 0 4px;font-size:15px;font-weight:700;line-height:1.3}
+/* metas, horas e demais */
+.gcard2,.gc3,.gk,.hal,.tp-box{border-radius:16px}
+.gc3:hover,.gcard2:hover{box-shadow:0 14px 32px rgba(0,32,96,.13)}
+.gk{position:relative;overflow:hidden} .gk::after{content:'';position:absolute;right:-26px;top:-26px;width:90px;height:90px;border-radius:50%;background:rgba(0,176,80,.07)}
+.hal{overflow:hidden;box-shadow:0 1px 2px rgba(0,32,96,.04),0 8px 22px rgba(0,32,96,.06)} .hal-h{font-weight:700}
+.anchip{border-radius:14px;background:linear-gradient(180deg,var(--surface),var(--surface-2))}
 </style>
 </head>
 <body>
@@ -1941,7 +1974,7 @@ function clientTable(list) {
 }
 function clientCards(list) {
   if (!list.length) return `<div class="card empty"><i class="ti ti-filter-off"></i>Nenhum cliente com esses filtros.</div>`;
-  return `<div class="mlist">${list.map(c => `<div class="card mcard" data-act="open-client" data-id="${c.id}">
+  return `<div class="mlist">${list.map(c => `<div class="card mcard" data-act="open-client" data-id="${c.id}" style="--kc:${BAR_TONE[tone(c.tag)] || '#00B050'}">
     <div class="t"><span>${esc(c.nome)}</span>${pill(c.st)}</div>
     <div class="meta">${pill(c.fase)}${pill(c.tag)}</div>
     <div class="meta">${avatar(c.con)}<span>${esc(c.con || 'Sem consultor')}</span><span style="margin-left:auto;font-weight:600;color:var(--ink-2)">${brl(feeNow(c))}${hasDisc(c) ? ' <i class="ti ti-discount" title="Com desconto"></i>' : ''}</span></div>
@@ -1955,7 +1988,7 @@ function clientKanban(list) {
     const sum = items.reduce((a, c) => a + (c.st === 'Encerrado' ? 0 : feeNow(c)), 0);
     return `<div class="kcol"><div class="kcol-h c-${tone(v)}"><span class="dot"></span>${esc(v || 'Sem valor')}<span class="cnt">${items.length}</span></div>
       <div class="kcol-sum">${sum ? brl(sum) + '/mês' : '&nbsp;'}</div>
-      <div class="kcol-b" data-kan="clients" data-field="${f}" data-val="${esc(v)}">${items.map(c => `<div class="kcard" data-id="${c.id}" data-act="open-client">
+      <div class="kcol-b" data-kan="clients" data-field="${f}" data-val="${esc(v)}">${items.map(c => `<div class="kcard" data-id="${c.id}" data-act="open-client" style="--kc:${BAR_TONE[tone(c.tag)] || '#00B050'}">
         <div class="t">${esc(c.nome)}</div>
         <div class="meta">${f !== 'st' ? pill(c.st) : ''}${f !== 'fase' ? pill(c.fase) : ''}${f !== 'tag' ? pill(c.tag) : ''}</div>
         <div class="row"><span class="meta">${avatar(c.con)}${esc(c.seg || '')}</span><span style="font-size:12px;font-weight:600;color:var(--ink-2)">${brl(feeNow(c))}</span></div>
@@ -2051,16 +2084,16 @@ function viewInfo() {
         <span class="mut" style="font-size:12.5px;margin-left:auto">${list.length} ${list.length === 1 ? 'item' : 'itens'}</span></div>${body}</div></div>`;
 }
 function infoCardInt(c) {
-  const cat = c.categoria || 'Sem categoria', t = hashTone(cat);
-  return `<div class="card icard int" style="--ct:${catColor(c.categoria)}" data-act="open-content" data-id="${c.id}">
-    <div class="top"><span class="pill c-${t}"><i class="ti ${catIcon(c.categoria)}"></i>${esc(cat)}</span>${c.senha ? '<i class="ti ti-lock" style="color:var(--muted)" title="Tem senha"></i>' : ''}</div>
-    <h4>${esc(c.titulo || 'Sem título')}</h4>
-    ${c.conteudo ? `<p class="clamp prev">${esc(mdPlain(c.conteudo))}</p>` : ''}
-    ${c.usuario || c.senha || c.conteudo || c.link ? `<div class="icfoot">
+  const cat = c.categoria || 'Sem categoria', [g1, g2] = CAT_GRAD[hashTone(cat)];
+  return `<div class="card icard int" style="--ct:${g1}" data-act="open-content" data-id="${c.id}">
+    <div class="ic-head"><span class="ic-ico" style="background:linear-gradient(135deg,${g1},${g2})"><i class="ti ${catIcon(c.categoria)}"></i></span><div class="ic-ttl"><small>${esc(cat)}</small><h4>${esc(c.titulo || 'Sem título')}</h4></div>${c.senha ? '<i class="ti ti-lock ic-lock" title="Tem senha"></i>' : ''}</div>
+    ${c.conteudo ? `<p class="clamp prev">${esc(mdPlain(c.conteudo))}</p>` : '<p class="prev mut">Sem texto</p>'}
+    <div class="icfoot">
       ${c.usuario ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="usuario" title="Copiar login"><i class="ti ti-user"></i>Login</button>` : ''}
       ${c.senha ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="senha" title="Copiar senha"><i class="ti ti-key"></i>Senha</button>` : ''}
       ${c.conteudo ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="conteudo" title="Copiar texto"><i class="ti ti-copy"></i>Texto</button>` : ''}
-      ${c.link ? `<a class="btn sm" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener" data-stop><i class="ti ti-external-link"></i>Link</a>` : ''}</div>` : ''}
+      ${c.link ? `<a class="btn sm" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener" data-stop><i class="ti ti-external-link"></i>Link</a>` : ''}
+      <span class="ic-read"><i class="ti ti-book-2"></i>Ler</span></div>
   </div>`;
 }
 function infoCardLib(c) {
@@ -2382,8 +2415,7 @@ function viewMeetings() {
   const cur = weekStart(today());
   return `<div class="week"><div class="pnav"><button class="iconbtn" data-act="wshift" data-v="-7" aria-label="Semana anterior"><i class="ti ti-chevron-left"></i></button><span class="lbl" style="min-width:200px">${ws === cur ? 'Esta semana · ' : ''}${weekLabel(ws)}</span><button class="iconbtn" data-act="wshift" data-v="7" aria-label="Próxima semana"><i class="ti ti-chevron-right"></i></button></div>${ws !== cur ? `<button class="btn ghost sm" data-act="wtoday">Esta semana</button>` : ''}</div>
   ${wk.length ? `<div class="mgrid">${wk.map(m => `<div class="card mtg" data-act="open-meeting" data-id="${m.id}">
-      <div class="meta"><span class="pill c-navy"><i class="ti ti-calendar"></i>${WD[parseISO(m.data).getDay()]}, ${fmtDs(m.data)}</span>${m.resp ? `${avatar(m.resp)}<span>${esc(m.resp)}</span>` : '<span style="color:var(--muted)">Sem responsável</span>'}</div>
-      <h4>${esc(m.titulo || 'Alinhamento semanal')}</h4>
+      <div class="mt-head"><div class="mt-date"><b>${parseISO(m.data).getDate()}</b><span>${MSHORT[parseISO(m.data).getMonth()]}</span><em>${WD[parseISO(m.data).getDay()]}</em></div><div class="mt-ttl"><h4>${esc(m.titulo || 'Alinhamento semanal')}</h4><div class="meta">${m.resp ? `${avatar(m.resp)}<span>${esc(m.resp)}</span>` : '<span style="color:var(--muted)">Sem responsável</span>'}</div></div></div>
       ${(() => { const P = mdProg(m.pauta); return m.pauta && m.pauta.trim() ? `${P.n ? `<div class="piprog ${P.d === P.n ? 'ok' : ''}" style="margin:6px 0 4px">${P.d}/${P.n} tratados</div><div class="pibar"><i style="width:${Math.round(P.d / P.n * 100)}%"></i></div>` : ''}<div class="clamp md-c">${mdHtml(m.pauta)}</div>` : `<p class="clamp" style="color:var(--muted)">Pauta ainda vazia. Clique para escrever.</p>`; })()}
       <div class="meta">${m.link ? `<a class="btn sm" href="${esc(safeUrl(m.link))}" target="_blank" rel="noopener" data-stop><i class="ti ti-player-play"></i>Gravação</a>` : `<span style="color:var(--muted);font-size:12px"><i class="ti ti-video-off"></i> sem gravação</span>`}${(m.participantes || []).length ? `<span style="margin-left:auto;display:flex;gap:-4px">${m.participantes.map(p => avatar(p)).join('')}</span>` : ''}</div>
     </div>`).join('')}</div>` : `<div class="card empty"><i class="ti ti-calendar-plus"></i>Nenhuma pauta registrada nesta semana.<br><br><button class="btn primary" data-act="new" data-v="pauta" data-date="${ws < today() && today() <= we ? today() : ws}"><i class="ti ti-plus"></i>Nova pauta nesta semana</button></div>`}
@@ -3728,6 +3760,22 @@ function openReader(id) {
   const mo = $('#modal'); mo.innerHTML = readerHtml(S.meetings[id]); mo.hidden = false; $('#backdrop').classList.add('show'); mo.onclick = e => { if (e.target === mo) closeModal(); };
 }
 function renderReader() { const id = UI.reader, m = S.meetings[id]; if (!id || !m || $('#modal').hidden) return; const sc = $('#modal .rd-body')?.scrollTop || 0; $('#modal').innerHTML = readerHtml(m); const b = $('#modal .rd-body'); if (b) b.scrollTop = sc; }
+function contentReaderHtml(c) {
+  const cat = c.categoria || 'Sem categoria', [g1, g2] = CAT_GRAD[hashTone(cat)], area = c.area || 'Internas';
+  return `<div class="box wide reader" role="dialog" aria-modal="true">
+    <div class="rd-top" style="background:linear-gradient(120deg,${g1},${g2})"><div><span class="rd-date"><i class="ti ${catIcon(c.categoria)}"></i>${esc(cat)} · ${area === 'Internas' ? 'Interno' : 'Para clientes'}</span><h2>${esc(c.titulo || 'Sem título')}</h2>
+      ${c.link ? `<a class="btn sm" href="${esc(safeUrl(c.link))}" target="_blank" rel="noopener"><i class="ti ti-external-link"></i>Abrir link</a>` : ''}</div>
+      <button class="iconbtn" data-act="rd-close" aria-label="Fechar"><i class="ti ti-x"></i></button></div>
+    ${area === 'Internas' && (c.usuario || c.senha) ? `<div style="padding:16px 26px 0"><div class="rd-cred">
+      ${c.usuario ? `<div><span class="lab">Login</span><code>${esc(c.usuario)}</code><button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="usuario" title="Copiar"><i class="ti ti-copy"></i></button></div>` : ''}
+      ${c.senha ? `<div><span class="lab">Senha</span><code data-dsecret="${c.id}">••••••••</code><button class="iconbtn" data-act="dreveal" data-id="${c.id}" title="Mostrar"><i class="ti ti-eye"></i></button><button class="iconbtn" data-act="copy" data-id="${c.id}" data-f="senha" title="Copiar"><i class="ti ti-copy"></i></button></div>` : ''}</div></div>` : ''}
+    <div class="rd-body">${c.conteudo && c.conteudo.trim() ? mdHtml(c.conteudo) : '<p class="mut">Sem conteúdo ainda. Clique em <b>Editar</b> para escrever.</p>'}</div>
+    <div class="rd-foot">${c.conteudo ? `<button class="btn sm" data-act="copy" data-id="${c.id}" data-f="conteudo"><i class="ti ti-copy"></i>Copiar texto</button>` : ''}<span style="flex:1"></span><button class="btn sm" data-act="ct-edit" data-id="${c.id}"><i class="ti ti-pencil"></i>Editar</button><button class="btn sm primary" data-act="rd-close">Fechar</button></div></div>`;
+}
+function openContentReader(id) {
+  const c = S.content[id]; if (!c) return; UI.reader = id;
+  const mo = $('#modal'); mo.innerHTML = contentReaderHtml(c); mo.hidden = false; $('#backdrop').classList.add('show'); mo.onclick = e => { if (e.target === mo) closeModal(); };
+}
 /* ═══════════════ DRAWER (ficha lateral) ═══════════════ */
 function openDrawer(type, id, focus) { if (type === 'meeting' && S.meetings[id]) meetMigrate(S.meetings[id]); if (type === 'client') return openClient(id, focus); if (type === 'content') UI.cEdit = focus ? id : null; UI.drawer = { type, id, focus }; closePop(); renderDrawer(); }
 
@@ -4032,7 +4080,8 @@ document.addEventListener('click', async e => {
     case 'rd-edit': closeModal(); return openDrawer('meeting', id, 'pauta');
     case 'rd-copy': { const m = S.meetings[id]; if (m) { navigator.clipboard?.writeText(m.pauta || ''); toast('Pauta copiada'); } return; }
     case 'rd-ck': { const m = S.meetings[id]; if (!m) return; const L = (m.pauta || '').split('\n'), mm = (L[+v] || '').match(MD_LI); if (!mm || mm[2] == null) return; L[+v] = mm[1] + '- [' + (mm[2] === ' ' ? 'x' : ' ') + '] ' + mm[3]; patch('meetings', id, { pauta: L.join('\n') }); renderReader(); return; }
-    case 'open-content': return openDrawer('content', id);
+    case 'open-content': return openContentReader(id);
+    case 'ct-edit': closeModal(); return openDrawer('content', id, 'conteudo');
     case 'open-goal': return openDrawer('goal', id);
     case 'gview': UI.gView = v; saveUI(); return render();
     case 'gf-clear': UI.gf = { cat: [], resp: [], sit: [] }; saveUI(); return render();
