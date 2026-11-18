@@ -18,16 +18,17 @@
 <style>
 :root{
   color-scheme: light;
-  --bg:#F3F5F9; --surface:#FFFFFF; --surface-2:#F7F9FC; --surface-3:#EEF2F7;
-  --line:#E4E9F0; --line-2:#D5DCE6;
-  --ink:#0C2340; --ink-2:#46546E; --muted:#8792A6;
-  --brand:#0C2340; --brand-2:#163560; --accent:#00A651; --accent-ink:#00853F; --accent-soft:#E3F6EC;
-  --focus:#2a5fc4; --danger:#C93636; --danger-soft:#FDECEC;
-  --s1:#2a5fc4; --s2:#1baf7a; --s3:#eb6834; --grid:#EAEEF3; --axis:#C9D1DC;
-  --shadow:0 1px 2px rgba(12,35,64,.05),0 4px 16px rgba(12,35,64,.06);
+  --bg:#F2F5FB; --surface:#FFFFFF; --surface-2:#F6F8FD; --surface-3:#ECF0F8;
+  --line:#E3E8F2; --line-2:#CFD7E6;
+  --ink:#0A1B45; --ink-2:#46546E; --muted:#7D8AA3;
+  --brand:#002060; --brand-2:#06307F; --accent:#00B050; --accent-ink:#008A3E; --accent-soft:#E0F7EA;
+  --focus:#1F4FBF; --danger:#C93636; --danger-soft:#FDECEC;
+  --s1:#1F4FBF; --s2:#00B050; --s3:#F2742C; --grid:#EAEEF3; --axis:#C9D1DC;
+  --shadow:0 1px 2px rgba(0,32,96,.05),0 4px 16px rgba(0,32,96,.06);
   --shadow-lg:0 12px 40px rgba(12,35,64,.18);
   --r:14px; --r-sm:10px;
-  --side:#0C2340; --side-ink:#C9D4E6;
+  --side:#002060; --side-ink:#CBD6EE;
+  --card-bd:#E3E9F4; --btn-bd:#D3DBEC; --btn-bd-h:#B7C4E0; --btn-h:#F3F6FD; --seg-bg:#E7ECF7; --th-bg:#F0F4FC; --th-fg:#3A4C78; --row-h:#F7FAFF;
   /* tons das pílulas */
   --green-bg:#E2F5EA; --green-fg:#0A7A3D;
   --amber-bg:#FDF1D6; --amber-fg:#8A5A00;
@@ -38,7 +39,7 @@
   --orange-bg:#FDEADC;--orange-fg:#A8480C;
   --red-bg:#FDE6E6;   --red-fg:#B42323;
   --teal-bg:#DDF4F4;  --teal-fg:#0B6F74;
-  --navy-bg:#E3E8F1;  --navy-fg:#0C2340;
+  --navy-bg:#E1E7F5;  --navy-fg:#002060;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
@@ -46,11 +47,12 @@
     --bg:#0B1220; --surface:#131C2B; --surface-2:#182334; --surface-3:#1E2A3E;
     --line:#243149; --line-2:#2F3D57;
     --ink:#EEF2F8; --ink-2:#B7C2D6; --muted:#7F8BA3;
-    --brand:#EEF2F8; --accent:#1BBF6A; --accent-ink:#35D07F; --accent-soft:rgba(27,191,106,.14);
+    --brand:#EEF2F8; --brand-2:#9DB7F2; --accent:#14C468; --accent-ink:#35D07F; --accent-soft:rgba(27,191,106,.14);
     --focus:#6E9BF0; --danger:#F07373; --danger-soft:rgba(240,115,115,.12);
     --s1:#4f86e8; --s2:#199e70; --s3:#d95926; --grid:#1F2A3D; --axis:#34425C;
     --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25); --shadow-lg:0 12px 40px rgba(0,0,0,.5);
     --side:#0A1526; --side-ink:#AEBBD2;
+    --card-bd:var(--line); --btn-bd:var(--line-2); --btn-bd-h:#41537a; --btn-h:var(--surface-2); --seg-bg:var(--surface-3); --th-bg:var(--surface-2); --th-fg:var(--ink-2); --row-h:var(--surface-2);
     --green-bg:rgba(27,191,106,.15); --green-fg:#5ED897;
     --amber-bg:rgba(245,176,40,.15); --amber-fg:#F2C265;
     --gray-bg:rgba(150,165,190,.14); --gray-fg:#B7C2D6;
@@ -68,11 +70,12 @@
   --bg:#0B1220; --surface:#131C2B; --surface-2:#182334; --surface-3:#1E2A3E;
   --line:#243149; --line-2:#2F3D57;
   --ink:#EEF2F8; --ink-2:#B7C2D6; --muted:#7F8BA3;
-  --brand:#EEF2F8; --accent:#1BBF6A; --accent-ink:#35D07F; --accent-soft:rgba(27,191,106,.14);
+  --brand:#EEF2F8; --brand-2:#9DB7F2; --accent:#14C468; --accent-ink:#35D07F; --accent-soft:rgba(27,191,106,.14);
   --focus:#6E9BF0; --danger:#F07373; --danger-soft:rgba(240,115,115,.12);
   --s1:#4f86e8; --s2:#199e70; --s3:#d95926; --grid:#1F2A3D; --axis:#34425C;
   --shadow:0 1px 2px rgba(0,0,0,.3),0 4px 16px rgba(0,0,0,.25); --shadow-lg:0 12px 40px rgba(0,0,0,.5);
   --side:#0A1526; --side-ink:#AEBBD2;
+    --card-bd:var(--line); --btn-bd:var(--line-2); --btn-bd-h:#41537a; --btn-h:var(--surface-2); --seg-bg:var(--surface-3); --th-bg:var(--surface-2); --th-fg:var(--ink-2); --row-h:var(--surface-2);
   --green-bg:rgba(27,191,106,.15); --green-fg:#5ED897;
   --amber-bg:rgba(245,176,40,.15); --amber-fg:#F2C265;
   --gray-bg:rgba(150,165,190,.14); --gray-fg:#B7C2D6;
@@ -903,6 +906,76 @@ select.pill.c-red{background-color:var(--red-bg);border-color:transparent;color:
 .dgopt.on{background:var(--ink);border-color:var(--ink)}
 .dgnb.on{background:var(--surface-2);border-color:var(--ink)} .dgnb.ok i{background:var(--surface-3);color:var(--ink-2)}
 .dgf.cond{background:var(--surface-2);border-left-color:var(--line-2)}
+/* ═════════ DESIGN v3 · identidade Power Gestão (navy #002060 · verde #00B050 · Poppins) ═════════ */
+body{background:radial-gradient(1100px 380px at 100% -140px,rgba(0,176,80,.07),transparent 62%),radial-gradient(900px 360px at 0 -160px,rgba(0,32,96,.06),transparent 60%),var(--bg)}
+.main{padding-top:22px}
+/* menu lateral */
+.side{background:linear-gradient(185deg,#002060 0%,#001B54 52%,#001238 100%);box-shadow:6px 0 28px rgba(0,16,56,.2)}
+.nav{gap:3px} .nav a{border-radius:12px;font-size:13.5px;padding:11px 13px;position:relative}
+.nav a:hover{background:rgba(255,255,255,.08)}
+.nav a.on{background:linear-gradient(90deg,rgba(0,176,80,.24),rgba(255,255,255,.05) 85%);color:#fff;box-shadow:inset 3px 0 0 #00B050}
+.nav a.on .ti{color:#3BE585}
+.userbtn{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:13px}
+.userbtn:hover{background:rgba(255,255,255,.1)}
+/* cabeçalho de página = capa da marca */
+.phead{position:relative;overflow:hidden;border-radius:18px;padding:20px 26px;margin-bottom:18px;color:#fff;background:linear-gradient(115deg,#002060 0%,#06307F 60%,#1F4FBF 140%);box-shadow:0 10px 28px rgba(0,32,96,.2);align-items:center}
+.phead::before{content:'';position:absolute;right:-46px;top:-96px;width:290px;height:290px;border-radius:50%;border:2px solid rgba(0,176,80,.32);box-shadow:0 0 0 18px rgba(0,176,80,.07),0 0 0 38px rgba(0,176,80,.045);pointer-events:none}
+.phead::after{content:'';position:absolute;left:0;bottom:0;height:3px;width:120px;background:#00B050;border-radius:0 3px 0 0}
+.phead>*{position:relative;z-index:1}
+.phead h1{color:#fff;font-size:22px;font-weight:700} .phead .sub{color:rgba(255,255,255,.72);font-size:13px}
+.phead .sync{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.22);color:#fff}
+.phead .right .seg{background:rgba(255,255,255,.13)} .phead .right .seg button{color:rgba(255,255,255,.88)} .phead .right .seg button.on{background:#fff;color:#002060}
+.phead .right .btn{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff} .phead .right .btn:hover{background:rgba(255,255,255,.2)}
+@media (max-width:860px){.phead{padding:14px 16px;border-radius:14px}.phead h1{font-size:19px}}
+/* cartões */
+.card{border-radius:16px;border-color:var(--card-bd);box-shadow:0 1px 2px rgba(0,32,96,.04),0 8px 24px rgba(0,32,96,.06)}
+.card-h{padding:18px 20px 8px} .card-h h3{font-size:15px;font-weight:700}
+.card-b{padding:8px 20px 20px}
+a.card,.card[data-act]{transition:transform .15s,box-shadow .15s} .card[data-act]:hover{box-shadow:0 14px 34px rgba(0,32,96,.13)}
+/* indicadores */
+.kpi{position:relative;overflow:hidden;padding:18px 20px 18px 22px;border-radius:16px;transition:transform .15s,box-shadow .15s}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--kc,#00B050)}
+.kpis .kpi:nth-child(1){--kc:#00B050} .kpis .kpi:nth-child(2){--kc:#F2742C} .kpis .kpi:nth-child(3){--kc:#1F4FBF} .kpis .kpi:nth-child(4){--kc:#D03B3B} .kpis .kpi:nth-child(5){--kc:#7C4DDB}
+.kpis.k2 .kpi:nth-child(1){--kc:#0B9AA0} .kpis.k2 .kpi:nth-child(2){--kc:#F2742C}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,32,96,.13)}
+.kpi{background:linear-gradient(180deg,color-mix(in srgb,var(--kc,#00B050) 7%,var(--surface)),var(--surface) 70%)}
+.kpi .k{font-weight:600;color:var(--ink-2)} .kpi .k .ti{width:32px;height:32px;border-radius:10px;font-size:18px}
+.kpi .v{font-size:30px;font-weight:700;letter-spacing:-.025em}
+.meter i{background:linear-gradient(90deg,#00B050,#37D67A)}
+/* botões */
+.btn{border-radius:10px;font-weight:600;border-color:var(--btn-bd);box-shadow:0 1px 1px rgba(0,32,96,.04)}
+.btn:hover{border-color:var(--btn-bd-h);background:var(--btn-h)}
+.btn.primary{background:linear-gradient(180deg,#0BC35E,#00A24A);border-color:#00A24A;color:#fff;box-shadow:0 3px 10px rgba(0,176,80,.32)}
+.btn.primary:hover{filter:none;background:linear-gradient(180deg,#10CC66,#00AE50);box-shadow:0 6px 16px rgba(0,176,80,.42);transform:translateY(-1px)}
+.btn.on,.chip.on{background:#002060;border-color:#002060;color:#fff}
+.btn.dark{background:#002060;border-color:#002060}
+.seg{background:var(--seg-bg)} .seg button.on{color:#002060;box-shadow:0 1px 4px rgba(0,32,96,.16)}
+.fab{background:linear-gradient(180deg,#0BC35E,#00A24A);box-shadow:0 10px 28px rgba(0,176,80,.42)}
+.fp.on{border-color:#002060}
+input:focus,select:focus,textarea:focus{outline:none}
+.search input:focus,.field:focus{border-color:#1F4FBF;box-shadow:0 0 0 3px rgba(31,79,191,.16)}
+/* tabelas */
+.tbl th{background:var(--th-bg);color:var(--th-fg);font-weight:600}
+.tbl tr:hover td{background:var(--row-h)}
+.dtable th{color:var(--th-fg)}
+/* abas do Time */
+.ttabs button.on{color:var(--ink);border-bottom-color:#00B050;border-bottom-width:3px}
+.ttabs .tn{background:var(--th-bg)}
+/* capa das tarefas, metas e demais heros */
+.thero{background:linear-gradient(115deg,#002060 0%,#06307F 58%,#1F4FBF 140%);box-shadow:0 10px 28px rgba(0,32,96,.2)}
+.thero::before{border:2px solid rgba(0,176,80,.3);background:transparent;box-shadow:0 0 0 20px rgba(0,176,80,.07),0 0 0 42px rgba(0,176,80,.04)}
+.thero::after{display:none} .th-bar i{background:#00D068} .th-btn{color:#002060}
+.rd-top{background:linear-gradient(115deg,#002060,#06307F 60%,#1F4FBF 140%)}
+/* metas e cards de conteúdo */
+.gcard2,.gc3{border-top-width:4px} .gk{border-radius:16px}
+.icard,.mtg{border-radius:16px} .icard:hover,.mtg:hover{box-shadow:0 14px 34px rgba(0,32,96,.13)}
+.catnav{border-radius:16px;border-color:var(--card-bd);box-shadow:0 1px 2px rgba(0,32,96,.04),0 8px 24px rgba(0,32,96,.05)}
+.cat.on{background:var(--seg-bg);box-shadow:inset 3px 0 0 #00B050}
+/* gaveta */
+.drawer{border-radius:20px 0 0 20px}
+.dr-h{border-bottom-color:var(--card-bd)}
+/* login */
+.login{background:radial-gradient(1100px 600px at 8% -10%,rgba(0,176,80,.22),transparent 60%),radial-gradient(900px 600px at 110% 110%,rgba(31,79,191,.35),transparent 60%),#002060}
 </style>
 </head>
 <body>
