@@ -1025,6 +1025,7 @@ input:focus,select:focus,textarea:focus{outline:none}
 .pl-sep{width:1px;height:22px;background:var(--line);margin:0 8px;align-self:center} .pl-lock{font-size:12px;margin-left:5px;opacity:.55}
 .pl-cfg .in,.dtable [data-pl].in,.pl-note [data-pl].in,.pl-s [data-pl].in,.pl-it [data-pl].in,.pl-tr [data-pl].in{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface,#fff);font:inherit;font-size:12.5px} .pl-cfg .in:focus,[data-pl].in:focus{outline:2px solid var(--accent);outline-offset:0}
 .pl-it select.pill{appearance:none;-webkit-appearance:none;width:132px;padding:0 12px;text-indent:0;background:var(--p-bg);color:var(--p-fg);border-radius:999px;font-size:12px}
+.pl-mm td,.pl-mm th{padding:7px 5px;white-space:nowrap;font-size:12px} .pl-mm td:first-child{min-width:110px;font-weight:600}
 </style>
 </head>
 <body>
@@ -4419,7 +4420,7 @@ const PL_TABS_TEAM = [['bonus', 'Metas do time', 'ti-trophy'], ['operacao', 'Ope
 const PL_TABS_SOC = [['orcado', 'Orçado × Real.', 'ti-chart-bar'], ['stock', 'Stock options', 'ti-coin'], ['setores', 'Setores', 'ti-sitemap'], ['evolucao', 'Evolução', 'ti-timeline']];
 const PL_MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 const PL_ST = { 'A fazer': 'gray', 'Em andamento': 'blue', 'Concluída': 'green', 'Bloqueada': 'red' };
-const PL_BONUS_DEF = { total: 0, antecipa: 50, ind: { rec: { peso: 0, meta: 0, jun: 0 }, tag: { peso: 0, meta: 0 }, churn: { peso: 0, meta: 0 } }, pessoas: [] };
+const PL_BONUS_DEF = { cargos: [], antecipa: 50, ind: { rec: { peso: 0, meta: 0, jun: 0 }, tag: { peso: 0, meta: 0 }, churn: { peso: 0, meta: 0 } }, pessoas: [] };
 const PL_ORC_K = ['receita', 'impostos', 'dsv', 'csp', 'adm', 'gente', 'com', 'mkt', 'dir'];
 // o orçamento vem do banco (v2:socios:orc), nunca do código
 const plPlan = () => { const p = S.socios?.orc?.plan || {}; return Object.fromEntries(PL_ORC_K.map(k => [k, (p[k] && p[k].length === 12) ? p[k] : Array(12).fill(0)])); };
@@ -4453,57 +4454,69 @@ document.addEventListener('click', e => {
     if (a === 'sadd') { (d.items[i].sub ||= []).push({ id: uid(), t: '', ok: false }); }
     if (a === 'stog') d.items[i].sub[j].ok = !d.items[i].sub[j].ok;
     if (a === 'sdel') d.items[i].sub.splice(j, 1);
+    if (a === 'cadd') (d.cargos ||= []).push({ id: uid(), nome: '', valor: 0, qtd: 1 });
+    if (a === 'cdel') d.cargos.splice(i, 1);
     if (a === 'pay') { (d.pagos ||= []).push({ id: uid(), d: today(), v: 0, n: '' }); }
     if (a === 'paydel') d.pagos.splice(i, 1);
   });
 });
 
 /* ── cálculo do bônus (automático a partir do painel) ── */
-function plBonusCalc() {
-  const B = plDoc('plano', 'bonus'), t = today(), prev = t < '2027-01-01', ano = prev ? 2026 : +t.slice(0, 4);
-  const ys = `${ano}-01-01`, ye = `${ano}-12-31`, ref = t < ye ? t : ye, jun = `${ano}-06-30`, refH1 = ref < jun ? ref : jun;
-  const cd = comboData(ys, ye).filter(b => b.s >= ys && b.s <= ye);
-  const recAt = lim => cd.reduce((a, b) => a + (b.fat != null && b.s <= lim ? b.fat : 0), 0);
-  const atn = atnData({ s: ys, e: ye }).filter(b => b.s >= ys && b.s <= ref && b.pct != null);
-  const tagAtual = atn.length ? atn[atn.length - 1].pct : null;
-  const tagH1 = (atn.filter(b => b.s <= refH1).slice(-1)[0] || {}).pct ?? null;
-  const ch = x => { const m = metrics(ys, x); return m.churnY == null ? null : m.churnY * 100; };
-  const mm = +ref.slice(5, 7), I = B.ind, tot = +B.total || 0;
-  const expRec = mm <= 6 ? I.rec.jun * mm / 6 : I.rec.jun + (I.rec.meta - I.rec.jun) * (mm - 6) / 6;
-  const list = [
-    { k: 'rec', nome: 'Receita bruta acumulada', fmt: v => v == null ? '—' : plBrl2(v), atual: recAt(ref), h1: recAt(refH1), jun: I.rec.jun, meta: I.rec.meta, lower: false, exp: expRec, peso: I.rec.peso, nota: 'Meta de junho e anual' },
-    { k: 'tag', nome: 'Clientes com Tag Atenção', fmt: v => v == null ? '—' : pct1(v), atual: tagAtual, h1: tagH1, jun: I.tag.meta, meta: I.tag.meta, lower: true, peso: I.tag.peso, nota: 'Até ' + I.tag.meta + '% da carteira' },
-    { k: 'churn', nome: 'Churn (média mensal do ano)', fmt: v => v == null ? '—' : pct1(v), atual: ch(ref), h1: ch(refH1), jun: I.churn.meta, meta: I.churn.meta, lower: true, peso: I.churn.peso, nota: 'Até ' + I.churn.meta + '%' }];
-  list.forEach(x => {
-    x.valor = tot * x.peso / 100;
-    const ok = (v, m) => v != null && (x.lower ? v <= m : v >= m);
-    x.okFinal = ok(x.atual, x.meta); x.okH1 = ok(x.h1, x.jun);
-    const base = x.exp != null ? x.exp : x.meta;
-    if (x.atual == null) x.sem = 'gray'; else if (x.lower) x.sem = x.atual <= x.meta ? 'green' : x.atual <= x.meta * 1.25 ? 'orange' : 'red'; else x.sem = x.atual >= x.meta ? 'green' : x.atual >= base ? 'green' : x.atual >= base * .9 ? 'orange' : 'red';
-    x.pc = x.lower ? (x.atual == null ? 0 : Math.min(100, Math.round(x.meta / Math.max(x.atual, .0001) * 100))) : Math.min(100, Math.round(x.atual / x.meta * 100));
+function plMonthly(ano) {
+  const ys = `${ano}-01-01`, ye = `${ano}-12-31`, t = today(), cl = clientsArr();
+  const cd = comboData(ys, ye).filter(b => b.s >= ys && b.s <= ye), atn = atnData({ s: ys, e: ye });
+  return cd.map((b, m) => {
+    const on = b.s <= t; let ch = null;
+    if (on) { const base = cl.filter(c => activeAtStart(c, b.s)).length; if (base) ch = cl.filter(c => endedIn(c, b.s, b.e)).length / base * 100; }
+    const a = atn.find(x => x.key === b.key);
+    return { m, on, rec: on ? b.fat : null, tag: on && a && a.pct != null ? a.pct : null, churn: ch };
   });
-  const anticipa = list.reduce((a, x) => a + (x.okH1 ? x.valor * B.antecipa / 100 : 0), 0);
-  const ganho = list.reduce((a, x) => a + (x.okFinal ? x.valor : 0), 0);
-  return { B, prev, ano, ref, list, anticipa, ganho, saldo: ganho - anticipa, tot, h1Fechado: ref >= jun };
 }
+function plBonusCalc() {
+  const B = plDoc('plano', 'bonus'), t = today(), prev = t < '2027-01-01', ano = prev ? 2026 : +t.slice(0, 4), I = B.ind, cargos = B.cargos || [];
+  const M = plMonthly(ano), pool = cargos.reduce((a, c) => a + (+c.valor || 0) * (+c.qtd || 0), 0);
+  const metaAc = (m, i) => i.rec ? (m < 6 ? I.rec.jun * (m + 1) / 6 : I.rec.jun + (I.rec.meta - I.rec.jun) * (m - 5) / 6) : 0;
+  const mk = (k, nome, lower, fmt, jun, meta, peso) => {
+    const vals = M.map(x => x[k]), n = vals.filter(v => v != null).length;
+    let run = 0, cnt = 0; const acum = vals.map(v => { if (v == null) return null; if (k === 'rec') { run += v; return run; } run += v; cnt++; return run / cnt; });
+    const lastI = vals.map((x, j) => x != null ? j : -1).filter(j => j >= 0).pop();
+    const cur = lastI == null ? null : acum[lastI];
+    const proj = (until) => { if (cur == null) return null; if (k !== 'rec') return cur; if (lastI + 1 >= until) return acum[until - 1]; return cur + (cur / (lastI + 1)) * (until - (lastI + 1)); };
+    const pH1 = proj(6), pAno = proj(12), ok = (v, m) => v == null ? null : lower ? v <= m : v >= m;
+    return { k, nome, lower, fmt, jun, meta, peso, vals, acum, n, cur, pH1, pAno, okH1: ok(pH1, jun), okAno: ok(pAno, meta), h1Fechado: n >= 6, anoFechado: n >= 12, valor: pool * peso / 100 };
+  };
+  const list = [mk('rec', 'Receita bruta acumulada', false, v => v == null ? '—' : plN(v), I.rec.jun, I.rec.meta, I.rec.peso), mk('tag', 'Clientes com Tag Atenção', true, v => v == null ? '—' : pct1(v), I.tag.meta, I.tag.meta, I.tag.peso), mk('churn', 'Churn (média mensal)', true, v => v == null ? '—' : pct1(v), I.churn.meta, I.churn.meta, I.churn.peso)];
+  const adv = (+B.antecipa || 0) / 100;
+  const porCargo = cargos.map(c => { const v = (+c.valor || 0); return { ...c, v, ant: list.reduce((a, x) => a + (x.okH1 ? v * x.peso / 100 * adv : 0), 0), ano: list.reduce((a, x) => a + (x.okAno ? v * x.peso / 100 : 0), 0) }; });
+  const qt = c => +c.qtd || 0, sum = f => porCargo.reduce((a, c) => a + f(c) * qt(c), 0);
+  return { B, prev, ano, M, list, pool, porCargo, antTot: sum(c => c.ant), anoTot: sum(c => c.ano), saldo: sum(c => c.ano - c.ant), metaAc, temDados: list.some(x => x.n > 0) };
+}
+function plFlag(ok, fechado) { return ok == null ? '<span class="pill c-gray">Sem dados</span>' : `<span class="pill c-${ok ? 'green' : 'red'}"><i class="ti ti-${ok ? 'circle-check' : 'circle-x'}"></i>${ok ? 'Com bônus' : 'Sem bônus'}${fechado ? '' : ' · projeção'}</span>`; }
 function plBonusView() {
-  const C = plBonusCalc(), B = C.B, soc = plSocio(), sp = B.pessoas.reduce((a, p) => a + (+p.peso || 0), 0) || 1;
+  const C = plBonusCalc(), B = C.B, soc = plSocio(), I = B.ind, adv = +B.antecipa || 0;
   const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
-  const hit = C.list.filter(x => x.okFinal).length;
-  const hero = `<div class="thero pl-hero"><div><small>Bônus anual do time · 2027</small><h2>Até ${plBrl2(C.tot)}</h2><p>1% da meta de receita bruta, dividido em 3 indicadores. Cada meta batida libera a sua parcela; no fechamento do 1º semestre antecipamos ${B.antecipa}% da parcela de cada meta atingida.</p></div><div class="pl-hint">${C.prev ? '<span class="pill c-orange"><i class="ti ti-eye"></i>Prévia com dados de 2026</span>' : `<span class="pill c-blue"><i class="ti ti-calendar"></i>Apuração em ${fmtD(C.ref)}</span>`}</div></div>`;
-  const kp = `<div class="gkpis">${kpi('target', 'Metas atingidas hoje', `${hit} de 3`, 'no acumulado do ano', 'var(--s1)')}${kpi('cash', 'Bônus conquistado hoje', plBrl2(C.ganho), 'se o ano fechasse agora', 'var(--accent)')}${kpi('arrow-forward-up', 'Antecipação do 1º semestre', plBrl2(C.anticipa), C.h1Fechado ? 'metas de junho atingidas' : 'se junho fechasse hoje', '#6B34C9')}${kpi('wallet', 'Saldo no fechamento anual', plBrl2(C.saldo), 'já descontada a antecipação', '#8b97a8')}</div>`;
-  const cards = C.list.map(x => `<div class="card pl-ind st-${x.sem}"><div class="pl-ih"><b>${x.nome}</b><span class="pill c-${x.sem}">${x.sem === 'green' ? 'No caminho' : x.sem === 'orange' ? 'Atenção' : x.sem === 'red' ? 'Abaixo' : 'Sem dados'}</span></div>
-    <div class="pl-big">${x.fmt(x.atual)}</div><div class="pl-sub">${x.lower ? 'meta: até ' : 'meta anual: '}${x.fmt(x.meta)}${!x.lower ? ` · junho: ${x.fmt(x.jun)}` : ''}</div>
-    <div class="g2-bar" style="height:9px"><i style="width:${x.pc}%;background:var(--${x.sem === 'green' ? 'accent' : x.sem === 'orange' ? 'warn,#E8A33D' : 'danger'})"></i></div>
-    <div class="pl-foot"><span>Peso ${x.peso}% · <b>${plBrl2(x.valor)}</b></span><span>${x.okH1 ? '<i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> junho' : '<i class="ti ti-circle"></i> junho'} · ${x.okFinal ? '<i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> ano' : '<i class="ti ti-circle"></i> ano'}</span></div></div>`).join('');
-  const ppl = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Divisão por cargo</h3><span class="hint">${soc ? 'Os pesos são editáveis pelos sócios' : 'Pesos definidos pela direção'}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Peso</th><th>Se todas as metas forem batidas</th><th>Conquistado hoje</th><th>Antecipação (jun)</th></tr></thead><tbody>${B.pessoas.map((p, i) => { const sh = (+p.peso || 0) / sp; return `<tr><td><span class="cellrow">${avatar(p.nome)}${esc(p.nome)}</span></td><td>${soc ? plIn(`plano|bonus|pessoas.${i}.cargo`, p.cargo, 's', '', 'in', 'style="min-width:140px"') : esc(p.cargo)}</td><td>${soc ? plIn(`plano|bonus|pessoas.${i}.peso`, p.peso, 'n', '', 'in num', 'style="width:70px"') + '%' : p.peso + '%'} <span class="mut" style="font-size:11px">(${Math.round(sh * 100)}%)</span></td><td>${plBrl2(C.tot * sh)}</td><td><b>${plBrl2(C.ganho * sh)}</b></td><td>${plBrl2(C.anticipa * sh)}</td></tr>`; }).join('')}<tr class="tot"><td>Total</td><td></td><td>${sp}</td><td>${plBrl2(C.tot)}</td><td><b>${plBrl2(C.ganho)}</b></td><td>${plBrl2(C.anticipa)}</td></tr></tbody></table></div></div>`;
-  const cfg = soc ? `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Regras do bônus</h3><span class="hint">Somente sócios editam</span></div><div class="card-b pl-cfg">
-    <label>Bônus total (R$)${plIn('plano|bonus|total', B.total)}</label><label>Antecipação em junho (%)${plIn('plano|bonus|antecipa', B.antecipa)}</label>
-    <label>Peso receita (%)${plIn('plano|bonus|ind.rec.peso', B.ind.rec.peso)}</label><label>Meta receita anual (R$)${plIn('plano|bonus|ind.rec.meta', B.ind.rec.meta)}</label><label>Receita até junho (R$)${plIn('plano|bonus|ind.rec.jun', B.ind.rec.jun)}</label>
-    <label>Peso Tag Atenção (%)${plIn('plano|bonus|ind.tag.peso', B.ind.tag.peso)}</label><label>Tag Atenção até (%)${plIn('plano|bonus|ind.tag.meta', B.ind.tag.meta)}</label>
-    <label>Peso churn (%)${plIn('plano|bonus|ind.churn.peso', B.ind.churn.peso)}</label><label>Churn até (%)${plIn('plano|bonus|ind.churn.meta', B.ind.churn.meta)}</label></div></div>` : '';
-  const note = `<div class="card pl-note"><i class="ti ti-info-circle"></i><div>Os valores vêm automaticamente do painel: receita das cobranças dos clientes ativos, % de clientes com Tag Atenção e churn médio mensal do ano. ${C.prev ? 'Como 2027 ainda não começou, esta tela mostra uma prévia com os dados de 2026 contra as metas de 2027.' : ''}</div></div>`;
-  return hero + kp + `<div class="pl-grid3">${cards}</div>` + ppl + cfg + note + `<div class="gtitle" style="margin-top:26px"><i class="ti ti-target"></i>Outras metas do time</div>` + viewGoals();
+  const nH1 = C.list.filter(x => x.okH1).length, nAno = C.list.filter(x => x.okAno).length;
+  const hero = `<div class="thero pl-hero"><div><small>Bônus anual do time · 2027</small><h2>Até ${plBrl0(C.pool)} no ano</h2><p>Três indicadores, cada um libera a sua parcela quando a meta é batida. No fechamento do 1º semestre antecipamos ${adv}% da parcela de cada meta atingida; no fechamento do ano apuramos e descontamos o que já foi antecipado.</p></div><div class="pl-hint">${C.prev ? '<span class="pill c-orange"><i class="ti ti-eye"></i>Prévia com dados de 2026</span>' : `<span class="pill c-blue"><i class="ti ti-calendar"></i>Apuração em ${fmtD(today())}</span>`}</div></div>`;
+  const kp = `<div class="gkpis">${kpi('target', 'Com bônus no 1º semestre', `${nH1} de 3`, 'projeção de junho', 'var(--s1)')}${kpi('arrow-forward-up', 'Antecipação projetada', plBrl0(C.antTot), `${adv}% das metas atingidas em junho`, '#6B34C9')}${kpi('trophy', 'Com bônus no ano', `${nAno} de 3`, 'projeção de dezembro', 'var(--accent)')}${kpi('wallet', 'Bônus projetado no ano', plBrl0(C.anoTot), `saldo após antecipação: ${plBrl0(C.saldo)}`, '#8b97a8')}</div>`;
+  // quadro de regras por cargo
+  const rows = C.porCargo.map((c, i) => `<tr><td>${soc ? plIn(`plano|bonus|cargos.${i}.nome`, c.nome, 's', '', 'in', 'style="min-width:140px"') : esc(c.nome)}</td><td>${soc ? plIn(`plano|bonus|cargos.${i}.valor`, c.valor, 'n', '', 'in num', 'style="width:90px"') : plBrl0(c.valor)}</td><td>${soc ? plIn(`plano|bonus|cargos.${i}.qtd`, c.qtd, 'n', '', 'in num', 'style="width:56px"') : c.qtd}</td>${C.list.map(x => `<td>${plBrl0(c.v * x.peso / 100)}</td>`).join('')}<td>${plBrl0(c.v * adv / 100)}</td><td>${soc ? `<button class="iconbtn" data-pa="cdel" data-col="plano" data-doc="bonus" data-i="${i}"><i class="ti ti-trash"></i></button>` : ''}</td></tr>`).join('');
+  const regras = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Quadro de regras</h3><span class="hint">Por cargo, não por pessoa${soc ? ' · sócios editam' : ''}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Cargo</th><th>Bônus no ano</th><th>Pessoas</th>${C.list.map(x => `<th>${x.nome.split(' ')[0]} (${x.peso}%)</th>`).join('')}<th>Antecipação jun (${adv}%)</th><th></th></tr></thead><tbody>${rows}<tr class="tot"><td>Total</td><td>${plBrl0(C.pool)}</td><td>${C.porCargo.reduce((a, c) => a + (+c.qtd || 0), 0)}</td>${C.list.map(x => `<td>${plBrl0(x.valor)}</td>`).join('')}<td>${plBrl0(C.pool * adv / 100)}</td><td></td></tr></tbody></table>${soc ? `<button class="btn sm" style="margin-top:10px" data-pa="cadd" data-col="plano" data-doc="bonus"><i class="ti ti-plus"></i>Novo cargo</button>` : ''}
+    <table class="dtable" style="margin-top:16px"><thead><tr><th>Indicador</th><th>Meta até junho</th><th>Meta no ano</th><th>Peso</th><th>Como é medido</th></tr></thead><tbody>
+    <tr><td>Receita bruta acumulada</td><td>${plBrl0(I.rec.jun)}</td><td>${plBrl0(I.rec.meta)}</td><td>${I.rec.peso}%</td><td style="text-align:left">Soma das cobranças dos clientes ativos no ano</td></tr>
+    <tr><td>Clientes com Tag Atenção</td><td>até ${I.tag.meta}%</td><td>até ${I.tag.meta}%</td><td>${I.tag.peso}%</td><td style="text-align:left">Média dos meses: % da carteira com tag Atenção</td></tr>
+    <tr><td>Churn</td><td>até ${I.churn.meta}%</td><td>até ${I.churn.meta}%</td><td>${I.churn.peso}%</td><td style="text-align:left">Média mensal: cancelamentos ÷ clientes ativos no início do mês</td></tr></tbody></table></div></div>`;
+  // acompanhamento mês a mês por indicador
+  const tone = (x, v, m) => v == null ? '' : (x.lower ? v <= m : v >= m) ? 'color:var(--accent-ink);font-weight:600' : 'color:var(--danger);font-weight:600';
+  const blocos = C.list.map(x => `<div class="card" style="margin-top:14px"><div class="card-h"><h3>${x.nome}</h3><span class="hint">${x.lower ? 'Meta: até ' + x.fmt(x.meta) : 'Meta anual ' + plBrl0(x.meta) + ' · junho ' + plBrl0(x.jun)}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable pl-mm"><thead><tr><th></th>${PL_MESES.map(m => `<th>${m}</th>`).join('')}<th>1º semestre</th><th>Ano</th></tr></thead><tbody>
+    <tr><td>No mês</td>${C.M.map(s => `<td>${x.fmt(s[x.k])}</td>`).join('')}<td></td><td></td></tr>
+    <tr><td>Acumulado${x.lower ? ' (média)' : ''}</td>${x.acum.map((v, m) => `<td style="${tone(x, v, x.lower ? x.meta : C.metaAc(m, I))}">${x.fmt(v)}</td>`).join('')}<td>${x.fmt(x.pH1)}</td><td>${x.fmt(x.pAno)}</td></tr>
+    <tr><td>Meta${x.lower ? '' : ' acumulada'}</td>${PL_MESES.map((_, m) => `<td class="mut">${x.lower ? x.fmt(x.meta) : plN(C.metaAc(m, I))}</td>`).join('')}<td>${x.fmt(x.jun)}</td><td>${x.fmt(x.meta)}</td></tr>
+    <tr><td>Situação</td><td colspan="12" class="mut" style="text-align:left">${x.n ? `${x.n} ${x.n > 1 ? 'meses apurados' : 'mês apurado'}; projeção mantém o ritmo médio até o fim do período` : 'Aguardando o primeiro mês de dados'}</td><td>${plFlag(x.okH1, x.h1Fechado)}</td><td>${plFlag(x.okAno, x.anoFechado)}</td></tr></tbody></table></div></div>`).join('');
+  const note = `<div class="card pl-note"><i class="ti ti-info-circle"></i><div>Os valores vêm automaticamente do painel (cobranças dos clientes ativos, tag Atenção e cancelamentos). ${C.prev ? 'Como 2027 ainda não começou, esta tela mostra uma prévia com os dados de 2026 contra as metas de 2027.' : ''}</div></div>`;
+  const cfg = soc ? `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Ajustar regras</h3><span class="hint">Somente sócios</span></div><div class="card-b pl-cfg">
+    <label>Antecipação em junho (%)${plIn('plano|bonus|antecipa', B.antecipa)}</label><label>Peso receita (%)${plIn('plano|bonus|ind.rec.peso', I.rec.peso)}</label><label>Meta receita no ano (R$)${plIn('plano|bonus|ind.rec.meta', I.rec.meta)}</label><label>Receita até junho (R$)${plIn('plano|bonus|ind.rec.jun', I.rec.jun)}</label>
+    <label>Peso Tag Atenção (%)${plIn('plano|bonus|ind.tag.peso', I.tag.peso)}</label><label>Tag Atenção até (%)${plIn('plano|bonus|ind.tag.meta', I.tag.meta)}</label><label>Peso churn (%)${plIn('plano|bonus|ind.churn.peso', I.churn.peso)}</label><label>Churn até (%)${plIn('plano|bonus|ind.churn.meta', I.churn.meta)}</label></div></div>` : '';
+  return hero + kp + regras + blocos + cfg + note + `<div class="gtitle" style="margin-top:26px"><i class="ti ti-target"></i>Outras metas do time</div>` + viewGoals();
 }
 
 /* ── listas de ações (Operação e setores) ── */
@@ -4562,11 +4575,47 @@ function plStockView() {
   const Dd = plDoc('socios', 'stock'), K = { ...plClone(PL_STOCK_DEF), ...Dd }, anos = [2025, 2026, 2027, 2028];
   const val = a => (K.rec[a] || 0) * K.mult, eq = a => val(a) * K.pct / 100, base = eq(2025), liq = base * (1 - K.desagio / 100), vest = K.vest;
   const aPagar27 = vest + K.parc[0].v, aPagar28 = vest + K.parc[1].v, totalDev = aPagar27 + aPagar28, pago = (K.pagos || []).reduce((a, p) => a + (+p.v || 0), 0), saldo = totalDev - pago;
-  const C = plOrcCalc(), rec27 = C.rows[0].r.reduce((a, v) => a + (v || 0), 0), cres = K.real26 ? (K.rec[2027] / K.real26 - 1) * 100 : null, margO = C.ebO.reduce((a, b) => a + b, 0) / (K.rec[2027] || 1) * 100;
+  const C = plOrcCalc(), PO = plPlan(), sm = a => a.reduce((x, y) => x + (+y || 0), 0);
+  const rec27 = C.rows[0].r.reduce((a, v) => a + (v || 0), 0), cres = K.real26 ? (K.rec[2027] / K.real26 - 1) * 100 : null, ebO27 = sm(C.ebO), margO = ebO27 / (K.rec[2027] || 1) * 100;
   const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
   const tr = (l, ok, txt) => `<div class="pl-tr"><i class="ti ti-${ok == null ? 'clock' : ok ? 'circle-check-filled' : 'alert-triangle-filled'}" style="color:var(--${ok == null ? 'muted' : ok ? 'accent' : 'danger'})"></i><div><b>${l}</b><span>${txt}</span></div></div>`;
   const r26 = K.real26 / (K.rec[2026] || 1) * 100, e26 = K.ebitdaReal26 / (K.ebitdaMeta26 || 1) * 100;
+  // DRE por ano
+  const d26 = plDoc('socios', 'dre26'), a26 = k => sm(d26[k] || []), n26 = (d26.rob || []).length;
+  const closed27 = C.ebR.map((v, m) => v != null ? m : -1).filter(m => m >= 0), nc = closed27.length ? Math.max(...closed27) + 1 : 0;
+  const rY = k => sm(C.rows.find(r => r.k === k).r.slice(0, nc).map((v, m) => v ?? PO[k][m]));
+  const g27 = { rec: sm(PO.receita), imp: sm(PO.impostos), cus: sm(PO.csp) + sm(PO.dsv), dsp: sm(PO.adm) + sm(PO.gente) + sm(PO.com) + sm(PO.mkt) + sm(PO.dir) };
+  const r27 = { rec: nc ? sm(C.rows[0].r.slice(0, nc).map(v => v || 0)) : null, imp: nc ? rY('impostos') : null, cus: nc ? rY('csp') + rY('dsv') : null, dsp: nc ? rY('adm') + rY('gente') + rY('com') + rY('mkt') + rY('dir') : null };
+  const col = (rec, imp, cus, dsp, eb) => { const e = eb != null ? eb : (rec == null ? null : rec - (imp || 0) - (cus || 0) - (dsp || 0)); return { rec, imp, cus, dsp, eb: e, mg: e != null && rec ? e / rec * 100 : null }; };
+  const cols = [
+    ['2026 · Jan–Set real.', n26 ? col(a26('rob'), a26('ded'), a26('cus'), a26('dsp')) : col(null, null, null, null, null)],
+    ['2026 · meta do ano', col(K.rec[2026] || null, null, null, null, K.ebitdaMeta26 || null)],
+    ['2026 · projeção do ano', col(K.real26 || null, null, null, null, K.ebitdaReal26 || null)],
+    ['2027 · orçado', col(g27.rec, g27.imp, g27.cus, g27.dsp)],
+    ['2027 · realizado' + (nc ? ` (${nc} m.)` : ''), nc ? col(r27.rec, r27.imp, r27.cus, r27.dsp) : col(null, null, null, null, null)],
+    ['2028 · meta', col(K.meta28.rec || null, null, null, null, K.meta28.ebitda || null)]];
+  const f = v => v == null ? '—' : plN(v);
+  const dre = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>DRE por ano</h3><span class="hint">Composição da meta e do realizado, incluindo 2026</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Conta</th>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>
+    <tr><td>Receita bruta</td>${cols.map(c => `<td>${f(c[1].rec)}</td>`).join('')}</tr>
+    <tr><td>(−) Impostos sobre vendas</td>${cols.map(c => `<td>${f(c[1].imp)}</td>`).join('')}</tr>
+    <tr><td>(−) Custos (CSP e despesas s/ vendas)</td>${cols.map(c => `<td>${f(c[1].cus)}</td>`).join('')}</tr>
+    <tr><td>(−) Despesas operacionais</td>${cols.map(c => `<td>${f(c[1].dsp)}</td>`).join('')}</tr>
+    <tr class="tot"><td>EBITDA</td>${cols.map(c => `<td>${f(c[1].eb)}</td>`).join('')}</tr>
+    <tr><td>Margem EBITDA</td>${cols.map(c => `<td>${c[1].mg == null ? '—' : pct1(c[1].mg)}</td>`).join('')}</tr></tbody></table>
+    <p class="mut" style="font-size:12px;margin:10px 0 0">2026 Jan–Set vem do realizado do orçamento; a meta e a projeção do ano trazem só receita e EBITDA. 2027 usa o orçado × realizado; o realizado soma só os meses já lançados.</p></div></div>`;
+  // bônus a distribuir ao final do ano
+  const BC = plBonusCalc(), pool = BC.pool, proj27 = BC.prev || !BC.temDados ? null : BC.anoTot;
+  const trav = rec27 && cres != null ? (rec27 >= K.rec[2027] * 0.999 && (K.trava.ebitda ? true : true)) : null;
+  const vest27 = vest + K.parc[0].v, vest28 = vest + K.parc[1].v;
+  const yrs = [
+    ['2026', null, null, vest, K.conc],
+    ['2027', pool, proj27, vest27, nc ? (rec27 >= (K.rec[2027] || 0) ? vest27 : null) : null],
+    ['2028', pool, null, vest28, null]];
+  const bn = yrs.map(y => `<tr><td>${y[0]}</td><td>${y[1] == null ? '—' : plN(y[1])}</td><td>${y[2] == null ? '—' : plN(y[2])}</td><td>${plN(y[3])}</td><td>${y[4] == null ? '—' : plN(y[4])}</td><td><b>${plN((y[1] || 0) + y[3])}</b></td><td><b>${(y[2] == null && y[4] == null) ? '—' : plN((y[2] || 0) + (y[4] || 0))}</b></td></tr>`).join('');
+  const bonus = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Bônus a distribuir ao final do ano · orçado × realizado</h3><span class="hint">Time + stock options</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Ano</th><th>Bônus do time (orçado)</th><th>Bônus do time (projetado)</th><th>Stock (orçado)</th><th>Stock (realizado)</th><th>Total orçado</th><th>Total realizado/projetado</th></tr></thead><tbody>${bn}</tbody></table>
+    <p class="mut" style="font-size:12px;margin:10px 0 0">Bônus do time: valor máximo do quadro de regras por cargo × metas projetadas. Stock: 2026 é a concessão excepcional (50% do vesting); 2027 e 2028 somam vesting e a parcela da concessão. O realizado de 2027 do stock aparece quando a receita da meta é atingida.</p></div></div>`;
   return `<div class="gkpis">${kpi('coin', 'Valuation 2026 (meta)', plBrl0(val(2026)), `receita × ${String(K.mult).replace('.', ',')}`, 'var(--s1)')}${kpi('chart-pie', 'Equity do stock', plBrl0(eq(2026)), `${K.pct}% do valuation`, 'var(--accent)')}${kpi('cash-banknote', 'A pagar (2027 + 2028)', plBrl0(totalDev), `${plBrl0(aPagar27)} em 2027 e ${plBrl0(aPagar28)} em 2028`, '#6B34C9')}${kpi('wallet', 'Saldo a pagar', plBrl0(saldo), `já pago: ${plBrl0(pago)}`, '#8b97a8')}</div>
+  ${dre}${bonus}
   <div class="pl-two"><div class="card"><div class="card-h"><h3>Valuation e vesting por ano</h3><span class="hint">Valuation = receita × ${String(K.mult).replace('.', ',')}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Ano</th><th>Receita (meta)</th><th>Valuation</th><th>Equity (${K.pct}%)</th></tr></thead><tbody>${anos.map(a => `<tr><td>${a}</td><td>${plIn(`socios|stock|rec.${a}`, K.rec[a], 'n', '', 'in num', 'style="width:110px"')}</td><td>${plN(val(a))}</td><td>${plN(eq(a))}</td></tr>`).join('')}</tbody></table>
     <p class="mut" style="font-size:12px;margin:10px 0 0">Base do stock (equity 2025): <b>${plBrl2(base)}</b> · com deságio de ${K.desagio}%: <b>${plBrl2(liq)}</b> · vesting anual: <b>${plBrl2(vest)}</b> (2026 a 2028).</p></div></div>
   <div class="card"><div class="card-h"><h3>Concessão excepcional</h3></div><div class="card-b">
@@ -4574,21 +4623,26 @@ function plStockView() {
     ${K.parc.map(p => `<div class="pl-tr"><i class="ti ti-calendar-dollar" style="color:var(--s1)"></i><div><b>${plBrl2(p.v)} em ${p.mes}/${p.ano}</b><span>parcela da concessão</span></div></div>`).join('')}
     <div class="pl-tr"><i class="ti ti-sum" style="color:var(--s1)"></i><div><b>${plBrl2(aPagar27)} em 2027 e em 2028</b><span>vesting ${plBrl2(vest)} + parcela ${plBrl2(K.parc[0].v)}</span></div></div></div></div></div>
   <div class="pl-two"><div class="card"><div class="card-h"><h3>Realizado × meta</h3></div><div class="card-b">
-    ${tr('2026 · receita', r26 >= 100, `Projeção ${plBrl2(K.real26)} de ${plBrl2(K.rec[2026])} (${r26.toFixed(1).replace('.', ',')}%): meta não atingida`)}
-    ${tr('2026 · EBITDA', e26 >= 100, `Projeção ${plBrl2(K.ebitdaReal26)} de ${plBrl2(K.ebitdaMeta26)} (${e26.toFixed(1).replace('.', ',')}%): meta não atingida`)}
+    ${tr('2026 · receita', r26 >= 100, `Projeção ${plBrl2(K.real26)} de ${plBrl2(K.rec[2026])} (${r26.toFixed(1).replace('.', ',')}%)`)}
+    ${tr('2026 · EBITDA', e26 >= 100, `Projeção ${plBrl2(K.ebitdaReal26)} de ${plBrl2(K.ebitdaMeta26)} (${e26.toFixed(1).replace('.', ',')}%)`)}
     ${tr('2027 · trava de crescimento', cres != null ? cres >= K.trava.cresc : null, `Meta ${plBrl2(K.rec[2027])} é +${cres != null ? cres.toFixed(0) : '—'}% sobre a receita 2026 (mínimo ${K.trava.cresc}%)`)}
     ${tr('2027 · trava de EBITDA', margO > K.trava.ebitda, `Margem orçada ${margO.toFixed(1).replace('.', ',')}% (mínimo ${K.trava.ebitda}%)`)}
     ${tr('2027 · receita realizada', rec27 ? rec27 >= K.rec[2027] : null, rec27 ? `${plBrl2(rec27)} de ${plBrl2(K.rec[2027])}` : '2027 ainda não começou')}
     ${tr('Meta 2028', null, `Receita ${plBrl2(K.meta28.rec)} e EBITDA ${plBrl2(K.meta28.ebitda)}`)}</div></div>
   <div class="card"><div class="card-h"><h3>Pagamentos realizados</h3><button class="btn sm" data-pa="pay" data-col="socios" data-doc="stock"><i class="ti ti-plus"></i>Registrar</button></div><div class="card-b">${(K.pagos || []).map((p, i) => `<div class="pl-s"><input class="in" type="date" data-pl="socios|stock|pagos.${i}.d" data-k="s" value="${esc(p.d)}" style="width:140px">${plIn(`socios|stock|pagos.${i}.v`, p.v, 'n', 'Valor', 'in num', 'style="width:110px"')}${plIn(`socios|stock|pagos.${i}.n`, p.n, 's', 'Observação', 'in', 'style="flex:1"')}<button class="iconbtn" data-pa="paydel" data-col="socios" data-doc="stock" data-i="${i}"><i class="ti ti-trash"></i></button></div>`).join('') || '<p class="mut" style="margin:0">Nenhum pagamento registrado ainda.</p>'}</div></div></div>
-  <div class="card pl-note"><i class="ti ti-info-circle"></i><div>Fonte: planilha de Stock options dos sócios e aprovação da concessão excepcional. Projeção 2026: receita ${plBrl2(K.real26)} e EBITDA ${plBrl2(K.ebitdaReal26)}.</div></div>`;
+  <div class="card pl-note"><i class="ti ti-info-circle"></i><div>Fonte: planilha de Stock options dos sócios e aprovação da concessão excepcional.</div></div>`;
 }
 
+/* ── sócios: setores ── */
+function plMacroView() {
+  const it = plDoc('socios', 'macro').items || [];
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Indicadores macro 2027</h3><button class="btn sm" data-pa="add" data-col="socios" data-doc="macro"><i class="ti ti-plus"></i>Indicador</button></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Indicador</th><th>Atual</th><th>Meta</th><th>Observação</th><th></th></tr></thead><tbody>${it.map((x, i) => `<tr><td>${plIn(`socios|macro|items.${i}.nome`, x.nome, 's', 'Indicador', 'in strong', 'style="min-width:150px"')}</td><td>${plIn(`socios|macro|items.${i}.atual`, x.atual, 's', 'a definir', 'in num', 'style="width:90px"')}</td><td>${plIn(`socios|macro|items.${i}.meta`, x.meta, 's', '', 'in num', 'style="width:90px"')}</td><td>${plIn(`socios|macro|items.${i}.obs`, x.obs, 's', '', 'in', 'style="min-width:280px;width:100%;text-align:left"')}</td><td><button class="iconbtn" data-pa="del" data-col="socios" data-doc="macro" data-i="${i}"><i class="ti ti-trash"></i></button></td></tr>`).join('') || '<tr><td colspan="5" class="mut" style="text-align:left">Nenhum indicador cadastrado.</td></tr>'}</tbody></table></div></div>`;
+}
 /* ── sócios: setores ── */
 function plSetoresView() {
   const setores = [['Operação', 'settings-automation', 'plano|operacao'], ['Comercial', 'briefcase', 'socios|setores'], ['Marketing', 'speakerphone', 'socios|setores'], ['Financeiro', 'cash', 'socios|setores']];
   const so = plDoc('socios', 'setores').items || [], op = plDoc('plano', 'operacao').items || [];
-  return setores.map(([nome, ic, src]) => {
+  return plMacroView() + setores.map(([nome, ic, src]) => {
     const [col, doc] = src.split('|'), items = col === 'plano' ? op : so.filter(x => x.setor === nome), P = plProg(items), open = UI.plOpen?.[nome] !== false;
     return `<div class="card pl-set"><div class="pl-set-h" data-pa="open" data-v="${nome}"><span class="gk-i" style="background:var(--s1)"><i class="ti ti-${ic}"></i></span><div><b>${nome}</b><em>${P.n ? `${P.d} de ${P.n} ações concluídas` : 'nenhuma ação ainda'}</em></div><div class="pl-pg"><div class="g2-bar" style="height:8px"><i style="width:${P.p}%;background:var(--accent)"></i></div><span>${P.p}%</span></div><i class="ti ti-chevron-${open ? 'up' : 'down'}"></i></div>
       ${open ? `<div class="pl-list">${col === 'plano' ? plList('plano', 'operacao') : plList('socios', 'setores', it => it.setor === nome, nome)}</div>` : ''}</div>`;
