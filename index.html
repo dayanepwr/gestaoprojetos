@@ -1009,6 +1009,22 @@ input:focus,select:focus,textarea:focus{outline:none}
 .gk{position:relative;overflow:hidden} .gk::after{content:'';position:absolute;right:-26px;top:-26px;width:90px;height:90px;border-radius:50%;background:rgba(0,176,80,.07)}
 .hal{overflow:hidden;box-shadow:0 1px 2px rgba(0,32,96,.04),0 8px 22px rgba(0,32,96,.06)} .hal-h{font-weight:700}
 .anchip{border-radius:14px;background:linear-gradient(180deg,var(--surface),var(--surface-2))}
+
+/* PLANEJAMENTO */
+.pl-hero{display:flex!important;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap} .pl-hero small{font-size:11px;letter-spacing:.09em;text-transform:uppercase;opacity:.75;font-weight:600} .pl-hero p{margin:6px 0 0;max-width:640px;font-size:13px;opacity:.85;line-height:1.5}
+.pl-grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px} .pl-two{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:14px;margin-top:14px}
+.pl-ind{padding:16px 18px;border-top:3px solid var(--line)} .pl-ind.st-green{border-top-color:var(--accent)} .pl-ind.st-orange{border-top-color:#E8A33D} .pl-ind.st-red{border-top-color:var(--danger)}
+.pl-ih{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px} .pl-big{font-size:26px;font-weight:700;margin:10px 0 2px;letter-spacing:-.01em} .pl-sub{font-size:12px;color:var(--muted);margin-bottom:10px} .pl-foot{display:flex;justify-content:space-between;gap:8px;font-size:12px;margin-top:10px;color:var(--muted)} .pl-foot b{color:var(--text)}
+.pl-cfg{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px} .pl-cfg label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--muted);font-weight:500} .pl-cfg .in{width:100%}
+.pl-note{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;margin-top:14px;font-size:12.5px;color:var(--muted);line-height:1.5} .pl-note>i{font-size:18px;color:var(--s1)}
+.pl-list{display:flex;flex-direction:column;gap:8px;margin-top:8px} .pl-it{padding:10px 12px} .pl-it-h{display:flex;gap:8px;align-items:center;flex-wrap:wrap} .pl-it-h .pl-t{flex:1;min-width:200px;text-align:left}
+.pl-it select.pill{border:0;cursor:pointer;height:26px;padding:0 8px;font-weight:600} .pl-sub-l{margin:8px 0 2px 28px;display:flex;flex-direction:column;gap:4px;border-left:2px solid var(--line);padding-left:12px} .pl-s{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.pl-set{margin-bottom:12px;padding:0;overflow:hidden} .pl-set-h{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer} .pl-set-h b{display:block;font-size:14px} .pl-set-h em{font-style:normal;font-size:12px;color:var(--muted)} .pl-set>.pl-list{padding:0 14px 14px} .pl-pg{margin-left:auto;display:flex;align-items:center;gap:8px;min-width:150px} .pl-pg .g2-bar{flex:1} .pl-pg span{font-size:12px;font-weight:600}
+.pl-prow{display:grid;grid-template-columns:90px 1fr 42px 44px;gap:10px;align-items:center;margin-bottom:12px;font-size:13px} .pl-prow em{font-style:normal;font-size:11.5px;color:var(--muted)} .pl-prow b{text-align:right}
+.pl-tr{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--line)} .pl-tr:last-child{border:0} .pl-tr>i{font-size:20px;margin-top:1px} .pl-tr b{display:block;font-size:13px} .pl-tr span{font-size:12px;color:var(--muted)}
+.pl-sep{width:1px;height:22px;background:var(--line);margin:0 8px;align-self:center} .pl-lock{font-size:12px;margin-left:5px;opacity:.55}
+.pl-cfg .in,.dtable [data-pl].in,.pl-note [data-pl].in,.pl-s [data-pl].in,.pl-it [data-pl].in,.pl-tr [data-pl].in{border:1px solid var(--line);border-radius:8px;padding:6px 8px;background:var(--surface,#fff);font:inherit;font-size:12.5px} .pl-cfg .in:focus,[data-pl].in:focus{outline:2px solid var(--accent);outline-offset:0}
+.pl-it select.pill{appearance:none;-webkit-appearance:none;width:132px;padding:0 12px;text-indent:0;background:var(--p-bg);color:var(--p-fg);border-radius:999px;font-size:12px}
 </style>
 </head>
 <body>
@@ -1051,6 +1067,7 @@ input:focus,select:focus,textarea:focus{outline:none}
       <a href="#/horas" data-r="horas" title="Alocação de horas"><i class="ti ti-clock-hour-4"></i><span>Alocação de horas</span></a>
       <a href="#/info" data-r="info" title="Informações úteis"><i class="ti ti-books"></i><span>Informações úteis</span></a>
       <a href="#/time" data-r="time" title="Time dos Lindos"><i class="ti ti-heart-handshake"></i><span>Time dos Lindos</span></a>
+      <a href="#/plano" data-r="plano" title="Planejamento"><i class="ti ti-compass"></i><span>Planejamento</span></a>
     </nav>
     <div class="foot">
       <button class="userbtn" data-act="settings"><span class="av" id="meAv">PG</span><span class="who" id="meName">—</span><i class="ti ti-settings"></i></button>
@@ -1066,6 +1083,7 @@ input:focus,select:focus,textarea:focus{outline:none}
     <a href="#/horas" data-r="horas"><i class="ti ti-clock-hour-4"></i>Horas</a>
     <a href="#/info" data-r="info"><i class="ti ti-books"></i>Infos</a>
     <a href="#/time" data-r="time"><i class="ti ti-heart-handshake"></i>Time</a>
+    <a href="#/plano" data-r="plano"><i class="ti ti-compass"></i>Plano</a>
   </nav>
   <button class="fab" data-act="fab" aria-label="Criar novo"><i class="ti ti-plus"></i></button>
 </div>
@@ -1205,8 +1223,8 @@ const saveUI = () => { try { const { drawer, ...rest } = UI; localStorage.setIte
 /* ═══════════════ DADOS / SINCRONIZAÇÃO ═══════════════ */
 // Cada registro é uma linha própria em kv_store (chave v2:<coleção>:<id>),
 // assim duas pessoas editando itens diferentes nunca se sobrescrevem.
-const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags', 'debts', 'hours'];
-const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, debts: {}, hours: {}, settings: DEF_SETTINGS() };
+const COLS = ['clients', 'tasks', 'goals', 'meetings', 'content', 'oneone', 'diags', 'debts', 'hours', 'plano', 'socios'];
+const S = { clients: {}, tasks: {}, goals: {}, meetings: {}, content: {}, oneone: {}, diags: {}, debts: {}, hours: {}, plano: {}, socios: {}, settings: DEF_SETTINGS() };
 let sb = null, me = '', booted = false, syncState = 'ok', flushing = false, flushTimer = null;
 let queue = (() => { try { return JSON.parse(localStorage.getItem('pw2_queue') || '{}'); } catch { return {}; } })();
 const saveQueue = () => { try { localStorage.setItem('pw2_queue', JSON.stringify(queue)); } catch { } };
@@ -4387,8 +4405,219 @@ async function exportXlsx() {
   } catch (err) { toast('Erro ao exportar: ' + err.message); }
 }
 
+/* ═══════════════ PLANEJAMENTO (equipe + sócios) ═══════════════ */
+// Telas da equipe: Metas do time 2027 (bônus) e Operação 2027. Telas dos sócios: Orçado × Realizado, Stock options, Setores, Evolução.
+// Dados dos sócios ficam em v2:socios:* (o acesso é restrito no servidor por RLS: ver supabase_plano_socios.sql).
+// Quem é sócio é decidido no servidor: só os sócios conseguem ler o documento v2:socios:acesso (ver supabase_plano_socios.sql)
+const plSocio = () => LOCAL_MODE || !!S.socios?.acesso;
+const plBrl2 = v => (+v || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const plBrl0 = v => 'R$ ' + (+v || 0).toLocaleString('pt-BR', { maximumFractionDigits: 0 });
+const plN = v => (+v || 0).toLocaleString('pt-BR', { maximumFractionDigits: 0 });
+const plClone = o => JSON.parse(JSON.stringify(o));
+const PL_TABS_TEAM = [['bonus', 'Metas do time', 'ti-trophy'], ['operacao', 'Operação', 'ti-settings-automation']];
+const PL_TABS_SOC = [['orcado', 'Orçado × Real.', 'ti-chart-bar'], ['stock', 'Stock options', 'ti-coin'], ['setores', 'Setores', 'ti-sitemap'], ['evolucao', 'Evolução', 'ti-timeline']];
+const PL_MESES = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+const PL_ST = { 'A fazer': 'gray', 'Em andamento': 'blue', 'Concluída': 'green', 'Bloqueada': 'red' };
+const PL_BONUS_DEF = { total: 0, antecipa: 50, ind: { rec: { peso: 0, meta: 0, jun: 0 }, tag: { peso: 0, meta: 0 }, churn: { peso: 0, meta: 0 } }, pessoas: [] };
+const PL_ORC_K = ['receita', 'impostos', 'dsv', 'csp', 'adm', 'gente', 'com', 'mkt', 'dir'];
+// o orçamento vem do banco (v2:socios:orc), nunca do código
+const plPlan = () => { const p = S.socios?.orc?.plan || {}; return Object.fromEntries(PL_ORC_K.map(k => [k, (p[k] && p[k].length === 12) ? p[k] : Array(12).fill(0)])); };
+const PL_ORC = new Proxy({}, { get: (_, k) => plPlan()[k] });
+const PL_ORC_ROWS = [['receita', 'Receita bruta', 1], ['impostos', '(−) Impostos sobre vendas', 0], ['dsv', '(−) Despesas sob vendas', 0], ['csp', '(−) CSP (consultores e sistemas)', 0], ['adm', '(−) Administrativo', 0], ['gente', '(−) Gente & Gestão', 0], ['com', '(−) Comercial', 0], ['mkt', '(−) Marketing', 0], ['dir', '(−) Diretoria', 0]];
+const PL_SEED = {};
+PL_SEED['plano|bonus'] = PL_BONUS_DEF;
+const PL_STOCK_DEF = { mult: 1, pct: 0, desagio: 0, rec: { 2025: 0, 2026: 0, 2027: 0, 2028: 0 }, real26: 0, ebitdaReal26: 0, ebitdaMeta26: 0, vest: 0, conc: 0, parc: [{ ano: 2027, mes: 'Dez', v: 0 }, { ano: 2028, mes: 'Dez', v: 0 }], pagos: [], trava: { cresc: 0, ebitda: 0 }, meta28: { rec: 0, ebitda: 0 } };
+
+const plDoc = (col, id) => { const d = S[col][id] || { id }; const seed = PL_SEED[col + '|' + id]; return seed ? { ...plClone(seed), ...d } : d; };
+function plMut(col, id, fn) { const d = plDoc(col, id); const c = plClone(d); fn(c); c.id = id; put(col, c); }
+const plGet = (o, p) => p.split('.').reduce((a, k) => a == null ? a : a[k], o);
+function plSetPath(o, p, v) { const ks = p.split('.'); let a = o; ks.slice(0, -1).forEach((k, i) => { if (a[k] == null || typeof a[k] !== 'object') a[k] = /^\d+$/.test(ks[i + 1]) ? [] : {}; a = a[k]; }); a[ks[ks.length - 1]] = v; }
+const plParse = s => { s = String(s).trim().replace(/[R$\s%]/g, ''); if (!s) return null; const v = +s.replace(/\./g, '').replace(',', '.'); return isNaN(v) ? null : v; };
+const plIn = (path, val, kind = 'n', ph = '', cls = 'in num', extra = '') => `<input class="${cls}" data-pl="${path}" data-k="${kind}" value="${esc(val == null ? '' : kind === 'n' ? String(val).replace('.', ',') : val)}" placeholder="${ph}" inputmode="${kind === 'n' ? 'decimal' : 'text'}" ${extra}>`;
+document.addEventListener('change', e => {
+  const el = e.target; if (!el.dataset?.pl) return;
+  const [col, id, ...p] = el.dataset.pl.split('|'); const path = p.join('|');
+  const v = el.dataset.k === 'n' ? plParse(el.value) : el.value;
+  plMut(col, id, d => { if (d.items === undefined && PL_SEED[col + '|' + id]?.items) d.items = plClone(PL_SEED[col + '|' + id].items); plSetPath(d, path, v); });
+});
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-pa]'); if (!el) return; e.preventDefault();
+  const a = el.dataset.pa; if (a === 'open') return; const col = el.dataset.col, id = el.dataset.doc, i = +el.dataset.i, j = +el.dataset.j;
+  if (a === 'tab') { UI.plTab = el.dataset.v; saveUI(); return render(); }
+  if (a === 'ver') { UI.plOrcMes = !UI.plOrcMes; return render(); }
+  plMut(col, id, d => {
+    const seed = PL_SEED[col + '|' + id]; if (d.items === undefined && seed?.items) d.items = plClone(seed.items); d.items = d.items || [];
+    if (a === 'add') d.items.push({ id: uid(), t: '', st: 'A fazer', nivel: 'Média', setor: el.dataset.setor || undefined, resp: '', sub: [] });
+    if (a === 'del') d.items.splice(i, 1);
+    if (a === 'sadd') { (d.items[i].sub ||= []).push({ id: uid(), t: '', ok: false }); }
+    if (a === 'stog') d.items[i].sub[j].ok = !d.items[i].sub[j].ok;
+    if (a === 'sdel') d.items[i].sub.splice(j, 1);
+    if (a === 'pay') { (d.pagos ||= []).push({ id: uid(), d: today(), v: 0, n: '' }); }
+    if (a === 'paydel') d.pagos.splice(i, 1);
+  });
+});
+
+/* ── cálculo do bônus (automático a partir do painel) ── */
+function plBonusCalc() {
+  const B = plDoc('plano', 'bonus'), t = today(), prev = t < '2027-01-01', ano = prev ? 2026 : +t.slice(0, 4);
+  const ys = `${ano}-01-01`, ye = `${ano}-12-31`, ref = t < ye ? t : ye, jun = `${ano}-06-30`, refH1 = ref < jun ? ref : jun;
+  const cd = comboData(ys, ye).filter(b => b.s >= ys && b.s <= ye);
+  const recAt = lim => cd.reduce((a, b) => a + (b.fat != null && b.s <= lim ? b.fat : 0), 0);
+  const atn = atnData({ s: ys, e: ye }).filter(b => b.s >= ys && b.s <= ref && b.pct != null);
+  const tagAtual = atn.length ? atn[atn.length - 1].pct : null;
+  const tagH1 = (atn.filter(b => b.s <= refH1).slice(-1)[0] || {}).pct ?? null;
+  const ch = x => { const m = metrics(ys, x); return m.churnY == null ? null : m.churnY * 100; };
+  const mm = +ref.slice(5, 7), I = B.ind, tot = +B.total || 0;
+  const expRec = mm <= 6 ? I.rec.jun * mm / 6 : I.rec.jun + (I.rec.meta - I.rec.jun) * (mm - 6) / 6;
+  const list = [
+    { k: 'rec', nome: 'Receita bruta acumulada', fmt: v => v == null ? '—' : plBrl2(v), atual: recAt(ref), h1: recAt(refH1), jun: I.rec.jun, meta: I.rec.meta, lower: false, exp: expRec, peso: I.rec.peso, nota: 'Meta de junho e anual' },
+    { k: 'tag', nome: 'Clientes com Tag Atenção', fmt: v => v == null ? '—' : pct1(v), atual: tagAtual, h1: tagH1, jun: I.tag.meta, meta: I.tag.meta, lower: true, peso: I.tag.peso, nota: 'Até ' + I.tag.meta + '% da carteira' },
+    { k: 'churn', nome: 'Churn (média mensal do ano)', fmt: v => v == null ? '—' : pct1(v), atual: ch(ref), h1: ch(refH1), jun: I.churn.meta, meta: I.churn.meta, lower: true, peso: I.churn.peso, nota: 'Até ' + I.churn.meta + '%' }];
+  list.forEach(x => {
+    x.valor = tot * x.peso / 100;
+    const ok = (v, m) => v != null && (x.lower ? v <= m : v >= m);
+    x.okFinal = ok(x.atual, x.meta); x.okH1 = ok(x.h1, x.jun);
+    const base = x.exp != null ? x.exp : x.meta;
+    if (x.atual == null) x.sem = 'gray'; else if (x.lower) x.sem = x.atual <= x.meta ? 'green' : x.atual <= x.meta * 1.25 ? 'orange' : 'red'; else x.sem = x.atual >= x.meta ? 'green' : x.atual >= base ? 'green' : x.atual >= base * .9 ? 'orange' : 'red';
+    x.pc = x.lower ? (x.atual == null ? 0 : Math.min(100, Math.round(x.meta / Math.max(x.atual, .0001) * 100))) : Math.min(100, Math.round(x.atual / x.meta * 100));
+  });
+  const anticipa = list.reduce((a, x) => a + (x.okH1 ? x.valor * B.antecipa / 100 : 0), 0);
+  const ganho = list.reduce((a, x) => a + (x.okFinal ? x.valor : 0), 0);
+  return { B, prev, ano, ref, list, anticipa, ganho, saldo: ganho - anticipa, tot, h1Fechado: ref >= jun };
+}
+function plBonusView() {
+  const C = plBonusCalc(), B = C.B, soc = plSocio(), sp = B.pessoas.reduce((a, p) => a + (+p.peso || 0), 0) || 1;
+  const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
+  const hit = C.list.filter(x => x.okFinal).length;
+  const hero = `<div class="thero pl-hero"><div><small>Bônus anual do time · 2027</small><h2>Até ${plBrl2(C.tot)}</h2><p>1% da meta de receita bruta, dividido em 3 indicadores. Cada meta batida libera a sua parcela; no fechamento do 1º semestre antecipamos ${B.antecipa}% da parcela de cada meta atingida.</p></div><div class="pl-hint">${C.prev ? '<span class="pill c-orange"><i class="ti ti-eye"></i>Prévia com dados de 2026</span>' : `<span class="pill c-blue"><i class="ti ti-calendar"></i>Apuração em ${fmtD(C.ref)}</span>`}</div></div>`;
+  const kp = `<div class="gkpis">${kpi('target', 'Metas atingidas hoje', `${hit} de 3`, 'no acumulado do ano', 'var(--s1)')}${kpi('cash', 'Bônus conquistado hoje', plBrl2(C.ganho), 'se o ano fechasse agora', 'var(--accent)')}${kpi('arrow-forward-up', 'Antecipação do 1º semestre', plBrl2(C.anticipa), C.h1Fechado ? 'metas de junho atingidas' : 'se junho fechasse hoje', '#6B34C9')}${kpi('wallet', 'Saldo no fechamento anual', plBrl2(C.saldo), 'já descontada a antecipação', '#8b97a8')}</div>`;
+  const cards = C.list.map(x => `<div class="card pl-ind st-${x.sem}"><div class="pl-ih"><b>${x.nome}</b><span class="pill c-${x.sem}">${x.sem === 'green' ? 'No caminho' : x.sem === 'orange' ? 'Atenção' : x.sem === 'red' ? 'Abaixo' : 'Sem dados'}</span></div>
+    <div class="pl-big">${x.fmt(x.atual)}</div><div class="pl-sub">${x.lower ? 'meta: até ' : 'meta anual: '}${x.fmt(x.meta)}${!x.lower ? ` · junho: ${x.fmt(x.jun)}` : ''}</div>
+    <div class="g2-bar" style="height:9px"><i style="width:${x.pc}%;background:var(--${x.sem === 'green' ? 'accent' : x.sem === 'orange' ? 'warn,#E8A33D' : 'danger'})"></i></div>
+    <div class="pl-foot"><span>Peso ${x.peso}% · <b>${plBrl2(x.valor)}</b></span><span>${x.okH1 ? '<i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> junho' : '<i class="ti ti-circle"></i> junho'} · ${x.okFinal ? '<i class="ti ti-circle-check-filled" style="color:var(--accent)"></i> ano' : '<i class="ti ti-circle"></i> ano'}</span></div></div>`).join('');
+  const ppl = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Divisão por cargo</h3><span class="hint">${soc ? 'Os pesos são editáveis pelos sócios' : 'Pesos definidos pela direção'}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Pessoa</th><th>Cargo</th><th>Peso</th><th>Se todas as metas forem batidas</th><th>Conquistado hoje</th><th>Antecipação (jun)</th></tr></thead><tbody>${B.pessoas.map((p, i) => { const sh = (+p.peso || 0) / sp; return `<tr><td><span class="cellrow">${avatar(p.nome)}${esc(p.nome)}</span></td><td>${soc ? plIn(`plano|bonus|pessoas.${i}.cargo`, p.cargo, 's', '', 'in', 'style="min-width:140px"') : esc(p.cargo)}</td><td>${soc ? plIn(`plano|bonus|pessoas.${i}.peso`, p.peso, 'n', '', 'in num', 'style="width:70px"') + '%' : p.peso + '%'} <span class="mut" style="font-size:11px">(${Math.round(sh * 100)}%)</span></td><td>${plBrl2(C.tot * sh)}</td><td><b>${plBrl2(C.ganho * sh)}</b></td><td>${plBrl2(C.anticipa * sh)}</td></tr>`; }).join('')}<tr class="tot"><td>Total</td><td></td><td>${sp}</td><td>${plBrl2(C.tot)}</td><td><b>${plBrl2(C.ganho)}</b></td><td>${plBrl2(C.anticipa)}</td></tr></tbody></table></div></div>`;
+  const cfg = soc ? `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Regras do bônus</h3><span class="hint">Somente sócios editam</span></div><div class="card-b pl-cfg">
+    <label>Bônus total (R$)${plIn('plano|bonus|total', B.total)}</label><label>Antecipação em junho (%)${plIn('plano|bonus|antecipa', B.antecipa)}</label>
+    <label>Peso receita (%)${plIn('plano|bonus|ind.rec.peso', B.ind.rec.peso)}</label><label>Meta receita anual (R$)${plIn('plano|bonus|ind.rec.meta', B.ind.rec.meta)}</label><label>Receita até junho (R$)${plIn('plano|bonus|ind.rec.jun', B.ind.rec.jun)}</label>
+    <label>Peso Tag Atenção (%)${plIn('plano|bonus|ind.tag.peso', B.ind.tag.peso)}</label><label>Tag Atenção até (%)${plIn('plano|bonus|ind.tag.meta', B.ind.tag.meta)}</label>
+    <label>Peso churn (%)${plIn('plano|bonus|ind.churn.peso', B.ind.churn.peso)}</label><label>Churn até (%)${plIn('plano|bonus|ind.churn.meta', B.ind.churn.meta)}</label></div></div>` : '';
+  const note = `<div class="card pl-note"><i class="ti ti-info-circle"></i><div>Os valores vêm automaticamente do painel: receita das cobranças dos clientes ativos, % de clientes com Tag Atenção e churn médio mensal do ano. ${C.prev ? 'Como 2027 ainda não começou, esta tela mostra uma prévia com os dados de 2026 contra as metas de 2027.' : ''}</div></div>`;
+  return hero + kp + `<div class="pl-grid3">${cards}</div>` + ppl + cfg + note;
+}
+
+/* ── listas de ações (Operação e setores) ── */
+function plItemRow(col, doc, it, i, showSetor) {
+  const b = k => `${col}|${doc}|items.${i}.${k}`, sub = it.sub || [], n = sub.length, d = sub.filter(s => s.ok).length;
+  return `<div class="card pl-it"><div class="pl-it-h"><select class="pill c-${PL_ST[it.st] || 'gray'}" data-pl="${b('st')}" data-k="s">${Object.keys(PL_ST).map(s => `<option ${s === it.st ? 'selected' : ''}>${s}</option>`).join('')}</select>
+    ${plIn(b('t'), it.t, 's', 'Descreva a ação', 'in strong pl-t')}${plIn(b('resp'), it.resp, 's', 'Responsável', 'in', 'style="width:130px"')}<input class="in" type="date" data-pl="${b('prazo')}" data-k="s" value="${esc(it.prazo || '')}" style="width:140px">
+    <button class="iconbtn" data-pa="sadd" data-col="${col}" data-doc="${doc}" data-i="${i}" title="Desdobrar em etapas"><i class="ti ti-list-tree"></i></button><button class="iconbtn" data-pa="del" data-col="${col}" data-doc="${doc}" data-i="${i}" title="Excluir"><i class="ti ti-trash"></i></button></div>
+    ${n ? `<div class="pl-sub-l"><div class="piprog ${d === n ? 'ok' : ''}">${d}/${n} etapas</div>${sub.map((s, j) => `<div class="pl-s"><button class="iconbtn" data-pa="stog" data-col="${col}" data-doc="${doc}" data-i="${i}" data-j="${j}"><i class="ti ${s.ok ? 'ti-checkbox' : 'ti-square'}" style="color:${s.ok ? 'var(--accent)' : 'var(--muted)'}"></i></button>${plIn(b(`sub.${j}.t`), s.t, 's', 'Etapa', 'in', `style="${s.ok ? 'text-decoration:line-through;opacity:.6;' : ''}flex:1"`)}<button class="iconbtn" data-pa="sdel" data-col="${col}" data-doc="${doc}" data-i="${i}" data-j="${j}"><i class="ti ti-x"></i></button></div>`).join('')}</div>` : ''}</div>`;
+}
+function plList(col, doc, filter, setor) {
+  const items = plDoc(col, doc).items || [], idx = items.map((it, i) => [it, i]).filter(([it]) => !filter || filter(it));
+  return idx.map(([it, i]) => plItemRow(col, doc, it, i)).join('') + `<button class="btn sm" data-pa="add" data-col="${col}" data-doc="${doc}" ${setor ? `data-setor="${setor}"` : ''}><i class="ti ti-plus"></i>Nova ação</button>`;
+}
+const plProg = items => { const n = items.length, d = items.filter(x => x.st === 'Concluída').length; return { n, d, p: n ? Math.round(d / n * 100) : 0 }; };
+function plOperView() {
+  const t = today(), ys = `${t.slice(0, 4)}-01-01`, R = { s: ys, e: t.slice(0, 4) + '-12-31' }, atn = atnData(R).filter(b => b.pct != null && b.s <= t).slice(-1)[0], m = metrics(ys, t), items = plDoc('plano', 'operacao').items || [], P = plProg(items);
+  const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
+  return `<div class="gkpis">${kpi('users', 'Clientes ativos', m.ativos.length, 'hoje', 'var(--s1)')}${kpi('alert-triangle', 'Tag Atenção', atn ? pct1(atn.pct) : '—', 'meta até ' + plDoc('plano', 'bonus').ind.tag.meta + '%', 'var(--danger)')}${kpi('door-exit', 'Churn médio mensal', m.churnY == null ? '—' : pct1(m.churnY * 100), 'média mensal no ano', '#6B34C9')}${kpi('checks', 'Ações concluídas', `${P.d}/${P.n}`, P.p + '% do plano de Operação', 'var(--accent)')}</div>
+  <div class="gtitle"><i class="ti ti-settings-automation"></i>Ações do setor de Operação<span class="n">${P.n}</span></div><div class="pl-list">${plList('plano', 'operacao')}</div>`;
+}
+
+/* ── sócios: orçado × realizado ── */
+function plOrcCalc() {
+  const D = plDoc('socios', 'orc'), real = D.real || {}, t = today(), cd = comboData('2027-01-01', '2027-12-31').filter(b => b.s >= '2027-01-01' && b.s <= '2027-12-31');
+  const rv = (k, m) => { const v = real[k]?.[m]; if (v != null && v !== '') return +v; if (k === 'receita') { const b = cd[m]; return b && b.fat != null && b.s <= t ? b.fat : null; } return null; };
+  const rows = PL_ORC_ROWS.map(([k, nome, isRev]) => ({ k, nome, isRev, o: PL_ORC[k], r: PL_ORC[k].map((_, m) => rv(k, m)) }));
+  const cost = ['impostos', 'dsv', 'csp', 'adm', 'gente', 'com', 'mkt', 'dir'];
+  const ebO = PL_ORC.receita.map((_, m) => PL_ORC.receita[m] - cost.reduce((a, k) => a + PL_ORC[k][m], 0));
+  const closed = m => { const e = mEnd(2027, m + 1); return e < t || cost.some(k => real[k]?.[m] != null && real[k][m] !== ''); };
+  const ebR = PL_ORC.receita.map((_, m) => { if (!closed(m)) return null; const r = rv('receita', m); if (r == null) return null; return r - cost.reduce((a, k) => a + (rv(k, m) ?? PL_ORC[k][m]), 0); });
+  return { D, rows, ebO, ebR, closed, rv, cost };
+}
+function plOrcView() {
+  const C = plOrcCalc(), D = C.D, sum = a => a.reduce((x, y) => x + (+y || 0), 0), meta = +D.ebmeta || 0, y0 = C.ebR.map((v, m) => v != null ? m : -1).filter(m => m >= 0), nClosed = y0.length ? Math.max(...y0) + 1 : 0;
+  const recO = sum(PL_ORC.receita), ebO = sum(C.ebO), recRY = sum(C.rows[0].r.slice(0, nClosed)), recOY = sum(PL_ORC.receita.slice(0, nClosed)), ebRY = sum(C.ebR.filter(v => v != null)), ebOY = sum(C.ebO.slice(0, nClosed));
+  const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
+  const dl = (r, o) => { if (!o) return '<span class="mut">—</span>'; const d = r - o; return `<span style="color:var(--${d >= 0 ? 'accent-ink' : 'danger'})">${d >= 0 ? '+' : ''}${plN(d)} (${(d / Math.abs(o) * 100).toFixed(1).replace('.', ',')}%)</span>`; };
+  const lines = C.rows.map(x => { const oY = sum(x.o.slice(0, nClosed)), rY = sum(x.r.slice(0, nClosed).map((v, m) => v ?? (x.isRev ? 0 : x.o[m]))); const good = x.isRev ? rY - oY : oY - rY; return `<tr><td>${x.nome}</td><td>${plN(sum(x.o))}</td><td>${plN(oY)}</td><td>${nClosed ? plN(rY) : '—'}</td><td>${nClosed ? `<span style="color:var(--${good >= 0 ? 'accent-ink' : 'danger'})">${good >= 0 ? '+' : ''}${plN(good)}</span>` : '—'}</td></tr>`; }).join('');
+  const grid = UI.plOrcMes ? `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Lançar realizado por mês</h3><span class="hint">Receita vem do painel; as demais contas você informa. Deixe vazio para usar o orçado.</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Conta</th>${PL_MESES.map(m => `<th>${m}</th>`).join('')}</tr></thead><tbody>${C.rows.map(x => `<tr><td>${x.nome}</td>${PL_MESES.map((_, m) => `<td>${plIn(`socios|orc|real.${x.k}.${m}`, D.real?.[x.k]?.[m], 'n', plN(x.o[m]), 'in num', 'style="width:74px"')}</td>`).join('')}</tr>`).join('')}</tbody></table></div></div>` : '';
+  return `<div class="gkpis">${kpi('coin', 'Receita orçada 2027', plBrl0(recO), 'ROB do orçamento', 'var(--s1)')}${kpi('chart-line', 'EBITDA orçado', plBrl0(ebO), `${(ebO / (recO || 1) * 100).toFixed(1).replace('.', ',')}% da receita · meta ${plBrl0(meta)}`, 'var(--accent)')}${kpi('receipt', 'Receita realizada', nClosed ? plBrl0(recRY) : '—', nClosed ? `${dl(recRY, recOY)} vs orçado` : '2027 ainda não começou', '#6B34C9')}${kpi('trending-up', 'EBITDA realizado', nClosed ? plBrl0(ebRY) : '—', nClosed ? `${dl(ebRY, ebOY)} vs orçado` : 'aguardando fechamento de janeiro', '#8b97a8')}</div>
+  <div class="pl-two"><div class="card"><div class="card-h"><h3>EBITDA acumulado: orçado × realizado</h3></div><div class="card-b"><div style="height:240px"><canvas id="plOrcCh"></canvas></div></div></div>
+  <div class="card"><div class="card-h"><h3>Resumo do ano</h3><button class="btn sm" data-pa="ver"><i class="ti ti-pencil"></i>${UI.plOrcMes ? 'Ocultar lançamentos' : 'Lançar realizado'}</button></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Conta</th><th>Orçado ano</th><th>Orçado até agora</th><th>Realizado</th><th>Diferença</th></tr></thead><tbody>${lines}<tr class="tot"><td>EBITDA</td><td>${plN(ebO)}</td><td>${plN(ebOY)}</td><td>${nClosed ? plN(ebRY) : '—'}</td><td>${nClosed ? `<span style="color:var(--${ebRY - ebOY >= 0 ? 'accent-ink' : 'danger'})">${ebRY - ebOY >= 0 ? '+' : ''}${plN(ebRY - ebOY)}</span>` : '—'}</td></tr></tbody></table></div></div></div>${grid}
+  <div class="card pl-note"><i class="ti ti-info-circle"></i><div>Orçado = Orçamento 2027 Power (artefato compartilhado), com impostos de 13%. Meta de EBITDA do ano: ${plIn('socios|orc|ebmeta', D.ebmeta ?? 0, 'n', '', 'in num', 'style="width:110px"')}</div></div>`;
+}
+AFTER.plano = () => {
+  if (typeof Chart === 'undefined') return; const cv = $('#plOrcCh'); if (!cv) return;
+  const C = plOrcCalc(); let a = 0, b = 0, hasR = false; const o = [], r = [];
+  C.ebO.forEach((v, m) => { a += v; o.push(Math.round(a)); if (C.ebR[m] != null) { b += C.ebR[m]; r.push(Math.round(b)); hasR = true; } else r.push(null); });
+  const ds = [{ label: 'Orçado', data: o, borderColor: '#002060', backgroundColor: '#00206022', tension: .3, fill: true, pointRadius: 2 }]; if (hasR) ds.push({ label: 'Realizado', data: r, borderColor: '#00B050', tension: .3, pointRadius: 3 });
+  charts.push(new Chart(cv, { type: 'line', data: { labels: PL_MESES, datasets: ds }, options: { maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { y: { ticks: { callback: v => plN(v) } } } } }));
+};
+
+/* ── sócios: stock options ── */
+function plStockView() {
+  const Dd = plDoc('socios', 'stock'), K = { ...plClone(PL_STOCK_DEF), ...Dd }, anos = [2025, 2026, 2027, 2028];
+  const val = a => (K.rec[a] || 0) * K.mult, eq = a => val(a) * K.pct / 100, base = eq(2025), liq = base * (1 - K.desagio / 100), vest = K.vest;
+  const aPagar27 = vest + K.parc[0].v, aPagar28 = vest + K.parc[1].v, totalDev = aPagar27 + aPagar28, pago = (K.pagos || []).reduce((a, p) => a + (+p.v || 0), 0), saldo = totalDev - pago;
+  const C = plOrcCalc(), rec27 = C.rows[0].r.reduce((a, v) => a + (v || 0), 0), cres = K.real26 ? (K.rec[2027] / K.real26 - 1) * 100 : null, margO = C.ebO.reduce((a, b) => a + b, 0) / (K.rec[2027] || 1) * 100;
+  const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
+  const tr = (l, ok, txt) => `<div class="pl-tr"><i class="ti ti-${ok == null ? 'clock' : ok ? 'circle-check-filled' : 'alert-triangle-filled'}" style="color:var(--${ok == null ? 'muted' : ok ? 'accent' : 'danger'})"></i><div><b>${l}</b><span>${txt}</span></div></div>`;
+  const r26 = K.real26 / (K.rec[2026] || 1) * 100, e26 = K.ebitdaReal26 / (K.ebitdaMeta26 || 1) * 100;
+  return `<div class="gkpis">${kpi('coin', 'Valuation 2026 (meta)', plBrl0(val(2026)), `receita × ${String(K.mult).replace('.', ',')}`, 'var(--s1)')}${kpi('chart-pie', 'Equity do stock', plBrl0(eq(2026)), `${K.pct}% do valuation`, 'var(--accent)')}${kpi('cash-banknote', 'A pagar (2027 + 2028)', plBrl0(totalDev), `${plBrl0(aPagar27)} em 2027 e ${plBrl0(aPagar28)} em 2028`, '#6B34C9')}${kpi('wallet', 'Saldo a pagar', plBrl0(saldo), `já pago: ${plBrl0(pago)}`, '#8b97a8')}</div>
+  <div class="pl-two"><div class="card"><div class="card-h"><h3>Valuation e vesting por ano</h3><span class="hint">Valuation = receita × ${String(K.mult).replace('.', ',')}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Ano</th><th>Receita (meta)</th><th>Valuation</th><th>Equity (${K.pct}%)</th></tr></thead><tbody>${anos.map(a => `<tr><td>${a}</td><td>${plIn(`socios|stock|rec.${a}`, K.rec[a], 'n', '', 'in num', 'style="width:110px"')}</td><td>${plN(val(a))}</td><td>${plN(eq(a))}</td></tr>`).join('')}</tbody></table>
+    <p class="mut" style="font-size:12px;margin:10px 0 0">Base do stock (equity 2025): <b>${plBrl2(base)}</b> · com deságio de ${K.desagio}%: <b>${plBrl2(liq)}</b> · vesting anual: <b>${plBrl2(vest)}</b> (2026 a 2028).</p></div></div>
+  <div class="card"><div class="card-h"><h3>Concessão excepcional</h3></div><div class="card-b">
+    <div class="pl-tr"><i class="ti ti-gift" style="color:var(--accent)"></i><div><b>${plBrl2(K.conc)} = 50% do vesting 2026 (${plBrl2(vest)})</b><span>aprovada pelos sócios em caráter excepcional</span></div></div>
+    ${K.parc.map(p => `<div class="pl-tr"><i class="ti ti-calendar-dollar" style="color:var(--s1)"></i><div><b>${plBrl2(p.v)} em ${p.mes}/${p.ano}</b><span>parcela da concessão</span></div></div>`).join('')}
+    <div class="pl-tr"><i class="ti ti-sum" style="color:var(--s1)"></i><div><b>${plBrl2(aPagar27)} em 2027 e em 2028</b><span>vesting ${plBrl2(vest)} + parcela ${plBrl2(K.parc[0].v)}</span></div></div></div></div></div>
+  <div class="pl-two"><div class="card"><div class="card-h"><h3>Realizado × meta</h3></div><div class="card-b">
+    ${tr('2026 · receita', r26 >= 100, `Projeção ${plBrl2(K.real26)} de ${plBrl2(K.rec[2026])} (${r26.toFixed(1).replace('.', ',')}%): meta não atingida`)}
+    ${tr('2026 · EBITDA', e26 >= 100, `Projeção ${plBrl2(K.ebitdaReal26)} de ${plBrl2(K.ebitdaMeta26)} (${e26.toFixed(1).replace('.', ',')}%): meta não atingida`)}
+    ${tr('2027 · trava de crescimento', cres != null ? cres >= K.trava.cresc : null, `Meta ${plBrl2(K.rec[2027])} é +${cres != null ? cres.toFixed(0) : '—'}% sobre a receita 2026 (mínimo ${K.trava.cresc}%)`)}
+    ${tr('2027 · trava de EBITDA', margO > K.trava.ebitda, `Margem orçada ${margO.toFixed(1).replace('.', ',')}% (mínimo ${K.trava.ebitda}%)`)}
+    ${tr('2027 · receita realizada', rec27 ? rec27 >= K.rec[2027] : null, rec27 ? `${plBrl2(rec27)} de ${plBrl2(K.rec[2027])}` : '2027 ainda não começou')}
+    ${tr('Meta 2028', null, `Receita ${plBrl2(K.meta28.rec)} e EBITDA ${plBrl2(K.meta28.ebitda)}`)}</div></div>
+  <div class="card"><div class="card-h"><h3>Pagamentos realizados</h3><button class="btn sm" data-pa="pay" data-col="socios" data-doc="stock"><i class="ti ti-plus"></i>Registrar</button></div><div class="card-b">${(K.pagos || []).map((p, i) => `<div class="pl-s"><input class="in" type="date" data-pl="socios|stock|pagos.${i}.d" data-k="s" value="${esc(p.d)}" style="width:140px">${plIn(`socios|stock|pagos.${i}.v`, p.v, 'n', 'Valor', 'in num', 'style="width:110px"')}${plIn(`socios|stock|pagos.${i}.n`, p.n, 's', 'Observação', 'in', 'style="flex:1"')}<button class="iconbtn" data-pa="paydel" data-col="socios" data-doc="stock" data-i="${i}"><i class="ti ti-trash"></i></button></div>`).join('') || '<p class="mut" style="margin:0">Nenhum pagamento registrado ainda.</p>'}</div></div></div>
+  <div class="card pl-note"><i class="ti ti-info-circle"></i><div>Fonte: planilha de Stock options dos sócios e aprovação da concessão excepcional. Projeção 2026: receita ${plBrl2(K.real26)} e EBITDA ${plBrl2(K.ebitdaReal26)}.</div></div>`;
+}
+
+/* ── sócios: setores ── */
+function plSetoresView() {
+  const setores = [['Operação', 'settings-automation', 'plano|operacao'], ['Comercial', 'briefcase', 'socios|setores'], ['Marketing', 'speakerphone', 'socios|setores'], ['Financeiro', 'cash', 'socios|setores']];
+  const so = plDoc('socios', 'setores').items || [], op = plDoc('plano', 'operacao').items || [];
+  return setores.map(([nome, ic, src]) => {
+    const [col, doc] = src.split('|'), items = col === 'plano' ? op : so.filter(x => x.setor === nome), P = plProg(items), open = UI.plOpen?.[nome] !== false;
+    return `<div class="card pl-set"><div class="pl-set-h" data-pa="open" data-v="${nome}"><span class="gk-i" style="background:var(--s1)"><i class="ti ti-${ic}"></i></span><div><b>${nome}</b><em>${P.n ? `${P.d} de ${P.n} ações concluídas` : 'nenhuma ação ainda'}</em></div><div class="pl-pg"><div class="g2-bar" style="height:8px"><i style="width:${P.p}%;background:var(--accent)"></i></div><span>${P.p}%</span></div><i class="ti ti-chevron-${open ? 'up' : 'down'}"></i></div>
+      ${open ? `<div class="pl-list">${col === 'plano' ? plList('plano', 'operacao') : plList('socios', 'setores', it => it.setor === nome, nome)}</div>` : ''}</div>`;
+  }).join('');
+}
+document.addEventListener('click', e => { const el = e.target.closest('[data-pa="open"]'); if (!el) return; UI.plOpen = UI.plOpen || {}; UI.plOpen[el.dataset.v] = UI.plOpen[el.dataset.v] === false; render(); });
+
+/* ── sócios: evolução e pontos de atenção ── */
+function plEvolView() {
+  const t = today(), rows = comboData('2027-01-01', '2027-12-31').filter(b => b.s >= '2027-01-01'), atn = atnData({ s: '2027-01-01', e: '2027-12-31' }), C = plOrcCalc(), cl = { Operação: plProg(plDoc('plano', 'operacao').items || []) }, so = plDoc('socios', 'setores').items || [];
+  ['Comercial', 'Marketing', 'Financeiro'].forEach(s => cl[s] = plProg(so.filter(x => x.setor === s)));
+  const pts = plDoc('socios', 'atencao').items || [];
+  const tbl = `<div class="card"><div class="card-h"><h3>Evolução mês a mês · 2027</h3></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Mês</th><th>Clientes ativos</th><th>Meta</th><th>% Atenção</th><th>Receita</th><th>Orçado</th><th>EBITDA real</th></tr></thead><tbody>${rows.map((b, m) => { const a = atn.find(x => x.key === b.key); return `<tr><td>${PL_MESES[m]}</td><td>${b.s <= t ? b.total : '—'}</td><td>${b.meta ?? '—'}</td><td>${a && a.pct != null && b.s <= t ? pct1(a.pct) : '—'}</td><td>${b.fat != null ? plN(b.fat) : '—'}</td><td>${plN(PL_ORC.receita[m])}</td><td>${C.ebR[m] != null ? plN(C.ebR[m]) : '—'}</td></tr>`; }).join('')}</tbody></table></div></div>`;
+  const prog = `<div class="card"><div class="card-h"><h3>Andamento do plano por setor</h3></div><div class="card-b">${Object.entries(cl).map(([n, P]) => `<div class="pl-prow"><span>${n}</span><div class="g2-bar" style="height:9px"><i style="width:${P.p}%;background:var(--accent)"></i></div><b>${P.p}%</b><em>${P.d}/${P.n}</em></div>`).join('')}</div></div>`;
+  const NV = { Alta: 'red', Média: 'orange', Baixa: 'blue' };
+  const at = `<div class="gtitle" style="margin-top:18px"><i class="ti ti-alert-triangle"></i>Pontos de atenção<span class="n">${pts.filter(p => p.st !== 'Resolvido').length}</span></div><div class="pl-list">${pts.map((p, i) => `<div class="card pl-it"><div class="pl-it-h"><select class="pill c-${NV[p.nivel] || 'gray'}" data-pl="socios|atencao|items.${i}.nivel" data-k="s">${['Alta', 'Média', 'Baixa'].map(s => `<option ${s === p.nivel ? 'selected' : ''}>${s}</option>`).join('')}</select>${plIn(`socios|atencao|items.${i}.t`, p.t, 's', 'Descreva o ponto de atenção', 'in strong pl-t')}<select class="pill c-${p.st === 'Resolvido' ? 'green' : 'gray'}" data-pl="socios|atencao|items.${i}.st" data-k="s">${['Aberto', 'Resolvido'].map(s => `<option ${s === p.st ? 'selected' : ''}>${s}</option>`).join('')}</select><button class="iconbtn" data-pa="del" data-col="socios" data-doc="atencao" data-i="${i}"><i class="ti ti-trash"></i></button></div></div>`).join('')}<button class="btn sm" data-pa="add" data-col="socios" data-doc="atencao"><i class="ti ti-plus"></i>Novo ponto de atenção</button></div>`;
+  return `<div class="pl-two">${prog}${tbl}</div>` + at;
+}
+
+function viewPlano() {
+  const soc = plSocio(), tabs = soc ? [...PL_TABS_TEAM, ...PL_TABS_SOC] : PL_TABS_TEAM;
+  if (!tabs.some(x => x[0] === UI.plTab)) UI.plTab = 'bonus';
+  const btn = ([k, l, i], lock) => `<button role="tab" data-pa="tab" data-v="${k}" class="${UI.plTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${lock ? '<i class="ti ti-lock pl-lock" title="Visível só para os sócios"></i>' : ''}</button>`;
+  const strip = `<nav class="ttabs" role="tablist">${PL_TABS_TEAM.map(x => btn(x)).join('')}${soc ? '<span class="pl-sep"></span>' + PL_TABS_SOC.map(x => btn(x, 1)).join('') : ''}</nav>`;
+  const body = { bonus: plBonusView, operacao: plOperView, orcado: plOrcView, stock: plStockView, setores: plSetoresView, evolucao: plEvolView }[UI.plTab]();
+  return pageHead('Planejamento 2027', soc ? 'Metas do time e acompanhamento estratégico dos sócios' : 'Metas do time e plano da Operação') + strip + body;
+}
+
 /* ═══════════════ LOGIN / BOOT ═══════════════ */
-const VIEWS = { dashboard: viewDashboard, clientes: viewClients, cliente: viewClient, info: viewInfo, time: viewTime, horas: viewHoras };
+const VIEWS = { dashboard: viewDashboard, clientes: viewClients, cliente: viewClient, info: viewInfo, time: viewTime, horas: viewHoras, plano: viewPlano };
 function showLogin(mode) {
   $('#app').hidden = true; $('#login').hidden = false;
   $('#loginForm').hidden = mode === 'recovery'; $('#recoverForm').hidden = mode !== 'recovery';
