@@ -4580,29 +4580,32 @@ function plStockView() {
   const kpi = (i, l, v, s, c) => `<div class="card gk"><span class="gk-i" style="background:${c}"><i class="ti ti-${i}"></i></span><div><small>${l}</small><b>${v}</b><em>${s}</em></div></div>`;
   const tr = (l, ok, txt) => `<div class="pl-tr"><i class="ti ti-${ok == null ? 'clock' : ok ? 'circle-check-filled' : 'alert-triangle-filled'}" style="color:var(--${ok == null ? 'muted' : ok ? 'accent' : 'danger'})"></i><div><b>${l}</b><span>${txt}</span></div></div>`;
   const r26 = K.real26 / (K.rec[2026] || 1) * 100, e26 = K.ebitdaReal26 / (K.ebitdaMeta26 || 1) * 100;
-  // DRE por ano
-  const d26 = plDoc('socios', 'dre26'), a26 = k => sm(d26[k] || []), n26 = (d26.rob || []).length;
+  // base do cenário (planilha de stock) e acompanhamento de 2026
   const closed27 = C.ebR.map((v, m) => v != null ? m : -1).filter(m => m >= 0), nc = closed27.length ? Math.max(...closed27) + 1 : 0;
-  const rY = k => sm(C.rows.find(r => r.k === k).r.slice(0, nc).map((v, m) => v ?? PO[k][m]));
-  const g27 = { rec: sm(PO.receita), imp: sm(PO.impostos), cus: sm(PO.csp) + sm(PO.dsv), dsp: sm(PO.adm) + sm(PO.gente) + sm(PO.com) + sm(PO.mkt) + sm(PO.dir) };
-  const r27 = { rec: nc ? sm(C.rows[0].r.slice(0, nc).map(v => v || 0)) : null, imp: nc ? rY('impostos') : null, cus: nc ? rY('csp') + rY('dsv') : null, dsp: nc ? rY('adm') + rY('gente') + rY('com') + rY('mkt') + rY('dir') : null };
-  const col = (rec, imp, cus, dsp, eb) => { const e = eb != null ? eb : (rec == null ? null : rec - (imp || 0) - (cus || 0) - (dsp || 0)); return { rec, imp, cus, dsp, eb: e, mg: e != null && rec ? e / rec * 100 : null }; };
-  const cols = [
-    ['2026 · Jan–Set real.', n26 ? col(a26('rob'), a26('ded'), a26('cus'), a26('dsp')) : col(null, null, null, null, null)],
-    ['2026 · meta do ano', col(K.rec[2026] || null, null, null, null, K.ebitdaMeta26 || null)],
-    ['2026 · projeção do ano', col(K.real26 || null, null, null, null, K.ebitdaReal26 || null)],
-    ['2027 · orçado', col(g27.rec, g27.imp, g27.cus, g27.dsp)],
-    ['2027 · realizado' + (nc ? ` (${nc} m.)` : ''), nc ? col(r27.rec, r27.imp, r27.cus, r27.dsp) : col(null, null, null, null, null)],
-    ['2028 · meta', col(K.meta28.rec || null, null, null, null, K.meta28.ebitda || null)]];
-  const f = v => v == null ? '—' : plN(v);
-  const dre = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>DRE por ano</h3><span class="hint">Composição da meta e do realizado, incluindo 2026</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Conta</th>${cols.map(c => `<th>${c[0]}</th>`).join('')}</tr></thead><tbody>
-    <tr><td>Receita bruta</td>${cols.map(c => `<td>${f(c[1].rec)}</td>`).join('')}</tr>
-    <tr><td>(−) Impostos sobre vendas</td>${cols.map(c => `<td>${f(c[1].imp)}</td>`).join('')}</tr>
-    <tr><td>(−) Custos (CSP e despesas s/ vendas)</td>${cols.map(c => `<td>${f(c[1].cus)}</td>`).join('')}</tr>
-    <tr><td>(−) Despesas operacionais</td>${cols.map(c => `<td>${f(c[1].dsp)}</td>`).join('')}</tr>
-    <tr class="tot"><td>EBITDA</td>${cols.map(c => `<td>${f(c[1].eb)}</td>`).join('')}</tr>
-    <tr><td>Margem EBITDA</td>${cols.map(c => `<td>${c[1].mg == null ? '—' : pct1(c[1].mg)}</td>`).join('')}</tr></tbody></table>
-    <p class="mut" style="font-size:12px;margin:10px 0 0">2026 Jan–Set vem do realizado do orçamento; a meta e a projeção do ano trazem só receita e EBITDA. 2027 usa o orçado × realizado; o realizado soma só os meses já lançados.</p></div></div>`;
+  const SB = plDoc('socios', 'stockbase'), gv = (k, y) => +(SB[k] && SB[k][y]) || 0, yrs4 = [2025, 2026, 2027, 2028], f = v => v == null ? '—' : plN(v), pc = (v, r) => r ? pct1(v / r * 100) : '—';
+  const B4 = yrs4.map(y => { const rec = K.rec[y] || 0, desp = gv('desp', y), imp = gv('imp', y), rl = rec - desp - imp, csp = gv('csp', y), mb = rl - csp, ovh = gv('ovh', y), eb = mb - ovh, ll = gv('ll', y), bp = gv('bpct', y); return { y, rec, desp, imp, rl, csp, mb, ovh, eb, ll, bp, bon: eb * bp / 100, valu: val(y), eq: eq(y), liq: y === 2025 ? liq : vest }; });
+  const inp = (k, y) => plIn('socios|stockbase|' + k + '.' + y, SB[k] && SB[k][y] != null ? Math.round(SB[k][y] * 100) / 100 : null, 'n', '', 'in num', 'style="width:96px"');
+  const rowB = (lab, cell, cls) => '<tr class="' + (cls || '') + '"><td>' + lab + '</td>' + B4.map(y => cell(y)).join('') + '</tr>';
+  const calc = k => y => '<td>' + f(y[k]) + '</td><td class="mut">' + pc(y[k], y.rec) + '</td>';
+  const edit = (k, kk) => y => '<td>' + inp(kk, y.y) + '</td><td class="mut">' + pc(y[k], y.rec) + '</td>';
+  const totBonus = B4.filter(y => y.y >= 2026).reduce((a, y) => a + y.bon, 0);
+  const dre = '<div class="card" style="margin-top:14px"><div class="card-h"><h3>Base do cenário de stock · DRE por ano</h3><span class="hint">Conforme a planilha Stock DayLinda · valores editáveis</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Conta</th>' + yrs4.map(y => '<th colspan="2" style="text-align:center">' + y + '</th>').join('') + '</tr><tr><th></th>' + yrs4.map(() => '<th>R$</th><th>%</th>').join('') + '</tr></thead><tbody>'
+    + rowB('Receita bruta', calc('rec'))
+    + rowB('(−) Desp. sob vendas', edit('desp', 'desp'))
+    + rowB('(−) Impostos', edit('imp', 'imp'))
+    + rowB('Receita líquida', calc('rl'), 'tot')
+    + rowB('(−) CSP', edit('csp', 'csp'))
+    + rowB('Margem bruta', calc('mb'), 'tot')
+    + rowB('(−) Overhead', edit('ovh', 'ovh'))
+    + rowB('EBITDA', calc('eb'), 'tot')
+    + rowB('Lucro líquido', edit('ll', 'll'))
+    + rowB('Bônus EBITDA (% do EBITDA)', y => '<td>' + f(y.bon) + '</td><td>' + plIn('socios|stockbase|bpct.' + y.y, SB.bpct && SB.bpct[y.y], 'n', '', 'in num', 'style="width:56px"') + '%</td>')
+    + rowB('Valuation (receita × ' + String(K.mult).replace('.', ',') + ')', y => '<td>' + f(y.valu) + '</td><td></td>')
+    + rowB('Equity (' + K.pct + '%)', y => '<td>' + f(y.eq) + '</td><td></td>')
+    + '</tbody></table><p class="mut" style="font-size:12px;margin:10px 0 0">Receita líquida = receita − desp. sob vendas − impostos; margem bruta = receita líquida − CSP; EBITDA = margem bruta − overhead. Bônus EBITDA total de 2026 a 2028: <b>' + plBrl2(totBonus) + '</b>. Valor das ações com deságio: 2025 <b>' + plBrl2(liq) + '</b> e vesting de <b>' + plBrl2(vest) + '</b> por ano de 2026 a 2028.</p></div></div>';
+  const AC = plDoc('socios', 'acomp26').rows || [];
+  const acR = AC.map(r => { const tot = (+r.real || 0) + (+r.proj || 0), has = r.orc != null && r.orc !== '', dif = has ? tot - (+r.orc) : null, good = dif == null ? null : (r.cost ? dif <= 0 : dif >= 0); return '<tr class="' + (r.sub ? 'tot' : '') + '"><td>' + esc(r.n) + '</td><td>' + f(r.real) + '</td><td>' + f(r.proj) + '</td><td><b>' + plN(tot) + '</b></td><td>' + (has ? plN(+r.orc) : '—') + '</td><td>' + (dif == null ? '—' : '<span style="color:var(--' + (good ? 'accent-ink' : 'danger') + ')">' + (dif >= 0 ? '+' : '') + plN(dif) + '</span>') + '</td></tr>'; }).join('');
+  const acomp = AC.length ? '<div class="card" style="margin-top:14px"><div class="card-h"><h3>2026 · acompanhamento da meta do stock</h3><span class="hint">Realizado Jan–Jul + projeção Ago–Dez × orçado</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Conta</th><th>Realizado Jan–Jul</th><th>Projeção Ago–Dez</th><th>Total do ano</th><th>Orçado</th><th>Diferença</th></tr></thead><tbody>' + acR + '</tbody></table></div></div>' : '';
   // bônus a distribuir ao final do ano
   const BC = plBonusCalc(), pool = BC.pool, proj27 = BC.prev || !BC.temDados ? null : BC.anoTot;
   const trav = rec27 && cres != null ? (rec27 >= K.rec[2027] * 0.999 && (K.trava.ebitda ? true : true)) : null;
@@ -4615,7 +4618,7 @@ function plStockView() {
   const bonus = `<div class="card" style="margin-top:14px"><div class="card-h"><h3>Bônus a distribuir ao final do ano · orçado × realizado</h3><span class="hint">Time + stock options</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Ano</th><th>Bônus do time (orçado)</th><th>Bônus do time (projetado)</th><th>Stock (orçado)</th><th>Stock (realizado)</th><th>Total orçado</th><th>Total realizado/projetado</th></tr></thead><tbody>${bn}</tbody></table>
     <p class="mut" style="font-size:12px;margin:10px 0 0">Bônus do time: valor máximo do quadro de regras por cargo × metas projetadas. Stock: 2026 é a concessão excepcional (50% do vesting); 2027 e 2028 somam vesting e a parcela da concessão. O realizado de 2027 do stock aparece quando a receita da meta é atingida.</p></div></div>`;
   return `<div class="gkpis">${kpi('coin', 'Valuation 2026 (meta)', plBrl0(val(2026)), `receita × ${String(K.mult).replace('.', ',')}`, 'var(--s1)')}${kpi('chart-pie', 'Equity do stock', plBrl0(eq(2026)), `${K.pct}% do valuation`, 'var(--accent)')}${kpi('cash-banknote', 'A pagar (2027 + 2028)', plBrl0(totalDev), `${plBrl0(aPagar27)} em 2027 e ${plBrl0(aPagar28)} em 2028`, '#6B34C9')}${kpi('wallet', 'Saldo a pagar', plBrl0(saldo), `já pago: ${plBrl0(pago)}`, '#8b97a8')}</div>
-  ${dre}${bonus}
+  ${dre}${acomp}${bonus}
   <div class="pl-two"><div class="card"><div class="card-h"><h3>Valuation e vesting por ano</h3><span class="hint">Valuation = receita × ${String(K.mult).replace('.', ',')}</span></div><div class="card-b" style="overflow-x:auto"><table class="dtable"><thead><tr><th>Ano</th><th>Receita (meta)</th><th>Valuation</th><th>Equity (${K.pct}%)</th></tr></thead><tbody>${anos.map(a => `<tr><td>${a}</td><td>${plIn(`socios|stock|rec.${a}`, K.rec[a], 'n', '', 'in num', 'style="width:110px"')}</td><td>${plN(val(a))}</td><td>${plN(eq(a))}</td></tr>`).join('')}</tbody></table>
     <p class="mut" style="font-size:12px;margin:10px 0 0">Base do stock (equity 2025): <b>${plBrl2(base)}</b> · com deságio de ${K.desagio}%: <b>${plBrl2(liq)}</b> · vesting anual: <b>${plBrl2(vest)}</b> (2026 a 2028).</p></div></div>
   <div class="card"><div class="card-h"><h3>Concessão excepcional</h3></div><div class="card-b">
