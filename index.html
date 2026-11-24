@@ -2140,11 +2140,12 @@ AFTER.info = () => { const q = $('#iq'); if (q) q.oninput = debounce(() => { UI.
 
 /* ═══════════════ TELA 04: TIME DOS LINDOS ═══════════════ */
 function viewTime() {
-  const tabs = [['tarefas', 'Tarefas', 'ti-checkbox'], ['metas', 'Metas', 'ti-target'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['oneone', 'One a One', 'ti-users-group']];
+  if (UI.timeTab === 'metas') UI.timeTab = 'tarefas';
+  const tabs = [['tarefas', 'Tarefas', 'ti-checkbox'], ['alinhamentos', 'Alinhamentos', 'ti-calendar-event'], ['oneone', 'One a One', 'ti-users-group']];
   const tl = Object.values(S.tasks), late = tl.filter(t => tStatus(t) === 'Atrasado').length, wk = weekStart(today());
   const cnt = { metas: Object.keys(S.goals).length, alinhamentos: Object.values(S.meetings).filter(m => m.data && weekStart(m.data) === wk).length, tarefas: tl.filter(t => t.status !== 'Concluído').length };
   const strip = `<nav class="ttabs" role="tablist">${tabs.map(([k, l, i]) => `<button role="tab" data-act="ttab" data-v="${k}" class="${UI.timeTab === k ? 'on' : ''}"><i class="ti ${i}"></i>${l}${cnt[k] != null ? `<span class="tn" title="${k === 'alinhamentos' ? 'nesta semana' : k === 'tarefas' ? 'abertas' : ''}">${cnt[k]}</span>` : ''}${k === 'tarefas' && late ? `<span class="tn red">${late} atrasada${late > 1 ? 's' : ''}</span>` : ''}</button>`).join('')}</nav>`;
-  return pageHead('Gestão Time dos Lindos', 'Metas, alinhamentos semanais, tarefas e One a One da equipe') + strip + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
+  return pageHead('Gestão Time dos Lindos', 'Alinhamentos semanais, tarefas e One a One da equipe (as metas estão em Planejamento)') + strip + (UI.timeTab === 'metas' ? viewGoals() : UI.timeTab === 'alinhamentos' ? viewMeetings() : UI.timeTab === 'oneone' ? viewOneOne() : viewTasks()) + datalists();
 }
 { const _ad = AFTER.dashboard; AFTER.dashboard = function () { _ad.call(this); atnChart(); }; }
 AFTER.time = () => { ooChart(); autosize(); const q = $('#tq'); if (q) q.oninput = debounce(() => { UI.tf.q = q.value; saveUI(); render(); }, 150); initKanban(); };
@@ -3991,7 +3992,7 @@ function quickCreate(type, preset = {}) {
     } else if (type === 'meta') {
       const ini = parseNum(v.ini), at = parseNum(v.atual), cur = at ?? ini ?? 0;
       create('goals', { titulo: v.titulo.trim(), cat: (v.cat || '').trim(), resp: v.resp || '', tipo: v.tipo || 'Número', ini: ini ?? null, atual: cur, meta: parseNum(v.meta), unidade: (v.unidade || '').trim(), inverso: !!v.inverso, fonte: v.fonte || 'manual', prazo: v.prazo || null, obs: (v.obs || '').trim(), hist: [{ d: today(), v: cur }] });
-      UI.timeTab = 'metas'; go('time'); toast('Meta criada');
+      UI.plTab = 'bonus'; go('plano'); toast('Meta criada');
     } else if (type === 'pauta') {
       const m2 = create('meetings', { titulo: v.titulo.trim(), data: v.data || today(), resp: v.resp.trim(), link: '', pauta: '', participantes: [] });
       UI.timeTab = 'alinhamentos'; UI.week = weekStart(m2.data); go('time'); openDrawer('meeting', m2.id, 'pauta');
@@ -4502,7 +4503,7 @@ function plBonusView() {
     <label>Peso Tag Atenção (%)${plIn('plano|bonus|ind.tag.peso', B.ind.tag.peso)}</label><label>Tag Atenção até (%)${plIn('plano|bonus|ind.tag.meta', B.ind.tag.meta)}</label>
     <label>Peso churn (%)${plIn('plano|bonus|ind.churn.peso', B.ind.churn.peso)}</label><label>Churn até (%)${plIn('plano|bonus|ind.churn.meta', B.ind.churn.meta)}</label></div></div>` : '';
   const note = `<div class="card pl-note"><i class="ti ti-info-circle"></i><div>Os valores vêm automaticamente do painel: receita das cobranças dos clientes ativos, % de clientes com Tag Atenção e churn médio mensal do ano. ${C.prev ? 'Como 2027 ainda não começou, esta tela mostra uma prévia com os dados de 2026 contra as metas de 2027.' : ''}</div></div>`;
-  return hero + kp + `<div class="pl-grid3">${cards}</div>` + ppl + cfg + note;
+  return hero + kp + `<div class="pl-grid3">${cards}</div>` + ppl + cfg + note + `<div class="gtitle" style="margin-top:26px"><i class="ti ti-target"></i>Outras metas do time</div>` + viewGoals();
 }
 
 /* ── listas de ações (Operação e setores) ── */
